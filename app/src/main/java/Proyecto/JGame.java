@@ -11,13 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
-public class App {
-    public static void main(String[] args) {
-        // PR - TEST
-        // Arreglo lo que simona queria
-        // Arreglo un bug caliente HARD
-    }
-}
 
 
 abstract class GameLoop {
@@ -30,6 +23,11 @@ abstract class GameLoop {
         while (runFlag) {
             update(delta);
             draw();
+            try {
+                Thread.sleep((long)(delta * 1000)); // dormir para simular FPS constantes
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
 
         shutdown();
@@ -47,7 +45,7 @@ abstract class GameLoop {
 
 
 
-abstract class JGame extends GameLoop {
+public abstract class JGame extends GameLoop {
     protected JFrame frame;
     protected JPanel canvas;
     protected Graphics2D g2d;
