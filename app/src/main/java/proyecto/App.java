@@ -3,7 +3,13 @@
  */
 package Proyecto;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 
 public class App {
     public static void main(String[] args) {
@@ -12,65 +18,134 @@ public class App {
 }
 
 
-abstract class GameLoop{
+abstract class GameLoop {
     private boolean runFlag = false;
-    public void run(){
-    runFlag = true;
-    startup();
-    while(runFlag){
-    update();
-    draw();
+
+    public void run(double delta) {
+        runFlag = true;
+        startup();
+
+        while (runFlag) {
+            update(delta);
+            draw();
+        }
+
+        shutdown();
     }
-    shutdown();
+
+    public void stop() {
+        runFlag = false;
     }
-    public void stop(){
-    runFlag = false;
-    }
+
     public abstract void startup();
     public abstract void shutdown();
-    public abstract void update();
+    public abstract void update(double delta);
     public abstract void draw();
+}
+
+
+
+abstract class JGame extends GameLoop {
+    protected JFrame frame;
+    protected JPanel canvas;
+    protected Graphics2D g2d;
+    protected int width, height;
+
+    public JGame(String title, int width, int height) {
+        this.width = width;
+        this.height = height;
+
+        frame = new JFrame(title);
+        canvas = new JPanel() {
+            @Override
+            public void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g2d = (Graphics2D) g;
+                gameDraw(g2d);
+            }
+        };
+
+        canvas.setPreferredSize(new Dimension(width, height));
+        frame.add(canvas);
+        frame.pack();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
     }
 
-abstract class JGame extends GameLoop{
-        public JGame(String title, int width, int height){
-        }
-        @Override public void startup(){
-            gameStartup();
-        }
-        public void update(double delta){
-            gameUpdate(delta);
-        }
-        @Override public void draw(){}
-        @Override public void shutdown(){ gameShutdown(); }
-        public abstract void gameStartup();
-        public abstract void gameUpdate(double delta);
-        public abstract void gameDraw(Graphics2D g);
-        public abstract void gameShutdown();
-        protected void readPropertiesFile(){
-        
-        }
-        }
+    @Override
+    public void startup() {
+        gameStartup();
+    }
 
-//extends class JGame
+    @Override
+    public void update(double delta) {
+        gameUpdate(delta);
+        canvas.repaint();
+    }
 
-class Pong{
+    @Override
+    public void draw() {
+        // La lógica de dibujo se hace en paintComponent
+    }
 
-    public void gameStartup(){};
-    public void gameUpdate(double delta){};
-    public void gameDraw(Graphics2D g){};
-    public void gameShutdown(){};
-    Pong(){};
+    @Override
+    public void shutdown() {
+        gameShutdown();
+    }
+
+    public abstract void gameStartup();
+    public abstract void gameUpdate(double delta);
+    public abstract void gameDraw(Graphics2D g);
+    public abstract void gameShutdown();
 }
 
 
-class Lemmings{
-    public void gameStartup(){};
-    public void gameUpdate(double delta){};
-    public void gameDraw(Graphics2D g){};
-    public void gameShutdown(){};
-    Lemmings(){};
-}
 
+
+
+
+
+
+// abstract class GameLoop{
+//     private boolean runFlag = false;
+//     public void run(){
+//         runFlag = true;
+//         startup();
+//         while(runFlag){
+//             update();
+//             draw();
+//         }
+//         shutdown();
+//         }
+//     public void stop(){
+//         runFlag = false;
+//     }
+//     public abstract void startup();
+//     public abstract void shutdown();
+//     public abstract void update();
+//     public abstract void draw();
+//     }
+
+// abstract class JGame extends GameLoop{
+//     //attributes
+//     public JGame(String title, int width, int height){
+//     //read propertiesfile 
+//     }
+//         @Override public void startup(){
+//             gameStartup();
+//         }
+//         public void update(double delta){
+//             gameUpdate(delta);
+//         }
+//         @Override public void draw(){ gameDraw(g);}
+//         @Override public void shutdown(){ gameShutdown(); }
+//         public abstract void gameStartup();
+//         public abstract void gameUpdate(double delta);
+//         public abstract void gameDraw(Graphics2D g);
+//         public abstract void gameShutdown();
+//         protected void readPropertiesFile(){
+//         // search file jgame.properties
+//         }
+//         }
 
 
