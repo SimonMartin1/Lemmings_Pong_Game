@@ -1,14 +1,14 @@
-package Proyecto.Lemmings_game.Controller;
-import Proyecto.Lemmings_game.Model.lemmingsModel;
-import Proyecto.Lemmings_game.View.lemmingsView;
+package Proyecto.games.Lemmings_game.Controller;
+import Proyecto.games.Lemmings_game.Model.LemmingsModel;
+import Proyecto.games.Lemmings_game.View.LemmingsView;
 
-public class lemmingsController {
+public class LemmingsController {
     // Atributos del controlador
-    private lemmingsModel model;
-    private lemmingsView view;
+    private LemmingsModel model;
+    private LemmingsView view;
 
     // Constructor
-    public lemmingsController(lemmingsModel model, lemmingsView view) {
+    public LemmingsController(LemmingsModel model, LemmingsView view) {
         this.model = model;
         this.view = view;
     }

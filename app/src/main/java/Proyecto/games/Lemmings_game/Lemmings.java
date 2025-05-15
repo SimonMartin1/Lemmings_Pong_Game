@@ -4,6 +4,9 @@ package Proyecto.Lemmings_game;
 import java.awt.Graphics2D;
 
 import Proyecto.JGame;
+import Proyecto.Lemmings_game.Controller.lemmingsController;
+import Proyecto.Lemmings_game.Model.lemmingsModel;
+import Proyecto.Lemmings_game.View.lemmingsView;
 
 public class lemmings extends JGame {
     public lemmings(String title, int width, int height) {
@@ -18,6 +21,9 @@ public class lemmings extends JGame {
     @Override
     public void gameStartup() {
         // Inicializar el juego
+        lemmingsModel model = new lemmingsModel();
+        lemmingsView view = new lemmingsView();
+        lemmingsController controller = new lemmingsController(model, view);
     }
 
     @Override
