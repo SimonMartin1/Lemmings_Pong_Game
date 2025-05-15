@@ -1,6 +1,8 @@
-package Proyecto.Pong_game.Model;
+package Proyecto.games.Pong_game.Model;
 
-public class pongModel {
+
+
+public class PongModel {
     
     private int player1Y;
     private int player2Y;
@@ -11,6 +13,19 @@ public class pongModel {
     private int paddleSpeed;
     private int player1Score;
     private int player2Score;
+
+    public PongModel() {
+        this.player1Y = 0;
+        this.player2Y = 0;
+        this.ballX = 0;
+        this.ballY = 0;
+        this.ballSpeedX = 0;
+        this.ballSpeedY = 0;
+        this.paddleSpeed = 0;
+        this.player1Score = 0;
+        this.player2Score = 0;
+
+    }
 
     public void setPlayer1Y(int player1Y) {
         this.player1Y = player1Y;

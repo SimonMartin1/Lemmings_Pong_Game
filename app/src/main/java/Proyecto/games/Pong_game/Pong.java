@@ -1,7 +1,10 @@
-package Proyecto.Pong_game;
+package Proyecto.games.Pong_game;
 import java.awt.Graphics2D;
 
-import Proyecto.JGame;
+import Proyecto.games.JGame;
+import Proyecto.games.Pong_game.Controller.pongController;
+import Proyecto.games.Pong_game.Model.pongModel;
+import Proyecto.games.Pong_game.View.pongView;
 
 public class pong extends JGame {
     public pong(String title, int width, int height) {
@@ -16,6 +19,9 @@ public class pong extends JGame {
     @Override
     public void gameStartup() {
         // Inicializar pelotas, paletas, etc.
+        pongModel model = new pongModel();
+        pongView view = new pongView();
+        pongController controller = new pongController(model, view);
     }
 
     @Override

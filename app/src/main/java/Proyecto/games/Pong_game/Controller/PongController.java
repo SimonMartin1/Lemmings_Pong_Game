@@ -1,10 +1,10 @@
-package Proyecto.Pong_game.Controller;
+package Proyecto.games.Pong_game.Controller;
 
-import Proyecto.Pong_game.Model.pongModel;
-import Proyecto.Pong_game.View.PongView;
+import Proyecto.games.Pong_game.Model.PongModel;
+import Proyecto.games.Pong_game.View.PongView;
 
-public class pongController {
-    private pongModel model;
+public class PongController {
+    private PongModel model;
     private PongView view;
     private int player1Score;
     private int player2Score;
@@ -16,7 +16,7 @@ public class pongController {
     private int ballSpeedY;
     private int paddleSpeed;
 
-    public pongController(pongModel model, PongView view) {
+    public PongController(PongModel model, PongView view) {
         this.model = model;
         this.view = view;
         this.player1Score = 0;
@@ -29,4 +29,6 @@ public class pongController {
         this.ballSpeedY = model.getBallSpeedY();
         this.paddleSpeed = model.getPaddleSpeed();
     }
+
 }
+
