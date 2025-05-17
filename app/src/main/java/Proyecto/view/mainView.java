@@ -87,22 +87,22 @@ class main_screen extends JPanel {
     final private JPanel main_Panel, games_Panel, config_Panel;
     final private JButton games_Button, config_Button;
     public main_screen() {
-        main_Panel = new JPanel();
+        main_Panel = new JPanel(new java.awt.GridBagLayout());
         games_Panel = new JPanel();
         config_Panel = new JPanel();
         games_Button = new JButton("Games");
         config_Button = new JButton("Configuration");
 
         this.setLayout(new BorderLayout());
-        this.add(main_Panel,BorderLayout.CENTER);
-        main_Panel.setLayout(new GridLayout(3,1,5,5));
-        main_Panel.add(new JPanel());
-        main_Panel.add(games_Panel);
-        main_Panel.add(config_Panel);
+        this.add(main_Panel, BorderLayout.WEST);
+
+        games_Panel.setOpaque(false);
+        config_Panel.setOpaque(false);
+        main_Panel.setOpaque(false);
+
         games_Panel.add(games_Button);
-        games_Panel.setPreferredSize(new Dimension(50, 50));
         config_Panel.add(config_Button);
-        
+
         games_Button.setOpaque(false);
         games_Button.setContentAreaFilled(false);
         games_Button.setBorderPainted(false);
@@ -113,15 +113,15 @@ class main_screen extends JPanel {
         config_Button.setBorderPainted(false);
         config_Button.setFocusPainted(false);
 
-        games_Button.setForeground(Color.BLACK); // normal color
+        games_Button.setForeground(Color.BLACK);
         games_Button.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                games_Button.setForeground(Color.WHITE); // hover color
+                games_Button.setForeground(Color.WHITE);
             }
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                games_Button.setForeground(Color.BLACK); // normal color
+                games_Button.setForeground(Color.BLACK);
             }
         });
 
@@ -136,7 +136,23 @@ class main_screen extends JPanel {
                 config_Button.setForeground(Color.BLACK);
             }
         });
-        
+
+        java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.fill = java.awt.GridBagConstraints.NONE;
+        gbc.anchor = java.awt.GridBagConstraints.NORTH; 
+        gbc.insets = new java.awt.Insets(60, 0, 40, 0); 
+
+        gbc.gridy = 0;
+        main_Panel.add(games_Panel, gbc);
+        gbc.gridy = 1;
+        gbc.insets = new java.awt.Insets(0, 0, 0, 0);
+        main_Panel.add(config_Panel, gbc);
+
+        gbc.gridy = 2;
+        gbc.weighty = 1.0;
+        gbc.fill = java.awt.GridBagConstraints.VERTICAL;
+        main_Panel.add(javax.swing.Box.createVerticalGlue(), gbc);
     }
     public JButton getGamesButton() {
         return games_Button;
