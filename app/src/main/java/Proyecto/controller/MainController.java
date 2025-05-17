@@ -1,6 +1,6 @@
-package Proyecto.Controller;
-import Proyecto.Model.MainModel;
-import Proyecto.View.MainView;
+package Proyecto.controller;
+import Proyecto.model.MainModel;
+import Proyecto.view.MainView;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
