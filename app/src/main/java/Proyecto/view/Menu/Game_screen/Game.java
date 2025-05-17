@@ -9,6 +9,8 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
 
 
 public class Game extends JPanel {
@@ -50,5 +52,17 @@ public class Game extends JPanel {
         this.add(image_Panel, BorderLayout.CENTER);
         this.setOpaque(false);
         cant++;
+        this.setBorder(new LineBorder(new Color(0, 0, 0, 0), 2));
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+        @Override
+        public void mouseEntered(java.awt.event.MouseEvent evt) {
+        Game.this.setBorder(new LineBorder(Color.WHITE, 2)); 
+        }
+        @Override
+        public void mouseExited(java.awt.event.MouseEvent evt) {
+        Game.this.setBorder(new LineBorder(new Color(0, 0, 0, 0), 2)); 
+        }
+        });
+
     }
 }

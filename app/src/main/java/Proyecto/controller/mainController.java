@@ -3,7 +3,6 @@ import Proyecto.Model.MainModel;
 import Proyecto.View.MainView;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
 import Proyecto.View.Menu.Main_screen;
 import Proyecto.View.Menu.Game_screen.Games_screen;
 
@@ -14,9 +13,25 @@ public class MainController implements ActionListener {
     public MainController(MainModel model, MainView view) {
         this.model = model;
         this.view = view;
-        // Listeners are registered after construction
+        initController();
+    }
+
+    public void initController() {
         view.getMainScreen().games_Button.addActionListener(this);
         view.getMainScreen().config_Button.addActionListener(this);
+
+        view.getGamesScreen().getgame(0).addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                model.runGame(0);
+            }
+        });
+        view.getGamesScreen().getgame(1).addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                model.runGame(1);
+            }
+        });
     }
 
 

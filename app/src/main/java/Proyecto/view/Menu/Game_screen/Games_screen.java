@@ -33,7 +33,7 @@ public class Games_screen extends JPanel {
         hide.add(games_Panel);
         this.add(hide, BorderLayout.CENTER);
         games_Panel.setLayout(new FlowLayout());
-        games_Panel.setPreferredSize(getMaximumSize()); 
+        games_Panel.setPreferredSize(getMaximumSize());
         games_Set.add(new Game("app\\\\src\\\\main\\\\resources\\\\Lemmings.jpg", "Lemmings"));
         games_Set.add(new Game("app\\\\src\\\\main\\\\resources\\\\Pong.jpg", "Pong"));
         for (Game g : games_Set) {
@@ -41,8 +41,8 @@ public class Games_screen extends JPanel {
         }
     
     }
-        public JPanel getgame(ArrayList<Game> games, int i) {
-        return games.get(i);
+        public Game getgame(int i) {
+        return games_Set.get(i);
         }
     }
 
