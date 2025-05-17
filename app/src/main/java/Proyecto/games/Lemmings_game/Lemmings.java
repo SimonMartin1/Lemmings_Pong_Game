@@ -1,29 +1,29 @@
 
-package Proyecto.Lemmings_game;
+package Proyecto.Games.Lemmings_game;
 
 import java.awt.Graphics2D;
 
-import Proyecto.JGame;
-import Proyecto.Lemmings_game.Controller.lemmingsController;
-import Proyecto.Lemmings_game.Model.lemmingsModel;
-import Proyecto.Lemmings_game.View.lemmingsView;
+import Proyecto.Games.JGame;
+import Proyecto.Games.Lemmings_game.Controller.LemmingsController;
+import Proyecto.Games.Lemmings_game.Model.LemmingsModel;
+import Proyecto.Games.Lemmings_game.View.LemmingsView;
 
-public class lemmings extends JGame {
-    public lemmings(String title, int width, int height) {
+public class Lemmings extends JGame {
+    public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
 
     public static void main(String[] args) {
-        lemmings game = new lemmings("Lemmings", 800, 600);
+        Lemmings game = new Lemmings("Lemmings", 800, 600);
         game.run(1.0 / 60.0); // 60 FPS
     }
 
     @Override
     public void gameStartup() {
         // Inicializar el juego
-        lemmingsModel model = new lemmingsModel();
-        lemmingsView view = new lemmingsView();
-        lemmingsController controller = new lemmingsController(model, view);
+        LemmingsModel model = new LemmingsModel();
+        LemmingsView view = new LemmingsView();
+        LemmingsController controller = new LemmingsController(model, view);
     }
 
     @Override
@@ -40,5 +40,11 @@ public class lemmings extends JGame {
     @Override
     public void gameShutdown() {
         // Guardar datos, cerrar recursos
+    }
+
+    @Override
+    public void ReadPropertiesFile() {
+        // Leer propiedades del juego desde un archivo
+        // Implementar la lógica para leer el archivo de propiedades
     }
 }

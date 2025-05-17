@@ -3,11 +3,7 @@
  */
 package proyecto;
 
-import org.junit.jupiter.api.Test;
 
-import Proyecto.App;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class AppTest {
 
