@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 
 public class Games_screen extends JPanel {
@@ -44,5 +45,20 @@ public class Games_screen extends JPanel {
         public Game getgame(int i) {
         return games_Set.get(i);
         }
+
+            public void closeGame(){
+                closeGameFrame close = new closeGameFrame();
     }
-   
+    }
+
+class closeGameFrame extends JFrame{
+   public closeGameFrame(){
+        this.setTitle("Close Game");
+        this.setSize(300, 200);
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        this.setAlwaysOnTop(true);
+        this.setVisible(true);
+    }
+}

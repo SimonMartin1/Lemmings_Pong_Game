@@ -23,18 +23,31 @@ public class MainController implements ActionListener {
         view.getGamesScreen().getgame(0).addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
+                
+                if(model.getRuntimegame() == null){
                 model.runGame(0);
+                }
+                else{
+                    notifyCloseGame();
+                }
             }
         });
         view.getGamesScreen().getgame(1).addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                model.runGame(1);
+                if(model.getRuntimegame() == null){
+                    model.runGame(1);
+                }
+                else{
+                    notifyCloseGame();
+                }
             }
         });
     }
 
-
+    public void notifyCloseGame(){
+        view.getGamesScreen().closeGame();
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
