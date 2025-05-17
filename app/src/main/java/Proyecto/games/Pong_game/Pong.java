@@ -1,10 +1,10 @@
-package Proyecto.Games.Pong_game;
+package Proyecto.games.Pong_game;
 import java.awt.Graphics2D;
 
-import Proyecto.Games.JGame;
-import Proyecto.Games.Pong_game.Controller.PongController;
+import Proyecto.games.JGame;
+import Proyecto.games.Pong_game.Controller.PongController;
 import Proyecto.Games.Pong_game.Model.PongModel;
-import Proyecto.Games.Pong_game.View.PongView;
+import Proyecto.games.Pong_game.View.PongView;
 
 public class Pong extends JGame {
     public Pong(String title, int width, int height) {
@@ -27,7 +27,7 @@ public class Pong extends JGame {
     @Override
     public void gameUpdate(double delta) {
     }
-        @Override
+    @Override
     public void gameDraw(Graphics2D g) {
         // Dibujar elementos del juego
         g.fillRect(0, 0, width, height);

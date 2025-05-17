@@ -1,4 +1,4 @@
-package Proyecto.View;
+package Proyecto.view;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;

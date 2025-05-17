@@ -1,7 +1,7 @@
-package Proyecto.Model;
+package Proyecto.model;
 import java.util.ArrayList;
 
-import Proyecto.Games.JGame;
+import Proyecto.games.JGame;
 
 public class MainModel {
     final private ArrayList<JGame> games;
