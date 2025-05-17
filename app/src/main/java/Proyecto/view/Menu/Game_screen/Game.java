@@ -9,7 +9,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
+import javax.swing.border.LineBorder;
 
 
 public class Game extends JPanel {
@@ -32,7 +32,20 @@ public class Game extends JPanel {
             text_Panel.setBackground(new Color(8, 38, 82));
             text_Panel.add(name_Label);
             text_Panel.setPreferredSize(new Dimension(150, 50));
-            
+            this.setBorder(new LineBorder(Color.LIGHT_GRAY, 2));
+
+            // Efecto hover
+            this.addMouseListener(new java.awt.event.MouseAdapter() {
+                @Override
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    image_Panel.this.setBorder(new LineBorder(Color.YELLOW, 2)); // Color al hacer hover
+                }
+                @Override
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    image_Panel.this.setBorder(new LineBorder(Color.LIGHT_GRAY, 2)); // Color normal
+                }
+            });
+
         }
 
         @Override
@@ -50,5 +63,6 @@ public class Game extends JPanel {
         this.add(image_Panel, BorderLayout.CENTER);
         this.setOpaque(false);
         cant++;
+        
     }
 }

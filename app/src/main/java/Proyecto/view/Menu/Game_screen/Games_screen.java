@@ -52,13 +52,20 @@ public class Games_screen extends JPanel {
     }
 
 class closeGameFrame extends JFrame{
+private JPanel main_Panel;
+private JLabel title;
    public closeGameFrame(){
-        this.setTitle("Close Game");
+        this.setTitle("LLS Games");
         this.setSize(300, 200);
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setAlwaysOnTop(true);
         this.setVisible(true);
+        main_Panel.setOpaque(false);
+        title = new JLabel("<html><h2 style='color: white;'>Close The Game Before</h2></html>");
+        this.add(main_Panel, BorderLayout.CENTER);
+        main_Panel.add(title);
+        main_Panel.setBackground(new Color(16, 44, 85));
     }
 }

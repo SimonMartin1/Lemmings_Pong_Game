@@ -66,7 +66,7 @@ public class MainView extends JFrame {
 class Login_screen extends JPanel {
     final private Image background;
     public Login_screen() {
-        background = new ImageIcon("app\\src\\main\\resources\\Login.png").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\Loginblack.png").getImage();
         
     }
     
