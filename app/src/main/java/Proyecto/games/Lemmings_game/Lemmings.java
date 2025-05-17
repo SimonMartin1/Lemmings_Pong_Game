@@ -2,9 +2,9 @@ package Proyecto.games.Lemmings_game;
 import java.awt.Graphics2D;
 
 import Proyecto.games.JGame;
-import Proyecto.games.Lemmings_game.Controller.LemmingsController;
-import Proyecto.games.Lemmings_game.Model.LemmingsModel;
-import Proyecto.games.Lemmings_game.View.LemmingsView;
+import Proyecto.games.Lemmings_game.controller.LemmingsController;
+import Proyecto.games.Lemmings_game.model.LemmingsModel;
+import Proyecto.games.Lemmings_game.view.LemmingsView;
 
 public class Lemmings extends JGame {
     public Lemmings(String title, int width, int height) {
