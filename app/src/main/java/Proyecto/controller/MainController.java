@@ -1,10 +1,10 @@
-package Proyecto.Controller;
-import Proyecto.Model.MainModel;
-import Proyecto.View.MainView;
-import java.awt.event.ActionListener;
+package Proyecto.controller;
 import java.awt.event.ActionEvent;
-import Proyecto.View.Menu.Main_screen;
-import Proyecto.View.Menu.Game_screen.Games_screen;
+import java.awt.event.ActionListener;
+
+import Proyecto.model.MainModel;
+import Proyecto.view.MainView;
+
 
 public class MainController implements ActionListener {
     final private MainModel model;

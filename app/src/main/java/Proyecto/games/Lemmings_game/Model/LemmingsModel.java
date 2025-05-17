@@ -1,4 +1,4 @@
-package Proyecto.Games.Lemmings_game.Model;
+package Proyecto.games.Lemmings_game.model;
 
 
 public class LemmingsModel {

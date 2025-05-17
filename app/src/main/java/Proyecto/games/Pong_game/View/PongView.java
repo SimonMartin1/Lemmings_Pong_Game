@@ -1,4 +1,4 @@
-package Proyecto.Games.Pong_game.View;
+package Proyecto.games.Pong_game.view;
 import java.awt.Button;
 import java.awt.CardLayout;
 import java.awt.Frame;

@@ -1,7 +1,7 @@
 package Proyecto;
-import Proyecto.Model.MainModel;
-import Proyecto.View.MainView;
-import Proyecto.Controller.MainController;
+import Proyecto.controller.MainController;
+import Proyecto.model.MainModel;
+import Proyecto.view.MainView;
 
 public class App {
     public static void main(String[] args) {

@@ -1,6 +1,8 @@
-package Proyecto.Model;
-import Proyecto.Games.Lemmings_game.Lemmings;
-import Proyecto.Games.Pong_game.Pong;
+package Proyecto.model;
+
+import Proyecto.games.Lemmings_game.Lemmings;
+import Proyecto.games.Pong_game.Pong;
+
 
 
 public class MainModel {

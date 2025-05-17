@@ -1,4 +1,4 @@
-package Proyecto.View;
+package Proyecto.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -10,8 +10,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import Proyecto.View.Menu.Game_screen.Games_screen;
-import Proyecto.View.Menu.Main_screen;
+import Proyecto.view.Menu.Game_screen.Games_screen;
+import Proyecto.view.Menu.Main_screen;
 
 
 

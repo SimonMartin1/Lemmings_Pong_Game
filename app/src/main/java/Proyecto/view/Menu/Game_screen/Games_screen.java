@@ -1,4 +1,4 @@
-package Proyecto.View.Menu.Game_screen;
+package Proyecto.view.Menu.Game_screen;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -45,4 +45,4 @@ public class Games_screen extends JPanel {
         return games_Set.get(i);
         }
     }
-
+   

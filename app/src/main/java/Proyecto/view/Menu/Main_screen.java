@@ -1,4 +1,4 @@
-package Proyecto.View.Menu;
+package Proyecto.view.Menu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
