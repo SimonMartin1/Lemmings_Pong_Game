@@ -22,8 +22,10 @@ import javax.swing.Timer;
 
 public class MainView extends JFrame {
     final private CardLayout animation;
-    final private JPanel login_screen,games_screen,MainPanel, enter;
+    final private login_screen login_screen;
+    final private games_screen games_screen;
     final private main_screen main_screen;
+    final private JPanel MainPanel, enter;
     public MainView() {
         this.setTitle("LLS Games");
         this.setSize(1200, 800);
@@ -98,20 +100,42 @@ class main_screen extends JPanel {
         main_Panel.add(games_Panel);
         main_Panel.add(config_Panel);
         games_Panel.add(games_Button);
-        games_Panel.setBackground(new Color(8, 38, 82));
         games_Panel.setPreferredSize(new Dimension(50, 50));
         config_Panel.add(config_Button);
         
-        // games_Button.setOpaque(false);
-        // games_Button.setContentAreaFilled(false);
-        // games_Button.setBorderPainted(false);
-        // games_Button.setFocusPainted(false);
+        games_Button.setOpaque(false);
+        games_Button.setContentAreaFilled(false);
+        games_Button.setBorderPainted(false);
+        games_Button.setFocusPainted(false);
 
-        // config_Button.setOpaque(false);
-        // config_Button.setContentAreaFilled(false);
-        // config_Button.setBorderPainted(false);
-        // config_Button.setFocusPainted(false);
+        config_Button.setOpaque(false);
+        config_Button.setContentAreaFilled(false);
+        config_Button.setBorderPainted(false);
+        config_Button.setFocusPainted(false);
 
+        games_Button.setForeground(Color.BLACK); // normal color
+        games_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                games_Button.setForeground(Color.WHITE); // hover color
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                games_Button.setForeground(Color.BLACK); // normal color
+            }
+        });
+
+        config_Button.setForeground(Color.BLACK);
+        config_Button.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                config_Button.setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                config_Button.setForeground(Color.BLACK);
+            }
+        });
         
     }
     public JButton getGamesButton() {

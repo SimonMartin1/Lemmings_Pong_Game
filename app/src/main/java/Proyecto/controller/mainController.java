@@ -11,8 +11,12 @@ public class MainController implements ActionListener {
     public MainController(MainModel model, MainView view) {
         this.model = model;
         this.view = view;
-        
+        // Listeners are registered after construction
+        view.getGamesButton().addActionListener(this);
+        view.getConfigButton().addActionListener(this);
     }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
