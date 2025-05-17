@@ -1,6 +1,6 @@
-package Proyecto.games.Lemmings_game.Controller;
-import Proyecto.games.Lemmings_game.Model.LemmingsModel;
-import Proyecto.games.Lemmings_game.View.LemmingsView;
+package Proyecto.Games.Lemmings_game.Controller;
+import Proyecto.Games.Lemmings_game.Model.LemmingsModel;
+import Proyecto.Games.Lemmings_game.View.LemmingsView;
 
 public class LemmingsController {
     // Atributos del controlador

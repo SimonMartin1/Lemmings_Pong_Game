@@ -1,27 +1,27 @@
-package Proyecto.games.Pong_game;
+package Proyecto.Games.Pong_game;
 import java.awt.Graphics2D;
 
-import Proyecto.games.JGame;
-import Proyecto.games.Pong_game.Controller.pongController;
-import Proyecto.games.Pong_game.Model.pongModel;
-import Proyecto.games.Pong_game.View.pongView;
+import Proyecto.Games.JGame;
+import Proyecto.Games.Pong_game.Controller.PongController;
+import Proyecto.Games.Pong_game.Model.PongModel;
+import Proyecto.Games.Pong_game.View.PongView;
 
-public class pong extends JGame {
-    public pong(String title, int width, int height) {
+public class Pong extends JGame {
+    public Pong(String title, int width, int height) {
         super(title, width, height);
     }
 
     public static void main(String[] args) {
-        pong game = new pong("Mi Pong", 800, 600);
+        Pong game = new Pong("Mi Pong", 800, 600);
         game.run(1.0 / 60.0); // 60 FPS
     }
 
     @Override
     public void gameStartup() {
         // Inicializar pelotas, paletas, etc.
-        pongModel model = new pongModel();
-        pongView view = new pongView();
-        pongController controller = new pongController(model, view);
+        PongModel model = new PongModel();
+        PongView view = new PongView();
+        PongController controller = new PongController(model, view);
     }
 
     @Override
@@ -39,5 +39,9 @@ public class pong extends JGame {
     @Override
     public void gameShutdown() {
         // Guardar datos, cerrar recursos
+    }
+
+    @Override protected void ReadPropertiesFile(){
+        
     }
 }
