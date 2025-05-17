@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.Model;
+package Proyecto.games.Pong_game.model;
 
 import java.util.Vector;
 

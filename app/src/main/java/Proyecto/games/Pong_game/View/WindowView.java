@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.View;
+package Proyecto.games.Pong_game.view;
 
 public class WindowView {
 }
