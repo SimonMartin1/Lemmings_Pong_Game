@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.util.ArrayList;
 
@@ -72,7 +71,7 @@ public class MainView extends JFrame {
 class login_screen extends JPanel {
     final private Image background;
     public login_screen() {
-        background = new ImageIcon("C:\\Users\\MARTIN\\Documents\\Facultad\\3 Año\\1 Cuatrimestre\\POO\\Proyecto\\app\\src\\main\\resources\\login.png").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\Login.png").getImage();
         
     }
     
@@ -190,8 +189,8 @@ class games_screen extends JPanel {
         this.add(hide, BorderLayout.CENTER);
         games_Panel.setLayout(new FlowLayout());
         games_Panel.setPreferredSize(getMaximumSize()); 
-        games_Set.add(new game("c:\\\\Users\\\\MARTIN\\\\Documents\\\\Facultad\\\\3 Año\\\\1 Cuatrimestre\\\\POO\\\\Practica\\\\Practico6\\\\Lemmings.jpg", "Lemmings"));
-        games_Set.add(new game("c:\\\\Users\\\\MARTIN\\\\Documents\\\\Facultad\\\\3 Año\\\\1 Cuatrimestre\\\\POO\\\\Practica\\\\Practico6\\\\pong.jpg", "Pong"));
+        games_Set.add(new game("app\\\\src\\\\main\\\\resources\\\\Lemmings.jpg", "Lemmings"));
+        games_Set.add(new game("app\\\\src\\\\main\\\\resources\\\\Pong.jpg", "Pong"));
         for (game g : games_Set) {
             games_Panel.add(g);
         }
