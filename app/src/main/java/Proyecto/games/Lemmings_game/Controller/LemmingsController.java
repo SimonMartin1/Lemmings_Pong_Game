@@ -26,3 +26,68 @@ public class LemmingsController {
         // Lógica para finalizar el juego
     }
 }
+
+
+
+
+// public void fullScreen(){
+//         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//         if(!this.fullscreen){
+//         this.dispose();
+//         this.setUndecorated(true); 
+//         this.setResizable(false);
+//         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//         this.setBounds(0, 0, screenSize.width, screenSize.height); 
+//         this.setVisible(true); 
+//         this.fullscreen = true;
+//         }
+//     }
+
+//     public void exitfullScreen(){
+//         this.dispose();
+//         this.setUndecorated(false);
+//         this.setResizable(true);
+//         this.setExtendedState(JFrame.NORMAL);
+//         this.setSize(800, 600);
+//         this.setLocationRelativeTo(null);
+//         this.setVisible(true);
+//         this.fullscreen = false;
+//     }
+
+
+//     public void addListeners(){
+//         this.fullScreeen.addActionListener(this);
+
+//         addWindowListener(new WindowAdapter() {
+//             @Override public void windowClosing(WindowEvent we) {
+//                 System.exit(0);
+//             }
+//         });
+//     }
+
+//     public void keyPressed(KeyEvent e) {
+//         int code = e.getKeyCode();
+        
+
+//         if ((code == KeyEvent.VK_ENTER) && this.fullscreen) {
+            
+//             this.exitfullScreen();
+            
+            
+//         }
+
+//     }
+
+//     @Override public void actionPerformed(ActionEvent e) {
+//         if(fullScreeen.isSelected()){
+            
+//             this.fullScreen();
+            
+//         }
+//         if(!fullScreeen.isSelected()){
+            
+//             this.exitfullScreen();
+            
+//         }
+//     }
+// }
