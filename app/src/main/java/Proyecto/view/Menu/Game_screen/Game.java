@@ -33,7 +33,7 @@ public class Game extends JPanel {
             text_Panel.add(name_Label);
             text_Panel.setPreferredSize(new Dimension(150, 50));
             this.setBorder(new LineBorder(new Color(0,0,0,0), 2));
-
+            this.setOpaque(false);
             // Efecto hover
             this.addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
