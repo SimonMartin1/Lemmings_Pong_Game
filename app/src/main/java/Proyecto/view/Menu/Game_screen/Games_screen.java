@@ -58,9 +58,12 @@ public class Games_screen extends JPanel {
         return games_Set.get(i);
         }
 
-            public void closeGame(){
-                closeGameFrame close = new closeGameFrame();
-    }
+        public void closeGame(){
+        closeGameFrame close = new closeGameFrame();
+        }
+        public JPanel getBack_Panel(){
+            return back_Panel;
+        }
     }
 
 class closeGameFrame extends JFrame{

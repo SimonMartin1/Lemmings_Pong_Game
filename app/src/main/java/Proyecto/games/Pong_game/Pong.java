@@ -34,7 +34,7 @@ public class Pong extends JGame {
     @Override
     public void gameDraw(Graphics2D g) {
         // Dibujar elementos del juego
-        g.fillRect(0, 0, width, height);
+
         //Dibujar elementos del juego
     }
         

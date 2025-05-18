@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 
 public class Game extends JPanel {
     public static int cant = 0;
-    final private JPanel image;
+    final private JPanel image,image_Panel;
     private JLabel name_Label;
     
     private class image_Panel extends JPanel {
@@ -34,18 +34,6 @@ public class Game extends JPanel {
             text_Panel.setPreferredSize(new Dimension(150, 50));
             this.setBorder(new LineBorder(new Color(0,0,0,0), 2));
             this.setOpaque(false);
-            // Efecto hover
-            this.addMouseListener(new java.awt.event.MouseAdapter() {
-                @Override
-                public void mouseEntered(java.awt.event.MouseEvent evt) {
-                    image_Panel.this.setBorder(new LineBorder(Color.WHITE, 2));
-                }
-                @Override
-                public void mouseExited(java.awt.event.MouseEvent evt) {
-                    image_Panel.this.setBorder(new LineBorder(new Color(0,0,0,0), 2));
-                }
-            });
-
         }
 
         @Override
@@ -57,7 +45,7 @@ public class Game extends JPanel {
 
     public Game(String url, String nombre) {
         image = new image_Panel(url, nombre); 
-        JPanel image_Panel = new JPanel();
+        image_Panel = new JPanel();
         image_Panel.add(image);
         image_Panel.setOpaque(false);
         this.add(image_Panel, BorderLayout.CENTER);
@@ -65,4 +53,8 @@ public class Game extends JPanel {
         cant++;
         
     }
+    
+    public JPanel getImagePanel() {
+            return image_Panel;
+        }
 }

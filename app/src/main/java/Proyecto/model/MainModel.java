@@ -14,6 +14,7 @@ private Object runtimegame=null;
         switch (i) {
             case 0:
                 if(runtimegame==null){
+                System.out.println("Abriendo juego...");
                 Lemmings lemmings = new Lemmings("Lemmings", 1200, 800);
                 lemmings.run(1.0 / 60.0);
                 runtimegame = lemmings;
