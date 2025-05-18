@@ -7,10 +7,10 @@ import javax.swing.JPanel;
 
 
 
-public class Main_screen extends JPanel {
+public class Menu_screen extends JPanel {
     final private JPanel main_Panel, games_Panel, config_Panel;
     final public JButton games_Button, config_Button;
-    public Main_screen() {
+    public Menu_screen() {
         main_Panel = new JPanel(new java.awt.GridBagLayout());
         games_Panel = new JPanel();
         config_Panel = new JPanel();

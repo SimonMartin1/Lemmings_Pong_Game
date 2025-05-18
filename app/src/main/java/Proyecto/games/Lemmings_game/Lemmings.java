@@ -1,10 +1,18 @@
 package Proyecto.games.Lemmings_game;
 import java.awt.Graphics2D;
 
-import Proyecto.games.JGame;
-import Proyecto.games.Lemmings_game.Controller.LemmingsController;
-import Proyecto.games.Lemmings_game.Model.LemmingsModel;
-import Proyecto.games.Lemmings_game.View.LemmingsView;
+import Proyecto.games.Common_files.JGame;
+import Proyecto.games.Lemmings_game.controller.LemmingsController;
+import Proyecto.games.Lemmings_game.model.LemmingsModel;
+import Proyecto.games.Lemmings_game.view.LemmingsView;
+
+
+//Explanation of the logic:
+// 1. The Lemmings class extends JGame, which is a custom game loop class.
+// 2. The constructor initializes the game with a title and dimensions in JGame.
+// 3. The main method creates an instance of Lemmings and starts the game loop at 60 FPS and calling the own function that each game overrides.
+
+
 
 public class Lemmings extends JGame {
     public Lemmings(String title, int width, int height) {
@@ -12,15 +20,15 @@ public class Lemmings extends JGame {
     }
 
     public static void main(String[] args) {
-        Lemmings game = new Lemmings("Lemmings", 800, 600);
+        Lemmings game = new Lemmings("Lemmings", 1200, 800);
         game.run(1.0 / 60.0); // 60 FPS
     }
 
     @Override
     public void gameStartup() {
-        // Inicializar el juego
+        // start the game, view receives the instance of the game
         LemmingsModel model = new LemmingsModel();
-        LemmingsView view = new LemmingsView();
+        LemmingsView view = new LemmingsView(this);
         LemmingsController controller = new LemmingsController(model, view);
     }
 
@@ -30,8 +38,6 @@ public class Lemmings extends JGame {
     }
 @Override
     public void gameDraw(Graphics2D g) {
-        // Dibujar elementos del juego
-        g.fillRect(0, 0, width, height);
         //Dibujar elementos del juego
     }
 
@@ -45,4 +51,5 @@ public class Lemmings extends JGame {
         // Leer propiedades del juego desde un archivo
         // Implementar la lógica para leer el archivo de propiedades
     }
+    
 }
