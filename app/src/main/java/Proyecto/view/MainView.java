@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import Proyecto.view.Menu.Game_screen.Games_screen;
-import Proyecto.view.Menu.Main_screen;
+import Proyecto.view.Menu.Menu_screen;
 
 
 
@@ -19,7 +19,7 @@ public class MainView extends JFrame {
     final private CardLayout animation;
     final private Login_screen login_screen;
     final private Games_screen games_screen;
-    final private Main_screen main_screen;
+    final private Menu_screen main_screen;
     final private JPanel MainPanel, enter;
     public MainView() {
         this.setTitle("LLS Games");
@@ -31,7 +31,7 @@ public class MainView extends JFrame {
         enter = new JPanel();
         enter.setBackground(new Color(0,0,0));
         login_screen = new Login_screen();
-        main_screen = new Main_screen();
+        main_screen = new Menu_screen();
         games_screen = new Games_screen();
         MainPanel = new JPanel(animation);
         MainPanel.add(enter, "Enter");
@@ -54,7 +54,7 @@ public class MainView extends JFrame {
     public void showScreen(String screenName) {
         animation.show(MainPanel, screenName);
     }
-    public Main_screen getMainScreen() {
+    public Menu_screen getMainScreen() {
         return main_screen;
     }
     public Games_screen getGamesScreen() {

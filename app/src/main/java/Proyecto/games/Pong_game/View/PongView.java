@@ -1,69 +1,26 @@
 package Proyecto.games.Pong_game.view;
-import java.awt.Button;
+
 import java.awt.CardLayout;
-import java.awt.Frame;
-import java.awt.Panel;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 
-
-public class PongView extends Frame {
+public class PongView extends JFrame {
     
     private CardLayout login_to_play = new CardLayout();
-    private Panel login_Panel = new Panel(login_to_play);
-    private Button startButton = new Button("Start");
+    private JPanel login_Panel = new JPanel(login_to_play);
     
     public PongView() {
-        
+        this.setTitle("Pong Game");
+        this.setSize(800, 600);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setLayout(login_to_play);
+        this.setResizable(true);
+        this.setVisible(true);
     }
 
 }
 
-class PongMenu_View extends Panel implements GamesMenu {
-    private boolean twoPlayers;
-    private boolean difficulty;
-    
-    public PongMenu_View() {
-        this.twoPlayers = false;
-        this.difficulty = false;
-    }
-    
-    @Override
-    public void Set_TwoPlayers() {
-        this.twoPlayers = true;
-    }
-    
-    @Override
-    public boolean Get_TwoPlayers() {
-        return this.twoPlayers;
-    }
-    
-    @Override
-    public boolean Set_Difficulty() {
-        this.difficulty = true;
-        return this.difficulty;
-    }
-    
-    @Override
-    public boolean Get_Difficulty() {
-        return this.difficulty;
-    }
-    
-    @Override
-    public void OpenConfiguration() {
-        // Implementar la lógica para abrir la configuración
-    }
-    
-}
 
 
-class MainScreen extends Panel {
-
-}
-
-interface GamesMenu {
-    public void Set_TwoPlayers();
-    public boolean Get_TwoPlayers();
-    public boolean Set_Difficulty();
-    public boolean Get_Difficulty();
-    public void OpenConfiguration();
-}
