@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.model;
+package Proyecto.games.Pong_game.Model;
 
 abstract class Entity{
     protected int x;
