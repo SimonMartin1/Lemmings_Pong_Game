@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
 public class config_screen extends JPanel{
 
     final private JCheckBox fullScreeen,activateSound;
@@ -38,7 +39,7 @@ public class config_screen extends JPanel{
         teclas_Panel = new JPanel();
         teclas = new JLabel("<html><span style='color: white;'>Q - Sound Effects        W - Background Music     Space - Pause <br> [1-8] Habilities            E - Accelerate Game      R - Self-Destruction</span></html>");
         
-        background = new ImageIcon("app\\src\\main\\resources\\Login.png").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\Config.jpg").getImage();
         
         this.setLayout(new BorderLayout()); 
         this.add(main_Panel, BorderLayout.CENTER); 
