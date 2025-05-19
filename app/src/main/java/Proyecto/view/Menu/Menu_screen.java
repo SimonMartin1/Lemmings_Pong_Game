@@ -38,28 +38,7 @@ public class Menu_screen extends JPanel {
         config_Button.setFocusPainted(false);
 
         games_Button.setForeground(Color.BLACK);
-        games_Button.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                games_Button.setForeground(Color.WHITE);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                games_Button.setForeground(Color.BLACK);
-            }
-        });
-
-        config_Button.setForeground(Color.BLACK);
-        config_Button.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                config_Button.setForeground(Color.WHITE);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                config_Button.setForeground(Color.BLACK);
-            }
-        });
+        
 
         java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
         gbc.gridx = 0;
@@ -77,5 +56,11 @@ public class Menu_screen extends JPanel {
         gbc.weighty = 1.0;
         gbc.fill = java.awt.GridBagConstraints.VERTICAL;
         main_Panel.add(javax.swing.Box.createVerticalGlue(), gbc);
+    }
+    public JButton getConfig_Button() {
+        return config_Button;
+    }
+    public JButton getGames_Button() {
+        return games_Button;
     }
 }

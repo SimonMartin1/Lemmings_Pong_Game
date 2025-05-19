@@ -54,6 +54,9 @@ public class MainView extends JFrame {
     public void showScreen(String screenName) {
         animation.show(MainPanel, screenName);
     }
+    public Menu_screen getMenuScreen() {
+        return main_screen;
+    }
     public Menu_screen getMainScreen() {
         return main_screen;
     }
