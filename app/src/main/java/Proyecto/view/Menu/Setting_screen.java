@@ -1,31 +1,35 @@
 package Proyecto.view.Menu;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Dimension;
 
 import javax.swing.Box;
+
 import javax.swing.JPanel;
+//import javax.swing.border.MatteBorder;
 
 import Proyecto.view.Menu.Buttons.game_Button;
 import Proyecto.view.Menu.Buttons.home_Button;
 import Proyecto.view.Menu.Buttons.settings_Button;
 
 
-public class Menu_screen extends JPanel {
-    final private JPanel main_Panel, home_Panel,game_Panel, settings_Panel;
+
+public class Setting_screen extends JPanel {
+    final private JPanel main_Panel,home_Panel,game_Panel, settings_Panel;
     final public JPanel home_Button,games_Button, settings_Button;
-    public Menu_screen() {
+    public Setting_screen(){
         main_Panel = new JPanel(new GridBagLayout());
         home_Panel = new JPanel();
         game_Panel = new JPanel();
         settings_Panel = new JPanel();
-        home_Button = new home_Button("app\\src\\main\\resources\\images\\home_white.png");
+        home_Button = new home_Button("app\\src\\main\\resources\\images\\home.png");
         games_Button = new game_Button("app\\src\\main\\resources\\images\\games.png");
-        settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
-
+        settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings_white.png");
 
         home_Button.setPreferredSize(new Dimension(25, 25));
         games_Button.setPreferredSize(new Dimension(27, 25));
@@ -68,13 +72,13 @@ public class Menu_screen extends JPanel {
         this.add(main_Panel, BorderLayout.WEST);
         this.setBackground(new Color(14, 15, 17));
 
+    }
 
-        
-    }
-    public JPanel getSettings_Button() {
-        return settings_Button;
-    }
-    public JPanel getGames_Button() {
-        return games_Button;
-    }
+        public JPanel getHome_Button(){
+            return home_Panel;
+        }
+
+        public JPanel getGames_Button(){
+            return game_Panel;
+        }
 }

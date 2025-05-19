@@ -14,7 +14,8 @@ import Proyecto.view.MainView;
 
 
 
-public class MainController implements ActionListener {
+
+public class MainController {
     final private MainModel model;
     final private MainView view;
 
@@ -26,36 +27,51 @@ public class MainController implements ActionListener {
 
     public void initController() {
         
-        view.getMainScreen().games_Button.addActionListener(this);
-        view.getMainScreen().config_Button.addActionListener(this);
-        
-        view.getGamesScreen().getBack_Button().addMouseListener(new MouseAdapter() {
+        //Menu screen
+        view.getMenuScreen().getGames_Button().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                view.showScreen("sMain");
+                view.showScreen("Games");
+            }
+            // @Override
+            // public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            // }
+            // @Override
+            // public void mouseExited(java.awt.event.MouseEvent evt) {
+            
+            //     }
+        });
+
+        view.getMenuScreen().getSettings_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("Settings");
+            }
+            // @Override
+            // public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            // }
+            // @Override
+            // public void mouseExited(java.awt.event.MouseEvent evt) {
+            
+            //     }
+        });
+
+
+        // Games screen
+
+        view.getGamesScreen().getHome_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+            view.showScreen("Home");
             }
         });
 
-        view.getMainScreen().getGames_Button().addMouseListener(new java.awt.event.MouseAdapter() {
+        view.getGamesScreen().getSettings_Button().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getGames_Button().setForeground(Color.WHITE);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getGames_Button().setForeground(Color.BLACK);
-            }
-        });
-
-        view.getMainScreen().getConfig_Button().setForeground(Color.BLACK);
-        view.getMainScreen().getConfig_Button().addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getConfig_Button().setForeground(Color.WHITE);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getConfig_Button().setForeground(Color.BLACK);
+            public void mouseClicked(MouseEvent evt) {
+            view.showScreen("Settings");
             }
         });
 
@@ -66,9 +82,6 @@ public class MainController implements ActionListener {
                 if(model.getRuntimegame() == null){
                 model.runGame(0);
                 view.setVisible(false);
-                }
-                else{
-                    notifyCloseGame();
                 }
             }
             @Override
@@ -88,9 +101,6 @@ public class MainController implements ActionListener {
                     model.runGame(1);
                     view.setVisible(false);
                 }
-                else{
-                    notifyCloseGame();
-                }
             }
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -102,25 +112,30 @@ public class MainController implements ActionListener {
                 }
         });
 
-        model.getLgame().getLemmingsView().getGameFrame().addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosed(java.awt.event.WindowEvent e) {
-            view.setVisible(true);
-        }
-});
 
+        //Settinngs screen
+        view.getSettingsScreen().getHome_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("Home");
+            }
+        });
+
+        view.getSettingsScreen().getGames_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("Games");
+            }
+            // @Override
+            // public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            // }
+            // @Override
+            // public void mouseExited(java.awt.event.MouseEvent evt) {
+            
+            //     }
+        });
+        
     }
 
-    public void notifyCloseGame(){
-        view.getGamesScreen().closeGame();
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Handle button clicks and other actions here
-        if(e.getSource() == view.getMainScreen().games_Button){
-            view.showScreen("sGames");
-            // Handle settings button action
-        } 
-    }
 }
