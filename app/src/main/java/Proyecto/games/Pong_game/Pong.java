@@ -2,8 +2,8 @@ package Proyecto.games.Pong_game;
 import java.awt.Graphics2D;
 
 import Proyecto.games.Common_files.JGame;
-import Proyecto.games.Pong_game.controller.PongController;
-import Proyecto.games.Pong_game.model.PongModel;
+import Proyecto.games.Pong_game.Controller.PongController;
+import Proyecto.games.Pong_game.Model.PongModel;
 import Proyecto.games.Pong_game.View.PongView;
 
 
