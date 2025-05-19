@@ -29,7 +29,7 @@ public class MainController implements ActionListener {
         view.getMainScreen().games_Button.addActionListener(this);
         view.getMainScreen().config_Button.addActionListener(this);
         
-        view.getGamesScreen().getBack_Panel().addMouseListener(new MouseAdapter() {
+        view.getGamesScreen().getBack_Button().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 view.showScreen("sMain");
