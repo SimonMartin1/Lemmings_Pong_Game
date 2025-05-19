@@ -14,7 +14,7 @@ import javax.swing.border.LineBorder;
 
 public class Game extends JPanel {
     public static int cant = 0;
-    final private JPanel image,image_Panel;
+    final private JPanel image,img_Panel;
     private JLabel name_Label;
     
     private class image_Panel extends JPanel {
@@ -44,17 +44,17 @@ public class Game extends JPanel {
 
     public Game(String url, String nombre) {
         image = new image_Panel(url, nombre); 
-        image_Panel = new JPanel();
-        image_Panel.add(image);
-        image_Panel.setOpaque(false);
-        image_Panel.setBorder(new LineBorder(new Color(0,0,0,0), 2));
-        this.add(image_Panel, BorderLayout.CENTER);
+        img_Panel = new JPanel();
+        img_Panel.add(image);
+        img_Panel.setOpaque(false);
+        img_Panel.setBorder(new LineBorder(new Color(0,0,0,0), 2));
+        this.add(img_Panel, BorderLayout.CENTER);
         this.setOpaque(false);
         cant++;
         
     }
     
     public JPanel getImagePanel() {
-            return image_Panel;
+            return img_Panel;
         }
 }
