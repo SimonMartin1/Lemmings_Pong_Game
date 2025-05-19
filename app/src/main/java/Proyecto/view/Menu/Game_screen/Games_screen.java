@@ -11,10 +11,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.MatteBorder;
 
 
 public class Games_screen extends JPanel {
-    final private JPanel games_Panel, hide,top_Panel, title_Panel, back_Panel,top_Panel2;
+    final private JPanel games_Panel, hide,top_Panel, title_Panel, back_Panel,home_Panel,game_Panel;
     final private JLabel title;
     final private ArrayList<Game> games_Set;
 
@@ -23,7 +24,8 @@ public class Games_screen extends JPanel {
         games_Panel = new JPanel();
         hide = new JPanel();
         top_Panel = new JPanel();
-        top_Panel2 = new JPanel();
+        home_Panel = new JPanel();
+        game_Panel = new JPanel();
         title_Panel = new JPanel();
         title = new JLabel("<html><h2 style='color: white;'>Your Games</h2></html>");
         games_Set = new ArrayList<>();
@@ -33,14 +35,15 @@ public class Games_screen extends JPanel {
         top_Panel.setOpaque(false);
         top_Panel.setBackground(new Color(16, 44, 85));
         top_Panel.setLayout(new BorderLayout());
-        top_Panel.add(top_Panel2, BorderLayout.WEST);
+        top_Panel.add(home_Panel, BorderLayout.WEST);
+        top_Panel.add(game_Panel, BorderLayout.WEST);
         this.add(top_Panel, BorderLayout.NORTH);
-        top_Panel2.setLayout(new FlowLayout());
-        back_Panel.setPreferredSize(new Dimension(50, 50));
-        top_Panel2.add(back_Panel);
-        top_Panel2.add(title_Panel);
-        top_Panel2.setBackground(new Color(16, 44, 85));
-        top_Panel2.setOpaque(false);
+        home_Panel.setLayout(new FlowLayout());
+        back_Panel.setPreferredSize(new Dimension(25, 25));
+        home_Panel.setBorder(new MatteBorder(0, 0, 0, 2, Color.WHITE));
+        home_Panel.add(back_Panel);
+        home_Panel.setBackground(new Color(16, 44, 85));
+        home_Panel.setOpaque(false);
         title_Panel.setOpaque(false);
         title_Panel.add(title);
         hide.setOpaque(false);
@@ -49,8 +52,8 @@ public class Games_screen extends JPanel {
         this.add(hide, BorderLayout.CENTER);
         games_Panel.setLayout(new FlowLayout());
         games_Panel.setPreferredSize(getMaximumSize());
-        games_Set.add(new Game("app\\\\src\\\\main\\\\resources\\\\Lemmings.jpg", "Lemmings"));
-        games_Set.add(new Game("app\\\\src\\\\main\\\\resources\\\\Pong.jpg", "Pong"));
+        games_Set.add(new Game("app\\\\src\\\\main\\\\resources\\images\\\\Lemmings.jpg", "Lemmings"));
+        games_Set.add(new Game("app\\\\src\\\\main\\\\resources\\images\\\\Pong.jpg", "Pong"));
         for (Game g : games_Set) {
             games_Panel.add(g);
         }
@@ -90,7 +93,7 @@ final private JLabel title;
 class back_Panel extends JPanel{
     private Image background;
     public back_Panel(){
-        background = new ImageIcon("app\\src\\main\\resources\\back.png").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\images\\arrowback.png").getImage();
         this.setOpaque(false); 
     }
     @Override
