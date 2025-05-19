@@ -1,17 +1,17 @@
 package Proyecto.view.Menu;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 
 
 public class Menu_screen extends JPanel {
     final private JPanel main_Panel, games_Panel, config_Panel;
     final public JButton games_Button, config_Button;
     public Menu_screen() {
-        main_Panel = new JPanel(new java.awt.GridBagLayout());
+        main_Panel = new JPanel(new GridBagLayout());
         games_Panel = new JPanel();
         config_Panel = new JPanel();
         games_Button = new JButton("Games");
@@ -19,6 +19,7 @@ public class Menu_screen extends JPanel {
 
         this.setLayout(new BorderLayout());
         this.add(main_Panel, BorderLayout.WEST);
+        this.setBackground(new Color(34, 35, 37));
 
         games_Panel.setOpaque(false);
         config_Panel.setOpaque(false);

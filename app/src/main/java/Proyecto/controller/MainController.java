@@ -29,7 +29,7 @@ public class MainController implements ActionListener {
         view.getMainScreen().games_Button.addActionListener(this);
         view.getMainScreen().config_Button.addActionListener(this);
         
-        view.getGamesScreen().getBack_Button().addMouseListener(new MouseAdapter() {
+        view.getGamesScreen().getHome_Button().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 view.showScreen("sMain");
@@ -67,9 +67,6 @@ public class MainController implements ActionListener {
                 model.runGame(0);
                 view.setVisible(false);
                 }
-                else{
-                    notifyCloseGame();
-                }
             }
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -87,9 +84,6 @@ public class MainController implements ActionListener {
                 if(model.getRuntimegame() == null){
                     model.runGame(1);
                     view.setVisible(false);
-                }
-                else{
-                    notifyCloseGame();
                 }
             }
             @Override
@@ -111,9 +105,6 @@ public class MainController implements ActionListener {
 
     }
 
-    public void notifyCloseGame(){
-        view.getGamesScreen().closeGame();
-    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

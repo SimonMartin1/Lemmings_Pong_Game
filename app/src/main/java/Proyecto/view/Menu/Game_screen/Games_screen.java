@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
@@ -44,17 +43,17 @@ public class Games_screen extends JPanel {
         top_Panel.setLayout(new BorderLayout());
         top_Panel.add(nav_Panel, BorderLayout.WEST);
 
-        home_Button.setPreferredSize(new Dimension(25, 25));
+        home_Button.setPreferredSize(new Dimension(20, 20));
         home_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
         home_Panel.add(home_Button);
         home_Panel.setOpaque(false);
 
-        game_Button.setPreferredSize(new Dimension(25, 25));
+        game_Button.setPreferredSize(new Dimension(24, 20));
         game_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
         game_Panel.add(game_Button);
         game_Panel.setOpaque(false);
 
-        setting_Button.setPreferredSize(new Dimension(25, 25));
+        setting_Button.setPreferredSize(new Dimension(20, 20));
         setting_Panel.add(setting_Button);
         setting_Panel.setOpaque(false);
         
@@ -84,33 +83,15 @@ public class Games_screen extends JPanel {
         return games_Set.get(i);
         }
 
-        public void closeGame(){
-        closeGameFrame close = new closeGameFrame();
-        }
-        public JPanel getBack_Button(){
+
+        public JPanel getHome_Button(){
             return home_Button;
         }
-    }
 
-class closeGameFrame extends JFrame{
-private JPanel main_Panel;
-final private JLabel title;
-   public closeGameFrame(){
-        this.setTitle("LLS Games");
-        this.setSize(300, 200);
-        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        this.setLocationRelativeTo(null);
-        this.setResizable(false);
-        this.setAlwaysOnTop(true);
-        this.setVisible(true);
-        main_Panel.setOpaque(false);
-        title = new JLabel("<html><h2 style='color: white;'>Close The Game Before</h2></html>");
-        this.add(main_Panel, BorderLayout.CENTER);
-        main_Panel.add(title);
-        main_Panel.setBackground(new Color(14, 15, 17));
-    }
+        public JPanel getSettings_Button(){
+            return setting_Button;
+        }
 }
-
 class home_Button extends JPanel{
     final private Image background;
     public home_Button(){
@@ -127,7 +108,7 @@ class home_Button extends JPanel{
 class game_Button extends JPanel{
     final private Image background;
     public game_Button(){
-        background = new ImageIcon("app\\src\\main\\resources\\images\\games.png").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\images\\games_white.png").getImage();
         this.setOpaque(false); 
     }
     @Override
