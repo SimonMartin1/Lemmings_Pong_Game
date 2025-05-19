@@ -48,7 +48,7 @@ public class Games_screen extends JPanel {
         home_Panel.add(home_Button);
         home_Panel.setOpaque(false);
 
-        game_Button.setPreferredSize(new Dimension(24, 20));
+        game_Button.setPreferredSize(new Dimension(22, 20));
         game_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
         game_Panel.add(game_Button);
         game_Panel.setOpaque(false);
