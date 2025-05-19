@@ -39,9 +39,9 @@ public class Games_screen extends JPanel {
         setting_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
 
         
-        home_Button.setPreferredSize(new java.awt.Dimension(25, 25));
-        game_Button.setPreferredSize(new java.awt.Dimension(25, 25));
-        setting_Button.setPreferredSize(new java.awt.Dimension(25, 25));
+        home_Button.setPreferredSize(new Dimension(25, 25));
+        game_Button.setPreferredSize(new Dimension(25, 25));
+        setting_Button.setPreferredSize(new Dimension(25, 25));
 
         home_Panel.add(home_Button);
         home_Panel.setOpaque(false);
@@ -50,7 +50,7 @@ public class Games_screen extends JPanel {
         setting_Panel.add(setting_Button);
         setting_Panel.setOpaque(false);
 
-        GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
         
         gbc.gridx = 0;
         gbc.fill = GridBagConstraints.NONE;
@@ -112,28 +112,3 @@ public class Games_screen extends JPanel {
             return setting_Button;
         }
 }
-
-
-        // nav_Panel.setLayout(new FlowLayout());
-        // nav_Panel.add(home_Panel);
-        // nav_Panel.add(game_Panel);
-        // nav_Panel.add(setting_Panel);
-        // nav_Panel.setOpaque(false);
-        
-        // top_Panel.setBackground(new Color(25, 25, 25));
-        // top_Panel.setLayout(new BorderLayout());
-        // top_Panel.add(nav_Panel, BorderLayout.WEST);
-
-        // home_Button.setPreferredSize(new Dimension(20, 20));
-        // home_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
-        // home_Panel.add(home_Button);
-        // home_Panel.setOpaque(false);
-
-        // game_Button.setPreferredSize(new Dimension(22, 20));
-        // game_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
-        // game_Panel.add(game_Button);
-        // game_Panel.setOpaque(false);
-
-        // setting_Button.setPreferredSize(new Dimension(20, 20));
-        // setting_Panel.add(setting_Button);
-        // setting_Panel.setOpaque(false);

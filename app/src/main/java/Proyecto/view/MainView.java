@@ -12,7 +12,7 @@ import javax.swing.Timer;
 
 import Proyecto.view.Menu.Game_screen.Games_screen;
 import Proyecto.view.Menu.Menu_screen;
-
+import Proyecto.view.Menu.Setting_screen;
 
 
 public class MainView extends JFrame {
@@ -20,6 +20,7 @@ public class MainView extends JFrame {
     final private Login_screen login_screen;
     final private Games_screen games_screen;
     final private Menu_screen main_screen;
+    final private Setting_screen settings_screen;
     final private JPanel MainPanel, enter;
     public MainView() {
         this.setTitle("LLS Games");
@@ -33,18 +34,20 @@ public class MainView extends JFrame {
         login_screen = new Login_screen();
         main_screen = new Menu_screen();
         games_screen = new Games_screen();
+        settings_screen = new Setting_screen();
         MainPanel = new JPanel(animation);
         MainPanel.add(enter, "Enter");
         MainPanel.add(login_screen, "sLogin");
-        MainPanel.add(main_screen, "sMain");
+        MainPanel.add(main_screen, "sHome");
         MainPanel.add(games_screen, "sGames");
+        MainPanel.add(settings_screen, "sSettings");
         this.add(MainPanel);
         this.setVisible(true);
 
         Timer timer1 = new Timer(2200, e -> {
             this.showScreen("sLogin");
             // After 2 seconds, show the main screen
-            Timer timer2 = new Timer(2200, e2 -> this.showScreen("sMain"));
+            Timer timer2 = new Timer(2200, e2 -> this.showScreen("sHome"));
             timer2.setRepeats(false);
             timer2.start();
         });
@@ -60,6 +63,10 @@ public class MainView extends JFrame {
 
     public Games_screen getGamesScreen() {
         return games_screen;
+    }
+
+    public Setting_screen getSettingsScreen() {
+        return settings_screen;
     }
 }
 

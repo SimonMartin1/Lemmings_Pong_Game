@@ -63,11 +63,16 @@ public class MainController {
         view.getGamesScreen().getHome_Button().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-            view.showScreen("sMain");
+            view.showScreen("sHome");
             }
         });
 
-
+        view.getGamesScreen().getSettings_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+            view.showScreen("sSettings");
+            }
+        });
 
         view.getGamesScreen().getgame(0).addMouseListener(new MouseAdapter() {
             @Override
@@ -113,6 +118,30 @@ public class MainController {
         }
 });
 
+        //Settinngs screen
+
+        view.getSettingsScreen().getHome_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+            view.showScreen("sHome");
+            }
+        });
+
+        view.getSettingsScreen().getGames_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("sGames");
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+            
+                }
+        });
+        
     }
 
 }
