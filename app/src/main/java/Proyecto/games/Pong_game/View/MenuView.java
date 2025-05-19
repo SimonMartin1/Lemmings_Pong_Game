@@ -4,11 +4,11 @@ import javax.swing.JPanel;
 
 import Proyecto.games.Common_files.GamesMenu;
 
-public class Menu_Screen extends JPanel implements GamesMenu {
+public class MenuView extends JPanel implements GamesMenu {
     private boolean twoPlayers;
     private boolean difficulty;
     
-    public Menu_Screen() {
+    public MenuView() {
         this.twoPlayers = false;
         this.difficulty = false;
     }
