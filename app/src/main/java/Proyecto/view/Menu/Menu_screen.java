@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -26,9 +27,9 @@ public class Menu_screen extends JPanel {
         settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
 
 
-        home_Button.setPreferredSize(new java.awt.Dimension(25, 25));
-        games_Button.setPreferredSize(new java.awt.Dimension(25, 25));
-        settings_Button.setPreferredSize(new java.awt.Dimension(25, 25));
+        home_Button.setPreferredSize(new Dimension(25, 25));
+        games_Button.setPreferredSize(new Dimension(25, 25));
+        settings_Button.setPreferredSize(new Dimension(25, 25));
 
         home_Panel.add(home_Button);
         home_Panel.setOpaque(false);
@@ -37,7 +38,7 @@ public class Menu_screen extends JPanel {
         settings_Panel.add(settings_Button);
         settings_Panel.setOpaque(false);
 
-        GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        GridBagConstraints gbc = new GridBagConstraints();
         
         gbc.gridx = 0;
         gbc.fill = GridBagConstraints.NONE;
@@ -70,7 +71,7 @@ public class Menu_screen extends JPanel {
 
         
     }
-    public JPanel getConfig_Button() {
+    public JPanel getSettings_Button() {
         return settings_Button;
     }
     public JPanel getGames_Button() {

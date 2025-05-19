@@ -57,9 +57,7 @@ public class MainView extends JFrame {
     public Menu_screen getMenuScreen() {
         return main_screen;
     }
-    public Menu_screen getMainScreen() {
-        return main_screen;
-    }
+
     public Games_screen getGamesScreen() {
         return games_screen;
     }

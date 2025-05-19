@@ -20,18 +20,17 @@ import Proyecto.view.Menu.Buttons.settings_Button;
 
 
 public class Games_screen extends JPanel {
-    final private JPanel games_Panel, hide,top_Panel, title_Panel,home_Panel,game_Panel,setting_Panel,nav_Panel;
+    final private JPanel games_Panel, hide,title_Panel,home_Panel,game_Panel,setting_Panel,nav_Panel;
     final private JPanel home_Button,game_Button,setting_Button;
     final private JLabel title;
     final private ArrayList<Game> games_Set;
 
     public Games_screen() {
 
-        top_Panel = new JPanel();
         home_Panel = new JPanel();
         game_Panel = new JPanel();
         setting_Panel = new JPanel();
-        nav_Panel = new JPanel();
+        nav_Panel = new JPanel(new GridBagLayout());
         title_Panel = new JPanel();
         title = new JLabel("<html><h2 style='color: white;'>Your Games</h2></html>");
         

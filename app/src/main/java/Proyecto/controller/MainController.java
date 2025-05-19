@@ -14,7 +14,7 @@ import Proyecto.view.MainView;
 
 
 
-public class MainController implements ActionListener {
+public class MainController {
     final private MainModel model;
     final private MainView view;
 
@@ -26,7 +26,46 @@ public class MainController implements ActionListener {
 
     public void initController() {
         
-        
+        //Menu screen
+        view.getMenuScreen().getGames_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("sGames");
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+            
+                }
+        });
+
+        view.getMenuScreen().getSettings_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("sSettings");
+            }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+            
+                }
+        });
+
+
+        // Games screen
+
+        view.getGamesScreen().getHome_Button().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+            view.showScreen("sMain");
+            }
+        });
 
 
 
@@ -76,13 +115,4 @@ public class MainController implements ActionListener {
 
     }
 
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Handle button clicks and other actions here
-        if(e.getSource() == view.getMainScreen().games_Button){
-            view.showScreen("sGames");
-            // Handle settings button action
-        } 
-    }
 }
