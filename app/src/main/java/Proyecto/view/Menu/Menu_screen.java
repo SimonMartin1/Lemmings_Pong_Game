@@ -3,21 +3,21 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import Proyecto.games.Lemmings_game.view.config_screen;
-
+import Proyecto.view.Menu.Buttons.game_Button;
+import Proyecto.view.Menu.Buttons.home_Button;
+import Proyecto.view.Menu.Buttons.settings_Button;
 
 public class Menu_screen extends JPanel {
-    final private JPanel main_Panel, games_Panel, settings_Button1;
-    final public JButton games_Button, config_Button;
+    final private JPanel main_Panel, games_Panel;
+    final public JPanel home_Button,games_Button, settings_Button;
     public Menu_screen() {
         main_Panel = new JPanel(new GridBagLayout());
         games_Panel = new JPanel();
-        settings_Button1 = new config_screen();
-        games_Button = new game_Button();
-        config_Button = new JButton("Configuration");
+        home_Button = new home_Button("app\\src\\main\\resources\\images\\home_white.png");
+        games_Button = new game_Button("app\\src\\main\\resources\\images\\games.png");
+        settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
 
         this.setLayout(new BorderLayout());
         this.add(main_Panel, BorderLayout.WEST);
@@ -26,10 +26,10 @@ public class Menu_screen extends JPanel {
 
         
     }
-    public JButton getConfig_Button() {
-        return config_Button;
+    public JPanel getConfig_Button() {
+        return settings_Button;
     }
-    public JButton getGames_Button() {
+    public JPanel getGames_Button() {
         return games_Button;
     }
 }

@@ -1,16 +1,18 @@
 package Proyecto.view.Menu.Game_screen;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.MatteBorder;
+
+import Proyecto.view.Menu.Buttons.game_Button;
+import Proyecto.view.Menu.Buttons.home_Button;
+import Proyecto.view.Menu.Buttons.settings_Button;
 
 
 public class Games_screen extends JPanel {
@@ -29,9 +31,9 @@ public class Games_screen extends JPanel {
         title_Panel = new JPanel();
         title = new JLabel("<html><h2 style='color: white;'>Your Games</h2></html>");
         
-        home_Button = new home_Button();
-        game_Button = new game_Button();
-        setting_Button = new setting_Button();
+        home_Button = new home_Button("app\\src\\main\\resources\\images\\home.png");
+        game_Button = new game_Button("app\\src\\main\\resources\\images\\games_white.png");
+        setting_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
 
         nav_Panel.setLayout(new FlowLayout());
         nav_Panel.add(home_Panel);
@@ -91,42 +93,4 @@ public class Games_screen extends JPanel {
         public JPanel getSettings_Button(){
             return setting_Button;
         }
-}
-class home_Button extends JPanel{
-    final private Image background;
-    public home_Button(){
-        background = new ImageIcon("app\\src\\main\\resources\\images\\home.png").getImage();
-        this.setOpaque(false); 
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-    }
-}
-
-class game_Button extends JPanel{
-    final private Image background;
-    public game_Button(){
-        background = new ImageIcon("app\\src\\main\\resources\\images\\games_white.png").getImage();
-        this.setOpaque(false); 
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-    }
-}
-
-class setting_Button extends JPanel{
-    final private Image background;
-    public setting_Button(){
-        background = new ImageIcon("app\\src\\main\\resources\\images\\settings.png").getImage();
-        this.setOpaque(false); 
-    }
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(background, 0, 0, getWidth(), getHeight(), this);
-    }
 }
