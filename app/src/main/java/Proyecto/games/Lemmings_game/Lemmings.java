@@ -28,9 +28,10 @@ private LemmingsView view;
     @Override
     public void gameStartup() {
         // start the game, view receives the instance of the game
+        System.out.println("Inico componentes");
         LemmingsModel model = new LemmingsModel();
         this.view = new LemmingsView(this);
-        LemmingsController controller = new LemmingsController(model, view);
+        LemmingsController controller = new LemmingsController(model, view,this);
     }
 
     @Override

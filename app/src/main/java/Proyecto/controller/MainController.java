@@ -1,7 +1,6 @@
 package Proyecto.controller;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -81,7 +80,6 @@ public class MainController {
                 
                 if(model.getRuntimegame() == null){
                 model.runGame(0);
-                view.setVisible(false);
                 }
             }
             @Override
@@ -99,7 +97,6 @@ public class MainController {
             public void mouseClicked(MouseEvent evt) {
                 if(model.getRuntimegame() == null){
                     model.runGame(1);
-                    view.setVisible(false);
                 }
             }
             @Override
