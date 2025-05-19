@@ -5,19 +5,23 @@ import Proyecto.games.Pong_game.Pong;
 
 
 public class MainModel {
-private Object runtimegame=null;
+private Object runtimegame;
+private Lemmings lgame;
+private Pong pgame;
+
     public MainModel(){
-        
+        runtimegame=null;
+        lgame=null;
+        pgame=null;
     }
-    public Object runGame(int i){
-        Object game=null;
+    public void runGame(int i){
         switch (i) {
             case 0:
                 if(runtimegame==null){
                 Lemmings lemmings = new Lemmings("Lemmings", 1200, 800);
                 lemmings.run(1.0 / 60.0);
                 runtimegame = lemmings;
-                game= lemmings;
+                lgame = lemmings;
                 }
                 break;
             case 1:
@@ -25,15 +29,20 @@ private Object runtimegame=null;
                 Pong pong = new Pong("Pong", 1200, 800);
                 pong.run(1.0 / 60.0);
                 runtimegame = pong;
-                game= pong;
+                pgame = pong;
                 }
                 break;
         }
-        return game;
     }
 
     public Object getRuntimegame() {
         return runtimegame;
+    }
+    public Lemmings getLgame() {
+        return lgame;
+    }
+    public Pong getPgame() {
+        return pgame;
     }
 }
 

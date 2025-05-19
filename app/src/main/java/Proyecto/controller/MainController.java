@@ -1,9 +1,17 @@
 package Proyecto.controller;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+
+import javax.swing.border.LineBorder;
 
 import Proyecto.model.MainModel;
 import Proyecto.view.MainView;
+
+
 
 
 public class MainController implements ActionListener {
@@ -17,32 +25,90 @@ public class MainController implements ActionListener {
     }
 
     public void initController() {
+        
         view.getMainScreen().games_Button.addActionListener(this);
         view.getMainScreen().config_Button.addActionListener(this);
-
-        view.getGamesScreen().getgame(0).addMouseListener(new java.awt.event.MouseAdapter() {
+        
+        view.getGamesScreen().getBack_Panel().addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("sMain");
+            }
+        });
+
+        view.getMainScreen().getGames_Button().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.getMainScreen().getGames_Button().setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.getMainScreen().getGames_Button().setForeground(Color.BLACK);
+            }
+        });
+
+        view.getMainScreen().getConfig_Button().setForeground(Color.BLACK);
+        view.getMainScreen().getConfig_Button().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.getMainScreen().getConfig_Button().setForeground(Color.WHITE);
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                view.getMainScreen().getConfig_Button().setForeground(Color.BLACK);
+            }
+        });
+
+        view.getGamesScreen().getgame(0).addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
                 
                 if(model.getRuntimegame() == null){
                 model.runGame(0);
+                view.setVisible(false);
                 }
                 else{
                     notifyCloseGame();
                 }
             }
-        });
-        view.getGamesScreen().getgame(1).addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.getGamesScreen().getgame(0).getImagePanel().setBorder(new LineBorder(Color.WHITE, 2));
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+            view.getGamesScreen().getgame(0).getImagePanel().setBorder(new LineBorder(new Color(0,0,0,0), 2));
+                }
+        });
+
+        view.getGamesScreen().getgame(1).addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
                 if(model.getRuntimegame() == null){
                     model.runGame(1);
+                    view.setVisible(false);
                 }
                 else{
                     notifyCloseGame();
                 }
             }
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                view.getGamesScreen().getgame(1).getImagePanel().setBorder(new LineBorder(Color.WHITE, 2));
+            }
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+            view.getGamesScreen().getgame(1).getImagePanel().setBorder(new LineBorder(new Color(0,0,0,0), 2));
+                }
         });
+
+        model.getLgame().getLemmingsView().getGameFrame().addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            view.setVisible(true);
+        }
+});
+
     }
 
     public void notifyCloseGame(){

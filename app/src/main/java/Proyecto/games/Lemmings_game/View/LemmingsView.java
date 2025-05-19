@@ -15,10 +15,14 @@ public class LemmingsView {
         this.login_Panel=game.getCanvas();
         login_Panel = new config_screen();
         Game_Frame.setSize(game.getWidth(), game.getHeight());
-        Game_Frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        Game_Frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         Game_Frame.setLocationRelativeTo(null);
         Game_Frame.add(login_Panel);
         Game_Frame.setVisible(true);
 
+    }
+
+    public JFrame getGameFrame(){
+        return Game_Frame;
     }
 }

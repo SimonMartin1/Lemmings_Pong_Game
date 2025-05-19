@@ -15,6 +15,7 @@ import Proyecto.games.Lemmings_game.view.LemmingsView;
 
 
 public class Lemmings extends JGame {
+private LemmingsView view;
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -28,7 +29,7 @@ public class Lemmings extends JGame {
     public void gameStartup() {
         // start the game, view receives the instance of the game
         LemmingsModel model = new LemmingsModel();
-        LemmingsView view = new LemmingsView(this);
+        this.view = new LemmingsView(this);
         LemmingsController controller = new LemmingsController(model, view);
     }
 
@@ -51,5 +52,8 @@ public class Lemmings extends JGame {
         // Leer propiedades del juego desde un archivo
         // Implementar la lógica para leer el archivo de propiedades
     }
-    
+
+    public LemmingsView getLemmingsView(){
+        return view;
+    }
 }

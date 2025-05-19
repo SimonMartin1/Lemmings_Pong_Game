@@ -2,8 +2,8 @@ package Proyecto.games.Pong_game;
 import java.awt.Graphics2D;
 
 import Proyecto.games.Common_files.JGame;
-import Proyecto.games.Pong_game.controller.PongController;
-import Proyecto.games.Pong_game.model.PongModel;
+import Proyecto.games.Pong_game.Controller.PongController;
+import Proyecto.games.Pong_game.Model.PongModel;
 import Proyecto.games.Pong_game.View.PongView;
 
 
@@ -34,7 +34,7 @@ public class Pong extends JGame {
     @Override
     public void gameDraw(Graphics2D g) {
         // Dibujar elementos del juego
-        //g.fillRect(0, 0, width, height);
+
         //Dibujar elementos del juego
     }
         

@@ -25,6 +25,7 @@ public class LemmingsController {
     public void endGame() {
         // Lógica para finalizar el juego
     }
+
 }
 
 

@@ -1,6 +1,7 @@
 package Proyecto.view.Menu.Game_screen;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -35,6 +36,7 @@ public class Games_screen extends JPanel {
         top_Panel.add(top_Panel2, BorderLayout.WEST);
         this.add(top_Panel, BorderLayout.NORTH);
         top_Panel2.setLayout(new FlowLayout());
+        back_Panel.setPreferredSize(new Dimension(50, 50));
         top_Panel2.add(back_Panel);
         top_Panel2.add(title_Panel);
         top_Panel2.setBackground(new Color(16, 44, 85));
@@ -58,9 +60,12 @@ public class Games_screen extends JPanel {
         return games_Set.get(i);
         }
 
-            public void closeGame(){
-                closeGameFrame close = new closeGameFrame();
-    }
+        public void closeGame(){
+        closeGameFrame close = new closeGameFrame();
+        }
+        public JPanel getBack_Panel(){
+            return back_Panel;
+        }
     }
 
 class closeGameFrame extends JFrame{
