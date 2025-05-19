@@ -6,13 +6,8 @@ import Proyecto.games.Pong_game.Pong;
 
 public class MainModel {
 private Object runtimegame;
-private Lemmings lgame;
-private Pong pgame;
-
     public MainModel(){
         runtimegame=null;
-        lgame=null;
-        pgame=null;
     }
     public void runGame(int i){
         switch (i) {
@@ -21,7 +16,6 @@ private Pong pgame;
                 Lemmings lemmings = new Lemmings("Lemmings", 1200, 800);
                 lemmings.run(1.0 / 60.0);
                 runtimegame = lemmings;
-                lgame = lemmings;
                 }
                 break;
             case 1:
@@ -29,7 +23,6 @@ private Pong pgame;
                 Pong pong = new Pong("Pong", 1200, 800);
                 pong.run(1.0 / 60.0);
                 runtimegame = pong;
-                pgame = pong;
                 }
                 break;
         }
@@ -37,12 +30,6 @@ private Pong pgame;
 
     public Object getRuntimegame() {
         return runtimegame;
-    }
-    public Lemmings getLgame() {
-        return lgame;
-    }
-    public Pong getPgame() {
-        return pgame;
     }
 }
 

@@ -31,23 +31,25 @@ public class MainView extends JFrame {
         animation = new CardLayout();
         enter = new JPanel();
         enter.setBackground(new Color(0,0,0));
+        
         login_screen = new Login_screen();
         main_screen = new Menu_screen();
-        games_screen = new Games_screen();
         settings_screen = new Setting_screen();
+        games_screen = new Games_screen();
         MainPanel = new JPanel(animation);
+        
         MainPanel.add(enter, "Enter");
-        MainPanel.add(login_screen, "sLogin");
-        MainPanel.add(main_screen, "sHome");
-        MainPanel.add(games_screen, "sGames");
-        MainPanel.add(settings_screen, "sSettings");
+        MainPanel.add(login_screen, "Login");
+        MainPanel.add(settings_screen, "Settings");
+        MainPanel.add(main_screen, "Home");
+        MainPanel.add(games_screen, "Games");
         this.add(MainPanel);
         this.setVisible(true);
 
         Timer timer1 = new Timer(2200, e -> {
-            this.showScreen("sLogin");
+            this.showScreen("Login");
             // After 2 seconds, show the main screen
-            Timer timer2 = new Timer(2200, e2 -> this.showScreen("sHome"));
+            Timer timer2 = new Timer(2200, e2 -> this.showScreen("Home"));
             timer2.setRepeats(false);
             timer2.start();
         });

@@ -23,14 +23,13 @@ public class Setting_screen extends JPanel {
     final private JPanel main_Panel,home_Panel,game_Panel, settings_Panel;
     final public JPanel home_Button,games_Button, settings_Button;
     public Setting_screen(){
-        main_Panel= new JPanel(new GridBagLayout());
+        main_Panel = new JPanel(new GridBagLayout());
         home_Panel = new JPanel();
         game_Panel = new JPanel();
         settings_Panel = new JPanel();
         home_Button = new home_Button("app\\src\\main\\resources\\images\\home.png");
         games_Button = new game_Button("app\\src\\main\\resources\\images\\games.png");
         settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings_white.png");
-
 
         home_Button.setPreferredSize(new Dimension(25, 25));
         games_Button.setPreferredSize(new Dimension(27, 25));
@@ -74,11 +73,12 @@ public class Setting_screen extends JPanel {
         this.setBackground(new Color(14, 15, 17));
 
     }
+
         public JPanel getHome_Button(){
-            return home_Button;
+            return home_Panel;
         }
 
         public JPanel getGames_Button(){
-            return games_Button;
+            return game_Panel;
         }
 }
