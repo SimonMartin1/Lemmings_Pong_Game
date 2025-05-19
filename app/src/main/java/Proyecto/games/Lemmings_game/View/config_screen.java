@@ -39,7 +39,7 @@ public class config_screen extends JPanel{
         teclas_Panel = new JPanel();
         teclas = new JLabel("<html><span style='color: white;'>Q - Sound Effects        W - Background Music     Space - Pause <br> [1-8] Habilities            E - Accelerate Game      R - Self-Destruction</span></html>");
         
-        background = new ImageIcon("app\\src\\main\\resources\\Config.jpg").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\images\\Config.jpg").getImage();
         
         this.setLayout(new BorderLayout()); 
         this.add(main_Panel, BorderLayout.CENTER); 
