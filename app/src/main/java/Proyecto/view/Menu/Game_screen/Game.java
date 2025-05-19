@@ -29,7 +29,7 @@ public class Game extends JPanel {
             this.setPreferredSize(new Dimension(150, 175));
             this.setOpaque(false);
             this.add(text_Panel,BorderLayout.SOUTH);
-            text_Panel.setBackground(new Color(8, 38, 82));
+            text_Panel.setBackground(new Color(0, 0, 0));
             text_Panel.add(name_Label);
             text_Panel.setPreferredSize(new Dimension(150, 50));
             
