@@ -26,38 +26,9 @@ public class MainController implements ActionListener {
 
     public void initController() {
         
-        view.getMainScreen().games_Button.addActionListener(this);
-        view.getMainScreen().config_Button.addActionListener(this);
         
-        view.getGamesScreen().getHome_Button().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                view.showScreen("sMain");
-            }
-        });
 
-        view.getMainScreen().getGames_Button().addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getGames_Button().setForeground(Color.WHITE);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getGames_Button().setForeground(Color.BLACK);
-            }
-        });
 
-        view.getMainScreen().getConfig_Button().setForeground(Color.BLACK);
-        view.getMainScreen().getConfig_Button().addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getConfig_Button().setForeground(Color.WHITE);
-            }
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                view.getMainScreen().getConfig_Button().setForeground(Color.BLACK);
-            }
-        });
 
         view.getGamesScreen().getgame(0).addMouseListener(new MouseAdapter() {
             @Override

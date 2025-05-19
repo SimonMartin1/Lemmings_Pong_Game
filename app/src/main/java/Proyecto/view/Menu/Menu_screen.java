@@ -1,27 +1,71 @@
 package Proyecto.view.Menu;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
+import javax.swing.Box;
 import javax.swing.JPanel;
 
 import Proyecto.view.Menu.Buttons.game_Button;
 import Proyecto.view.Menu.Buttons.home_Button;
 import Proyecto.view.Menu.Buttons.settings_Button;
 
+
 public class Menu_screen extends JPanel {
-    final private JPanel main_Panel, games_Panel;
+    final private JPanel main_Panel, home_Panel,game_Panel, settings_Panel;
     final public JPanel home_Button,games_Button, settings_Button;
     public Menu_screen() {
         main_Panel = new JPanel(new GridBagLayout());
-        games_Panel = new JPanel();
+        home_Panel = new JPanel();
+        game_Panel = new JPanel();
+        settings_Panel = new JPanel();
         home_Button = new home_Button("app\\src\\main\\resources\\images\\home_white.png");
         games_Button = new game_Button("app\\src\\main\\resources\\images\\games.png");
         settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
 
+
+        home_Button.setPreferredSize(new java.awt.Dimension(25, 25));
+        games_Button.setPreferredSize(new java.awt.Dimension(25, 25));
+        settings_Button.setPreferredSize(new java.awt.Dimension(25, 25));
+
+        home_Panel.add(home_Button);
+        home_Panel.setOpaque(false);
+        game_Panel.add(games_Button);
+        game_Panel.setOpaque(false);
+        settings_Panel.add(settings_Button);
+        settings_Panel.setOpaque(false);
+
+        GridBagConstraints gbc = new java.awt.GridBagConstraints();
+        
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.anchor = GridBagConstraints.NORTH; 
+        
+        gbc.gridy = 0;
+        gbc.insets = new Insets(60, 10, 40, 10); 
+        main_Panel.add(home_Panel, gbc);
+        
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 10, 40, 10);
+        main_Panel.add(game_Panel, gbc);
+
+        gbc.gridy = 2;
+        gbc.insets = new Insets(0, 10, 0, 10);
+        main_Panel.add(settings_Panel, gbc);
+        
+        gbc.gridy = 3;
+        gbc.weighty = 1.0;
+        gbc.weighty = 1.0;
+        gbc.fill = GridBagConstraints.VERTICAL;
+
+        main_Panel.add(Box.createVerticalGlue(), gbc);
+        main_Panel.setBackground(new Color(34, 35, 37));
+
         this.setLayout(new BorderLayout());
         this.add(main_Panel, BorderLayout.WEST);
-        this.setBackground(new Color(34, 35, 37));
+        this.setBackground(new Color(14, 15, 17));
 
 
         
@@ -33,40 +77,3 @@ public class Menu_screen extends JPanel {
         return games_Button;
     }
 }
-
-        // games_Panel.setOpaque(false);
-        // config_Panel.setOpaque(false);
-        // main_Panel.setOpaque(false);
-
-        // games_Panel.add(games_Button);
-        // config_Panel.add(config_Button);
-
-        // games_Button.setOpaque(false);
-        // games_Button.setContentAreaFilled(false);
-        // games_Button.setBorderPainted(false);
-        // games_Button.setFocusPainted(false);
-
-        // config_Button.setOpaque(false);
-        // config_Button.setContentAreaFilled(false);
-        // config_Button.setBorderPainted(false);
-        // config_Button.setFocusPainted(false);
-
-        // games_Button.setForeground(Color.BLACK);
-        
-
-        // java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
-        // gbc.gridx = 0;
-        // gbc.fill = java.awt.GridBagConstraints.NONE;
-        // gbc.anchor = java.awt.GridBagConstraints.NORTH; 
-        // gbc.insets = new java.awt.Insets(60, 0, 40, 0); 
-
-        // gbc.gridy = 0;
-        // main_Panel.add(games_Panel, gbc);
-        // gbc.gridy = 1;
-        // gbc.insets = new java.awt.Insets(0, 0, 0, 0);
-        // main_Panel.add(config_Panel, gbc);
-
-        // gbc.gridy = 2;
-        // gbc.weighty = 1.0;
-        // gbc.fill = java.awt.GridBagConstraints.VERTICAL;
-        // main_Panel.add(javax.swing.Box.createVerticalGlue(), gbc);
