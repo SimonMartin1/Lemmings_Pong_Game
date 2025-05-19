@@ -4,11 +4,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
 
 import javax.swing.border.LineBorder;
 
 import Proyecto.model.MainModel;
 import Proyecto.view.MainView;
+
+
 
 
 public class MainController implements ActionListener {
@@ -22,8 +25,16 @@ public class MainController implements ActionListener {
     }
 
     public void initController() {
+        
         view.getMainScreen().games_Button.addActionListener(this);
         view.getMainScreen().config_Button.addActionListener(this);
+        
+        view.getGamesScreen().getBack_Panel().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                view.showScreen("sMain");
+            }
+        });
 
         view.getGamesScreen().getgame(0).addMouseListener(new MouseAdapter() {
             @Override
@@ -31,6 +42,7 @@ public class MainController implements ActionListener {
                 
                 if(model.getRuntimegame() == null){
                 model.runGame(0);
+                view.setVisible(false);
                 }
                 else{
                     notifyCloseGame();
@@ -51,6 +63,7 @@ public class MainController implements ActionListener {
             public void mouseClicked(MouseEvent evt) {
                 if(model.getRuntimegame() == null){
                     model.runGame(1);
+                    view.setVisible(false);
                 }
                 else{
                     notifyCloseGame();
@@ -66,13 +79,12 @@ public class MainController implements ActionListener {
                 }
         });
 
-        view.getGamesScreen().getBack_Panel().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                view.showScreen("sMain");
-            }
-        });
-
+        model.getLgame().getLemmingsView().getGameFrame().addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosed(java.awt.event.WindowEvent e) {
+            view.setVisible(true);
+        }
+});
 
     }
 

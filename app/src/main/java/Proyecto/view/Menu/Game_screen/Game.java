@@ -32,8 +32,7 @@ public class Game extends JPanel {
             text_Panel.setBackground(new Color(8, 38, 82));
             text_Panel.add(name_Label);
             text_Panel.setPreferredSize(new Dimension(150, 50));
-            this.setBorder(new LineBorder(new Color(0,0,0,0), 2));
-            this.setOpaque(false);
+            
         }
 
         @Override
@@ -48,6 +47,7 @@ public class Game extends JPanel {
         image_Panel = new JPanel();
         image_Panel.add(image);
         image_Panel.setOpaque(false);
+        image_Panel.setBorder(new LineBorder(new Color(0,0,0,0), 2));
         this.add(image_Panel, BorderLayout.CENTER);
         this.setOpaque(false);
         cant++;
