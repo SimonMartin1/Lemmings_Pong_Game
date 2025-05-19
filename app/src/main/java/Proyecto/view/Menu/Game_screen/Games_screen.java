@@ -15,60 +15,54 @@ import javax.swing.border.MatteBorder;
 
 
 public class Games_screen extends JPanel {
-    final private JPanel games_Panel, hide,top_Panel, title_Panel,home_Panel,game_Panel,setting_Panel;
+    final private JPanel games_Panel, hide,top_Panel, title_Panel,home_Panel,game_Panel,setting_Panel,nav_Panel;
     final private JPanel home_Button,game_Button,setting_Button;
     final private JLabel title;
     final private ArrayList<Game> games_Set;
 
-    
     public Games_screen() {
-        
+
         top_Panel = new JPanel();
         home_Panel = new JPanel();
         game_Panel = new JPanel();
         setting_Panel = new JPanel();
+        nav_Panel = new JPanel();
         title_Panel = new JPanel();
         title = new JLabel("<html><h2 style='color: white;'>Your Games</h2></html>");
         
-        top_Panel.setOpaque(false);
-        top_Panel.setBackground(new Color(31, 32, 33));
-        top_Panel.setLayout(new FlowLayout());
-        top_Panel.add(home_Panel, BorderLayout.WEST);
-        top_Panel.add(game_Panel, BorderLayout.WEST);
-        top_Panel.add(setting_Panel, BorderLayout.WEST);
-        
-        this.add(top_Panel, BorderLayout.NORTH);        
         home_Button = new home_Button();
         game_Button = new game_Button();
         setting_Button = new setting_Button();
 
+        nav_Panel.setLayout(new FlowLayout());
+        nav_Panel.add(home_Panel);
+        nav_Panel.add(game_Panel);
+        nav_Panel.add(setting_Panel);
+        nav_Panel.setOpaque(false);
+        
+        top_Panel.setBackground(new Color(25, 25, 25));
+        top_Panel.setLayout(new BorderLayout());
+        top_Panel.add(nav_Panel, BorderLayout.WEST);
+
         home_Button.setPreferredSize(new Dimension(25, 25));
-        home_Panel.setBorder(new MatteBorder(0, 0, 0, 2, Color.WHITE));
+        home_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
         home_Panel.add(home_Button);
-        home_Panel.setBackground(new Color(255, 255, 255));
         home_Panel.setOpaque(false);
 
         game_Button.setPreferredSize(new Dimension(25, 25));
-        game_Panel.setBorder(new MatteBorder(0, 0, 0, 2, Color.WHITE));
+        game_Panel.setBorder(new MatteBorder(0, 0, 0, 2, new Color(35, 35, 35)));
         game_Panel.add(game_Button);
-        game_Panel.setBackground(new Color(10, 11, 12));
         game_Panel.setOpaque(false);
 
         setting_Button.setPreferredSize(new Dimension(25, 25));
-        //setting_Panel.setBorder(new MatteBorder(0, 0, 0, 2, Color.WHITE));
         setting_Panel.add(setting_Button);
-        setting_Panel.setBackground(new Color(14, 15, 17));
         setting_Panel.setOpaque(false);
-
-        this.setLayout(new BorderLayout());
-        this.setBackground(new Color(14, 15, 17));
         
         games_Panel = new JPanel();
         hide = new JPanel();
 
         hide.setOpaque(false);
         hide.add(games_Panel);
-        this.add(hide, BorderLayout.CENTER);
         
         games_Set = new ArrayList<>();
         games_Panel.setBackground(new Color(14, 15, 17));
@@ -80,6 +74,10 @@ public class Games_screen extends JPanel {
         for (Game g : games_Set) {
             games_Panel.add(g);
         }
+        this.setLayout(new BorderLayout());
+        this.setBackground(new Color(14, 15, 17));
+        this.add(top_Panel, BorderLayout.NORTH);
+        this.add(hide, BorderLayout.CENTER);
     
     }
         public Game getgame(int i) {
@@ -142,7 +140,7 @@ class game_Button extends JPanel{
 class setting_Button extends JPanel{
     final private Image background;
     public setting_Button(){
-        background = new ImageIcon("app\\src\\main\\resources\\images\\games.png").getImage();
+        background = new ImageIcon("app\\src\\main\\resources\\images\\settings.png").getImage();
         this.setOpaque(false); 
     }
     @Override
