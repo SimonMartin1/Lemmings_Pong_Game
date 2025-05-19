@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.view;
+package Proyecto.games.Pong_game.View;
 
 import javax.swing.JPanel;
 

@@ -1,7 +1,7 @@
-package Proyecto.games.Pong_game.controller;
+package Proyecto.games.Pong_game.Controller;
 
-import Proyecto.games.Pong_game.model.PongModel;
-import Proyecto.games.Pong_game.view.PongView;
+import Proyecto.games.Pong_game.Model.PongModel;
+import Proyecto.games.Pong_game.View.PongView;
 
 public class PongController {
     private PongModel model;
