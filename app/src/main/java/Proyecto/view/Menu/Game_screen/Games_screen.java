@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.MatteBorder;
 
 import Proyecto.view.Menu.Buttons.game_Button;
 import Proyecto.view.Menu.Buttons.home_Button;
@@ -105,10 +104,10 @@ public class Games_screen extends JPanel {
 
 
         public JPanel getHome_Button(){
-            return home_Button;
+            return home_Panel;
         }
 
         public JPanel getSettings_Button(){
-            return setting_Button;
+            return setting_Panel;
         }
 }
