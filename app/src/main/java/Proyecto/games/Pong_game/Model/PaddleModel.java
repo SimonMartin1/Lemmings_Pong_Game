@@ -3,7 +3,7 @@ package Proyecto.games.Pong_game.Model;
 public class PaddleModel extends Entity {
     private final int PADDLE_HEIGHT = 100;
     private final int WINDOW_HEIGHT = 600;
-    private final int MOVE_AMOUNT = 10;
+    private final int MOVE_AMOUNT = 30;
     private final int PADDING = 10;
 
 

@@ -1,5 +1,6 @@
 package Proyecto.games.Pong_game.View;
 
+import Proyecto.games.Pong_game.Controller.Paddle2Controller;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Model.PaddleModel;
 
@@ -39,7 +40,18 @@ public class GameView extends JFrame {
         paddleLeftView.setBounds(30,0,10,4000);
         layeredPane.add(paddleLeftView,JLayeredPane.PALETTE_LAYER);
         PaddleController paddleLeftController = new PaddleController(paddleLeftModel, paddleLeftView);
+
+        //paleta derecha que todavia no funciona 
+
+        PaddleModel paddleLeftModel2 = new PaddleModel(200);
+        PaddleView paddleLeftView2 = new PaddleView(paddleLeftModel2, 50);
+        paddleLeftView2.setBounds(30,0,10,4000);
+        layeredPane.add(paddleLeftView2,JLayeredPane.PALETTE_LAYER);
+        Paddle2Controller paddleLeftController2 = new Paddle2Controller(paddleLeftModel2, paddleLeftView2);
+
+
         this.addKeyListener(paddleLeftController);
+        this.addKeyListener(paddleLeftController2);
         this.setFocusable(true);
         this.setResizable(false);
 
