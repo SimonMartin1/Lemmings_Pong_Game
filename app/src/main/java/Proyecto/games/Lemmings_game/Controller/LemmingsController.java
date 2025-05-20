@@ -39,7 +39,6 @@ public class LemmingsController {
     view.getGameFrame().addWindowListener(new WindowAdapter() {
                 @Override
     public void windowClosing(WindowEvent e) {
-        System.out.println("Ventana cerrada por el usuario");
         game.stop();
     }
 });

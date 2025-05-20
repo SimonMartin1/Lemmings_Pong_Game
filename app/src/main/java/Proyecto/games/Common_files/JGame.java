@@ -15,7 +15,6 @@ abstract class GameLoop {
     public void run(double delta) {
         runFlag = true;
         startup();
-
         while (runFlag) {
             update(delta);
             draw();

@@ -9,44 +9,33 @@ import Proyecto.games.Lemmings_game.model.LemmingsModel;
 import Proyecto.games.Lemmings_game.view.LemmingsView;
 import java.lang.Thread;
 
+import javax.swing.SwingUtilities;
+
 public class MainModel {
 private Object runtimegame;
     public MainModel(){
         runtimegame=null;
     }
     public void runGame(int i){
-        switch (i) {
-            case 0:
-                if(runtimegame==null){
+    switch (i) {
+        case 0:
+            if(runtimegame==null){
                 Lemmings game = new Lemmings("Lemmings", 1200, 800);
-new Thread(() -> game.run(1.0/60.0)).start();
-                // Thread hilo = new ExecuteLemmings(game);
-                // hilo.start();
-                new Thread(() -> game.run(1.0/60.0)).start(); // 60 FPS
+                SwingUtilities.invokeLater(() -> {
+                    LemmingsView view = new LemmingsView(game);
+                    LemmingsModel model = new LemmingsModel();
+                    LemmingsController controller = new LemmingsController(model, view, game);
+                    controller.initController();
+                });
+                new Thread(() -> game.run(1.0/60.0)).start();
                 runtimegame = game;
-                }
-                break;
-            case 1:
-                if(runtimegame==null){
-                Pong game2 = new Pong("Pong", 1200, 800);
-                game2.run(1.0 / 60.0);
-                runtimegame = game2;
-                }
-                break;
-        }
+            }
+            break;
+        // ... otros juegos ...
     }
-
+}
     public Object getRuntimegame() {
         return runtimegame;
     }
 }
 
-class ExecuteLemmings extends Thread{
-    private Lemmings game;
-    ExecuteLemmings(Lemmings game){
-        this.game=game;
-    }
-    @Override public void run(){
-        game.run(1.0/60.0);
-    }
-}
