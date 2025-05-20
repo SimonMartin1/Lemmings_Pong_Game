@@ -6,7 +6,7 @@ import java.awt.*;
 public class BallView extends JPanel {
 
     public BallView(){
-        setOpaque(false); // ¡IMPORTANTE! Para que no tape el fondo
+        setOpaque(false);
         //dimensiones y demas
     }
 
