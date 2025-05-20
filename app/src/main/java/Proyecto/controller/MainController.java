@@ -1,11 +1,11 @@
 package Proyecto.controller;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import Proyecto.model.MainModel;
@@ -77,12 +77,10 @@ public class MainController {
 
         view.getGamesScreen().getgame(0).addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent evt) {
-                
-                if(model.getRuntimegame() == null){
-                model.runGame(0);
-                view.setVisible(false);
-                }
+            public void mouseClicked(MouseEvent evt) {     
+                SwingUtilities.invokeLater(() -> {
+                        model.runGame(0);
+                });
             }
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -97,10 +95,9 @@ public class MainController {
         view.getGamesScreen().getgame(1).addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent evt) {
-                if(model.getRuntimegame() == null){
-                    model.runGame(1);
-                    view.setVisible(false);
-                }
+                    SwingUtilities.invokeLater(() -> {
+                        model.runGame(1);
+                    });
             }
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {

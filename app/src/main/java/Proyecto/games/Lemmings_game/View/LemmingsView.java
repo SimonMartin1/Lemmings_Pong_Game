@@ -7,22 +7,21 @@ import Proyecto.games.Common_files.JGame;
 //taking in mind the game loop implementation, JGame creates a Frame and a Panel 
 //that holds the game canvas, so we can use it to create the view of the game
 
-public class LemmingsView {
-    final private JFrame Game_Frame;
-    private JPanel login_Panel;
+public class LemmingsView{
+    JPanel login_Panel;
+    private JFrame frame;
     public LemmingsView(JGame game) {
-        this.Game_Frame=game.getFrame();
-        this.login_Panel=game.getCanvas();
+        this.frame = game.getFrame();
         login_Panel = new config_screen();
-        Game_Frame.setSize(game.getWidth(), game.getHeight());
-        Game_Frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        Game_Frame.setLocationRelativeTo(null);
-        Game_Frame.add(login_Panel);
-        Game_Frame.setVisible(true);
+        game.getFrame().setSize(game.getWidth(), game.getHeight());
+        game.getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        game.getFrame().setLocationRelativeTo(null);
+        game.getFrame().add(login_Panel);
+        
 
     }
-
     public JFrame getGameFrame(){
-        return Game_Frame;
+        return frame;
     }
+
 }
