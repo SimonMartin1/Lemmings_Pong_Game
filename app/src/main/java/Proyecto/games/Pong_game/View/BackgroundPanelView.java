@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.View;
+/*package Proyecto.games.Pong_game.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -18,3 +18,4 @@ public class BackgroundPanelView extends JPanel {
         g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), null);
     }
 }
+*/
