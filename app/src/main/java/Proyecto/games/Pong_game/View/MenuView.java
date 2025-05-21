@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.View;
+/*package Proyecto.games.Pong_game.View;
 
 import javax.swing.JPanel;
 
@@ -40,3 +40,4 @@ public class MenuView extends JPanel implements GamesMenu {
     }
     
 }
+*/

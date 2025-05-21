@@ -44,8 +44,11 @@ public abstract class JGame extends GameLoop {
         this.winModeWidth = width;
         this.winModeHeight = height;
         frame = new JFrame(title);
-        canvas = new JPanel();
-        frame.add(canvas);
+        frame.setSize(width, height);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        g = (Graphics2D)frame.getGraphics();  
     }
 
     @Override
@@ -60,11 +63,7 @@ public abstract class JGame extends GameLoop {
 
     @Override
     public void draw() {
-        Graphics2D g2 = (Graphics2D) canvas.getGraphics();
-    if (g2 != null) {
-        gameDraw(g2);
-        g2.dispose();
-    }
+        gameDraw(g);
     }
 
     @Override

@@ -1,18 +1,29 @@
 package Proyecto.games.Pong_game;
-import java.awt.Graphics2D;
+import java.awt.*;
+import java.awt.event.KeyEvent;
 
-import Proyecto.games.Common_files.JGame;
-import Proyecto.games.Pong_game.Controller.PongController;
-import Proyecto.games.Pong_game.Model.PongModel;
-import Proyecto.games.Pong_game.View.PongView;
+//import Proyecto.games.Common_files.JGame;
+import Proyecto.games.Pong_game.Controller.PaddleController;
+import Proyecto.games.Pong_game.Model.BallModel;
+import Proyecto.games.Pong_game.Model.PaddleModel;
+import Proyecto.games.Pong_game.Model.ScoreManagerModel;
+import Proyecto.games.Pong_game.View.BallView;
+import Proyecto.games.Pong_game.View.PaddleView;
+import Proyecto.games.Pong_game.View.ScoreManagerView;
+import com.entropyinteractive.*;
 
 
-//Explanation of the logic:
-// 1. The Pong class extends JGame, which is a custom game loop class.
-// 2. The constructor initializes the game with a title and dimensions in JGame.
-// 3. The main method creates an instance of Pong and starts the game loop at 60 FPS and calling the own function that each game overrides.
 
 public class Pong extends JGame {
+    PaddleView paddleLeftView, paddleRightView;
+    PaddleModel paddleModel,paddleRightModel;
+    PaddleController paddleLeftController,paddleRightController;
+    BallView ballView;
+    BallModel ballModel;
+    Keyboard keyboard;
+    ScoreManagerModel scoreManagerModel;
+    ScoreManagerView scoreManagerView;
+
     public Pong(String title, int width, int height) {
         super(title, width, height);
     }
@@ -20,32 +31,61 @@ public class Pong extends JGame {
     public static void main(String[] args) {
         Pong game = new Pong("Mi Pong", 800, 600);
         game.run(1.0 / 60.0); // 60 FPS
+        System.exit(0);
     }
+
     @Override
     public void gameStartup() {
-        PongModel model = new PongModel();
-        PongView view = new PongView();
-        PongController controller = new PongController(model, view);
+        //incializacion del teclado
+        keyboard = this.getKeyboard();
+
+        //modelos
+        scoreManagerModel = new ScoreManagerModel(5);
+        paddleModel = new PaddleModel(250);
+        paddleRightModel = new PaddleModel(250);
+        ballModel = new BallModel(400,270,7,paddleModel,paddleRightModel,scoreManagerModel);
+
+        //vistas
+        scoreManagerView = new ScoreManagerView(scoreManagerModel);
+        paddleLeftView = new PaddleView(paddleModel,8,230);
+        paddleRightView = new PaddleView(paddleRightModel,770,230);
+        ballView = new BallView(330,370,20,ballModel);
+
+        //controladores
+        paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
+        paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+
+        // Forzar foco
+        getFrame().addKeyListener(keyboard);
+        getFrame().setFocusable(true);
+        getFrame().requestFocus();
+
     }
 
     @Override
     public void gameUpdate(double delta) {
+        paddleRightController.update(delta);
+        paddleLeftController.update(delta);
+        paddleModel.update(delta);
+        paddleRightModel.update(delta);
+        ballModel.update();
     }
+
     @Override
     public void gameDraw(Graphics2D g) {
-        // Dibujar elementos del juego
+        // Limpiar pantalla
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, getWidth(), getHeight());
 
-        //Dibujar elementos del juego
+        // Dibujar elementos
+        scoreManagerView.draw(g);
+        paddleRightView.draw(g);
+        paddleLeftView.draw(g);
+        ballView.draw(g);
     }
-        
-    
 
     @Override
     public void gameShutdown() {
         // Guardar datos, cerrar recursos
-    }
-
-    @Override protected void ReadPropertiesFile(){
-        
     }
 }
