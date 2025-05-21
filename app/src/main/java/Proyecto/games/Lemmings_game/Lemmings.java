@@ -19,7 +19,6 @@ private LemmingsView view;
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
-
     public static void main(String[] args) {
         Lemmings game = new Lemmings("Lemmings", 1200, 800);
         game.run(1.0 / 60.0); // 60 FPS
@@ -28,9 +27,6 @@ private LemmingsView view;
     @Override
     public void gameStartup() {
         // start the game, view receives the instance of the game
-        LemmingsModel model = new LemmingsModel();
-        this.view = new LemmingsView(this);
-        LemmingsController controller = new LemmingsController(model, view);
     }
 
     @Override
