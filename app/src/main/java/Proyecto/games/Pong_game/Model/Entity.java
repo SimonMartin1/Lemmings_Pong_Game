@@ -1,17 +1,21 @@
 package Proyecto.games.Pong_game.Model;
 
-abstract class Entity {
-    protected int dx;
-    protected int dy;
+abstract class Entity{
     protected int x;
     protected int y;
-
-    protected int getPositionX() {
+    protected int width;
+    protected int height;
+    public int getPositionX() {
         return this.x;
     }
-
-    protected int getPositionY() {
+    public int getPositionY() {
         return this.y;
     }
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+    public abstract void update(); // para moverse, chequear estado, etc.
 
 }
+
