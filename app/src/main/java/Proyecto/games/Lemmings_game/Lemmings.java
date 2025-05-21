@@ -37,7 +37,7 @@ private LemmingsView view;
     public void gameUpdate(double delta) {
         // Actualizar la lógica del juego
     }
-@Override
+    @Override
     public void gameDraw(Graphics2D g) {
         //Dibujar elementos del juego
     }

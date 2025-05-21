@@ -1,6 +1,5 @@
-package Proyecto.games.Pong_game.Controller;
+/*package Proyecto.games.Pong_game.Controller;
 
-import Proyecto.games.Pong_game.Model.PongModel;
 import Proyecto.games.Pong_game.View.PongView;
 
 public class PongController {
@@ -13,6 +12,6 @@ public class PongController {
     }
 
 }
-
+*/
 
 

@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.View;
+/*package Proyecto.games.Pong_game.View;
 
 import java.awt.CardLayout;
 
@@ -16,4 +16,4 @@ public class PongView extends JPanel {
 }
 
 
-
+*/

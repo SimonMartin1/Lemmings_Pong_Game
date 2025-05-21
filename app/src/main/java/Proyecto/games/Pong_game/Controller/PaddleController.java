@@ -2,33 +2,36 @@ package Proyecto.games.Pong_game.Controller;
 
 import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.View.PaddleView;
+import com.entropyinteractive.Keyboard;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class PaddleController implements KeyListener {
-    PaddleModel paddleModel;
-    PaddleView paddleView;
+public class PaddleController {
+    private final PaddleModel paddleModel;
+    private final Keyboard keyboard;
+    private final int upKey;
+    private final int downKey;
 
-    public PaddleController(PaddleModel paddleModel, PaddleView paddleView){
-        this.paddleView = paddleView;
+    public PaddleController(PaddleModel paddleModel, Keyboard keyboard, int upKey, int downKey) {
         this.paddleModel = paddleModel;
+        this.keyboard = keyboard;
+        this.upKey = upKey;
+        this.downKey = downKey;
     }
-    @Override
-    public void keyTyped(KeyEvent e) {
-    //no lo necesito de momento
-    }
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if(e.getKeyChar() == 'w'){
-            paddleModel.moveUp();
-        } else if (e.getKeyChar() == 's') {
-            paddleModel.moveDown();
+
+    public void update(double delta) {
+        if (keyboard.isKeyPressed(upKey)) {
+            System.out.println("Tecla ARRIBA presionada");
         }
-        paddleView.repaint();
+        if (keyboard.isKeyPressed(downKey)) {
+            System.out.println("Tecla ABAJO presionada");
+        }
+        // Actualizar estado basado en teclas presionadas
+        paddleModel.setMoveUp(keyboard.isKeyPressed(upKey));
+        paddleModel.setMoveDown(keyboard.isKeyPressed(downKey));
+        // Actualizar posición
+        //paddleModel.update(delta);
     }
-    @Override
-    public void keyReleased(KeyEvent e) {
-    //no lo necesito por ahora
-    }
+
 }

@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.Controller;
+/*package Proyecto.games.Pong_game.Controller;
 
 import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.View.PaddleView;
@@ -20,10 +20,13 @@ public class Paddle2Controller implements KeyListener {
     }
     @Override
     public void keyPressed(KeyEvent e) {
-        if(e.getKeyChar() == KeyEvent.VK_UP){
+        int keyCode = e.getKeyCode(); // Usa getKeyCode() para flechas y teclas especiales
+        if (keyCode == KeyEvent.VK_UP) { // Compara con getKeyCode()
             paddleModel.moveUp();
-        } else if (e.getKeyChar() == KeyEvent.VK_DOWN) {
+            paddleView.setBounds(760, paddleModel.getY(), 20, 90); // Ajusta X para la paleta derecha
+        } else if (keyCode == KeyEvent.VK_DOWN) {
             paddleModel.moveDown();
+            paddleView.setBounds(760, paddleModel.getY(), 20, 90);
         }
         paddleView.repaint();
     }
@@ -32,3 +35,4 @@ public class Paddle2Controller implements KeyListener {
         //no lo necesito por ahora
     }
 }
+*/

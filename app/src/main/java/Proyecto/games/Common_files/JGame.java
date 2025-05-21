@@ -51,6 +51,11 @@ public abstract class JGame extends GameLoop {
         this.winModeWidth = width;
         this.winModeHeight = height;
         frame = new JFrame(title);
+        frame.setSize(width, height);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        g = (Graphics2D)frame.getGraphics();
     }
 
     @Override
@@ -62,10 +67,9 @@ public abstract class JGame extends GameLoop {
     public void update(double delta) {
         gameUpdate(delta);
     }
-//Correct the g value 
     @Override
     public void draw() {
-        
+        gameDraw(g);
     }
 
     @Override
