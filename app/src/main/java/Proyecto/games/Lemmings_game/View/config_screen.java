@@ -1,4 +1,4 @@
-package Proyecto.games.Lemmings_game.view;
+/*package Proyecto.games.Lemmings_game.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -102,3 +102,4 @@ public class config_screen extends JPanel{
         }
     }
 
+*/

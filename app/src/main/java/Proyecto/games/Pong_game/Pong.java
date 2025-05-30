@@ -43,7 +43,7 @@ public class Pong extends JGame {
         scoreManagerModel = new ScoreManagerModel(5);
         paddleModel = new PaddleModel(250);
         paddleRightModel = new PaddleModel(250);
-        ballModel = new BallModel(400,270,7,paddleModel,paddleRightModel,scoreManagerModel);
+        ballModel = new BallModel(400,270,10,paddleModel,paddleRightModel,scoreManagerModel);
 
         //vistas
         scoreManagerView = new ScoreManagerView(scoreManagerModel);
