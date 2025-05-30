@@ -44,14 +44,12 @@ public abstract class JGame extends GameLoop {
         this.winModeWidth = width;
         this.winModeHeight = height;
         frame = new JFrame(title);
-<<<<<<< HEAD
-=======
+
         frame.setSize(width, height);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
         frame.setResizable(false);
-        g = (Graphics2D)frame.getGraphics();  
->>>>>>> 6d48f51cc15b8e6e322edcd0af117a9379d9737e
+        g = (Graphics2D)frame.getGraphics();
     }
 
     @Override
