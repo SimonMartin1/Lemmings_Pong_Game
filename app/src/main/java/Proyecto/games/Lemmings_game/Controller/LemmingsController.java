@@ -1,4 +1,4 @@
-package Proyecto.games.Lemmings_game.controller;
+/*package Proyecto.games.Lemmings_game.controller;
 import Proyecto.games.Lemmings_game.model.LemmingsModel;
 import Proyecto.games.Lemmings_game.view.LemmingsView;
 import Proyecto.games.Common_files.JGame;
@@ -110,3 +110,4 @@ public class LemmingsController {
 //         }
 //     }
 // }
+*/

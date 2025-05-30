@@ -1,4 +1,4 @@
-package Proyecto.games.Lemmings_game.view;
+/*package Proyecto.games.Lemmings_game.view;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -25,3 +25,4 @@ public class LemmingsView{
     }
 
 }
+*/
