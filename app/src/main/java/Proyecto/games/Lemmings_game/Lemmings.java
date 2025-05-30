@@ -3,8 +3,8 @@ package Proyecto.games.Lemmings_game;
 import java.awt.*;
 
 
-import Proyecto.games.Lemmings_game.Model.*;
-import Proyecto.games.Lemmings_game.View.*;
+import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
+import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
 import com.entropyinteractive.*;
 
 
@@ -24,7 +24,6 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameStartup() {
-<<<<<<< HEAD
         //modelos
         try {
             firstLevelMapModel = new FirstLevelMapModel();
@@ -33,11 +32,6 @@ public class Lemmings extends JGame {
         }
         //vistas
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
-
-
-=======
-        // start the game, view receives the instance of the game
->>>>>>> 6d48f51cc15b8e6e322edcd0af117a9379d9737e
     }
 
     @Override
