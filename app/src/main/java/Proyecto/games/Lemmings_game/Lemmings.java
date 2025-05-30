@@ -16,7 +16,6 @@ public class Lemmings extends JGame {
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
-
     public static void main(String[] args) {
         Lemmings game = new Lemmings("Lemmings", 800, 600);
         game.run(1.0 / 60.0); // 60 FPS
@@ -25,6 +24,7 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameStartup() {
+<<<<<<< HEAD
         //modelos
         try {
             firstLevelMapModel = new FirstLevelMapModel();
@@ -35,6 +35,9 @@ public class Lemmings extends JGame {
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
 
 
+=======
+        // start the game, view receives the instance of the game
+>>>>>>> 6d48f51cc15b8e6e322edcd0af117a9379d9737e
     }
 
     @Override

@@ -1,16 +1,25 @@
 /*package Proyecto.games.Lemmings_game.controller;
 import Proyecto.games.Lemmings_game.model.LemmingsModel;
 import Proyecto.games.Lemmings_game.view.LemmingsView;
+import Proyecto.games.Common_files.JGame;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 public class LemmingsController {
     // Atributos del controlador
     private LemmingsModel model;
     private LemmingsView view;
+    private JGame game;
 
     // Constructor
-    public LemmingsController(LemmingsModel model, LemmingsView view) {
+    public LemmingsController(LemmingsModel model, LemmingsView view, JGame game) {
         this.model = model;
         this.view = view;
+        this.game=game;
     }
 
     // Métodos para manejar la lógica del juego
@@ -24,6 +33,15 @@ public class LemmingsController {
 
     public void endGame() {
         // Lógica para finalizar el juego
+    }
+
+    public void initController(){
+    view.getGameFrame().addWindowListener(new WindowAdapter() {
+                @Override
+    public void windowClosing(WindowEvent e) {
+        game.stop();
+    }
+});
     }
 
 }

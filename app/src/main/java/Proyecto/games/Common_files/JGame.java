@@ -6,7 +6,7 @@ package Proyecto.games.Common_files;
 import java.awt.Graphics2D;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.JPanel;  
 
 
 abstract class GameLoop {
@@ -15,17 +15,10 @@ abstract class GameLoop {
     public void run(double delta) {
         runFlag = true;
         startup();
-
         while (runFlag) {
             update(delta);
             draw();
-            try {
-                Thread.sleep((long)(delta * 1000)); // dormir para simular FPS constantes
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
-
         shutdown();
     }
 
@@ -51,6 +44,14 @@ public abstract class JGame extends GameLoop {
         this.winModeWidth = width;
         this.winModeHeight = height;
         frame = new JFrame(title);
+<<<<<<< HEAD
+=======
+        frame.setSize(width, height);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        g = (Graphics2D)frame.getGraphics();  
+>>>>>>> 6d48f51cc15b8e6e322edcd0af117a9379d9737e
     }
 
     @Override
@@ -62,6 +63,7 @@ public abstract class JGame extends GameLoop {
     public void update(double delta) {
         gameUpdate(delta);
     }
+
     @Override
     public void draw() {
         gameDraw(g);

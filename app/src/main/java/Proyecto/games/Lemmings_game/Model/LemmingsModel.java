@@ -38,6 +38,7 @@ public class LemmingsModel {
     public void setScore(int score) {
         this.score = score;
     }
+    
 
 }
 */
