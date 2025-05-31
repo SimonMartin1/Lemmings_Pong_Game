@@ -1,4 +1,7 @@
 package Proyecto.games.Pong_game.Model;
+import Proyecto.games.Pong_game.utils.SoundPlayer;
+
+import java.net.URL;
 import java.util.Random;
 
 public class BallModel {
@@ -45,11 +48,17 @@ public class BallModel {
         this.dirX = Math.cos(angle);
         this.dirY = Math.sin(angle); // en realidad lo multiplico por el vector unitario
     }
+
     public double getPosY(){
         return posY;
     }
+
     public double getPosX(){
         return posX;
+    }
+
+    public void reproduceBounceBall(){
+        SoundPlayer.playSound("C:\\Users\\lautaro\\Desktop\\Lemmings_Pong_Game\\app\\src\\main\\java\\Proyecto\\games\\Pong_game\\resources\\bounce.wav");
     }
 
     public void update(){
@@ -62,6 +71,8 @@ public class BallModel {
 
             if (posY >= paddleY && posY <= paddleY + PADDLE_HEIGHT) {
                 dirX *= -1;
+                speed++;
+                reproduceBounceBall();
             }
         }
 
@@ -79,6 +90,8 @@ public class BallModel {
             double paddleY = paddleRightModel.getY();
             if (posY >= paddleY && posY <= paddleY + PADDLE_HEIGHT) {
                 dirX *= -1;
+                speed++;
+                reproduceBounceBall();
             }
         }
 
@@ -96,7 +109,7 @@ public class BallModel {
         this.dirY = Math.sin(angle);
         this.posX = RESET_POS_X;
         this.posY = RESET_POS_Y;
-
+        this.speed = 10;
 
     }
 }
