@@ -1,33 +1,21 @@
 package Proyecto.games.Pong_game.Model;
-
 import Proyecto.games.Pong_game.utils.SoundPlayer;
 
-import java.net.URL;
 import java.util.Random;
 
 public class BallModel {
 
-    private static final int LEFT_PADDLE_X_LIMIT = 50;
-    private static final int LEFT_GOAL_LIMIT = -100;
-    private static final int RIGHT_PADDLE_X_LIMIT = 745;
-    private static final int RIGHT_GOAL_LIMIT = 900;
-    private static final int TOP_BOUNDARY = 30;
-    private static final int BOTTOM_BOUNDARY = 570;
-    private static final int PADDLE_HEIGHT = 120;
     private static final double RESET_POS_X = 370;
     private static final double RESET_POS_Y = 330;
 
-    double posX;
-    double posY;
-    double dirX;
-    double dirY;
-    double speed;
-    double initialSpeed;
+    private double posX;
+    private double posY;
+    private double dirX;
+    private double dirY;
+    private double speed;
+    private final double initialSpeed;
 
     Random rand = new Random();
-    PaddleModel paddleLeftModel;
-    PaddleModel paddleRightModel;
-    ScoreManagerModel scoreManagerModel;
 
     double generateRandomAngle(){
         if (rand.nextBoolean()) {
@@ -37,20 +25,16 @@ public class BallModel {
         }
     }
 
-    public BallModel(double startX, double startY, double speed, PaddleModel paddleLeftModel, PaddleModel paddleRightModel,ScoreManagerModel scoreManagerModel){
+    public BallModel(double startX, double startY, double speed) {
         this.posX = startX;
         this.posY = startY;
-        this.speed = speed; // la magnitud del vector
+        this.speed = speed;
         this.initialSpeed = speed;
-        double angle;
-        this.paddleLeftModel = paddleLeftModel;
-        this.paddleRightModel = paddleRightModel;
-        this.scoreManagerModel = scoreManagerModel;
 
-        angle = generateRandomAngle();
+        double angle = generateRandomAngle();
 
         this.dirX = Math.cos(angle);
-        this.dirY = Math.sin(angle); // en realidad lo multiplico por el vector unitario
+        this.dirY = Math.sin(angle);
     }
 
     public double getPosY(){
@@ -61,62 +45,39 @@ public class BallModel {
         return posX;
     }
 
-    public void reproduceBounceBall(){
-        URL classLocation = SoundPlayer.class.getResource("SoundPlayer.class");
-        System.out.println("Ubicación de SoundPlayer.class: " + classLocation);
-
-        SoundPlayer.playSound("/app/src/main/java/Proyecto/games/Pong_game/resources/bounce.wav");
+    public void move() {
+        this.posX += this.dirX * this.speed;
+        this.posY += this.dirY * this.speed;
     }
 
-    public void update(){
-        posX += dirX * speed;
-        posY += dirY * speed;
-
-
-        if (posX <= LEFT_PADDLE_X_LIMIT ) {
-            double paddleY = paddleLeftModel.getY();
-
-            if (posY >= paddleY && posY <= paddleY + PADDLE_HEIGHT) {
-                dirX *= -1;
-                speed++;
-                reproduceBounceBall();
-            }
-        }
-
-
-        if (posX <= LEFT_GOAL_LIMIT) {
-            reset();
-            scoreManagerModel.refreshRightPoints();
-        }
-
-        if (posY >= BOTTOM_BOUNDARY || posY <= TOP_BOUNDARY){
-            dirY *= -1;
-        }
-
-        if (posX >= RIGHT_PADDLE_X_LIMIT) {
-            double paddleY = paddleRightModel.getY();
-            if (posY >= paddleY && posY <= paddleY + PADDLE_HEIGHT) {
-                dirX *= -1;
-                speed++;
-                reproduceBounceBall();
-            }
-        }
-
-        if (posX >= RIGHT_GOAL_LIMIT) {
-            reset();
-            scoreManagerModel.refreshLeftPoints();
-        }
-
+    public void reverseDirX() {
+        this.dirX *= -1;
     }
 
-    public void reset(){
+    public void reverseDirY() {
+        this.dirY *= -1;
+    }
+
+    public void increaseSpeed() {
+        this.speed += .5;
+    }
+
+    public void reset() {
         double angle = generateRandomAngle();
-
         this.dirX = Math.cos(angle);
         this.dirY = Math.sin(angle);
         this.posX = RESET_POS_X;
         this.posY = RESET_POS_Y;
-        this.speed = initialSpeed;
+        this.speed = this.initialSpeed;
+    }
 
+    public void reproduceBounceBall(){
+        SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/bounce.wav");
+    }
+
+    public void bounceOffPaddle(double paddleY, double paddleHeight) {
+        double relativeIntersectY = (this.posY - (paddleY + paddleHeight / 2.0)) / (paddleHeight / 2.0);
+        this.dirY = relativeIntersectY * 0.7;
+        this.reverseDirX();
     }
 }

@@ -8,9 +8,11 @@ public class PaddleModel {
     private boolean isMoveDown = false;
     private boolean isMoveUp = false;
     private int y;
+    private int initialY;
 
     public PaddleModel(int initialY) {
         this.y = initialY;
+        this.initialY = initialY;
     }
 
     public void setMoveDown(boolean isMoveDown){
@@ -38,7 +40,14 @@ public class PaddleModel {
             }
         }
     }
+
     public int getY() {
         return y;
+    }
+
+    public void reset(){
+        this.y = initialY;
+        this.isMoveUp = false;
+        this.isMoveDown = false;
     }
 }
