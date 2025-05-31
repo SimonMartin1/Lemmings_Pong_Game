@@ -1,10 +1,10 @@
 package Proyecto.view.Menu;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.Dimension;
 
 import javax.swing.Box;
 import javax.swing.JPanel;
@@ -72,9 +72,9 @@ public class Menu_screen extends JPanel {
         
     }
     public JPanel getSettings_Button() {
-        return settings_Button;
+        return settings_Panel;
     }
     public JPanel getGames_Button() {
-        return games_Button;
+        return game_Panel;
     }
 }
