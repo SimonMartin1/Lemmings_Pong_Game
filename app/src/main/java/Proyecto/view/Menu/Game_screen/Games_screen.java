@@ -19,19 +19,20 @@ import Proyecto.view.Menu.Buttons.settings_Button;
 
 
 public class Games_screen extends JPanel {
-    final private JPanel games_Panel, hide,title_Panel,home_Panel,game_Panel,setting_Panel,nav_Panel;
+    final private JPanel games_Panel, main_Panel,title_Panel,home_Panel,game_Panel,setting_Panel,nav_Panel;
     final private JPanel home_Button,game_Button,setting_Button;
     final private JLabel title;
     final private ArrayList<Game> games_Set;
 
     public Games_screen() {
-
+        games_Panel = new JPanel(new BorderLayout());
+        main_Panel = new JPanel();
         home_Panel = new JPanel();
         game_Panel = new JPanel();
         setting_Panel = new JPanel();
         nav_Panel = new JPanel(new GridBagLayout());
         title_Panel = new JPanel();
-        title = new JLabel("<html><h2 style='color: white;'>Your Games</h2></html>");
+        title = new JLabel("<html><h2 style='color: white;'>Library</h2></html>");
         
         home_Button = new home_Button("app\\src\\main\\resources\\images\\home.png");
         game_Button = new game_Button("app\\src\\main\\resources\\images\\games_white.png");
@@ -39,7 +40,7 @@ public class Games_screen extends JPanel {
 
         
         home_Button.setPreferredSize(new Dimension(25, 25));
-        game_Button.setPreferredSize(new Dimension(25, 25));
+        game_Button.setPreferredSize(new Dimension(27, 25));
         setting_Button.setPreferredSize(new Dimension(25, 25));
 
         home_Panel.add(home_Button);
@@ -74,14 +75,13 @@ public class Games_screen extends JPanel {
 
         nav_Panel.add(Box.createVerticalGlue(), gbc);
         nav_Panel.setBackground(new Color(34, 35, 37));
-
-
-        games_Panel = new JPanel();
-        hide = new JPanel();
-
-        hide.setOpaque(false);
-        hide.add(games_Panel);
         
+        title_Panel.add(title);
+        title_Panel.setOpaque(false);
+        main_Panel.setOpaque(false);
+        main_Panel.add(title_Panel, BorderLayout.NORTH);
+        main_Panel.add(games_Panel, BorderLayout.CENTER);
+
         games_Set = new ArrayList<>();
         games_Panel.setBackground(new Color(14, 15, 17));
         games_Panel.setLayout(new FlowLayout());
@@ -92,10 +92,11 @@ public class Games_screen extends JPanel {
         for (Game g : games_Set) {
             games_Panel.add(g);
         }
+
         this.setLayout(new BorderLayout());
         this.setBackground(new Color(14, 15, 17));
         this.add(nav_Panel, BorderLayout.WEST);
-        this.add(hide, BorderLayout.CENTER);
+        this.add(main_Panel, BorderLayout.CENTER);
     
     }
         public Game getgame(int i) {
