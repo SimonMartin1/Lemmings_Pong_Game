@@ -4,12 +4,15 @@ public class ScoreManagerModel {
     int pointsLeft = 0;
     int pointsRight =0;
     int maxPoints = 5;
+
     public ScoreManagerModel(int maxPoints){
         this.maxPoints = maxPoints;
     }
+
     public void refreshLeftPoints(){
         pointsLeft++;
     }
+
     public void refreshRightPoints(){
         pointsRight++;
     }

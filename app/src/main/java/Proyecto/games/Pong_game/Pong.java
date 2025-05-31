@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 //import Proyecto.games.Common_files.JGame;
+import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Model.BallModel;
 import Proyecto.games.Pong_game.Model.PaddleModel;
@@ -20,6 +21,7 @@ public class Pong extends JGame {
     PaddleController paddleLeftController,paddleRightController;
     BallView ballView;
     BallModel ballModel;
+    BallController ballController;
     Keyboard keyboard;
     ScoreManagerModel scoreManagerModel;
     ScoreManagerView scoreManagerView;
@@ -43,17 +45,18 @@ public class Pong extends JGame {
         scoreManagerModel = new ScoreManagerModel(5);
         paddleModel = new PaddleModel(250);
         paddleRightModel = new PaddleModel(250);
-        ballModel = new BallModel(400,270,10,paddleModel,paddleRightModel,scoreManagerModel);
+        ballModel = new BallModel(400,270,5);
 
         //vistas
         scoreManagerView = new ScoreManagerView(scoreManagerModel);
         paddleLeftView = new PaddleView(paddleModel,8,230);
-        paddleRightView = new PaddleView(paddleRightModel,770,230);
+        paddleRightView = new PaddleView(paddleRightModel,795,230);
         ballView = new BallView(330,370,20,ballModel);
 
         //controladores
         paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
         paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+        ballController = new BallController(ballModel, paddleModel, paddleRightModel, scoreManagerModel);
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
@@ -66,9 +69,11 @@ public class Pong extends JGame {
     public void gameUpdate(double delta) {
         paddleRightController.update(delta);
         paddleLeftController.update(delta);
+
         paddleModel.update(delta);
         paddleRightModel.update(delta);
-        ballModel.update();
+
+        ballController.update();
     }
 
     @Override

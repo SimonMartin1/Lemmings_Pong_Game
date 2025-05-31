@@ -21,15 +21,10 @@ public class PaddleController {
     }
 
     public void update(double delta) {
-        if (keyboard.isKeyPressed(upKey)) {
-            System.out.println("Tecla ARRIBA presionada");
-        }
-        if (keyboard.isKeyPressed(downKey)) {
-            System.out.println("Tecla ABAJO presionada");
-        }
         // Actualizar estado basado en teclas presionadas
         paddleModel.setMoveUp(keyboard.isKeyPressed(upKey));
         paddleModel.setMoveDown(keyboard.isKeyPressed(downKey));
+
         // Actualizar posición
         //paddleModel.update(delta);
     }

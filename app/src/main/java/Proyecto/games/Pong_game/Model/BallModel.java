@@ -1,76 +1,83 @@
 package Proyecto.games.Pong_game.Model;
+import Proyecto.games.Pong_game.utils.SoundPlayer;
+
 import java.util.Random;
 
 public class BallModel {
-    double posX;
-    double posY;
-    double dirX;
-    double dirY;
-    double speed;
-    Random rand = new Random();
-    PaddleModel paddleLeftModel;
-    PaddleModel paddleRightModel;
-    ScoreManagerModel scoreManagerModel;
 
-    public BallModel(double startX, double startY, double speed, PaddleModel paddleLeftModel, PaddleModel paddleRightModel,ScoreManagerModel scoreManagerModel){
+    private static final double RESET_POS_X = 370;
+    private static final double RESET_POS_Y = 330;
+
+    private double posX;
+    private double posY;
+    private double dirX;
+    private double dirY;
+    private double speed;
+    private final double initialSpeed;
+
+    Random rand = new Random();
+
+    double generateRandomAngle(){
+        if (rand.nextBoolean()) {
+            return Math.toRadians(-45 + rand.nextDouble() * 90); // de -45 a 45
+        } else {
+            return Math.toRadians(135 + rand.nextDouble() * 90); // de 135 a 225
+        }
+    }
+
+    public BallModel(double startX, double startY, double speed) {
         this.posX = startX;
         this.posY = startY;
-        this.speed = speed; // la magnitud del vector
-        double angle;
-        this.paddleLeftModel = paddleLeftModel;
-        this.paddleRightModel = paddleRightModel;
-        this.scoreManagerModel = scoreManagerModel;
-        if (rand.nextBoolean()) {
-            angle = Math.toRadians(-45 + rand.nextDouble() * 90); // de -45 a 45
-        } else {
-            angle = Math.toRadians(135 + rand.nextDouble() * 90); // de 135 a 225
-        }
+        this.speed = speed;
+        this.initialSpeed = speed;
+
+        double angle = generateRandomAngle();
 
         this.dirX = Math.cos(angle);
-        this.dirY = Math.sin(angle); // en realidad lo multiplico por el vector unitario
+        this.dirY = Math.sin(angle);
     }
+
     public double getPosY(){
         return posY;
     }
+
     public double getPosX(){
         return posX;
     }
 
-    public void update(){
-        posX += dirX * speed;
-        posY += dirY * speed;
-
-        if (posX <= 50) {
-            double paddleY = paddleLeftModel.getY();
-            double paddleHeight = 120;
-            if (posY >= paddleY && posY <= paddleY + paddleHeight) {
-                dirX *= -1; // rebota
-            }
-        }
-        if (posX <= -100) {
-            scoreManagerModel.refreshRightPoints();
-            reset();
-        }
-
-        if (posY>=570 || posY<=30){
-            dirY *= -1;
-        }
-
-        if (posX >= 745 ) {
-            double paddleY = paddleRightModel.getY();
-            double paddleHeight = 120;
-            if (posY >= paddleY && posY <= paddleY + paddleHeight) {
-                dirX *= -1; // rebota
-            }
-        }
-
-        if (posX >= 900) {
-            scoreManagerModel.refreshLeftPoints();
-            reset();
-        }
+    public void move() {
+        this.posX += this.dirX * this.speed;
+        this.posY += this.dirY * this.speed;
     }
-    public void reset(){
-        posX = 370;
-        posY = 330;
+
+    public void reverseDirX() {
+        this.dirX *= -1;
+    }
+
+    public void reverseDirY() {
+        this.dirY *= -1;
+    }
+
+    public void increaseSpeed() {
+        this.speed += .5;
+    }
+
+    public void reset() {
+        double angle = generateRandomAngle();
+        this.dirX = Math.cos(angle);
+        this.dirY = Math.sin(angle);
+        this.posX = RESET_POS_X;
+        this.posY = RESET_POS_Y;
+        this.speed = this.initialSpeed;
+    }
+
+    public void reproduceBounceBall(){
+        SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/bounce.wav");
+    }
+
+    public void bounceOffPaddle(double paddleY, double paddleHeight) {
+        double relativeIntersectY = (this.posY - (paddleY + paddleHeight / 2.0)) / (paddleHeight / 2.0);
+        this.dirY = relativeIntersectY * 0.7;
+        this.reverseDirX();
     }
 }
