@@ -34,9 +34,9 @@ public class Games_screen extends JPanel {
         title_Panel = new JPanel();
         title = new JLabel("<html><h2 style='color: white;'>Library</h2></html>");
         
-        home_Button = new home_Button("app\\src\\main\\resources\\images\\home.png");
+        home_Button = new home_Button("app\\src\\main\\resources\\images\\home_blue.png");
         game_Button = new game_Button("app\\src\\main\\resources\\images\\games_white.png");
-        setting_Button = new settings_Button("app\\src\\main\\resources\\images\\settings.png");
+        setting_Button = new settings_Button("app\\src\\main\\resources\\images\\settings_blue.png");
 
         
         home_Button.setPreferredSize(new Dimension(25, 25));
