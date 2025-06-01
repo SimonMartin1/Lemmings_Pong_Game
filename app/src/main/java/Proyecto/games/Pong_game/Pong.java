@@ -7,8 +7,10 @@ import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Model.BallModel;
 import Proyecto.games.Pong_game.Model.PaddleModel;
+import Proyecto.games.Pong_game.Model.Player;
 import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import Proyecto.games.Pong_game.View.BallView;
+import Proyecto.games.Pong_game.View.GameOverMenuView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
 import com.entropyinteractive.*;
@@ -25,6 +27,10 @@ public class Pong extends JGame {
     Keyboard keyboard;
     ScoreManagerModel scoreManagerModel;
     ScoreManagerView scoreManagerView;
+    GameOverMenuView gameOverMenuView;
+
+    private boolean gameOver = false;
+    private Player winner;
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -42,7 +48,7 @@ public class Pong extends JGame {
         keyboard = this.getKeyboard();
 
         //modelos
-        scoreManagerModel = new ScoreManagerModel(5);
+        scoreManagerModel = new ScoreManagerModel(1);
         paddleModel = new PaddleModel(250);
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,5);
@@ -52,6 +58,7 @@ public class Pong extends JGame {
         paddleLeftView = new PaddleView(paddleModel,8,230);
         paddleRightView = new PaddleView(paddleRightModel,795,230);
         ballView = new BallView(330,370,20,ballModel);
+        gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
 
         //controladores
         paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
@@ -67,17 +74,27 @@ public class Pong extends JGame {
 
     @Override
     public void gameUpdate(double delta) {
-        paddleRightController.update(delta);
-        paddleLeftController.update(delta);
+        if(scoreManagerModel.hasWinner()){
+            gameOver = true;
+            winner = scoreManagerModel.getWinner();
 
-        paddleModel.update(delta);
-        paddleRightModel.update(delta);
+            if(gameOverMenuView.wantsRestart(keyboard)){
+                gameReset();
+            }
+        }else{
+            paddleRightController.update(delta);
+            paddleLeftController.update(delta);
 
-        ballController.update();
+            paddleModel.update(delta);
+            paddleRightModel.update(delta);
+
+            ballController.update();
+        }
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
+
         // Limpiar pantalla
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
@@ -87,10 +104,26 @@ public class Pong extends JGame {
         paddleRightView.draw(g);
         paddleLeftView.draw(g);
         ballView.draw(g);
+
+        if(gameOver){
+            gameOverMenuView.draw(g, scoreManagerModel.getWinner());
+        }
     }
 
     @Override
     public void gameShutdown() {
         // Guardar datos, cerrar recursos
+    }
+
+    public void gameReset(){
+        //Reinciamos estados
+        gameOver = false;
+        winner = null;
+
+        // Reiniciamos modelos
+        scoreManagerModel.reset();
+        ballModel.reset();
+        paddleModel.reset();
+        paddleRightModel.reset();
     }
 }
