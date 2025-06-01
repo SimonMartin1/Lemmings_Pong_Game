@@ -3,7 +3,6 @@ package Proyecto.view.Menu;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,7 +10,6 @@ import java.awt.Insets;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
 
 import Proyecto.view.Menu.Buttons.game_Button;
 import Proyecto.view.Menu.Buttons.home_Button;
@@ -30,8 +28,8 @@ public class Setting_screen extends JPanel {
         game_Panel = new JPanel();
         settings_Panel = new JPanel();
         title_Panel = new JPanel();
-        home_Button = new home_Button("app\\src\\main\\resources\\images\\home.png");
-        games_Button = new game_Button("app\\src\\main\\resources\\images\\games.png");
+        home_Button = new home_Button("app\\src\\main\\resources\\images\\home_blue.png");
+        games_Button = new game_Button("app\\src\\main\\resources\\images\\games_blue.png");
         settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings_white.png");
         title = new JLabel("<html><h2 style='color: white;'>Settings</h2></html>");
         home_Button.setPreferredSize(new Dimension(25, 25));
