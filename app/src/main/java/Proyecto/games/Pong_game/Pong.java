@@ -152,6 +152,11 @@ public class Pong extends JGame {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
+            scoreManagerView.draw(g);
+            paddleRightView.draw(g);
+            paddleLeftView.draw(g);
+            ballView.draw(g);
+
             if (gamePause) {
                 gamePauseView.draw(g);
             }
@@ -159,14 +164,6 @@ public class Pong extends JGame {
             if (gameOver) {
                 gameOverMenuView.draw(g, scoreManagerModel.getWinner());
             }
-
-            if (!gameOver && !gamePause) {
-                scoreManagerView.draw(g);
-                paddleRightView.draw(g);
-                paddleLeftView.draw(g);
-                ballView.draw(g);
-            }
-
         }
     }
 
