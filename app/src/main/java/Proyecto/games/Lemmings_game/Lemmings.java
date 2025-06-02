@@ -40,6 +40,8 @@ public class Lemmings extends JGame {
             throw new RuntimeException(e);
         }
         //vistas
+        ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
+        this.getFrame().setIconImage(icon.getImage());
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
         
     }
