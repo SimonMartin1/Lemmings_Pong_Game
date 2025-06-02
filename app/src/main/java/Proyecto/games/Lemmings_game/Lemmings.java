@@ -95,7 +95,7 @@ public class Lemmings extends JGame {
             if (animation) {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
-                firstLevelMapView.draw(g);
+                firstLevelMapView.draw(g, 90, 0);
             }
     }
 
