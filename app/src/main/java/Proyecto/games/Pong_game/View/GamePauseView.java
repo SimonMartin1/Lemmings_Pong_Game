@@ -7,11 +7,15 @@ import com.entropyinteractive.Keyboard;
 public class GamePauseView {
     private final int width;
     private final int height;
+    private boolean wantsBackMenu = false;
+    private boolean isInPause = false;
+    private Boolean prevPausePressed = null;
 
     public GamePauseView(int width, int height) {
         this.width = width;
         this.height = height;
     }
+
     public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         g.setColor(Color.BLACK);
@@ -29,5 +33,18 @@ public class GamePauseView {
     
     public boolean wantsBackMenu(Keyboard keyboard) {
         return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
+    }
+
+    public boolean pauseGame(Keyboard keyboard) {
+        boolean currentPressed = keyboard.isKeyPressed(KeyEvent.VK_P);
+
+        if (prevPausePressed == null) {
+            prevPausePressed = currentPressed;
+            return false;
+        }
+
+        boolean justPressed = currentPressed && !prevPausePressed;
+        prevPausePressed = currentPressed;
+        return justPressed;
     }
 }
