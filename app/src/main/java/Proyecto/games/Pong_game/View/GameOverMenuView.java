@@ -1,0 +1,38 @@
+package Proyecto.games.Pong_game.View;
+
+import Proyecto.games.Pong_game.Model.Player;
+import com.entropyinteractive.Keyboard;
+
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
+public class GameOverMenuView {
+
+    private int width;
+    private int height;
+
+    public GameOverMenuView(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public void draw(Graphics2D g, Player winner) {
+
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
+
+        // Volver a opaco para dibujar el texto
+        g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 36));
+        g.drawString(winner + " player wins!", width / 2 - 150, height / 2 - 160);
+
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+        g.drawString("Press ENTER to play again", width / 2 - 130, height / 2 - 120);
+    }
+
+    public boolean wantsRestart(Keyboard keyboard) {
+        return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
+    }
+}
