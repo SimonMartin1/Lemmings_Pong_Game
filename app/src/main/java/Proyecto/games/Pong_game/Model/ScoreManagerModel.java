@@ -4,6 +4,7 @@ public class ScoreManagerModel {
     int pointsLeft = 0;
     int pointsRight =0;
     int maxPoints = 5;
+    boolean paused = false;
     Player winner;
 
     public ScoreManagerModel(int maxPoints){
@@ -11,15 +12,19 @@ public class ScoreManagerModel {
     }
 
     public void refreshLeftPoints(){
+        if(!paused){
         pointsLeft++;
 
         if(pointsLeft == maxPoints) winner = Player.LEFT;
+        }
     }
 
     public void refreshRightPoints(){
+        if(!paused){
         pointsRight++;
 
         if(pointsRight == maxPoints) winner = Player.RIGHT;
+        }
     }
 
     public int getPointsLeft() {
@@ -37,6 +42,9 @@ public class ScoreManagerModel {
         this.pointsLeft = 0;
         this.pointsRight = 0;
         this.winner = null;
+    }
+    public void pause() {
+        this.paused = !this.paused;
     }
 
     public boolean hasWinner(){ return winner != null; }
