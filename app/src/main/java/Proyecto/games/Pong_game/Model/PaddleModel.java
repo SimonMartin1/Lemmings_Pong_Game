@@ -8,6 +8,7 @@ public class PaddleModel {
     private boolean isMoveDown = false;
     private boolean isMoveUp = false;
     private int y;
+    private boolean paused = false;
     private int initialY;
 
     public PaddleModel(int initialY) {
@@ -25,6 +26,7 @@ public class PaddleModel {
 
 
     public void update(double delta){
+    if(!paused){
         if(isMoveUp){
             if(y>=40){
                 y-= MOVE_AMOUNT*delta;
@@ -40,6 +42,7 @@ public class PaddleModel {
             }
         }
     }
+    }
 
     public int getY() {
         return y;
@@ -49,5 +52,9 @@ public class PaddleModel {
         this.y = initialY;
         this.isMoveUp = false;
         this.isMoveDown = false;
+    }
+
+    public void pause() {
+        this.paused = !this.paused;
     }
 }
