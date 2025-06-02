@@ -1,10 +1,14 @@
 package Proyecto.games.Pong_game;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
-//import Proyecto.games.Common_files.JGame;
+import com.entropyinteractive.JGame;
+import com.entropyinteractive.Keyboard;
+
 import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Model.BallModel;
@@ -12,10 +16,10 @@ import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.Model.Player;
 import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import Proyecto.games.Pong_game.View.BallView;
+import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
-import com.entropyinteractive.*;
 
 
 
@@ -30,6 +34,7 @@ public class Pong extends JGame {
     ScoreManagerModel scoreManagerModel;
     ScoreManagerView scoreManagerView;
     GameOverMenuView gameOverMenuView;
+    GameMenuView gameMenu;
     private boolean animation=false,gameOver = false;
     private Player winner;
     private double blinkTime = 0;
@@ -65,6 +70,7 @@ public class Pong extends JGame {
         paddleRightView = new PaddleView(paddleRightModel,795,230);
         ballView = new BallView(330,370,20,ballModel);
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
+        gameMenu = new GameMenuView(getWidth(), getHeight());
 
         //controladores
         paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
@@ -112,7 +118,7 @@ public class Pong extends JGame {
             if(gameOverMenuView.wantsBackMenu(keyboard)){
                 animation = false;
                 gameReset();
-                drawmenu();
+                gameMenu.drawmenu(g);
             }
 
         }
@@ -130,8 +136,13 @@ public class Pong extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-        this.g=g;
-        drawmenu();
+        this.g = g;
+        gameMenu.drawmenu(g);
+        if (!animation && showPressText) {
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial", Font.BOLD, 24));
+                g.drawString("Click or Enter", getWidth()/2 - 71, 450);
+        }
         if(animation){        // Limpiar pantalla
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, getWidth(), getHeight());
@@ -148,21 +159,6 @@ public class Pong extends JGame {
     }
     }
 
-    public void drawmenu(){
-        Image background = new ImageIcon("app\\src\\main\\resources\\images\\Pong_back.jpg").getImage();
-        g.drawImage(background, 215, 15, getWidth()/2-20, getHeight()/2,null);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.drawString("Play Game!", getWidth()/2 - 60, 370);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 28));
-        g.drawString("Settings", getWidth()-250 , 500);
-        if (!animation && showPressText) {
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 24));
-                g.drawString("Click or Enter", getWidth()/2 - 71, 450);
-            }
-    }
     @Override
     public void gameShutdown() {
         // Guardar datos, cerrar recursos
