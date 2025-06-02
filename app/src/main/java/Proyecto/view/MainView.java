@@ -27,8 +27,8 @@ public class MainView extends JFrame {
         this.setSize(1200, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-
-         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Icon.png"); 
+        this.setResizable(false);
+        ImageIcon icon = new ImageIcon("app/src/main/resources/images/Icon.png"); 
         this.setIconImage(icon.getImage());
 
         animation = new CardLayout();

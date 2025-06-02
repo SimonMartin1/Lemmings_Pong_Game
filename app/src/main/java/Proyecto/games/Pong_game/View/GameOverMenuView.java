@@ -29,10 +29,13 @@ public class GameOverMenuView {
         g.drawString(winner + " player wins!", width / 2 - 150, height / 2 - 160);
 
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Press ENTER to play again", width / 2 - 130, height / 2 - 120);
+        g.drawString("Press ENTER play again - ESC back to Menu", width / 2 - 210, height / 2 - 120);
     }
 
     public boolean wantsRestart(Keyboard keyboard) {
         return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
+    }
+    public boolean wantsBackMenu(Keyboard keyboard) {
+        return keyboard.isKeyPressed(KeyEvent.VK_ESCAPE);
     }
 }
