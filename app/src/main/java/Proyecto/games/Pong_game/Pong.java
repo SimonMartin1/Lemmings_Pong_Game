@@ -37,7 +37,7 @@ public class Pong extends JGame {
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
-    private boolean animation=false,gamePause=false,gameOver = false,exit = false;
+    private boolean isInMenu = true, gamePause = false, gameOver = false, exit = false;
     private Player winner;
     private double blinkTime = 0;
     private boolean showPressText = true;
@@ -59,7 +59,7 @@ public class Pong extends JGame {
         keyboard = this.getKeyboard();
 
         //modelos
-        scoreManagerModel = new ScoreManagerModel(1);
+        scoreManagerModel = new ScoreManagerModel(2);
         paddleModel = new PaddleModel(250);
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,5);
@@ -96,86 +96,59 @@ public class Pong extends JGame {
 
     @Override
     public void gameUpdate(double delta) {
-        if (!animation) {
-            
-            if (getMouse().isLeftButtonPressed()) {
-                int mx = getMouse().getX();
-                int my = getMouse().getY();
-                int bx = getWidth()/2 - 100, by = 300, bw = 200, bh = 60;
-                if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
-                    animation = true;
-                }
-            }
-            if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER) && !animation) {
-                animation = true;
-            }
-            
-            blinkTime += delta;
-            if (blinkTime >= 0.6) { 
-                showPressText = !showPressText;
-                blinkTime = 0;
-            }
-        }
-        if(animation){
-        if (getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE) && !gameOver) {
-            if (escapePressed) {
-                gamePause = !gamePause;
-                gamePause();
-                escapePressed = false;
-                
-            }
 
+        if(isInMenu){
+            gameMenu.update(delta);
 
-        }else {
-            escapePressed = true;
-        }
-
-        if (gamePause && gamePauseView.wantsBackMenu(keyboard)) {
-            animation = false;
-            exit=true;
-            gameReset();
-    }
-
-        if(!gameOver && !gamePause){
-            if(!exit){
-            if(scoreManagerModel.hasWinner()){
-                gameOver = true;
-                winner = scoreManagerModel.getWinner();
-
-            if(gameOverMenuView.wantsRestart(keyboard)){
-                gameReset();
-            }
-            
-            if(gameOverMenuView.wantsBackMenu(keyboard)){
-                animation = false;
-            }
-
+            if(gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())){ isInMenu = false; }
         }
         else{
-            paddleRightController.update(delta);
-            paddleLeftController.update(delta);
 
-            paddleModel.update(delta);
-            paddleRightModel.update(delta);
+            if(gamePauseView.pauseGame(keyboard)){  gamePause = !gamePause; }
 
-            ballController.update();
+            if(gamePause){
+
+                if(gamePauseView.wantsBackMenu(keyboard)){
+                    gameReset();
+                    isInMenu = true;
+                    gamePause = false;
+                }
+
+            }
+            else{
+
+                if(scoreManagerModel.hasWinner()){
+                    gameOver = true;
+                    winner = scoreManagerModel.getWinner();
+
+                    if(gameOverMenuView.wantsRestart(keyboard)){ gameReset(); }
+
+                    if(gameOverMenuView.wantsBackMenu(keyboard)){
+                        gameReset();
+                        isInMenu = true;
+                    }
+                }
+                else{
+                    // Updates
+                    paddleRightController.update(delta);
+                    paddleLeftController.update(delta);
+
+                    paddleModel.update(delta);
+                    paddleRightModel.update(delta);
+
+                    ballController.update();
+                }
+            }
         }
-    }
-    }
-    }
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
-        if(!animation){
+
+        if(isInMenu){
             gameMenu.drawmenu(g);
         }
-        if (!animation && showPressText) {
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Arial", Font.BOLD, 24));
-            g.drawString("Click or Enter", getWidth()/2 - 71, 450);
-        }
-        if (animation) {
+        else{
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
@@ -183,22 +156,23 @@ public class Pong extends JGame {
                 gamePauseView.draw(g);
             }
 
+            if (gameOver) {
+                gameOverMenuView.draw(g, scoreManagerModel.getWinner());
+            }
+
             if (!gameOver && !gamePause) {
                 scoreManagerView.draw(g);
                 paddleRightView.draw(g);
                 paddleLeftView.draw(g);
                 ballView.draw(g);
-
-                if (gameOver) {
-                    gameOverMenuView.draw(g, scoreManagerModel.getWinner());
-                }
             }
+
         }
     }
 
     @Override
     public void gameShutdown() {
-        if(animation && !gameOver){
+        if(isInMenu && !gameOver){
             gameReset();
         }
     }
@@ -214,10 +188,10 @@ public class Pong extends JGame {
         paddleModel.reset();
         paddleRightModel.reset();
     }
+
     public void gamePause(){
 
         scoreManagerModel.pause();
-        ballModel.pause();
         ballModel.pause();
         paddleModel.pause();
         paddleRightModel.pause();
