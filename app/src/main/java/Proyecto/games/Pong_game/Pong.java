@@ -108,6 +108,12 @@ public class Pong extends JGame {
             if(gameOverMenuView.wantsRestart(keyboard)){
                 gameReset();
             }
+            
+            if(gameOverMenuView.wantsBackMenu(keyboard)){
+                animation = false;
+                gameReset();
+                drawmenu();
+            }
 
         }
         else{
