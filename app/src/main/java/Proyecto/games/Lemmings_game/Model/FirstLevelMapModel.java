@@ -11,7 +11,7 @@ public class FirstLevelMapModel {
     private int cameraY = 0;
 
     public FirstLevelMapModel() throws Exception {
-        BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map2.png"));
+        BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map4.png"));
         int altura = fullImage.getHeight() / tileHeight;
         int ancho = fullImage.getWidth() / tileWidth;
         mapTiles = new TileModel[altura][ancho];
