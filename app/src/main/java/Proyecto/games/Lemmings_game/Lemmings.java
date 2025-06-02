@@ -12,8 +12,9 @@ import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
 import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
+import Proyecto.games.Lemmings_game.Model.LemmingModel;
+import Proyecto.games.Lemmings_game.View.LemmingView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
-
 
 public class Lemmings extends JGame {
 
@@ -24,6 +25,8 @@ public class Lemmings extends JGame {
     private boolean animation = false; 
     private double blinkTime = 0;
     private boolean showPressText = true;
+    private LemmingModel lemmingModel;
+    private LemmingView lemmingView;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -36,18 +39,22 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameStartup() {
-        
-            try {
+        //modelos
+        try {
             firstLevelMapModel = new FirstLevelMapModel();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        lemmingModel = new LemmingModel(225, 100, 1, 1);
+
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
+        lemmingView = new LemmingView(lemmingModel);
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
+        lemmingView = new LemmingView(lemmingModel);
         gameMenuView = new GameMenuView(getWidth(), getHeight());
-        
     }
 
     @Override
@@ -71,7 +78,10 @@ public class Lemmings extends JGame {
                 showPressText = !showPressText;
                 blinkTime = 0;
             }
+        }else{
+            lemmingModel.update(delta);
         }
+
     }
 
     @Override
@@ -88,8 +98,10 @@ public class Lemmings extends JGame {
             if (animation) {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
-                firstLevelMapView.draw(g, 90, 0);
+                firstLevelMapView.draw(g, 430, 0);
+                lemmingView.draw(g);
             }
+
     }
 
     @Override
