@@ -75,7 +75,7 @@ public class Menu_screen extends JPanel {
         
         main_Panel.add(title_Panel, BorderLayout.NORTH);
         main_Panel.setOpaque(false);
-        main_Panel.add(about_Panel, BorderLayout.CENTER);
+        main_Panel.add(about_Panel, BorderLayout.SOUTH);
 
         about_Panel.add(about);
         about_Panel.setOpaque(false);
