@@ -3,7 +3,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.WindowAdapter;
 import javax.swing.ImageIcon;
 
 import com.entropyinteractive.JGame;
@@ -18,6 +18,7 @@ import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
+import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
 
@@ -35,11 +36,12 @@ public class Pong extends JGame {
     ScoreManagerView scoreManagerView;
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
-    private boolean animation=false,gameOver = false;
+    GamePauseView gamePauseView;
+    private boolean animation=false,gamePause=false,gameOver = false,exit = false;
     private Player winner;
     private double blinkTime = 0;
     private boolean showPressText = true;
-    private Graphics2D g;
+    private boolean escapePressed = false;
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -71,6 +73,7 @@ public class Pong extends JGame {
         ballView = new BallView(330,370,20,ballModel);
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
         gameMenu = new GameMenuView(getWidth(), getHeight());
+        gamePauseView = new GamePauseView(getWidth(), getHeight());
 
         //controladores
         paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
@@ -81,6 +84,13 @@ public class Pong extends JGame {
         getFrame().addKeyListener(keyboard);
         getFrame().setFocusable(true);
         getFrame().requestFocus();
+        getFrame().addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            gameShutdown();
+            System.exit(0); // Opcional: cierra la aplicación completamente
+        }
+    });
 
     }
 
@@ -96,7 +106,7 @@ public class Pong extends JGame {
                     animation = true;
                 }
             }
-            if (getKeyboard().isKeyPressed(10)) {
+            if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER) && !animation) {
                 animation = true;
             }
             
@@ -107,9 +117,30 @@ public class Pong extends JGame {
             }
         }
         if(animation){
-        if(scoreManagerModel.hasWinner()){
-            gameOver = true;
-            winner = scoreManagerModel.getWinner();
+        if (getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE) && !gameOver) {
+            if (escapePressed) {
+                gamePause = !gamePause;
+                gamePause();
+                escapePressed = false;
+                
+            }
+
+
+        }else {
+            escapePressed = true;
+        }
+
+        if (gamePause && gamePauseView.wantsBackMenu(keyboard)) {
+            animation = false;
+            exit=true;
+            gameReset();
+    }
+
+        if(!gameOver && !gamePause){
+            if(!exit){
+            if(scoreManagerModel.hasWinner()){
+                gameOver = true;
+                winner = scoreManagerModel.getWinner();
 
             if(gameOverMenuView.wantsRestart(keyboard)){
                 gameReset();
@@ -117,8 +148,6 @@ public class Pong extends JGame {
             
             if(gameOverMenuView.wantsBackMenu(keyboard)){
                 animation = false;
-                gameReset();
-                gameMenu.drawmenu(g);
             }
 
         }
@@ -133,35 +162,45 @@ public class Pong extends JGame {
         }
     }
     }
+    }
+    }
 
     @Override
     public void gameDraw(Graphics2D g) {
-        this.g = g;
-        gameMenu.drawmenu(g);
+        if(!animation){
+            gameMenu.drawmenu(g);
+        }
         if (!animation && showPressText) {
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 24));
-                g.drawString("Click or Enter", getWidth()/2 - 71, 450);
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 24));
+            g.drawString("Click or Enter", getWidth()/2 - 71, 450);
         }
-        if(animation){        // Limpiar pantalla
-        g.setColor(Color.BLACK);
-        g.fillRect(0, 0, getWidth(), getHeight());
+        if (animation) {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
 
-        // Dibujar elementos
-        scoreManagerView.draw(g);
-        paddleRightView.draw(g);
-        paddleLeftView.draw(g);
-        ballView.draw(g);
+            if (gamePause) {
+                gamePauseView.draw(g);
+            }
 
-        if(gameOver){
-            gameOverMenuView.draw(g, scoreManagerModel.getWinner());
+            if (!gameOver && !gamePause) {
+                scoreManagerView.draw(g);
+                paddleRightView.draw(g);
+                paddleLeftView.draw(g);
+                ballView.draw(g);
+
+                if (gameOver) {
+                    gameOverMenuView.draw(g, scoreManagerModel.getWinner());
+                }
+            }
         }
-    }
     }
 
     @Override
     public void gameShutdown() {
-        // Guardar datos, cerrar recursos
+        if(animation && !gameOver){
+            gameReset();
+        }
     }
 
     public void gameReset(){
@@ -174,5 +213,14 @@ public class Pong extends JGame {
         ballModel.reset();
         paddleModel.reset();
         paddleRightModel.reset();
+    }
+    public void gamePause(){
+
+        scoreManagerModel.pause();
+        ballModel.pause();
+        ballModel.pause();
+        paddleModel.pause();
+        paddleRightModel.pause();
+        
     }
 }
