@@ -1,10 +1,9 @@
 package Proyecto.model;
 
+import javax.swing.SwingUtilities;
+
 import Proyecto.games.Lemmings_game.Lemmings;
 import Proyecto.games.Pong_game.Pong;
-import java.lang.Thread;
-
-import javax.swing.SwingUtilities;
 
 public class MainModel {
 private Object runtimegame;
@@ -17,8 +16,8 @@ private Object runtimegame;
         Lemmings game = new Lemmings("Lemmings", 800, 600);
             if(runtimegame==null){
                 SwingUtilities.invokeLater(() -> {
-                    new Thread(() -> game.run(1.0/60.0)).start();
-                    runtimegame = game;
+                        new Thread(() -> game.run(1.0/60.0)).start();
+                        runtimegame = game;
                 });
                 
             }
