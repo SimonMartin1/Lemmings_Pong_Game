@@ -12,18 +12,26 @@ public class FirstLevelMapView extends JPanel {
         this.model = model;
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int camX, int camY) {
         int tileWidth = model.getTileWidth();
         int tileHeight = model.getTileHeight();
         TileModel[][] tiles = model.getMapTiles();
-
-        for (int y = 0; y < tiles.length; y++) {
-            for (int x = 0; x < tiles[0].length; x++) {
+    
+        int startX = camX / tileWidth;
+        int startY = camY / tileHeight;
+        int endX = (camX + 800) / tileWidth + 1;  // Suponiendo que tu pantalla mide 800x600
+        int endY = (camY + 600) / tileHeight + 1;
+    
+        for (int y = startY; y < endY && y < tiles.length; y++) {
+            for (int x = startX; x < endX && x < tiles[0].length; x++) {
                 TileModel tile = tiles[y][x];
                 if (tile != null && tile.getImage() != null) {
-                    g.drawImage(tile.getImage(), x * tileWidth, y * tileHeight, null);
+                    int drawX = x * tileWidth - camX;
+                    int drawY = y * tileHeight - camY;
+                    g.drawImage(tile.getImage(), drawX, drawY, null);
                 }
             }
         }
     }
+    
 }
