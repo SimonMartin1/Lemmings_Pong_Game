@@ -8,8 +8,8 @@ import java.awt.event.KeyEvent;
 
 public class GameOverMenuView {
 
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
 
     public GameOverMenuView(int width, int height) {
         this.width = width;

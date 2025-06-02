@@ -14,11 +14,14 @@ import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
 import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.View.LemmingView;
+import Proyecto.games.Lemmings_game.View.GameMenuView;
 
 public class Lemmings extends JGame {
 
     private FirstLevelMapModel firstLevelMapModel;
     private FirstLevelMapView firstLevelMapView;
+    GameMenuView gameMenuView;
+    private Graphics2D g;
     private boolean animation = false; 
     private double blinkTime = 0;
     private boolean showPressText = true;
@@ -51,6 +54,7 @@ public class Lemmings extends JGame {
         lemmingView = new LemmingView(lemmingModel);
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
         lemmingView = new LemmingView(lemmingModel);
+        gameMenuView = new GameMenuView(getWidth(), getHeight());
     }
 
     @Override
@@ -82,19 +86,8 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-            Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
-            g.drawImage(background, 0, 0, getWidth(), getHeight(),null);
-            
-            Image lemmings = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_title.png").getImage();
-            g.drawImage(lemmings,getWidth()/2-290 , 125, getWidth()/2+200, 160,null);
-
-            Image lemmings_button = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_button.png").getImage();
-            g.drawImage(lemmings_button,getWidth()/2-55 , 275, 120, 120,null);
-            
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Arial", Font.BOLD, 28));
-            g.drawString("Settings", getWidth()-250 , 500);
-
+            this.g=g;
+            gameMenuView.draw(g);
 
             if (!animation && showPressText) {
                 g.setColor(Color.WHITE);

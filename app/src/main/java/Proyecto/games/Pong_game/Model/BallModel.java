@@ -13,6 +13,7 @@ public class BallModel {
     private double dirX;
     private double dirY;
     private double speed;
+    private boolean paused = false;
     private final double initialSpeed;
 
     Random rand = new Random();
@@ -46,8 +47,10 @@ public class BallModel {
     }
 
     public void move() {
+        if(!paused){
         this.posX += this.dirX * this.speed;
         this.posY += this.dirY * this.speed;
+        }
     }
 
     public void reverseDirX() {
@@ -79,5 +82,8 @@ public class BallModel {
         double relativeIntersectY = (this.posY - (paddleY + paddleHeight / 2.0)) / (paddleHeight / 2.0);
         this.dirY = relativeIntersectY * 0.7;
         this.reverseDirX();
+    }
+        public void pause() {
+        this.paused = !this.paused;
     }
 }
