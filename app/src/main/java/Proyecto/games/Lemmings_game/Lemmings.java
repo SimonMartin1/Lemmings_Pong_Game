@@ -3,7 +3,9 @@ package Proyecto.games.Lemmings_game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 import com.entropyinteractive.JGame;
@@ -68,22 +70,24 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
-
-            g.setColor(Color.WHITE);
-            g.setFont(new java.awt.Font("Arial", java.awt.Font.BOLD, 48));
-            g.drawString("LEMMINGS", getWidth()/2 - 135, 150);
+            Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
+            g.drawImage(background, 0, 0, getWidth(), getHeight(),null);
             
-            g.setColor(new Color(34, 35, 37));
-            g.fillRect(getWidth()/2 - 74, 315, 150, 40);
+            Image lemmings = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_title.png").getImage();
+            g.drawImage(lemmings,getWidth()/2-290 , 125, getWidth()/2+200, 160,null);
+
+            Image lemmings_button = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_button.png").getImage();
+            g.drawImage(lemmings_button,getWidth()/2-55 , 275, 120, 120,null);
+            
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 28));
-            g.drawString("START", getWidth()/2 - 50, 345);
-            
+            g.drawString("Settings", getWidth()-250 , 500);
+
+
             if (!animation && showPressText) {
-                g.setFont(new Font("Arial", Font.PLAIN, 24));
-                g.drawString("Click or Enter", getWidth()/2 - 71, 400);
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("Arial", Font.BOLD, 24));
+                g.drawString("Click or Enter", getWidth()/2 - 71, 420);
             }
 
             if (animation) {
@@ -92,7 +96,6 @@ public class Lemmings extends JGame {
                 firstLevelMapView.draw(g);
             }
     }
-
 
     @Override
     public void gameShutdown() {
