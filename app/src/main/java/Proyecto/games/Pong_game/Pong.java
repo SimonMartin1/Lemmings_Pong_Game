@@ -36,8 +36,8 @@ public class Pong extends JGame {
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
-    GameSettingsView gamesettingsview;
-    private boolean isInMenu = true,isInSettings=false, gamePause = false, gameOver = false;
+    GameSettingsView gameSettingsView;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false;
     private Player winner;
     private Difficult difficult = Difficult.EASY;
 
@@ -74,7 +74,7 @@ public class Pong extends JGame {
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
         gameMenu = new GameMenuView(getWidth(), getHeight());
         gamePauseView = new GamePauseView(getWidth(), getHeight());
-        gamesettingsview = new GameSettingsView(getWidth(), getHeight());
+        gameSettingsView = new GameSettingsView(getWidth(), getHeight());
 
         //controladores
         //paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
@@ -101,6 +101,8 @@ public class Pong extends JGame {
 
         if(isInMenu){
             gameMenu.update(delta);
+
+            if(gameMenu.detectSettings(getKeyboard())){ isInSettings = !isInSettings; }
             if(gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())){ isInMenu = false; }
         }
         else{
@@ -162,11 +164,13 @@ public class Pong extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-        if(isInSettings){
-            gamesettingsview.drawmenu(g);
-        }
+        
         if(isInMenu){
             gameMenu.drawmenu(g);
+
+            if(isInSettings){
+                gameSettingsView.drawmenu(g);
+            }
         }
         else{
             g.setColor(Color.BLACK);
@@ -185,6 +189,7 @@ public class Pong extends JGame {
                 gameOverMenuView.draw(g, winner);
             }
         }
+
     }
 
     @Override

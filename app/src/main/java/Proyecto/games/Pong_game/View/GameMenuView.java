@@ -17,6 +17,7 @@ public class GameMenuView {
     private double blinkTime;
     private boolean showPressText = true;
     private Boolean prevPausePressed = null;
+    private Boolean prevSettingsPressed = null;
 
 
     public GameMenuView(int width, int height) {
@@ -82,13 +83,13 @@ public class GameMenuView {
     public boolean detectSettings(Keyboard k){
         boolean currentPressed = k.isKeyPressed(KeyEvent.VK_C);
 
-        if (prevPausePressed == null) {
-            prevPausePressed = currentPressed;
+        if (prevSettingsPressed == null) {
+            prevSettingsPressed = currentPressed;
             return false;
         }
 
-        boolean justPressed = currentPressed && !prevPausePressed;
-        prevPausePressed = currentPressed;
+        boolean justPressed = currentPressed && !prevSettingsPressed;
+        prevSettingsPressed = currentPressed;
         return justPressed;
     }
 
