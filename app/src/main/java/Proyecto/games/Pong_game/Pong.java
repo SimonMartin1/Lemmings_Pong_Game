@@ -1,6 +1,5 @@
 package Proyecto.games.Pong_game;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 
