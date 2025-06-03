@@ -17,6 +17,7 @@ import Proyecto.games.Lemmings_game.View.Buttons;
 import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.View.LemmingView;
+import Proyecto.games.Lemmings_game.View.MinimapView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
 
 public class Lemmings extends JGame {
@@ -34,6 +35,7 @@ public class Lemmings extends JGame {
     Buttons buttonBuild;
     Buttons buttonStop;
     Buttons buttonFly;
+    MinimapView minimapView;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -59,6 +61,7 @@ public class Lemmings extends JGame {
         buttonStop = new Buttons("Parar",110,450,100,150);
         buttonBuild = new Buttons("Construir",210,450,100,150);
         buttonFly = new Buttons("Volar",310,450,100,150);
+        minimapView = new MinimapView(480, 480, 250, 100);
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
@@ -120,6 +123,7 @@ public class Lemmings extends JGame {
                 buttonStop.draw(g);
                 buttonBuild.draw(g);
                 buttonFly.draw(g);
+                minimapView.drawMinimap(g);
             }
 
     }
