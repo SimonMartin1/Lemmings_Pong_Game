@@ -104,12 +104,11 @@ public class Pong extends JGame {
         paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         if(twoplayers){
             paddleLeftController = new PaddleController(paddleModel);
-            ballController = new BallController(ballModel, paddleModel, paddleRightModel, scoreManagerModel);
         }
         else{
             paddleLeftController = new PaddleIAController(paddleIAModel);
-            ballController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
         }
+        ballController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
         //settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
 
         // Forzar foco
