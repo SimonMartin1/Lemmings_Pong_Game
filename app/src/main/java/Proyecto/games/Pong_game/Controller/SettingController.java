@@ -10,7 +10,13 @@ public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model,int width, int height, Mouse m) {
         
         if(view.selectDifficulty()==1 && m.isLeftButtonPressed()){
-
+            
+        }
+        if(view.selectDifficulty()==2 && m.isLeftButtonPressed()){
+            
+        }
+        if(view.selectDifficulty()==3 && m.isLeftButtonPressed()){
+            
         }
     }
 
