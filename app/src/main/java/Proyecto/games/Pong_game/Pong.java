@@ -19,6 +19,7 @@ import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
+import Proyecto.games.Pong_game.utils.SoundPlayer;
 
 
 
@@ -54,6 +55,9 @@ public class Pong extends JGame {
 
     @Override
     public void gameStartup() {
+
+        SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
+
         //incializacion del teclado
         keyboard = this.getKeyboard();
 
@@ -106,7 +110,7 @@ public class Pong extends JGame {
             if(gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())){ isInMenu = false; }
         }
         else{
-
+            
             if(gamePauseView.pauseGame(keyboard)){  gamePause = !gamePause; }
 
             if(gamePause){
@@ -173,6 +177,7 @@ public class Pong extends JGame {
             }
         }
         else{
+            
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
