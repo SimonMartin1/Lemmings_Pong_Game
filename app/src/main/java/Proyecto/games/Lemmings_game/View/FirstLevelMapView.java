@@ -7,12 +7,17 @@ import java.awt.Graphics;
 
 public class FirstLevelMapView extends JPanel {
     private FirstLevelMapModel model;
+    private int camX;
+    private int camY;
 
     public FirstLevelMapView(FirstLevelMapModel model) {
         this.model = model;
     }
 
     public void draw(Graphics g, int camX, int camY) {
+        this.camX = camX;
+        this.camY = camY;
+
         int tileWidth = model.getTileWidth();
         int tileHeight = model.getTileHeight();
         TileModel[][] tiles = model.getMapTiles();
@@ -33,5 +38,12 @@ public class FirstLevelMapView extends JPanel {
             }
         }
     }
-    
+
+    public int getCamX() {
+        return camX;
+    }
+
+    public int getCamY() {
+        return camY;
+    }
 }

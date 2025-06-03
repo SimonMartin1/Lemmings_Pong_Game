@@ -39,7 +39,7 @@ public class Pong extends JGame {
     GameSettingsView gameSettingsView;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false;
     private Player winner;
-    private Difficult difficult = Difficult.EASY;
+    private Difficult difficult = Difficult.HARD;
 
 
     public Pong(String title, int width, int height) {
@@ -62,7 +62,7 @@ public class Pong extends JGame {
         //paddleModel = new PaddleModel(250);
         paddleModel = new PaddleIAmodel(250, difficult);
         paddleRightModel = new PaddleModel(250);
-        ballModel = new BallModel(400,270,5);
+        ballModel = new BallModel(400,270,10);
 
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
