@@ -8,16 +8,18 @@ import javax.swing.ImageIcon;
 
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
-
+//import Proyecto.games.Pong_game.utils.SoundPlayer;
 import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Controller.PaddleIAController;
+import Proyecto.games.Pong_game.Controller.SettingController;
 import Proyecto.games.Pong_game.Model.BallModel;
 import Proyecto.games.Pong_game.Model.Difficult;
 import Proyecto.games.Pong_game.Model.PaddleIAmodel;
 import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.Model.Player;
 import Proyecto.games.Pong_game.Model.ScoreManagerModel;
+import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
@@ -25,7 +27,6 @@ import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
-
 
 
 public class Pong extends JGame {
@@ -42,10 +43,12 @@ public class Pong extends JGame {
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
+    SettingController settingController;
     GameSettingsView gameSettingsView;
+    SettingsModel settingsModel;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false;
     private Player winner;
-    private Difficult difficult = Difficult.HARD;
+    private Difficult difficult;
 
 
     public Pong(String title, int width, int height) {
@@ -61,18 +64,18 @@ public class Pong extends JGame {
     @Override
     public void gameStartup() {
 
-        //SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
+        //SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
 
         //incializacion del teclado
         keyboard = this.getKeyboard();
-
+        setDifficult(2); // Por defecto, dificultad fácil
         //modelos
-        scoreManagerModel = new ScoreManagerModel(2);
+        scoreManagerModel = new ScoreManagerModel();
         //paddleModel = new PaddleModel(250);
-        paddleModel = new PaddleIAmodel(250, difficult);
+        paddleModel = new PaddleIAmodel(250);
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,10);
-
+        settingsModel = new SettingsModel();
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
@@ -90,6 +93,7 @@ public class Pong extends JGame {
         paddleLeftController = new PaddleIAController(paddleModel);
         paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         ballController = new BallController(ballModel, paddleModel, paddleRightModel, scoreManagerModel);
+        settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
@@ -228,5 +232,20 @@ public class Pong extends JGame {
         paddleModel.pause();
         paddleRightModel.pause();
         
+    }
+    public void setDifficult(int difficult) {
+        switch (difficult) {
+            case 0:
+                this.difficult = Difficult.EASY;
+                break;
+            case 1:
+                this.difficult = Difficult.MEDIUM;
+                break;
+            case 2:
+                this.difficult = Difficult.HARD;
+                break;
+            default:
+                this.difficult = Difficult.EASY;
+        }
     }
 }
