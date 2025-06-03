@@ -32,6 +32,7 @@ import Proyecto.games.Pong_game.View.ScoreManagerView;
 public class Pong extends JGame {
     PaddleView paddleLeftView, paddleRightView;
     PaddleModel paddleModel,paddleRightModel;
+    PaddleIAmodel paddleIAModel;
     PaddleIAController paddleLeftController;
     PaddleController paddleRightController;
     BallView ballView;
@@ -71,8 +72,12 @@ public class Pong extends JGame {
         setDifficult(2); // Por defecto, dificultad fácil
         //modelos
         scoreManagerModel = new ScoreManagerModel();
-        //paddleModel = new PaddleModel(250);
-        paddleModel = new PaddleIAmodel(250);
+        if(twoplayers){
+            paddleModel = new PaddleModel(250);
+            }
+        else{
+            paddleIAModel = new PaddleIAmodel(250);
+        }
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,10);
         settingsModel = new SettingsModel();
@@ -80,7 +85,12 @@ public class Pong extends JGame {
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
         scoreManagerView = new ScoreManagerView(scoreManagerModel);
-        paddleLeftView = new PaddleView(paddleModel,8);
+        if(twoplayers){
+            paddleLeftView = new PaddleView(paddleModel,8);
+        }
+        else{
+            paddleLeftView = new PaddleView(paddleIAModel,8);
+        }
         paddleRightView = new PaddleView(paddleRightModel,795);
         ballView = new BallView(ballModel);
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
@@ -91,9 +101,15 @@ public class Pong extends JGame {
         //controladores
         if(twoplayers){//paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
         }
-        paddleLeftController = new PaddleIAController(paddleModel);
         paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        ballController = new BallController(ballModel, paddleModel, paddleRightModel, scoreManagerModel);
+        if(twoplayers){
+            paddleLeftController = new PaddleController(paddleModel);
+            ballController = new BallController(ballModel, paddleModel, paddleRightModel, scoreManagerModel);
+        }
+        else{
+            paddleLeftController = new PaddleIAController(paddleIAModel);
+            ballController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
+        }
         //settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
 
         // Forzar foco
@@ -151,9 +167,11 @@ public class Pong extends JGame {
 
                     if(!twoplayers){
                         updateIA(delta);
+                        paddleIAModel.update(delta);
                     }
-
-                    paddleModel.update(delta);
+                    else{
+                        paddleModel.update(delta);
+                    }
                     paddleRightModel.update(delta);
 
                     ballController.update();
@@ -208,7 +226,12 @@ public class Pong extends JGame {
         // Reiniciamos modelos
         scoreManagerModel.reset();
         ballModel.reset();
-        paddleModel.reset();
+        if(twoplayers){
+            paddleModel.reset();
+        }
+        else{
+            paddleIAModel.reset();
+        }
         paddleRightModel.reset();
     }
 
@@ -216,10 +239,16 @@ public class Pong extends JGame {
 
         scoreManagerModel.pause();
         ballModel.pause();
-        paddleModel.pause();
+                if(twoplayers){
+            paddleModel.pause();
+        }
+        else{
+            paddleIAModel.pause();
+        }
         paddleRightModel.pause();
         
     }
+    @Override public void readPropertiesFile(){}
 
     public void updateIA(double delta){
         switch (difficult){

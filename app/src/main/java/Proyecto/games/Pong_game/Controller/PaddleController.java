@@ -23,7 +23,7 @@ public class PaddleController {
         paddleModel.setMoveDown(keyboard.isKeyPressed(downKey));
 
         // Actualizar posición
-        paddleModel.update(delta);
+        //paddleModel.update(delta);
     }
 
 }
