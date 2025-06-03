@@ -6,14 +6,18 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
+import Proyecto.games.Lemmings_game.View.Buttons;
 import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.View.LemmingView;
+import Proyecto.games.Lemmings_game.View.MinimapView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
 
 public class Lemmings extends JGame {
@@ -27,6 +31,11 @@ public class Lemmings extends JGame {
     private boolean showPressText = true;
     private LemmingModel lemmingModel;
     private LemmingView lemmingView;
+    Buttons buttonDig;
+    Buttons buttonBuild;
+    Buttons buttonStop;
+    Buttons buttonFly;
+    MinimapView minimapView;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -48,6 +57,12 @@ public class Lemmings extends JGame {
 
         
         //vistas
+        buttonDig = new Buttons("Cavar", 10, 450, 100, 150);
+        buttonStop = new Buttons("Parar",110,450,100,150);
+        buttonBuild = new Buttons("Construir",210,450,100,150);
+        buttonFly = new Buttons("Volar",310,450,100,150);
+        minimapView = new MinimapView(480, 480, 250, 100);
+
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
         lemmingView = new LemmingView(lemmingModel);
@@ -104,6 +119,11 @@ public class Lemmings extends JGame {
                 g.fillRect(0, 0, getWidth(), getHeight());
                 firstLevelMapView.draw(g, 430, 0);
                 lemmingView.draw(g);
+                buttonDig.draw(g);
+                buttonStop.draw(g);
+                buttonBuild.draw(g);
+                buttonFly.draw(g);
+                minimapView.drawMinimap(g);
             }
 
     }
