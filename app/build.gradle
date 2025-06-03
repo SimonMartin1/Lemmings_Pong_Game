@@ -23,6 +23,8 @@ dependencies {
 
     // This dependency is used by the application.
     implementation libs.guava
+
+    implementation fileTree(dir: 'src/lib', includes: ['*.*'])
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -34,7 +36,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'proyecto.App'
+    mainClass = 'Proyecto.App'
 }
 
 tasks.named('test') {
