@@ -1,5 +1,6 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -11,7 +12,7 @@ public class FirstLevelMapModel {
     private int cameraY = 0;
 
     public FirstLevelMapModel() throws Exception {
-        BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map4.png"));
+        BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map5.png"));
         int altura = fullImage.getHeight() / tileHeight;
         int ancho = fullImage.getWidth() / tileWidth;
         mapTiles = new TileModel[altura][ancho];
@@ -22,6 +23,18 @@ public class FirstLevelMapModel {
             }
         }
     }
+
+    public TileModel getTileDebajo(int x, int y, int lemmingAltura) {
+        int tileX = x / tileWidth;
+        int tileY = (y + lemmingAltura) / tileHeight;
+        if (tileY >= 0 && tileY < mapTiles.length && tileX >= 0 && tileX < mapTiles[0].length) {
+            return mapTiles[tileY][tileX];
+        } else {
+            return null;
+        }
+    }
+
+    
     public TileModel[][] getMapTiles() {
         return mapTiles;
     }
