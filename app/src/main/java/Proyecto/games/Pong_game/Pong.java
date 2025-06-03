@@ -7,16 +7,18 @@ import javax.swing.ImageIcon;
 
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
-
+//import Proyecto.games.Pong_game.utils.SoundPlayer;
 import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Controller.PaddleIAController;
+import Proyecto.games.Pong_game.Controller.SettingController;
 import Proyecto.games.Pong_game.Model.BallModel;
 import Proyecto.games.Pong_game.Model.Difficult;
 import Proyecto.games.Pong_game.Model.PaddleIAmodel;
 import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.Model.Player;
 import Proyecto.games.Pong_game.Model.ScoreManagerModel;
+import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
@@ -26,12 +28,12 @@ import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
 
 
-
 public class Pong extends JGame {
     PaddleView paddleLeftView, paddleRightView;
-    PaddleModel paddleModel,paddleRightModel;
-    PaddleIAController paddleLeftController;
-    PaddleController paddleRightController;
+    PaddleModel paddleLeftModel,paddleRightModel;
+    PaddleIAmodel paddleIAModel;
+    PaddleIAController paddleLefIAtController;
+    PaddleController paddleLeftController,paddleRightController;
     BallView ballView;
     BallModel ballModel;
     BallController ballController;
@@ -41,10 +43,12 @@ public class Pong extends JGame {
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
+    SettingController settingController;
     GameSettingsView gameSettingsView;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false;
+    SettingsModel settingsModel;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=true;
     private Player winner;
-    private Difficult difficult = Difficult.HARD;
+    private Difficult difficult;
 
 
     public Pong(String title, int width, int height) {
@@ -60,38 +64,53 @@ public class Pong extends JGame {
     @Override
     public void gameStartup() {
 
-        //SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
-
-        //incializacion del teclado
+        //SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
         keyboard = this.getKeyboard();
-
+        setDifficult(2); // Por defecto, dificultad fácil
+        settingsModel = new SettingsModel();
+        gameSettingsView = new GameSettingsView(getWidth(), getHeight());
+        settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
         //modelos
-        scoreManagerModel = new ScoreManagerModel(2);
-        //paddleModel = new PaddleModel(250);
-        paddleModel = new PaddleIAmodel(250, difficult);
+        scoreManagerModel = new ScoreManagerModel();
+        if(twoplayers){
+            paddleLeftModel = new PaddleModel(250);
+            }
+        else{
+            paddleIAModel = new PaddleIAmodel(250);
+        }
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,10);
-
-        //controller
-
-
+        
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
         scoreManagerView = new ScoreManagerView(scoreManagerModel);
-        paddleLeftView = new PaddleView(paddleModel,8);
+        if(twoplayers){
+            paddleLeftView = new PaddleView(paddleLeftModel,8);
+        }
+        else{
+            paddleLeftView = new PaddleView(paddleIAModel,8);
+        }
         paddleRightView = new PaddleView(paddleRightModel,795);
         ballView = new BallView(ballModel);
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
         gameMenu = new GameMenuView(getWidth(), getHeight());
         gamePauseView = new GamePauseView(getWidth(), getHeight());
-        gameSettingsView = new GameSettingsView(getWidth(), getHeight());
 
         //controladores
-        //paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
-        paddleLeftController = new PaddleIAController(paddleModel);
+        if(twoplayers){
+            paddleLeftController = new PaddleController(paddleLeftModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
+        }
+        else{
+            paddleLefIAtController = new PaddleIAController(paddleIAModel);
+        }
         paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        ballController = new BallController(ballModel, paddleModel, paddleRightModel, scoreManagerModel);
+        if(twoplayers){
+            ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel);
+        }
+        else{
+            ballController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
+        }
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
@@ -104,7 +123,28 @@ public class Pong extends JGame {
             System.exit(0); // Opcional: cierra la aplicación completamente
         }
     });
+    }
 
+
+    public void setDifficult(int difficult) {
+        switch (difficult) {
+            case 0:
+                this.difficult = Difficult.EASY;
+                break;
+            case 1:
+                this.difficult = Difficult.MEDIUM;
+                break;
+            case 2:
+                this.difficult = Difficult.HARD;
+                break;
+            default:
+                this.difficult = Difficult.EASY;
+        }
+    }
+
+    public void setTwoPlayers(boolean twoplayers) {
+        this.twoplayers = twoplayers;
+        
     }
 
     @Override
@@ -144,33 +184,41 @@ public class Pong extends JGame {
                 }
                 else{
                     // Updates
-                    paddleRightController.update(delta);
+                    if(twoplayers){
+                        paddleLeftController.update();
+                        paddleLeftModel.update(delta);
+                    }
+                    else{
+                        updateIA(delta);
+                        paddleIAModel.update(delta);
+                    }
 
-                    switch (difficult){
+                    paddleRightModel.update(delta);
+                    paddleRightController.update();
+                    ballController.update();
+                }
+            }
+        }
+    }
+
+    public void updateIA(double delta){
+        switch (difficult){
                         case EASY :
                             if(ballModel.getPosX() < 800 * 0.1){
-                                paddleLeftController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                             }
                             break;
 
                         case MEDIUM:
                             if(ballModel.getPosX() < 800 * 0.2){
-                                paddleLeftController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                             }
                             break;
 
                         case HARD:
-                            paddleLeftController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                            paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                             break;
                     }
-
-                    paddleModel.update(delta);
-                    paddleRightModel.update(delta);
-
-                    ballController.update();
-                }
-            }
-        }
     }
 
     @Override
@@ -219,7 +267,12 @@ public class Pong extends JGame {
         // Reiniciamos modelos
         scoreManagerModel.reset();
         ballModel.reset();
-        paddleModel.reset();
+        if(twoplayers){
+            paddleLeftModel.reset();
+        }
+        else{
+            paddleIAModel.reset();
+        }
         paddleRightModel.reset();
     }
 
@@ -227,8 +280,14 @@ public class Pong extends JGame {
 
         scoreManagerModel.pause();
         ballModel.pause();
-        paddleModel.pause();
+                if(twoplayers){
+            paddleLeftModel.pause();
+        }
+        else{
+            paddleIAModel.pause();
+        }
         paddleRightModel.pause();
         
     }
+    @Override public void readPropertiesFile(){}
 }
