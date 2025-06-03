@@ -36,8 +36,10 @@ public class BallController {
     }
 
     private void handleLeftPaddleCollision() {
-
-        if (ballModel.getPosX() <= LEFT_PADDLE_X_LIMIT) {
+        if(ballModel.getPosX() < 5){
+            handleRightGoal();
+        }
+        else if (ballModel.getDirX() < 0 && ballModel.getPosX() - 15 <= LEFT_PADDLE_X_LIMIT) {
             double paddleY = paddleLeftModel.getY();
 
             if (isCollidingWithPaddle(ballModel.getPosY(), paddleY)) {
@@ -50,7 +52,10 @@ public class BallController {
 
     private void handleRightPaddleCollision() {
 
-        if (ballModel.getPosX() >= RIGHT_PADDLE_X_LIMIT) {
+        if(ballModel.getPosX() > 795){
+            handleLeftGoal();
+        }
+        else if (ballModel.getDirX() > 0 && ballModel.getPosX() + 15 >= RIGHT_PADDLE_X_LIMIT) {
             double paddleY = paddleRightModel.getY();
 
             if (isCollidingWithPaddle(ballModel.getPosY(), paddleY)) {
@@ -71,9 +76,14 @@ public class BallController {
     }
 
     private void handleWallCollision() {
-        if (ballModel.getPosY() >= BOTTOM_BOUNDARY || ballModel.getPosY() <= TOP_BOUNDARY) {
+        if (ballModel.getPosY() >= BOTTOM_BOUNDARY) {
             ballModel.reverseDirY();
             ballModel.reproduceBounceBall();
+            ballModel.setPosY(BOTTOM_BOUNDARY - 1);
+        } else if (ballModel.getPosY() <= TOP_BOUNDARY) {
+            ballModel.reverseDirY();
+            ballModel.reproduceBounceBall();
+            ballModel.setPosY(TOP_BOUNDARY + 1);
         }
     }
 

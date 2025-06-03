@@ -50,6 +50,10 @@ public class BallModel {
 
     public double getDirY(){ return dirY; }
 
+    public void setPosY(double newPosY){
+        this.posY = newPosY;
+    }
+
     public void move() {
         if(!paused){
         this.posX += this.dirX * this.speed;
