@@ -1,6 +1,5 @@
 package Proyecto.games.Pong_game;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import javax.swing.ImageIcon;
@@ -67,6 +66,9 @@ public class Pong extends JGame {
         paddleModel = new PaddleIAmodel(250, difficult);
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,10);
+
+        //controller
+
 
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
