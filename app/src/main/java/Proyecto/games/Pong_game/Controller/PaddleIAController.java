@@ -1,8 +1,7 @@
 package Proyecto.games.Pong_game.Controller;
 
-import Proyecto.games.Pong_game.Model.PaddleIAmodel;
+
 import Proyecto.games.Pong_game.Model.PaddleModel;
-import com.entropyinteractive.Keyboard;
 
 public class PaddleIAController {
     private final PaddleModel paddleIAmodel;

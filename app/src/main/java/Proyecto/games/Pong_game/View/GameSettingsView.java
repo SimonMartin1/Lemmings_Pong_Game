@@ -35,6 +35,7 @@ public class GameSettingsView {
         g.drawString("Medium", width/2+90 , 170);
         g.drawString("Easy", width/2+200 , 170);
         g.drawString("2 Players", width/2-265 , 215);
+        g.drawString("On", width/2-120 , 215);
         g.drawString("Save", width-325 , 550);
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
@@ -60,5 +61,9 @@ public class GameSettingsView {
             }
         }
     return res;
+    }
+
+    public void selectTrack(){
+
     }
 }
