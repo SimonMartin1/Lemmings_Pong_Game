@@ -33,8 +33,8 @@ public class Pong extends JGame {
     PaddleView paddleLeftView, paddleRightView;
     PaddleModel paddleModel,paddleRightModel;
     PaddleIAmodel paddleIAModel;
-    PaddleIAController paddleLeftController;
-    PaddleController paddleRightController;
+    PaddleIAController paddleLefIAtController;
+    PaddleController paddleLefController,paddleRightController;
     BallView ballView;
     BallModel ballModel;
     BallController ballController;
@@ -47,7 +47,7 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView gameSettingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=true;
     private Player winner;
     private Difficult difficult;
 
@@ -99,17 +99,16 @@ public class Pong extends JGame {
         gameSettingsView = new GameSettingsView(getWidth(), getHeight());
 
         //controladores
-        if(twoplayers){//paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
-        }
-        paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         if(twoplayers){
-            paddleLeftController = new PaddleController(paddleModel);
+            paddleLefController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
         }
         else{
-            paddleLeftController = new PaddleIAController(paddleIAModel);
+            paddleLefIAtController = new PaddleIAController(paddleIAModel);
         }
+        paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
         ballController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
-        //settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
+        
+        settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
@@ -253,18 +252,18 @@ public class Pong extends JGame {
         switch (difficult){
                         case EASY :
                             if(ballModel.getPosX() < 800 * 0.1){
-                                paddleLeftController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                             }
                             break;
 
                         case MEDIUM:
                             if(ballModel.getPosX() < 800 * 0.2){
-                                paddleLeftController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                             }
                             break;
 
                         case HARD:
-                            paddleLeftController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                            paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                             break;
                     }
     }
