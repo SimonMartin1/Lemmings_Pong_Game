@@ -1,6 +1,5 @@
 package Proyecto.games.Pong_game.View;
 
-import com.entropyinteractive.Game;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 
@@ -18,6 +17,7 @@ public class GameMenuView {
     private double blinkTime;
     private boolean showPressText = true;
     private Boolean prevPausePressed = null;
+    private Boolean prevSettingsPressed = null;
 
 
     public GameMenuView(int width, int height) {
@@ -57,7 +57,7 @@ public class GameMenuView {
 
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2 - 100, by = 300, bw = 200, bh = 60;
+        int bx = width/2 - 100, by = 300, bw = 150, bh = 60;
 
         if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
             isClicked = true;
@@ -77,6 +77,19 @@ public class GameMenuView {
 
         boolean justPressed = currentPressed && !prevPausePressed;
         prevPausePressed = currentPressed;
+        return justPressed;
+    }
+
+    public boolean detectSettings(Keyboard k){
+        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_C);
+
+        if (prevSettingsPressed == null) {
+            prevSettingsPressed = currentPressed;
+            return false;
+        }
+
+        boolean justPressed = currentPressed && !prevSettingsPressed;
+        prevSettingsPressed = currentPressed;
         return justPressed;
     }
 

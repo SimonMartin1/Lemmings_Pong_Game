@@ -46,6 +46,10 @@ public class BallModel {
         return posX;
     }
 
+    public double getDirX(){ return dirX; }
+
+    public double getDirY(){ return dirY; }
+
     public void move() {
         if(!paused){
         this.posX += this.dirX * this.speed;
