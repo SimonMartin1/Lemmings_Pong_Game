@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
@@ -19,6 +20,7 @@ import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.View.LemmingView;
 import Proyecto.games.Lemmings_game.View.MinimapView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
+
 
 public class Lemmings extends JGame {
 
@@ -35,7 +37,17 @@ public class Lemmings extends JGame {
     Buttons buttonBuild;
     Buttons buttonStop;
     Buttons buttonFly;
+    ButtonController buttonController;
     MinimapView minimapView;
+    int cantLemmings = 100; 
+    private double spawnTimer = 0;
+    private double spawnInterval = 0.5; // segundos entre lemmings
+    private int lemmingsToSpawn = cantLemmings;
+    private int spawnedLemmings = 0;
+
+
+    private java.util.List<LemmingModel> lemmingModels = new java.util.ArrayList<LemmingModel>();
+    private java.util.List<LemmingView> lemmingViews = new java.util.ArrayList<LemmingView>();
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -55,7 +67,12 @@ public class Lemmings extends JGame {
             throw new RuntimeException(e);
         }
 
+        getFrame().addMouseListener(this.getMouse());
+
+        //creacion lemmings 
         
+
+
         //vistas
         buttonDig = new Buttons("Cavar", 10, 450, 100, 150);
         buttonStop = new Buttons("Parar",110,450,100,150);
@@ -65,13 +82,23 @@ public class Lemmings extends JGame {
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
-        lemmingView = new LemmingView(lemmingModel);
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
 
-        lemmingModel = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+        //el mapa se crea antes que el lemming si o si
+        //lemmingModels.add(new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel));
+        //lemmingViews.add(new LemmingView(lemmingModels.get(0)));
 
-        lemmingView = new LemmingView(lemmingModel);
+        //lemmingModel = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+        //lemmingView = new LemmingView(lemmingModel);
 
+        for (int i = 0; i < cantLemmings; i++) {
+            LemmingModel model = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+            LemmingView view = new LemmingView(model);
+            lemmingModels.add(model);
+            lemmingViews.add(view);
+        }
+
+        buttonController = new ButtonController(this.getMouse());
 
         gameMenuView = new GameMenuView(getWidth(), getHeight());
     }
@@ -98,7 +125,30 @@ public class Lemmings extends JGame {
                 blinkTime = 0;
             }
         }else{
-            lemmingModel.update(delta);
+            buttonController.update();
+            //lemmingModel.update(delta);
+            //lemmingModels.get(0).update(delta);
+
+            for (LemmingModel l : lemmingModels) {
+                l.update(delta);
+            }
+            // Spawn con delay
+            if (spawnedLemmings < lemmingsToSpawn) {
+                spawnTimer += delta;
+                if (spawnTimer >= spawnInterval) {
+                    spawnTimer = 0;
+                    spawnedLemmings++;
+
+                    LemmingModel nuevo = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+                    LemmingView nuevoView = new LemmingView(nuevo);
+                    lemmingModels.add(nuevo);
+                    lemmingViews.add(nuevoView);
+                }
+            }
+
+           //lemmings.get(0).update(delta);
+
+
         }
 
     }
@@ -118,12 +168,22 @@ public class Lemmings extends JGame {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 firstLevelMapView.draw(g, 430, 0);
-                lemmingView.draw(g);
+                
+                //lemmingView.draw(g);
+                //lemmingViews.get(0).draw(g);
+                
                 buttonDig.draw(g);
                 buttonStop.draw(g);
                 buttonBuild.draw(g);
                 buttonFly.draw(g);
                 minimapView.drawMinimap(g);
+            
+                //lemmingViews.get(0).draw(g);
+                
+                for (LemmingView view : lemmingViews) {
+                    view.draw(g);
+                }
+                
             }
 
     }

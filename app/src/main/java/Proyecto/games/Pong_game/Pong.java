@@ -1,17 +1,22 @@
 package Proyecto.games.Pong_game;
-import java.awt.Color;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
+
 import javax.swing.ImageIcon;
 
-import Proyecto.games.Pong_game.Controller.PaddleIAController;
-import Proyecto.games.Pong_game.Model.*;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
 
 import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
+import Proyecto.games.Pong_game.Controller.PaddleIAController;
+import Proyecto.games.Pong_game.Model.BallModel;
+import Proyecto.games.Pong_game.Model.Difficult;
+import Proyecto.games.Pong_game.Model.PaddleIAmodel;
+import Proyecto.games.Pong_game.Model.PaddleModel;
+import Proyecto.games.Pong_game.Model.Player;
+import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
@@ -19,7 +24,6 @@ import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
-import Proyecto.games.Pong_game.utils.SoundPlayer;
 
 
 
@@ -56,7 +60,7 @@ public class Pong extends JGame {
     @Override
     public void gameStartup() {
 
-        SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
+        //SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
 
         //incializacion del teclado
         keyboard = this.getKeyboard();
@@ -67,6 +71,9 @@ public class Pong extends JGame {
         paddleModel = new PaddleIAmodel(250, difficult);
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,10);
+
+        //controller
+
 
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
