@@ -1,8 +1,5 @@
 package Proyecto.games.Pong_game.View;
 
-import com.entropyinteractive.Keyboard;
-import com.entropyinteractive.Mouse;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -10,6 +7,9 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
+
+import com.entropyinteractive.Keyboard;
+import com.entropyinteractive.Mouse;
 
 public class GameMenuView {
     private final int width;
@@ -51,7 +51,7 @@ public class GameMenuView {
         }
     }
 
-    public boolean detectPlay(Mouse m){
+    public boolean detectPlay(Mouse m) {
         boolean isClicked = false;
 
 
@@ -59,7 +59,7 @@ public class GameMenuView {
         int my = m.getY();
         int bx = width/2 - 100, by = 300, bw = 150, bh = 60;
 
-        if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
+        if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed()) {
             isClicked = true;
         }
 
