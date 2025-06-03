@@ -17,13 +17,10 @@ public class PaddleController {
         this.downKey = downKey;
     }
 
-    public void update(double delta) {
+    public void update() {
         // Actualizar estado basado en teclas presionadas
         paddleModel.setMoveUp(keyboard.isKeyPressed(upKey));
         paddleModel.setMoveDown(keyboard.isKeyPressed(downKey));
-
-        // Actualizar posición
-        paddleModel.update(delta);
     }
 
 }
