@@ -18,6 +18,7 @@ import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
 import Proyecto.games.Pong_game.View.GamePauseView;
+import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
 
@@ -36,7 +37,8 @@ public class Pong extends JGame {
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
-    private boolean isInMenu = true, gamePause = false, gameOver = false;
+    GameSettingsView gamesettingsview;
+    private boolean isInMenu = true,isInSettings=false, gamePause = false, gameOver = false;
     private Player winner;
 
 
@@ -71,6 +73,7 @@ public class Pong extends JGame {
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
         gameMenu = new GameMenuView(getWidth(), getHeight());
         gamePauseView = new GamePauseView(getWidth(), getHeight());
+        gamesettingsview = new GameSettingsView(getWidth(), getHeight());
 
         //controladores
         paddleLeftController = new PaddleController(paddleModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
@@ -96,7 +99,6 @@ public class Pong extends JGame {
 
         if(isInMenu){
             gameMenu.update(delta);
-
             if(gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())){ isInMenu = false; }
         }
         else{
@@ -141,7 +143,9 @@ public class Pong extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-
+        if(isInSettings){
+            gamesettingsview.drawmenu(g);
+        }
         if(isInMenu){
             gameMenu.drawmenu(g);
         }
