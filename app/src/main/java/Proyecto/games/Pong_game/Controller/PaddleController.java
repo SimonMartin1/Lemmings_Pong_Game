@@ -1,11 +1,8 @@
 package Proyecto.games.Pong_game.Controller;
 
 import Proyecto.games.Pong_game.Model.PaddleModel;
-import Proyecto.games.Pong_game.View.PaddleView;
 import com.entropyinteractive.Keyboard;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class PaddleController {
     private final PaddleModel paddleModel;
