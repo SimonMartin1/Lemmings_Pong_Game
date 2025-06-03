@@ -2,7 +2,6 @@ package Proyecto.games.Pong_game.View;
 
 import Proyecto.games.Pong_game.Model.PaddleModel;
 
-import javax.swing.*;
 import java.awt.*;
 
 public class PaddleView {
@@ -11,13 +10,11 @@ public class PaddleView {
     private int paddleWidth = 10;
     private int paddleHeight = 150;
     private int fixedX = 10;
-    private int initialY = 250;
-    private int dx = 180;
 
-    public PaddleView(PaddleModel model, int fixedX, int initialY) {
+
+    public PaddleView(PaddleModel model, int fixedX) {
         this.model = model;
         this.fixedX = fixedX;
-        this.initialY = initialY;
         //setOpaque(false); // Para que el fondo del panel sea transparente
     }
 

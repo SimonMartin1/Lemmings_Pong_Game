@@ -19,7 +19,7 @@ public class FirstLevelMapView extends JPanel {
     
         int startX = camX / tileWidth;
         int startY = camY / tileHeight;
-        int endX = (camX + 800) / tileWidth + 1;  // Suponiendo que tu pantalla mide 800x600
+        int endX = (camX + 800) / tileWidth + 1;
         int endY = (camY + 600) / tileHeight + 1;
     
         for (int y = startY; y < endY && y < tiles.length; y++) {

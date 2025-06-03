@@ -1,6 +1,5 @@
 package Proyecto.games.Pong_game;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -37,11 +36,9 @@ public class Pong extends JGame {
     GameOverMenuView gameOverMenuView;
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
-    private boolean isInMenu = true, gamePause = false, gameOver = false, exit = false;
+    private boolean isInMenu = true, gamePause = false, gameOver = false;
     private Player winner;
-    private double blinkTime = 0;
-    private boolean showPressText = true;
-    private boolean escapePressed = false;
+
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
@@ -68,9 +65,9 @@ public class Pong extends JGame {
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
         scoreManagerView = new ScoreManagerView(scoreManagerModel);
-        paddleLeftView = new PaddleView(paddleModel,8,230);
-        paddleRightView = new PaddleView(paddleRightModel,795,230);
-        ballView = new BallView(330,370,20,ballModel);
+        paddleLeftView = new PaddleView(paddleModel,8);
+        paddleRightView = new PaddleView(paddleRightModel,795);
+        ballView = new BallView(ballModel);
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
         gameMenu = new GameMenuView(getWidth(), getHeight());
         gamePauseView = new GamePauseView(getWidth(), getHeight());
@@ -162,7 +159,7 @@ public class Pong extends JGame {
             }
 
             if (gameOver) {
-                gameOverMenuView.draw(g, scoreManagerModel.getWinner());
+                gameOverMenuView.draw(g, winner);
             }
         }
     }

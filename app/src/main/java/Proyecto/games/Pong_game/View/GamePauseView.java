@@ -7,8 +7,6 @@ import com.entropyinteractive.Keyboard;
 public class GamePauseView {
     private final int width;
     private final int height;
-    private boolean wantsBackMenu = false;
-    private boolean isInPause = false;
     private Boolean prevPausePressed = null;
 
     public GamePauseView(int width, int height) {

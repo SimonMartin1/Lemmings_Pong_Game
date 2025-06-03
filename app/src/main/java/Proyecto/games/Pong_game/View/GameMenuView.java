@@ -1,6 +1,5 @@
 package Proyecto.games.Pong_game.View;
 
-import com.entropyinteractive.Game;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 
