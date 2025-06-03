@@ -39,6 +39,7 @@ public class BallController {
         if(ballModel.getPosX() < 5){
             handleRightGoal();
         }
+        
         else if (ballModel.getDirX() < 0 && ballModel.getPosX() - 15 <= LEFT_PADDLE_X_LIMIT) {
             double paddleY = paddleLeftModel.getY();
 
