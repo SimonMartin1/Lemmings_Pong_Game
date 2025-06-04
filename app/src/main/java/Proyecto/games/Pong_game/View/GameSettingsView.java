@@ -1,6 +1,4 @@
 package Proyecto.games.Pong_game.View;
-import Proyecto.games.Pong_game.Pong;
-
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -8,11 +6,13 @@ import java.awt.Graphics2D;
 
 import com.entropyinteractive.Mouse;
 
+import Proyecto.games.Pong_game.Pong;
+
 
 public class GameSettingsView {
     private final int width;
     private final int height;
-    public boolean drawHard=false,drawMedium=false,drawEasy=true, drawTwoPlayers=false,drawWin3 = false, drawWin5 = false, drawWin7 = true, drawOff = false;
+    public boolean drawHard=false,drawMedium=false,drawEasy=true, drawTwoPlayers=false,drawWin3 = true, drawWin5 = false, drawWin7 = false, drawOff = false,drawTrack=true,nextTrack =false,prevMousePressed = false;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {
@@ -89,38 +89,59 @@ public class GameSettingsView {
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString("On", width/2-120 , 215);
         }
+        if(drawWin3){
+        g.setColor(Color.WHITE);
+        g.fillRoundRect(width/2-10, 240, 30, 30, 10, 10);
+        g.setColor(new Color(0, 0, 0, 255));
+        g.setFont(new Font("Arial", Font.BOLD, 18));
+        g.drawString("3", width/2, 260);
+        }
         if(drawWin7){
         g.setColor(Color.WHITE);
-        g.fillRoundRect(320, 240, 30, 30, 10, 10);
-        g.setColor(Color.BLACK);
+        g.fillRoundRect(width/2-130, 240, 30, 30, 10, 10);
+        g.setColor(new Color(0, 0, 0, 255));
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("7", width/2-120, 260);
         }
         if(drawWin5){
         g.setColor(Color.WHITE);
-        g.fillRoundRect(380, 240, 30, 30, 10, 10);
-        g.setColor(Color.BLACK);
+        g.fillRoundRect(width/2-70, 240, 30, 30, 10, 10);
+        g.setColor(new Color(0, 0, 0, 255));
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("5", width/2-60, 260);
         }
-        if(drawWin3){
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(440, 240, 30, 30, 10, 10);
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("3", width/2, 260);
-        }
         if(drawOff){
         g.setColor(Color.WHITE);
-        g.fillRoundRect(430, 110, 40, 30, 10, 10);
-        g.setColor(Color.BLACK);
+        g.fillRoundRect(425, 105, 40, 30, 10, 10);
+        g.setColor(new Color(0, 0, 0, 255));
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("Off", 430, 125);
         }
+        if(drawTrack){
+        g.setColor(Color.WHITE);
+        g.setStroke(new BasicStroke(3));
+        g.drawRoundRect(width/2-140, 100, 100, 40, 20, 20); 
+        }
+        if(nextTrack){
+            g.drawString(getTrack(), width/2-120 , 125);
+        }
+    }
+
+    public boolean getDrawTrack(){
+        return this.drawTrack;
     }
 
     public void setDraw(String name) {
         switch(name){
+
+            case "Track" -> {
+                drawTrack=true;
+                drawOff = false;
+                
+            }
+            case "nextTrack" -> {
+                nextTrack=true;
+            }
             case "Hard" -> {
                 drawHard = true;
                 drawMedium = false;
@@ -164,103 +185,121 @@ public class GameSettingsView {
             }
             case "Off" -> {
             drawOff = true;
+            drawTrack = false;
+            nextTrack = false;
+            }
+            case "Reset" -> {
+                drawHard = false;
+                drawMedium = false;
+                drawEasy = true;
+                drawTwoPlayers = false;
+                drawWin3 = true;
+                drawWin5 = false;
+                drawWin7 = false;
+                drawOff = false;
+                drawTrack = true;
             }
         }
     }
+    private boolean isMouseJustPressed(Mouse m) {
+    boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
+    prevMousePressed = m.isLeftButtonPressed();
+    return justPressed;
+}
 
     // --- TRACK NAME ---
     public boolean isTrackNameClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 320, by = 110, bw = 90, bh = 30; // "Track 1"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-110, by = 40, bw = 60, bh = 60;
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- OFF ---
     public boolean isOffClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 430, by = 110, bw = 40, bh = 30; // "Off"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-5, by = 40, bw = 60, bh = 60; // "Off"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- HARD ---
     public boolean isHardClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2-15, by = 130, bw = 80, bh = 80; // coincide con selectHard
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-15, by = 130, bw = 80, bh = 45; // coincide con selectHard
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- MEDIUM ---
     public boolean isMediumClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2+85, by = 130, bw = 80, bh = 80; // coincide con selectMedium
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2+85, by = 130, bw = 80, bh = 45; // coincide con selectMedium
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- EASY ---
     public boolean isEasyClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2+210, by = 85, bw = 80, bh = 80; // coincide con selectEasy
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2+195, by = 130, bw = 80, bh = 45; // coincide con selectEasy
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- ON ---
     public boolean isOnClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2-160, by = 175, bw = 80, bh = 70; // "On"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-160, by = 175, bw = 60, bh = 40; // "On"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- WINPOINTS 7 ---
     public boolean isWinPoints7Clicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 320, by = 240, bw = 30, bh = 30; // "7"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-140, by = 205, bw = 40, bh = 40; // "7"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- WINPOINTS 5 ---
     public boolean isWinPoints5Clicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 380, by = 240, bw = 30, bh = 30; // "5"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-80, by = 205, bw = 40, bh = 40; // "5"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- WINPOINTS 3 ---
     public boolean isWinPoints3Clicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 440, by = 240, bw = 30, bh = 30; // "3"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width/2-40, by = 205, bw = 40, bh = 40; // "3"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- SAVE ---
     public boolean isSaveClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 475, by = 530, bw = 60, bh = 30; // "Save"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = width-325, by = 500, bw = 60, bh = 30; // "Save"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- CANCEL ---
     public boolean isCancelClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 555, by = 530, bw = 70, bh = 30; // "Cancel"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = 555, by = 500, bw = 70, bh = 30; // "Cancel"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
     // --- RESET ---
     public boolean isResetClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 655, by = 530, bw = 60, bh = 30; // "Reset"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 }

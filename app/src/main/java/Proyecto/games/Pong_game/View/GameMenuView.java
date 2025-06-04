@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
+import Proyecto.games.Pong_game.Pong;
 
 public class GameMenuView {
     private final int width;
@@ -18,11 +19,13 @@ public class GameMenuView {
     private boolean showPressText = true;
     private Boolean prevPausePressed = null;
     private Boolean prevSettingsPressed = null;
+    private final Pong game;
 
 
-    public GameMenuView(int width, int height) {
+    public GameMenuView(int width, int height, Pong game) {
         this.width = width;
         this.height = height;
+        this.game=game;
     }
 
     public void drawmenu(Graphics2D g) {
@@ -94,19 +97,10 @@ public class GameMenuView {
     }
 
     public boolean detectSetting(Mouse m) {
-        boolean isClicked = false;
-
-
         int mx = m.getX();
         int my = m.getY();
         int bx = width - 250, by = 420, bw = 150, bh = 80;
-
-        if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed()) {
-            isClicked = true;
-        }
-
-
-        return isClicked;
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
 
 }
