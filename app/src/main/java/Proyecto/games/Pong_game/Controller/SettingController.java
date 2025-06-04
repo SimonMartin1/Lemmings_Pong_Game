@@ -1,33 +1,43 @@
 package Proyecto.games.Pong_game.Controller;
 import Proyecto.games.Pong_game.Pong;
+
 import com.entropyinteractive.Mouse;
+
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.Model.SettingsModel;
-
+import Proyecto.games.Pong_game.View.GamePauseView;
 
 public class SettingController {
-    public SettingController(GameSettingsView view, SettingsModel model,Mouse m, Pong game) {
-        
+    public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
         if(view.isHardClicked(m)){
-            view.setDraw();
+            view.setDraw("Hard");
+        } else if(view.isMediumClicked(m)){
+            view.setDraw("Medium");
+        } else if(view.isEasyClicked(m)){
+            view.setDraw("Easy");
+        } else if(view.isOnClicked(m)){
+            view.setDraw("TwoPlayers");
+        }else if(view.isWinPoints7Clicked(m)){
+            view.setDraw("Win7");
+        } else if(view.isWinPoints5Clicked(m)){
+            view.setDraw("Win5");
+        } else if(view.isWinPoints3Clicked(m)){
+            view.setDraw("Win3");
+        } else if(view.isOffClicked(m)){
+        view.setDraw("Off");
         }
-        if(view.isMediumClicked(m) && m.isLeftButtonPressed()){
-            view.setDraw();
-        }
-        if(view.isEasyClicked(m) && m.isLeftButtonPressed()){
+        
+
+        if (view.isTrackNameClicked(m)) {
             
-        }
-        if(view.isTrackNameClicked(m) && view.getTrack()=="Track 1"){
-            game.setTrack(2);
-        }
-        else{
-            if(view.isTrackNameClicked(m) && view.getTrack()=="Track 2"){
-            game.setTrack(3);
-            }
-            else{
-                    game.setTrack(1);
-                }
-        }
+            int nextTrack = 1;
+            if (game.getTrack() == Proyecto.games.Pong_game.Model.Track.TRACK1) {
+                nextTrack = 2;
+            } else if (game.getTrack() == Proyecto.games.Pong_game.Model.Track.TRACK2) {
+                nextTrack = 3;
+            } 
+            game.setTrack(nextTrack);
         }
     }
 }
+

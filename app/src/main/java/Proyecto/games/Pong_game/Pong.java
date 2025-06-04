@@ -47,11 +47,10 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView gameSettingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true,track_change=false;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true,prevOMusicPressed = false;;
     private Player winner;
     private Difficult difficult;
     private Track track=Track.TRACK1;
-    private SoundPlayer soundPlayer;
     private int maxPoints=5;
 
 
@@ -73,8 +72,7 @@ public class Pong extends JGame {
         setTwoPlayers(true);
         settingsModel = new SettingsModel();
         gameSettingsView = new GameSettingsView(getWidth(), getHeight(),this);
-        settingController = new SettingController(gameSettingsView,settingsModel , getMouse(), this);
-        
+        settingController = new SettingController(gameSettingsView,settingsModel , getMouse(),this);
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
         if(twoplayers){
@@ -151,20 +149,32 @@ public class Pong extends JGame {
         if(!musicOFF){
         switch (option) {
             case 1->{ 
-            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
             this.track = Track.TRACK1;
             }
             case 2->{
-            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
             this.track = Track.TRACK2;
             }
             case 3->{
-            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-pastillas.wav");
             this.track = Track.TRACK3;
             }
         }
     }
-    track_change=true;
+}
+public void playTrack(Track option) {
+        if(!musicOFF){
+        switch (option) {
+            case TRACK1->{ 
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
+            }
+            case TRACK2->{
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
+            }
+            case TRACK3->{
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-pastillas.wav");
+
+            }
+        }
+    }
 }
     public void setDifficult(int difficult) {
         switch (difficult) {
@@ -190,11 +200,14 @@ public class Pong extends JGame {
     @Override
     public void gameUpdate(double delta) {
 
+        if(isInSettings){
+            settingController = new SettingController(gameSettingsView, settingsModel, getMouse(), this);
+        }
         if(isInMenu){
             gameMenu.update(delta);
 
-            if(gameMenu.detectSettings(getKeyboard())){ isInSettings = !isInSettings; }
-            if(gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())){ isInMenu = false; }
+            if(gameMenu.detectSettings(getKeyboard()) || gameMenu.detectSetting(getMouse())){ isInSettings = !isInSettings; }
+            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())) && !isInSettings){ isInMenu = false; }
         }
         else{
             
