@@ -7,7 +7,7 @@ public class ScoreManagerModel {
     boolean paused = false;
     Player winner;
 
-    public void setMaxPoints(int maxPoints) {
+    public ScoreManagerModel(int maxPoints) {
         this.maxPoints = maxPoints;
     }
 
