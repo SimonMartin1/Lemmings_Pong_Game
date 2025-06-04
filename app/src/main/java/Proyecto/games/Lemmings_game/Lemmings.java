@@ -11,6 +11,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
+import Proyecto.games.Lemmings_game.Model.CursorModel;
 import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
@@ -39,6 +40,8 @@ public class Lemmings extends JGame {
     Buttons buttonFly;
     ButtonController buttonController;
     MinimapView minimapView;
+    CursorModel cursorModel;
+
     int cantLemmings = 100; 
     private double spawnTimer = 0;
     private double spawnInterval = 0.5; // segundos entre lemmings
@@ -92,13 +95,16 @@ public class Lemmings extends JGame {
         //lemmingView = new LemmingView(lemmingModel);
 
         for (int i = 0; i < cantLemmings; i++) {
-            LemmingModel model = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+            LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
             LemmingView view = new LemmingView(model);
             lemmingModels.add(model);
             lemmingViews.add(view);
         }
 
         buttonController = new ButtonController(this.getMouse());
+
+        cursorModel = new CursorModel(this.getMouse());
+        cursorModel.setCurrentLemmings(lemmingModels);
 
         gameMenuView = new GameMenuView(getWidth(), getHeight());
     }
@@ -125,7 +131,8 @@ public class Lemmings extends JGame {
                 blinkTime = 0;
             }
         }else{
-            buttonController.update();
+            cursorModel.update();
+            //buttonController.update();
             //lemmingModel.update(delta);
             //lemmingModels.get(0).update(delta);
 
@@ -139,7 +146,7 @@ public class Lemmings extends JGame {
                     spawnTimer = 0;
                     spawnedLemmings++;
 
-                    LemmingModel nuevo = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+                    LemmingModel nuevo = new LemmingModel(1, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
                     LemmingView nuevoView = new LemmingView(nuevo);
                     lemmingModels.add(nuevo);
                     lemmingViews.add(nuevoView);
