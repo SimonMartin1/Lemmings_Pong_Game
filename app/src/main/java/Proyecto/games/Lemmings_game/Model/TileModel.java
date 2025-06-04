@@ -1,5 +1,6 @@
 package Proyecto.games.Lemmings_game.Model;
-import java.awt.Color;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class TileModel {
@@ -39,6 +40,17 @@ public class TileModel {
         }else {
             this.tipo = 0;
         }
+    }
+
+    public void setTileColor(int tileX, int tileY) {
+        try{
+            image = ImageIO.read(getClass().getResourceAsStream("/black.png"));
+        }catch (Exception err){
+            System.out.println("xd");
+        }
+
+        this.color = Color.BLACK;
+        this.tipo = 0; // vaciado
     }
 
 }
