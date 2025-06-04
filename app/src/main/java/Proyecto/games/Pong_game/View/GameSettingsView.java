@@ -8,16 +8,30 @@ import java.awt.Graphics2D;
 
 import com.entropyinteractive.Mouse;
 
+
 public class GameSettingsView {
     private final int width;
     private final int height;
-    private boolean draw;
+    private boolean draw=false;
+    private final Pong game;
 
-    public GameSettingsView(int width, int height) {
+    public GameSettingsView(int width, int height, Pong game) {
         this.width = width;
         this.height = height;
-        draw=false;
+        this.game = game;
     }
+
+    // public String getTrack(){
+    //     String res="";
+    //     if(!game.getmusicOFF()){
+    //     switch (game.getTrack()) {
+    //         case TRACK1 -> res = "Track 1";
+    //         case TRACK2 -> res = "Track 2";
+    //         case TRACK3 -> res = "Track 3";
+    //     }
+    // }
+    //     return res;
+    // }
 
     public void drawmenu(Graphics2D g) {
         g.setColor(Color.BLACK);
@@ -30,7 +44,7 @@ public class GameSettingsView {
         g.drawString("Settings", width/2-50 , 70);
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("Music", width/2-250 , 125);
-        g.drawString("Track Name", width/2-120 , 125);
+        g.drawString(" ", width/2-120 , 125);
         g.drawString("Off", width/2+20 , 125);
         g.drawString("1 Player", width/2-265 , 170);
         g.setColor(Color.WHITE);
@@ -48,14 +62,13 @@ public class GameSettingsView {
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
 
-        if(draw){
-            selectHard(g);
-        }
+        
     }
 
     public void setDraw() {
         this.draw = !this.draw;
     }
+
     public void selectHard(Graphics2D g){
         g.setColor(Color.WHITE);
         g.fillRoundRect(width/2, 145, 100, 40, 20, 20);
