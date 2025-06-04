@@ -47,10 +47,10 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView gameSettingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true,track_change=false;
     private Player winner;
     private Difficult difficult;
-    private Track track;
+    private Track track=Track.TRACK1;
     private SoundPlayer soundPlayer;
     private int maxPoints=5;
 
@@ -68,16 +68,13 @@ public class Pong extends JGame {
 
     @Override
     public void gameStartup() {
-
-        
-        keyboard = this.getKeyboard(); 
-        this.track = Track.TRACK1; // Por defecto, la primera pista
-        setDifficult(1); // Por defecto, dificultad fácil
-        setTwoPlayers(false); // Por defecto, modo dos jugadores
-        setMusic(track);
+        keyboard = this.getKeyboard();
+        setDifficult(1);
+        setTwoPlayers(true);
         settingsModel = new SettingsModel();
-        gameSettingsView = new GameSettingsView(getWidth(), getHeight());
+        gameSettingsView = new GameSettingsView(getWidth(), getHeight(),this);
         settingController = new SettingController(gameSettingsView,settingsModel , getMouse(), this);
+        
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
         if(twoplayers){
@@ -132,6 +129,10 @@ public class Pong extends JGame {
         }
     });
     }
+
+    public Track getTrack(){
+        return this.track;
+    }
     public void setMaxPoints(int option) {
         switch (option) {
             case 0 -> this.maxPoints = 3; 
@@ -143,14 +144,27 @@ public class Pong extends JGame {
     public void setMusicOFF() {
         this.musicOFF = !this.musicOFF;
     }
-    public void setMusic(Track option) {
+    public boolean getmusicOFF() {
+        return this.musicOFF;
+    }
+    public void setTrack(int option) {
         if(!musicOFF){
         switch (option) {
-            case TRACK1 -> SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
-            case TRACK2 -> SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
-            case TRACK3 -> SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-pastillas.wav");
+            case 1->{ 
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
+            this.track = Track.TRACK1;
+            }
+            case 2->{
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
+            this.track = Track.TRACK2;
+            }
+            case 3->{
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-pastillas.wav");
+            this.track = Track.TRACK3;
+            }
         }
     }
+    track_change=true;
 }
     public void setDifficult(int difficult) {
         switch (difficult) {
