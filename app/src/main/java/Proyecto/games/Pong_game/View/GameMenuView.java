@@ -93,4 +93,20 @@ public class GameMenuView {
         return justPressed;
     }
 
+    public boolean detectSetting(Mouse m) {
+        boolean isClicked = false;
+
+
+        int mx = m.getX();
+        int my = m.getY();
+        int bx = width - 250, by = 420, bw = 150, bh = 80;
+
+        if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed()) {
+            isClicked = true;
+        }
+
+
+        return isClicked;
+    }
+
 }

@@ -1,24 +1,43 @@
 package Proyecto.games.Pong_game.Controller;
+import Proyecto.games.Pong_game.Pong;
 
-import javax.swing.text.View;
 import com.entropyinteractive.Mouse;
+
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.Model.SettingsModel;
-
+import Proyecto.games.Pong_game.View.GamePauseView;
 
 public class SettingController {
-    public SettingController(GameSettingsView view, SettingsModel model,int width, int height, Mouse m) {
+    public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
+        if(view.isHardClicked(m)){
+            view.setDraw("Hard");
+        } else if(view.isMediumClicked(m)){
+            view.setDraw("Medium");
+        } else if(view.isEasyClicked(m)){
+            view.setDraw("Easy");
+        } else if(view.isOnClicked(m)){
+            view.setDraw("TwoPlayers");
+        }else if(view.isWinPoints7Clicked(m)){
+            view.setDraw("Win7");
+        } else if(view.isWinPoints5Clicked(m)){
+            view.setDraw("Win5");
+        } else if(view.isWinPoints3Clicked(m)){
+            view.setDraw("Win3");
+        } else if(view.isOffClicked(m)){
+        view.setDraw("Off");
+        }
         
-        if(view.selectDifficulty()==1 && m.isLeftButtonPressed()){
+
+        if (view.isTrackNameClicked(m)) {
             
-        }
-        if(view.selectDifficulty()==2 && m.isLeftButtonPressed()){
-            
-        }
-        if(view.selectDifficulty()==3 && m.isLeftButtonPressed()){
-            
+            int nextTrack = 1;
+            if (game.getTrack() == Proyecto.games.Pong_game.Model.Track.TRACK1) {
+                nextTrack = 2;
+            } else if (game.getTrack() == Proyecto.games.Pong_game.Model.Track.TRACK2) {
+                nextTrack = 3;
+            } 
+            game.setTrack(nextTrack);
         }
     }
-
-    
 }
+

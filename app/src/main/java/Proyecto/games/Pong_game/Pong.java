@@ -7,13 +7,14 @@ import javax.swing.ImageIcon;
 
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
-//import Proyecto.games.Pong_game.utils.SoundPlayer;
+import Proyecto.games.Pong_game.utils.SoundPlayer;
 import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Controller.PaddleIAController;
 import Proyecto.games.Pong_game.Controller.SettingController;
 import Proyecto.games.Pong_game.Model.BallModel;
 import Proyecto.games.Pong_game.Model.Difficult;
+import Proyecto.games.Pong_game.Model.Track;
 import Proyecto.games.Pong_game.Model.PaddleIAmodel;
 import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.Model.Player;
@@ -46,9 +47,12 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView gameSettingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=true;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true,prevOMusicPressed = false;;
     private Player winner;
     private Difficult difficult;
+    private Track track=Track.TRACK1;
+    private int maxPoints=5;
+
 
 
     public Pong(String title, int width, int height) {
@@ -63,15 +67,14 @@ public class Pong extends JGame {
 
     @Override
     public void gameStartup() {
-
-        //SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
         keyboard = this.getKeyboard();
-        setDifficult(2); // Por defecto, dificultad fácil
+        setDifficult(1);
+        setTwoPlayers(true);
         settingsModel = new SettingsModel();
-        gameSettingsView = new GameSettingsView(getWidth(), getHeight());
-        settingController = new SettingController(gameSettingsView,settingsModel , getWidth(), getHeight(), getMouse());
+        gameSettingsView = new GameSettingsView(getWidth(), getHeight(),this);
+        settingController = new SettingController(gameSettingsView,settingsModel , getMouse(),this);
         //modelos
-        scoreManagerModel = new ScoreManagerModel();
+        scoreManagerModel = new ScoreManagerModel(maxPoints);
         if(twoplayers){
             paddleLeftModel = new PaddleModel(250);
             }
@@ -125,7 +128,54 @@ public class Pong extends JGame {
     });
     }
 
+    public Track getTrack(){
+        return this.track;
+    }
+    public void setMaxPoints(int option) {
+        switch (option) {
+            case 0 -> this.maxPoints = 3; 
+            case 1 -> this.maxPoints = 5; 
+            case 2 -> this.maxPoints = 7; 
+        }
 
+    }
+    public void setMusicOFF() {
+        this.musicOFF = !this.musicOFF;
+    }
+    public boolean getmusicOFF() {
+        return this.musicOFF;
+    }
+    public void setTrack(int option) {
+        if(!musicOFF){
+        switch (option) {
+            case 1->{ 
+            this.track = Track.TRACK1;
+            }
+            case 2->{
+            this.track = Track.TRACK2;
+            }
+            case 3->{
+            this.track = Track.TRACK3;
+            }
+        }
+    }
+}
+public void playTrack(Track option) {
+        if(!musicOFF){
+        switch (option) {
+            case TRACK1->{ 
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-joaqui.wav");
+            }
+            case TRACK2->{
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-travis.wav");
+            }
+            case TRACK3->{
+            SoundPlayer.playSound("app/src/main/java/Proyecto/games/Pong_game/resources/cancion-pastillas.wav");
+
+            }
+        }
+    }
+}
     public void setDifficult(int difficult) {
         switch (difficult) {
             case 0:
@@ -150,11 +200,14 @@ public class Pong extends JGame {
     @Override
     public void gameUpdate(double delta) {
 
+        if(isInSettings){
+            settingController = new SettingController(gameSettingsView, settingsModel, getMouse(), this);
+        }
         if(isInMenu){
             gameMenu.update(delta);
 
-            if(gameMenu.detectSettings(getKeyboard())){ isInSettings = !isInSettings; }
-            if(gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())){ isInMenu = false; }
+            if(gameMenu.detectSettings(getKeyboard()) || gameMenu.detectSetting(getMouse())){ isInSettings = !isInSettings; }
+            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())) && !isInSettings){ isInMenu = false; }
         }
         else{
             
@@ -202,28 +255,25 @@ public class Pong extends JGame {
     }
 
     public void updateIA(double delta){
-        switch (difficult){
-                        case EASY :
-                            if(ballModel.getPosX() < 800 * 0.1){
-                                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
-                            }
-                            break;
-
-                        case MEDIUM:
-                            if(ballModel.getPosX() < 800 * 0.2){
-                                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
-                            }
-                            break;
-
-                        case HARD:
-                            paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
-                            break;
-                    }
+        switch (difficult) {
+            case EASY -> {
+                if (ballModel.getPosX() < 800 * 0.1) {
+                    paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                }
+            }
+            case MEDIUM -> {
+                if (ballModel.getPosX() < 800 * 0.2) {
+                    paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                }
+            }
+            case HARD -> {
+                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+            }
+        }
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
-        
         if(isInMenu){
             gameMenu.drawmenu(g);
 

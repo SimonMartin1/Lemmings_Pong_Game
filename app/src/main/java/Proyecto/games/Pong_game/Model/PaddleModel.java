@@ -6,7 +6,7 @@ public class PaddleModel {
     private boolean isMoveUp = false;
     private int y;
     private boolean paused = false;
-    private int initialY;
+    final private int initialY;
 
     public PaddleModel(int initialY) {
         this.y = initialY;
