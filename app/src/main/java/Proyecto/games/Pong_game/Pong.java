@@ -47,10 +47,10 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView gameSettingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true,track_change=false;
     private Player winner;
     private Difficult difficult;
-    private Track track;
+    private Track track=Track.TRACK1;
     private SoundPlayer soundPlayer;
     private int maxPoints=5;
 
@@ -71,8 +71,6 @@ public class Pong extends JGame {
         keyboard = this.getKeyboard();
         setDifficult(1);
         setTwoPlayers(true);
-        setTrack(3);
-        setMusicOFF();
         settingsModel = new SettingsModel();
         gameSettingsView = new GameSettingsView(getWidth(), getHeight(),this);
         settingController = new SettingController(gameSettingsView,settingsModel , getMouse(), this);
@@ -166,6 +164,7 @@ public class Pong extends JGame {
             }
         }
     }
+    track_change=true;
 }
     public void setDifficult(int difficult) {
         switch (difficult) {

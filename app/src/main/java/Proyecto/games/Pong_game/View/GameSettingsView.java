@@ -21,17 +21,17 @@ public class GameSettingsView {
         this.game = game;
     }
 
-    // public String getTrack(){
-    //     String res="";
-    //     if(!game.getmusicOFF()){
-    //     switch (game.getTrack()) {
-    //         case TRACK1 -> res = "Track 1";
-    //         case TRACK2 -> res = "Track 2";
-    //         case TRACK3 -> res = "Track 3";
-    //     }
-    // }
-    //     return res;
-    // }
+    public String getTrack(){
+        String res="";
+        if(!game.getmusicOFF()){
+        switch (game.getTrack()) {
+            case TRACK1 -> res = "Track 1";
+            case TRACK2 -> res = "Track 2";
+            case TRACK3 -> res = "Track 3";
+        }
+    }
+        return res;
+    }
 
     public void drawmenu(Graphics2D g) {
         g.setColor(Color.BLACK);
@@ -44,7 +44,7 @@ public class GameSettingsView {
         g.drawString("Settings", width/2-50 , 70);
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("Music", width/2-250 , 125);
-        g.drawString(" ", width/2-120 , 125);
+        g.drawString(getTrack(), width/2-120 , 125);
         g.drawString("Off", width/2+20 , 125);
         g.drawString("1 Player", width/2-265 , 170);
         g.setColor(Color.WHITE);
