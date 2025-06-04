@@ -247,7 +247,6 @@ public class Pong extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
-        
         if(isInMenu){
             gameMenu.drawmenu(g);
 

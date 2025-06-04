@@ -1,4 +1,6 @@
 package Proyecto.games.Pong_game.View;
+import Proyecto.games.Pong_game.Pong;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -9,15 +11,15 @@ import com.entropyinteractive.Mouse;
 public class GameSettingsView {
     private final int width;
     private final int height;
-    private Graphics2D g;
+    private boolean draw;
 
     public GameSettingsView(int width, int height) {
         this.width = width;
         this.height = height;
+        draw=false;
     }
 
     public void drawmenu(Graphics2D g) {
-        this.g=g;
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
         g.setColor(Color.WHITE);
@@ -45,14 +47,32 @@ public class GameSettingsView {
         g.drawString("Save", width-325 , 550);
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
-        
+
+        if(draw){
+            selectHard(g);
+        }
     }
 
+    public void setDraw() {
+        this.draw = !this.draw;
+    }
+    public void selectHard(Graphics2D g){
+        g.setColor(Color.WHITE);
+        g.fillRoundRect(width/2, 145, 100, 40, 20, 20);
+        g.setColor(new Color(255, 255, 255, 255));
+        g.setFont(new Font("Arial", Font.BOLD, 18));
+    }
+
+
     public boolean isTrackNameClicked(Mouse m) {
-    int mx = m.getX();
+    boolean click=false;
+        int mx = m.getX();
     int my = m.getY();
     int bx = width/2 - 120, by = 125-20, bw = 90, bh = 30;
-    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed();
+    if(mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed()){
+        click=true;
+    }    
+    return click;
 }
 
 public boolean isOffClicked(Mouse m) {

@@ -9,11 +9,11 @@ import Proyecto.games.Pong_game.Model.SettingsModel;
 public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model,Mouse m, Pong juego) {
         
-        if(view.isHardClicked(m) && m.isLeftButtonPressed()){
-            
+        if(view.isHardClicked(m)){
+            view.setDraw();
         }
         if(view.isMediumClicked(m) && m.isLeftButtonPressed()){
-            
+            view.setDraw();
         }
         if(view.isEasyClicked(m) && m.isLeftButtonPressed()){
             
