@@ -47,7 +47,7 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView gameSettingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true,prevOMusicPressed = false;;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true;
     private Player winner;
     private Difficult difficult;
     private Track track=Track.TRACK1;
@@ -97,7 +97,7 @@ public class Pong extends JGame {
         paddleRightView = new PaddleView(paddleRightModel,795);
         ballView = new BallView(ballModel);
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
-        gameMenu = new GameMenuView(getWidth(), getHeight());
+        gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView = new GamePauseView(getWidth(), getHeight());
 
         //controladores
@@ -127,7 +127,12 @@ public class Pong extends JGame {
         }
     });
     }
-
+    public boolean getIsinsettings() {
+        return this.isInSettings;
+    }
+    public void setIsinsettings() {
+        this.isInSettings = !this.isInSettings;
+    }
     public Track getTrack(){
         return this.track;
     }
@@ -207,7 +212,7 @@ public void playTrack(Track option) {
             gameMenu.update(delta);
 
             if(gameMenu.detectSettings(getKeyboard()) || gameMenu.detectSetting(getMouse())){ isInSettings = !isInSettings; }
-            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())) && !isInSettings){ isInMenu = false; }
+            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ isInMenu = false; }
         }
         else{
             
