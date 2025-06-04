@@ -17,11 +17,11 @@ public class SettingController {
         if(view.isEasyClicked(m) && m.isLeftButtonPressed()){
             
         }
-        if(view.isTrackNameClicked(m) && view.getTrack=="Track 1"){
+        if(view.isTrackNameClicked(m) && view.getTrack()=="Track 1"){
             game.setTrack(2);
         }
         else{
-            if(view.isTrackNameClicked(m) && view.getTrack=="Track 2"){
+            if(view.isTrackNameClicked(m) && view.getTrack()=="Track 2"){
             game.setTrack(3);
             }
             else{
