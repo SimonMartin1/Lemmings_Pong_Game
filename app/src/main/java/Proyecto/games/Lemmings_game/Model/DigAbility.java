@@ -12,10 +12,16 @@ public class DigAbility implements AbilityModel {
         int tileY = (lemming.getY()) / 8;
 
         System.out.println("i'M CAVANDO HARD");
+
         // "Cava" el tile actual, es decir, lo pone blanco (vacío)
         if(!lemming.getMap().getMapTiles()[tileY + 1][tileX].getColor().equals(Color.BLACK)){
+
+            lemming.getMap().getMapTiles()[tileY][tileX].setTileColor(tileX, tileY);
             lemming.getMap().getMapTiles()[tileY + 1][tileX].setTileColor(tileX, tileY);
+
+            lemming.getMap().getMapTiles()[tileY][tileX + 1].setTileColor(tileX, tileY);
             lemming.getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(tileX + 1, tileY);
+
             lemming.setY(lemming.getY() + 1); // baja el lemming un poco
         }
 

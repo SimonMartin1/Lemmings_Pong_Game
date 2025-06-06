@@ -6,12 +6,12 @@ import Proyecto.games.Lemmings_game.Model.*;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 
-public class FirstLevelMapView extends JPanel {
-    private FirstLevelMapModel model;
+public class MapView extends JPanel {
+    private MapModel model;
     private int camX;
     private int camY;
 
-    public FirstLevelMapView(FirstLevelMapModel model) {
+    public MapView(MapModel model) {
         this.model = model;
     }
 

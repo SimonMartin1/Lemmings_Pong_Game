@@ -3,20 +3,16 @@ package Proyecto.games.Lemmings_game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import com.entropyinteractive.JGame;
 
-import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
+import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.View.Buttons;
-import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
+import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.View.LemmingView;
 import Proyecto.games.Lemmings_game.View.MinimapView;
@@ -25,8 +21,8 @@ import Proyecto.games.Lemmings_game.View.GameMenuView;
 
 public class Lemmings extends JGame {
 
-    private FirstLevelMapModel firstLevelMapModel;
-    private FirstLevelMapView firstLevelMapView;
+    private MapModel firstLevelMapModel;
+    private MapView firstLevelMapView;
     GameMenuView gameMenuView;
     private Graphics2D g;
     private boolean animation = false; 
@@ -65,7 +61,7 @@ public class Lemmings extends JGame {
     public void gameStartup() {
         //modelos
         try {
-            firstLevelMapModel = new FirstLevelMapModel();
+            firstLevelMapModel = new MapModel(1);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -85,7 +81,7 @@ public class Lemmings extends JGame {
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
-        firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
+        firstLevelMapView = new MapView(firstLevelMapModel);
 
 
         for (int i = 0; i < cantLemmings; i++) {

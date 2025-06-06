@@ -6,27 +6,27 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-public class FirstLevelMapModel {
+public class MapModel {
     TileModel[][] mapTiles;
     private int cameraX = 0;
     private int cameraY = 0;
 
-    public FirstLevelMapModel() throws Exception {
-        BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map5.png"));
-        int altura = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
-        int ancho = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
-        mapTiles = new TileModel[altura][ancho];
-        for (int y = 0; y < altura; y++) {
-            for (int x = 0; x < ancho; x++) {
+    public MapModel(int level) throws Exception {
+        BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
+        int cantTilesY = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
+        int cantTilesX = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
+        mapTiles = new TileModel[cantTilesY][cantTilesX];
+        for (int y = 0; y < cantTilesY; y++) {
+            for (int x = 0; x < cantTilesX; x++) {
                 BufferedImage tileImage = fullImage.getSubimage(x * LemmingConstants.TILE_WIDTH, y * LemmingConstants.TILE_HEIGHT, LemmingConstants.TILE_WIDTH, LemmingConstants.TILE_HEIGHT);
                 mapTiles[y][x] = new TileModel(tileImage);
             }
         }
     }
 
-    public TileModel getTileDebajo(int x, int y, int lemmingAltura) {
+    public TileModel getTileDebajo(int x, int y) {
         int tileX = x / LemmingConstants.TILE_WIDTH;
-        int tileY = (y + lemmingAltura) / LemmingConstants.TILE_HEIGHT;
+        int tileY = (y + LemmingConstants.LEMMING_HEIGHT) / LemmingConstants.TILE_HEIGHT;
         if (tileY >= 0 && tileY < mapTiles.length && tileX >= 0 && tileX < mapTiles[0].length) {
             return mapTiles[tileY][tileX];
         } else {

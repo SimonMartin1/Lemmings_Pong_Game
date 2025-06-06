@@ -3,7 +3,7 @@ package Proyecto.games.Lemmings_game.Model;
 import java.awt.Color;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
-import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
+import Proyecto.games.Lemmings_game.View.MapView;
 
 public class LemmingModel {
     int id;
@@ -13,13 +13,13 @@ public class LemmingModel {
     int speed;
     int currentTileX;
     int currentTileY;
-    FirstLevelMapView firstLevelMapView;
-    FirstLevelMapModel firstLevelMapModel;
+    MapView firstLevelMapView;
+    MapModel firstLevelMapModel;
     private AbilityModel currentAbility; // Nueva línea
     boolean isWalkingToRight = true;
 
 
-    public LemmingModel(int id, int x, int y, int vx, int speed, FirstLevelMapView firstLevelMapView, FirstLevelMapModel firstLevelMapModel) {
+    public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -39,11 +39,11 @@ public class LemmingModel {
         this.currentAbility = null;
     }
 
-    public FirstLevelMapModel getMap() {
+    public MapModel getMap() {
         return firstLevelMapModel;
     }
 
-    public FirstLevelMapView getView() {
+    public MapView getView() {
         return firstLevelMapView;
     }
 
@@ -89,6 +89,7 @@ public class LemmingModel {
     public void walk(){
 
         if(isWalkingToRight){
+
             //subida
             if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX)) ){
                 y -= speed;
@@ -108,7 +109,7 @@ public class LemmingModel {
                 y -= speed;
             }
 
-            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX-1))){
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX-3))){
                 x -= speed;
             }
             else{
