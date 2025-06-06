@@ -67,7 +67,7 @@ public class LemmingModel {
        currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
        currentTileX = (x + firstLevelMapView.getCamX())/LemmingConstants.TILE_WIDTH;
 
-        if(Color.BLACK.equals(firstLevelMapModel.getMapTiles()[currentTileY+1][currentTileX].getColor())){
+        if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY+1, currentTileX))){
             y += speed;
         }
         else{
@@ -89,7 +89,12 @@ public class LemmingModel {
     public void walk(){
 
         if(isWalkingToRight){
-            if(firstLevelMapModel.getMapTiles()[currentTileY-2][currentTileX+1].getColor().equals(Color.BLACK)){
+            //subida
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX)) ){
+                y -= speed;
+            }
+
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX+1))){
                 x += speed;
             }
             else{
@@ -97,7 +102,13 @@ public class LemmingModel {
             }
         }
         else{
-            if(firstLevelMapModel.getMapTiles()[currentTileY-2][currentTileX-1].getColor().equals(Color.BLACK)){
+
+            //subida
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX))){
+                y -= speed;
+            }
+
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX-1))){
                 x -= speed;
             }
             else{
