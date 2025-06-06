@@ -22,6 +22,9 @@ public class TileModel {
 
         if (x >= 0 && x < this.image.getWidth() && y >= 0 && y < this.image.getHeight()) {
             int pixelRGB = this.image.getRGB(x, y);
+
+            System.out.println("X: "+ x + "| Y: "+ y + " | --- | " + pixelRGB);
+
             this.color = new Color(pixelRGB, true);
         }
 

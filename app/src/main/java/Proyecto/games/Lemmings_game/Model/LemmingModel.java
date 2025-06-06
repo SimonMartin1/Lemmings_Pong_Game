@@ -2,7 +2,8 @@ package Proyecto.games.Lemmings_game.Model;
 
 import java.awt.Color;
 
-import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
+import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+import Proyecto.games.Lemmings_game.View.MapView;
 
 public class LemmingModel {
     int id;
@@ -12,20 +13,20 @@ public class LemmingModel {
     int speed;
     int currentTileX;
     int currentTileY;
-    FirstLevelMapView firstLevelMapView;
-    FirstLevelMapModel firstLevelMapModel;
+    MapView firstLevelMapView;
+    MapModel firstLevelMapModel;
     private AbilityModel currentAbility; // Nueva línea
     boolean isWalkingToRight = true;
 
 
-    public LemmingModel(int id, int x, int y, int vx, int speed, FirstLevelMapView firstLevelMapView, FirstLevelMapModel firstLevelMapModel) {
+    public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.vx = vx;
         this.speed = speed;
-        this.currentTileX = (int)(x/8);
-        this.currentTileY = (int)(y/8);
+        this.currentTileX = x/LemmingConstants.TILE_WIDTH;
+        this.currentTileY = y/LemmingConstants.TILE_HEIGHT;
         this.firstLevelMapView  = firstLevelMapView;    
         this.firstLevelMapModel = firstLevelMapModel;
     }
@@ -38,11 +39,11 @@ public class LemmingModel {
         this.currentAbility = null;
     }
 
-    public FirstLevelMapModel getMap() {
+    public MapModel getMap() {
         return firstLevelMapModel;
     }
 
-    public FirstLevelMapView getView() {
+    public MapView getView() {
         return firstLevelMapView;
     }
 
@@ -63,10 +64,12 @@ public class LemmingModel {
     public boolean hasAbility(){ return currentAbility != null;}
 
     public void update(double delta) {
-       currentTileY = (y)/8;
-       currentTileX = (x + firstLevelMapView.getCamX())/8;
+       currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
+       currentTileX = (x + firstLevelMapView.getCamX())/LemmingConstants.TILE_WIDTH;
 
-        if(firstLevelMapModel.getMapTiles()[currentTileY+1][currentTileX].getColor().equals(Color.BLACK)){
+        if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX)) && isWalkingToRight ||
+           Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX + 1)) && !isWalkingToRight
+        ){
             y += speed;
         }
         else{
@@ -88,7 +91,13 @@ public class LemmingModel {
     public void walk(){
 
         if(isWalkingToRight){
-            if(firstLevelMapModel.getMapTiles()[currentTileY-2][currentTileX+1].getColor().equals(Color.BLACK)){
+
+            //subida
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX)) ){
+                y -= speed;
+            }
+
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX+1))){
                 x += speed;
             }
             else{
@@ -96,7 +105,13 @@ public class LemmingModel {
             }
         }
         else{
-            if(firstLevelMapModel.getMapTiles()[currentTileY-2][currentTileX-1].getColor().equals(Color.BLACK)){
+
+            //subida
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX))){
+                y -= speed;
+            }
+
+            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX - 1))){
                 x -= speed;
             }
             else{
@@ -107,38 +122,23 @@ public class LemmingModel {
     }
 
     public boolean isClicked(double clickX, double clickY){
-        return clickX >= this.x && clickX <= this.x + 8 &&
-                clickY >= this.y && clickY <= this.y + 8;
+
+        double minClickableX = this.x - LemmingConstants.LEMMING_WIDTH;
+        double maxClickableX = this.x + LemmingConstants.LEMMING_WIDTH;
+        double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT;
+        double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
+
+        boolean clickedX = clickX >= minClickableX && clickX <= maxClickableX;
+        boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
+
+        System.out.println("M_X: "+ clickedX + " - [" + minClickableX + ", " +maxClickableX + "]");
+        System.out.println("M_X: "+ clickedY + " - [" + minClickableY + ", " +maxClickableY + "]");
+
+        return clickedX && clickedY;
     }
 
     public void assignAbility(AbilityModel ability){
         this.currentAbility = ability;
     }
-
-    /*
-    public void update(double delta) {
-        currentTileY = (y) / 8;
-        currentTileX = (x + firstLevelMapView.getCamX()) / 8;
-
-        if (currentAbility != null) {
-            currentAbility.apply(this, delta);
-            return;
-        }
-
-        // Comportamiento por defecto (caminar/caer)
-        if (firstLevelMapModel.getMapTiles()[currentTileY + 1][currentTileX].getColor().equals(Color.BLACK)) {
-            y += speed;
-        } else {
-            if (firstLevelMapModel.getMapTiles()[currentTileY - 1][currentTileX + 1].getColor().equals(Color.BLACK) &&
-                firstLevelMapModel.getMapTiles()[currentTileY - 2][currentTileX + 1].getColor().equals(Color.BLACK)) {
-                x += speed; 
-            } else {
-                //x -= speed;
-            }
-        }
-    }
-    */
-
-    
 
 }

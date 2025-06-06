@@ -1,16 +1,17 @@
 package Proyecto.games.Lemmings_game.View;
 
+import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
 import Proyecto.games.Lemmings_game.Model.*;
 
 import javax.swing.JPanel;
 import java.awt.Graphics;
 
-public class FirstLevelMapView extends JPanel {
-    private FirstLevelMapModel model;
+public class MapView extends JPanel {
+    private MapModel model;
     private int camX;
     private int camY;
 
-    public FirstLevelMapView(FirstLevelMapModel model) {
+    public MapView(MapModel model) {
         this.model = model;
     }
 
@@ -18,21 +19,19 @@ public class FirstLevelMapView extends JPanel {
         this.camX = camX;
         this.camY = camY;
 
-        int tileWidth = model.getTileWidth();
-        int tileHeight = model.getTileHeight();
         TileModel[][] tiles = model.getMapTiles();
-    
-        int startX = camX / tileWidth;
-        int startY = camY / tileHeight;
-        int endX = (camX + 800) / tileWidth + 1;
-        int endY = (camY + 600) / tileHeight + 1;
+
+        int startX = camX / LemmingConstants.TILE_WIDTH;
+        int startY = camY / LemmingConstants.TILE_HEIGHT;
+        int endX = (camX + 800) / LemmingConstants.TILE_WIDTH + 1;
+        int endY = (camY + 600) / LemmingConstants.TILE_HEIGHT + 1;
     
         for (int y = startY; y < endY && y < tiles.length; y++) {
             for (int x = startX; x < endX && x < tiles[0].length; x++) {
                 TileModel tile = tiles[y][x];
                 if (tile != null && tile.getImage() != null) {
-                    int drawX = x * tileWidth - camX;
-                    int drawY = y * tileHeight - camY;
+                    int drawX = x * LemmingConstants.TILE_WIDTH - camX;
+                    int drawY = y * LemmingConstants.TILE_HEIGHT - camY;
                     g.drawImage(tile.getImage(), drawX, drawY, null);
                 }
             }
