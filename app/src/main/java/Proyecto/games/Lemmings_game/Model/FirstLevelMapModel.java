@@ -1,32 +1,32 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class FirstLevelMapModel {
     TileModel[][] mapTiles;
-    final int tileWidth = 8;
-    final int tileHeight = 8;
     private int cameraX = 0;
     private int cameraY = 0;
 
     public FirstLevelMapModel() throws Exception {
         BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map5.png"));
-        int altura = fullImage.getHeight() / tileHeight;
-        int ancho = fullImage.getWidth() / tileWidth;
+        int altura = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
+        int ancho = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
         mapTiles = new TileModel[altura][ancho];
         for (int y = 0; y < altura; y++) {
             for (int x = 0; x < ancho; x++) {
-                BufferedImage tileImage = fullImage.getSubimage(x * tileWidth, y * tileHeight, tileWidth, tileHeight);
+                BufferedImage tileImage = fullImage.getSubimage(x * LemmingConstants.TILE_WIDTH, y * LemmingConstants.TILE_HEIGHT, LemmingConstants.TILE_WIDTH, LemmingConstants.TILE_HEIGHT);
                 mapTiles[y][x] = new TileModel(tileImage);
             }
         }
     }
 
     public TileModel getTileDebajo(int x, int y, int lemmingAltura) {
-        int tileX = x / tileWidth;
-        int tileY = (y + lemmingAltura) / tileHeight;
+        int tileX = x / LemmingConstants.TILE_WIDTH;
+        int tileY = (y + lemmingAltura) / LemmingConstants.TILE_HEIGHT;
         if (tileY >= 0 && tileY < mapTiles.length && tileX >= 0 && tileX < mapTiles[0].length) {
             return mapTiles[tileY][tileX];
         } else {
@@ -37,14 +37,6 @@ public class FirstLevelMapModel {
     
     public TileModel[][] getMapTiles() {
         return mapTiles;
-    }
-
-    public int getTileWidth() {
-        return tileWidth;
-    }
-
-    public int getTileHeight() {
-        return tileHeight;
     }
     
     public void setCameraPosition(int x, int y) {

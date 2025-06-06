@@ -42,9 +42,9 @@ public class Lemmings extends JGame {
     MinimapView minimapView;
     CursorModel cursorModel;
 
-    int cantLemmings = 100; 
+    int cantLemmings = 3;
     private double spawnTimer = 0;
-    private double spawnInterval = 0.5; // segundos entre lemmings
+    private double spawnInterval = 2; // segundos entre lemmings
     private int lemmingsToSpawn = cantLemmings;
     private int spawnedLemmings = 0;
 
@@ -87,12 +87,6 @@ public class Lemmings extends JGame {
         this.getFrame().setIconImage(icon.getImage());
         firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
 
-        //el mapa se crea antes que el lemming si o si
-        //lemmingModels.add(new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel));
-        //lemmingViews.add(new LemmingView(lemmingModels.get(0)));
-
-        //lemmingModel = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
-        //lemmingView = new LemmingView(lemmingModel);
 
         for (int i = 0; i < cantLemmings; i++) {
             LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
