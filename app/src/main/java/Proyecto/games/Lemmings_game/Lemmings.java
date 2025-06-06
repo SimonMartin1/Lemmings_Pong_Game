@@ -3,20 +3,16 @@ package Proyecto.games.Lemmings_game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import com.entropyinteractive.JGame;
 
-import Proyecto.games.Lemmings_game.Model.FirstLevelMapModel;
+import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.View.Buttons;
-import Proyecto.games.Lemmings_game.View.FirstLevelMapView;
+import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.View.LemmingView;
 import Proyecto.games.Lemmings_game.View.MinimapView;
@@ -25,8 +21,8 @@ import Proyecto.games.Lemmings_game.View.GameMenuView;
 
 public class Lemmings extends JGame {
 
-    private FirstLevelMapModel firstLevelMapModel;
-    private FirstLevelMapView firstLevelMapView;
+    private MapModel firstLevelMapModel;
+    private MapView firstLevelMapView;
     GameMenuView gameMenuView;
     private Graphics2D g;
     private boolean animation = false; 
@@ -42,9 +38,9 @@ public class Lemmings extends JGame {
     MinimapView minimapView;
     CursorModel cursorModel;
 
-    int cantLemmings = 100; 
+    int cantLemmings = 3;
     private double spawnTimer = 0;
-    private double spawnInterval = 0.5; // segundos entre lemmings
+    private double spawnInterval = 2; // segundos entre lemmings
     private int lemmingsToSpawn = cantLemmings;
     private int spawnedLemmings = 0;
 
@@ -65,7 +61,7 @@ public class Lemmings extends JGame {
     public void gameStartup() {
         //modelos
         try {
-            firstLevelMapModel = new FirstLevelMapModel();
+            firstLevelMapModel = new MapModel(1);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -85,14 +81,8 @@ public class Lemmings extends JGame {
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
-        firstLevelMapView = new FirstLevelMapView(firstLevelMapModel);
+        firstLevelMapView = new MapView(firstLevelMapModel);
 
-        //el mapa se crea antes que el lemming si o si
-        //lemmingModels.add(new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel));
-        //lemmingViews.add(new LemmingView(lemmingModels.get(0)));
-
-        //lemmingModel = new LemmingModel(300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
-        //lemmingView = new LemmingView(lemmingModel);
 
         for (int i = 0; i < cantLemmings; i++) {
             LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
@@ -132,13 +122,11 @@ public class Lemmings extends JGame {
             }
         }else{
             cursorModel.update();
-            //buttonController.update();
-            //lemmingModel.update(delta);
-            //lemmingModels.get(0).update(delta);
 
             for (LemmingModel l : lemmingModels) {
                 l.update(delta);
             }
+
             // Spawn con delay
             if (spawnedLemmings < lemmingsToSpawn) {
                 spawnTimer += delta;
@@ -150,10 +138,10 @@ public class Lemmings extends JGame {
                     LemmingView nuevoView = new LemmingView(nuevo);
                     lemmingModels.add(nuevo);
                     lemmingViews.add(nuevoView);
-                }
-            }
 
-           //lemmings.get(0).update(delta);
+                }
+
+            }
 
 
         }

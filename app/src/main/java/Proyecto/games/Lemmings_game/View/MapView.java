@@ -1,0 +1,48 @@
+package Proyecto.games.Lemmings_game.View;
+
+import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+import Proyecto.games.Lemmings_game.Model.*;
+
+import javax.swing.JPanel;
+import java.awt.Graphics;
+
+public class MapView extends JPanel {
+    private MapModel model;
+    private int camX;
+    private int camY;
+
+    public MapView(MapModel model) {
+        this.model = model;
+    }
+
+    public void draw(Graphics g, int camX, int camY) {
+        this.camX = camX;
+        this.camY = camY;
+
+        TileModel[][] tiles = model.getMapTiles();
+
+        int startX = camX / LemmingConstants.TILE_WIDTH;
+        int startY = camY / LemmingConstants.TILE_HEIGHT;
+        int endX = (camX + 800) / LemmingConstants.TILE_WIDTH + 1;
+        int endY = (camY + 600) / LemmingConstants.TILE_HEIGHT + 1;
+    
+        for (int y = startY; y < endY && y < tiles.length; y++) {
+            for (int x = startX; x < endX && x < tiles[0].length; x++) {
+                TileModel tile = tiles[y][x];
+                if (tile != null && tile.getImage() != null) {
+                    int drawX = x * LemmingConstants.TILE_WIDTH - camX;
+                    int drawY = y * LemmingConstants.TILE_HEIGHT - camY;
+                    g.drawImage(tile.getImage(), drawX, drawY, null);
+                }
+            }
+        }
+    }
+
+    public int getCamX() {
+        return camX;
+    }
+
+    public int getCamY() {
+        return camY;
+    }
+}

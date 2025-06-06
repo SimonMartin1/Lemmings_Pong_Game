@@ -4,18 +4,27 @@ import java.awt.Color;
 
 public class DigAbility implements AbilityModel {
 
-    private final String name = "Cavar";
+    private final Ability name = Ability.DIGGER;
 
     @Override
     public void apply(LemmingModel lemming, double delta) {
+
+        lemming.setCurrentLeemingState(LemmingAnimationState.DIGGING);
+
         int tileX = (lemming.getX() + lemming.getView().getCamX()) / 8;
         int tileY = (lemming.getY()) / 8;
 
         System.out.println("i'M CAVANDO HARD");
+
         // "Cava" el tile actual, es decir, lo pone blanco (vacío)
         if(!lemming.getMap().getMapTiles()[tileY + 1][tileX].getColor().equals(Color.BLACK)){
+
+            lemming.getMap().getMapTiles()[tileY][tileX].setTileColor(tileX, tileY);
             lemming.getMap().getMapTiles()[tileY + 1][tileX].setTileColor(tileX, tileY);
+
+            lemming.getMap().getMapTiles()[tileY][tileX + 1].setTileColor(tileX, tileY);
             lemming.getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(tileX + 1, tileY);
+
             lemming.setY(lemming.getY() + 1); // baja el lemming un poco
         }
 
@@ -27,7 +36,7 @@ public class DigAbility implements AbilityModel {
     }
 
     @Override
-    public String getName() {
+    public Ability getName() {
         return name;
     }
 }
