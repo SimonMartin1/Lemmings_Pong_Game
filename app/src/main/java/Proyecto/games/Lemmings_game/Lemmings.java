@@ -122,13 +122,11 @@ public class Lemmings extends JGame {
             }
         }else{
             cursorModel.update();
-            //buttonController.update();
-            //lemmingModel.update(delta);
-            //lemmingModels.get(0).update(delta);
 
             for (LemmingModel l : lemmingModels) {
                 l.update(delta);
             }
+
             // Spawn con delay
             if (spawnedLemmings < lemmingsToSpawn) {
                 spawnTimer += delta;
@@ -140,10 +138,10 @@ public class Lemmings extends JGame {
                     LemmingView nuevoView = new LemmingView(nuevo);
                     lemmingModels.add(nuevo);
                     lemmingViews.add(nuevoView);
-                }
-            }
 
-           //lemmings.get(0).update(delta);
+                }
+
+            }
 
 
         }

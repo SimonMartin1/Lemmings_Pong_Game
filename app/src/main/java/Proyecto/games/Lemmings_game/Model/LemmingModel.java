@@ -1,9 +1,13 @@
 package Proyecto.games.Lemmings_game.Model;
 
 import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
 import Proyecto.games.Lemmings_game.View.MapView;
+
+import javax.imageio.ImageIO;
 
 public class LemmingModel {
     int id;
@@ -17,6 +21,8 @@ public class LemmingModel {
     MapModel firstLevelMapModel;
     private AbilityModel currentAbility; // Nueva línea
     boolean isWalkingToRight = true;
+    boolean isStartingToWalk = false;
+    LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
 
 
     public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
@@ -32,7 +38,11 @@ public class LemmingModel {
     }
 
     public void setAbility(AbilityModel ability) {
-    this.currentAbility = ability;
+        this.currentAbility = ability;
+    }
+
+    public AbilityModel getCurrentAbility(){
+        return currentAbility;
     }
 
     public void clearAbility() {
@@ -59,6 +69,10 @@ public class LemmingModel {
         this.y = y; 
     }
 
+    public void setCurrentLeemingState(LemmingAnimationState currentState){
+        this.currentState = currentState;
+    }
+
     public void setCurrentAbility(AbilityModel currentAbility){ this.currentAbility = currentAbility; }
 
     public boolean hasAbility(){ return currentAbility != null;}
@@ -70,17 +84,29 @@ public class LemmingModel {
         if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX)) && isWalkingToRight ||
            Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX + 1)) && !isWalkingToRight
         ){
+            currentState =LemmingAnimationState.FALLING;
+            //if(!isStartingToWalk)
+
             y += speed;
         }
         else{
             applyHability(delta);
         }
 
+        System.out.println(currentState);
+
     }
 
     public void applyHability(double delta){
 
         if(currentAbility != null){
+
+            /*
+            switch (currentAbility.getName()){
+                case Ability.DIGGER -> currentState = LemmingAnimationState.DIGGING;
+            }
+             */
+
             currentAbility.apply(this, delta);
         }
         else{
@@ -89,8 +115,10 @@ public class LemmingModel {
     }
 
     public void walk(){
+        isStartingToWalk = true;
 
         if(isWalkingToRight){
+            currentState = LemmingAnimationState.WALKING_RIGHT;
 
             //subida
             if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX)) ){
@@ -105,6 +133,7 @@ public class LemmingModel {
             }
         }
         else{
+            currentState = LemmingAnimationState.WALKING_LEFT;
 
             //subida
             if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX))){
@@ -139,6 +168,15 @@ public class LemmingModel {
 
     public void assignAbility(AbilityModel ability){
         this.currentAbility = ability;
+    }
+
+    public boolean isWalkingToRight(){
+        return isWalkingToRight;
+    }
+
+
+    public LemmingAnimationState getCurrentState(){
+        return currentState;
     }
 
 }
