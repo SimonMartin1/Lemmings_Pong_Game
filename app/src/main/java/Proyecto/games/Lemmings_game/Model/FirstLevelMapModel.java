@@ -38,6 +38,19 @@ public class FirstLevelMapModel {
     public TileModel[][] getMapTiles() {
         return mapTiles;
     }
+
+    public Color getTileColor(int tileY, int tileX){
+        Color res = null;
+
+        if (tileY >= 0 && tileY < mapTiles.length &&
+                tileX >= 0 && tileX < mapTiles[0].length &&
+                mapTiles[tileY][tileX] != null &&
+                mapTiles[tileY][tileX].getColor() != null) {
+            res =  mapTiles[tileY][tileX].getColor();
+        }
+
+        return res;
+    }
     
     public void setCameraPosition(int x, int y) {
         this.cameraX = x;
