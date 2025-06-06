@@ -86,12 +86,16 @@ public class LemmingModel {
         ){
             currentState =LemmingAnimationState.FALLING;
             //if(!isStartingToWalk)
-
             y += speed;
+            return;
         }
         else{
             applyHability(delta);
         }
+        
+        // si no está cayendo, sigue con la habilidad o caminando
+        applyHability(delta);
+        
 
         System.out.println(currentState);
 
