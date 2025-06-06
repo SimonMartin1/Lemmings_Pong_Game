@@ -4,10 +4,13 @@ import java.awt.Color;
 
 public class DigAbility implements AbilityModel {
 
-    private final String name = "Cavar";
+    private final Ability name = Ability.DIGGER;
 
     @Override
     public void apply(LemmingModel lemming, double delta) {
+
+        lemming.setCurrentLeemingState(LemmingAnimationState.DIGGING);
+
         int tileX = (lemming.getX() + lemming.getView().getCamX()) / 8;
         int tileY = (lemming.getY()) / 8;
 
@@ -33,7 +36,7 @@ public class DigAbility implements AbilityModel {
     }
 
     @Override
-    public String getName() {
+    public Ability getName() {
         return name;
     }
 }
