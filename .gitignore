@@ -3,7 +3,7 @@
 .class
 .idea
 .vscode
-
+.txt
 # Ignore Gradle build output directory
 bin
 build
