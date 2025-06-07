@@ -40,7 +40,9 @@ public class LemmingView{
         if(!model.getOnExit()){
             updateAnimation();
             BufferedImage[] frames = animations.get(model.getCurrentState());
+
             if (frames == null) return;
+
             BufferedImage currentFrame = frames[currentFrameIndex];
             g.drawImage(currentFrame, model.getX(), model.getY(), 20, 30, null);
         }
@@ -103,7 +105,7 @@ public class LemmingView{
         long frameDuration = 100;
 
         if (now - lastFrameChangeTime > frameDuration) {
-            /*switch(model.getCurrentState()){
+            switch(model.getCurrentState()){
                 case WALKING_RIGHT:
                     currentFrameIndex = (currentFrameIndex + 1) % 8;
                     break;
@@ -118,8 +120,8 @@ public class LemmingView{
                 case STOPING:
                     currentFrameIndex = (currentFrameIndex + 1) % 1;
                     break;
-            }*/
-            currentFrameIndex = (currentFrameIndex + 1) % 1; // tiene que ser una variable que se pueda cambiar
+            }
+
             lastFrameChangeTime = now;
         }
     }
