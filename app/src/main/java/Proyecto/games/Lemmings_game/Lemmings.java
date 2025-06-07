@@ -3,6 +3,8 @@ package Proyecto.games.Lemmings_game;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 
@@ -37,6 +39,10 @@ public class Lemmings extends JGame {
     ButtonController buttonController;
     MinimapView minimapView;
     CursorModel cursorModel;
+    //lista de mapas y vistas
+    private List<MapModel> levelsModel = new ArrayList<>();
+    private List<MapView> levelsView = new ArrayList<>();
+    private int nivelActual = 0;
 
     int cantLemmings = 3;
     private double spawnTimer = 0;
