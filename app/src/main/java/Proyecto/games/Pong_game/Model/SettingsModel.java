@@ -46,7 +46,7 @@ public class SettingsModel {
     public static class Config {
         public boolean musicOff = false;
         public Track track = Track.TRACK3;
-        public Difficult difficult = Difficult.MEDIUM;
+        public Difficult difficult = Difficult.EASY;
         public int maxPoints = 5;
         public boolean twoPlayers = false;
     }

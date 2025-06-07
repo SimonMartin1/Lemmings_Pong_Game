@@ -147,24 +147,26 @@ public class Pong extends JGame {
         settingsView.setDraw("Track");
         playTrack(track);
     }
-
-    switch (config.difficult) {
-        case HARD -> settingsView.setDraw("Hard");
-        case MEDIUM -> settingsView.setDraw("Medium");
-        case EASY -> settingsView.setDraw("Easy");
+    if (config.twoPlayers) {
+        settingsView.setDraw("TwoPlayers");
+    }
+    else{
+        switch (config.difficult) {
+            case HARD -> settingsView.setDraw("Hard");
+            case MEDIUM -> settingsView.setDraw("Medium");
+            case EASY -> settingsView.setDraw("Easy");
+        }
     }
 
     // WinPoints
     switch (config.maxPoints) {
-        case 3 -> settingsView.setDraw("Win3");
         case 5 -> settingsView.setDraw("Win5");
-        case 7 -> settingsView.setDraw("Win7");
+        case 10 -> settingsView.setDraw("Win10");
+        case 15 -> settingsView.setDraw("Win15");
     }
 
     // TwoPlayers
-    if (config.twoPlayers) {
-        settingsView.setDraw("TwoPlayers");
-    }
+    
     }
 
     public void saveSettings(){
@@ -181,9 +183,9 @@ public class Pong extends JGame {
     }
     public void setMaxPoints(int option) {
         switch (option) {
-            case 0 -> this.maxPoints = 3; 
-            case 1 -> this.maxPoints = 5; 
-            case 2 -> this.maxPoints = 7; 
+            case 0 -> this.maxPoints = 5; 
+            case 1 -> this.maxPoints = 10; 
+            case 2 -> this.maxPoints = 15; 
         }
 
     }

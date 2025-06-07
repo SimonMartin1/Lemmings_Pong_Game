@@ -8,18 +8,28 @@ public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
         if(view.isHardClicked(m)){
             view.setDraw("Hard");
+            game.setDifficult(2);
+            game.setTwoPlayers(false);
         } else if(view.isMediumClicked(m)){
             view.setDraw("Medium");
+            game.setDifficult(1);
+            game.setTwoPlayers(false);
         } else if(view.isEasyClicked(m)){
             view.setDraw("Easy");
+            game.setTwoPlayers(false);
+            game.setDifficult(0);
         } else if(view.isOnClicked(m)){
             view.setDraw("TwoPlayers");
-        } else if(view.isWinPoints7Clicked(m)){
-            view.setDraw("Win7");
+            game.setTwoPlayers(true);
+        } else if(view.isWinPoints15Clicked(m)){
+            view.setDraw("Win15");
+            game.setMaxPoints(2);
+        } else if(view.isWinPoints10Clicked(m)){
+            view.setDraw("Win10");
+            game.setMaxPoints(1);
         } else if(view.isWinPoints5Clicked(m)){
             view.setDraw("Win5");
-        } else if(view.isWinPoints3Clicked(m)){
-            view.setDraw("Win3");
+            game.setMaxPoints(0);
         } else if(view.isOffClicked(m)){
             view.setDraw("Off");
             game.setMusicOFF();
