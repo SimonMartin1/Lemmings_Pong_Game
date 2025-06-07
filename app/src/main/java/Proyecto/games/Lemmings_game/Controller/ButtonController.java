@@ -28,7 +28,6 @@ public class ButtonController {
         if(isPressed && !wasPressedLastFrame){
             // Esto solo se ejecuta UNA VEZ cuando se presiona el botón
             if(x<=110 && x >= 10 && y>=450 && y<= 600){
-                
                 //new DigAbility(le)
                 System.out.println("Estoy cavando!!!");
             } else if(x<=210 && x >= 110 && y>=450 && y<= 600){
