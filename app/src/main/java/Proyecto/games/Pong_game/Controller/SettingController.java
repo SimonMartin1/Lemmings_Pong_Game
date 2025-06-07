@@ -1,10 +1,9 @@
 package Proyecto.games.Pong_game.Controller;
-import Proyecto.games.Pong_game.Pong;
-
 import com.entropyinteractive.Mouse;
 
-import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.Model.SettingsModel;
+import Proyecto.games.Pong_game.Pong;
+import Proyecto.games.Pong_game.View.GameSettingsView;
 
 public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
@@ -43,6 +42,7 @@ public class SettingController {
         }
 
         if(view.isSaveClicked(m)){
+            game.saveSettings();
             game.setIsinsettings();
         }
 
