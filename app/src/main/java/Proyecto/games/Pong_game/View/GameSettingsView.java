@@ -31,6 +31,18 @@ public class GameSettingsView {
         }
         return res;
     }
+        public String getBallSkin(){
+        String res="";
+        
+        switch (game.getBallSkin()) {
+            case NORMAL -> res = "Normal";
+            case CRAZY -> res = "Crazy";
+            case TENNIS -> res = "Tenis";
+            case FOOTBALL -> res = "Football";
+            case BASKET -> res = "Basket";
+        }
+        return res;
+    }
 
     public void drawmenu(Graphics2D g) {
         g.setColor(Color.BLACK);
@@ -38,6 +50,7 @@ public class GameSettingsView {
         g.setColor(Color.WHITE);
         g.setStroke(new BasicStroke(3));
         g.drawRoundRect(width/2 -140, 145, 400, 40, 20, 20); 
+        g.drawRoundRect(width/2-110, 100, 100, 40, 20, 20); 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Settings", width/2-50 , 70);
@@ -57,9 +70,19 @@ public class GameSettingsView {
         g.drawString("15", width/2-120 , 260);
         g.drawString("10", width/2-60 , 260); 
         g.drawString("5", width/2 , 260);
+        g.drawString("Pitch Skin", width/2-265 , 305);
+        g.drawString("Ball Skin", width/2-265 , 350);
+        g.drawString(getBallSkin(), width/2-120 , 350);
+        g.drawString("Off", width/2-40 , 350);
+        g.drawString("Full Screen", width/2-265 , 395);
+        g.drawString("On", width/2-120 , 395);
+        g.drawString("Off", width/2-40 , 395);
+        g.drawString("Keys", width/2-265 , 440);
+        g.drawString("Change Keys", width/2+20 , 440);
         g.drawString("Save", width-325 , 550);
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
+
 
         if(drawHard){
             g.setColor(Color.WHITE);
@@ -125,6 +148,9 @@ public class GameSettingsView {
         if(nextTrack){
             g.drawString(getTrack(), width/2-120 , 125);
         }
+        if (nextBallskin) {
+            g.drawString(getBallSkin(), width/2-120 , 350);
+        }
     }
 
     public boolean getDrawTrack(){
@@ -187,6 +213,9 @@ public class GameSettingsView {
             drawOff = true;
             drawTrack = false;
             nextTrack = false;
+            }
+            case "Cancel" -> {
+                
             }
             case "Reset" -> {
                 drawHard = false;
@@ -322,7 +351,7 @@ public class GameSettingsView {
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
-        public boolean isBallColorClicked(Mouse m) {
+        public boolean isBallSkinClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
         int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"

@@ -1,5 +1,6 @@
-musicOff=false
+musicOff=true
 track=TRACK3
 difficult=EASY
 maxPoints=5
 twoPlayers=false
+ballSkin=NORMAL

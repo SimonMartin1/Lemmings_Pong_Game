@@ -6,17 +6,20 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import Proyecto.games.Pong_game.View.BallSkins;
+
 
 public class SettingsModel {
     private static final String setting_FILE = "app\\src\\main\\java\\Proyecto\\games\\Pong_game\\utils\\pong_setting.txt";
 
-    public static void saveSettings(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers) {
+    public static void saveSettings(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers, BallSkins ballSkin) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(setting_FILE))) {
             writer.println("musicOff=" + musicOff);
             writer.println("track=" + track);
             writer.println("difficult=" + difficult);
             writer.println("maxPoints=" + maxPoints);
             writer.println("twoPlayers=" + twoPlayers);
+            writer.println("ballSkin=" + ballSkin);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -35,10 +38,11 @@ public class SettingsModel {
                     case "difficult" -> setting.difficult = Difficult.valueOf(kv[1]);
                     case "maxPoints" -> setting.maxPoints = Integer.parseInt(kv[1]);
                     case "twoPlayers" -> setting.twoPlayers = Boolean.parseBoolean(kv[1]);
+                    case "ballSkin" -> setting.ballSkin = BallSkins.valueOf(kv[1]);
                 }
             }
         } catch (IOException e) {
-            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers);
+            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin);
         }
         return setting;
     }
@@ -49,5 +53,6 @@ public class SettingsModel {
         public Difficult difficult = Difficult.EASY;
         public int maxPoints = 5;
         public boolean twoPlayers = false;
+        public BallSkins ballSkin = BallSkins.NORMAL;
     }
 }

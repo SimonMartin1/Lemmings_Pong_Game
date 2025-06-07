@@ -27,6 +27,7 @@ import Proyecto.games.Pong_game.View.GameOverMenuView;
 import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
+import Proyecto.games.Pong_game.View.BallSkins;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
 import Proyecto.games.Pong_game.utils.SoundPlayer;
 
@@ -50,9 +51,12 @@ public class Pong extends JGame {
     GameSettingsView settingsView;
     SettingsModel settingsModel;
     SettingsModel.Settings setting;
+    public SettingsModel.Settings backupSettings;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF,resetSettings;
+    private boolean backupDrawHard, backupDrawMedium, backupDrawEasy, backupDrawTwoPlayers, backupDrawWin5, backupDrawWin10, backupDrawWin15, backupDrawOff, backupDrawTrack, backupDrawBallSkin;
     private Player winner;
     private Difficult difficult;
+    private BallSkins ballSkin;
     private Track track;
     private int maxPoints=5;
 
@@ -77,6 +81,7 @@ public class Pong extends JGame {
         settingsView = new GameSettingsView(getWidth(), getHeight(),this);
         settingController = new SettingController(settingsView,settingsModel , getMouse(),this);
         initSettings();
+        backUpSettings();
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
         if(twoplayers){
@@ -131,7 +136,6 @@ public class Pong extends JGame {
         }
     });
     }
-
     public void initSettings(){
         setting = SettingsModel.loadSettings();
         musicOFF = setting.musicOff;
@@ -139,6 +143,7 @@ public class Pong extends JGame {
         difficult = setting.difficult;
         maxPoints = setting.maxPoints;
         twoplayers = setting.twoPlayers;
+        ballSkin = setting.ballSkin;
 
     if(musicOFF){
         settingsView.setDraw("Off");
@@ -164,13 +169,51 @@ public class Pong extends JGame {
         case 10 -> settingsView.setDraw("Win10");
         case 15 -> settingsView.setDraw("Win15");
     }
-
-    // TwoPlayers
+    }
+    public SettingsModel.Settings getSettings() {
+        return setting;
+    }  
     
+    public void backUpSettings() {
+    // Guarda el modelo
+        backupSettings = new SettingsModel.Settings();
+        backupSettings.musicOff = musicOFF;
+        backupSettings.track = track;
+        backupSettings.difficult = difficult;
+        backupSettings.maxPoints = maxPoints;
+        backupSettings.twoPlayers = twoplayers;
+
+        // Guarda el estado visual de los botones
+        backupDrawHard = settingsView.drawHard;
+        backupDrawMedium = settingsView.drawMedium;
+        backupDrawEasy = settingsView.drawEasy;
+        backupDrawTwoPlayers = settingsView.drawTwoPlayers;
+        backupDrawWin5 = settingsView.drawWin5;
+        backupDrawWin10 = settingsView.drawWin10;
+        backupDrawWin15 = settingsView.drawWin15;
+        backupDrawOff = settingsView.drawOff;
+        backupDrawTrack = settingsView.drawTrack;
+        //backupDrawBallSkin = settingsView.drawBallSkin;
+
+    }
+    public boolean getBackUpSettings(int option){
+        boolean backup = false;
+        switch(option){
+            case 0 -> backup = backupDrawHard; // Hard
+            case 1 -> backup = backupDrawMedium; // Medium
+            case 2 -> backup = backupDrawEasy; // Easy
+            case 3 -> backup = backupDrawTwoPlayers; // Two Players
+            case 4 -> backup = backupDrawWin5; // Win 5
+            case 5 -> backup = backupDrawWin10; // Win 10
+            case 6 -> backup = backupDrawWin15; // Win 15
+            case 7 -> backup = backupDrawOff; // Off
+            case 8 -> backup = backupDrawTrack; // Track
+        }
+        return backup;
     }
 
     public void saveSettings(){
-        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers);
+        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin);
     }
     public void resetSettings(){
         musicOFF = false;
@@ -188,6 +231,28 @@ public class Pong extends JGame {
     public Track getTrack(){
         return this.track;
     }
+    public void setTrack(int option) {
+        if(!musicOFF){
+            switch (option) {
+                case 1-> this.track = Track.TRACK1;
+                case 2->this.track = Track.TRACK2;
+                case 3->this.track = Track.TRACK3;
+            }
+        }
+    }
+    public BallSkins getBallSkin(){
+        return ballSkin;
+    }
+    public void setBallSkin(int option) {
+        switch (option) {
+            case 1-> this.ballSkin = BallSkins.NORMAL;
+            case 2-> this.ballSkin = BallSkins.CRAZY; 
+            case 3-> this.ballSkin = BallSkins.TENNIS; 
+            case 4-> this.ballSkin = BallSkins.FOOTBALL; 
+            case 5-> this.ballSkin = BallSkins.BASKET; 
+        }
+        ballView.setBallType(ballSkin);
+    }
     public void setMaxPoints(int option) {
         switch (option) {
             case 0 -> this.maxPoints = 5; 
@@ -196,27 +261,13 @@ public class Pong extends JGame {
         }
 
     }
-    public void setMusicOFF() {
-        this.musicOFF = !this.musicOFF;
+    public void setMusicOFF(boolean option) {
+        this.musicOFF = option;
     }
     public boolean getmusicOFF() {
         return this.musicOFF;
     }
-    public void setTrack(int option) {
-        if(!musicOFF){
-        switch (option) {
-            case 1->{ 
-            this.track = Track.TRACK1;
-            }
-            case 2->{
-            this.track = Track.TRACK2;
-            }
-            case 3->{
-            this.track = Track.TRACK3;
-            }
-        }
-    }
-}
+    
 public void playTrack(Track option) {
         if(!musicOFF){
         switch (option) {
@@ -268,7 +319,7 @@ public void playTrack(Track option) {
         }
         else{
             
-            if(gamePauseView.pauseGame(keyboard)){  gamePause = !gamePause; }
+            if(gamePauseView.pauseGame(keyboard) && !gameOver){  gamePause = !gamePause; }
 
             if(gamePause){
 
@@ -290,6 +341,7 @@ public void playTrack(Track option) {
                     if(gameOverMenuView.wantsBackMenu(keyboard)){
                         gameReset();
                         isInMenu = true;
+                        isInSettings = false;
                     }
                 }
                 else{
