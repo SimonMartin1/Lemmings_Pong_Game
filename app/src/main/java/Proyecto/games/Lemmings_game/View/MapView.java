@@ -45,4 +45,9 @@ public class MapView extends JPanel {
     public int getCamY() {
         return camY;
     }
+
+    public void setCameraPosition(int x, int y) {
+        this.camX = x;
+        this.camY = y;
+    }
 }

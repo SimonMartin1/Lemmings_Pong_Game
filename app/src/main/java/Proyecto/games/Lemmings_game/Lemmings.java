@@ -86,7 +86,7 @@ public class Lemmings extends JGame {
         buttonStop = new Buttons("Parar",110,450,100,150);
         buttonBuild = new Buttons("Construir",210,450,100,150);
         buttonFly = new Buttons("Volar",310,450,100,150);
-        minimapView = new MinimapView(480, 480, 250, 100);
+        minimapView = new MinimapView(480, 480, 250, 100, 3);
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
