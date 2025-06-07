@@ -8,16 +8,18 @@ import javax.imageio.ImageIO;
 
 public class MapModel {
     TileModel[][] mapTiles;
-    private int cameraX = 0;
+    //private int cameraX = 0;
     private int cameraY = 0;
+    private int cameraX;
     private ExitModel exit;
 
-    public MapModel(int level) throws Exception {
+    public MapModel(int level, int exitX, int exitY, int cameraX) throws Exception {
         BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
+        this.cameraX = cameraX;
         int cantTilesY = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
         int cantTilesX = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
         mapTiles = new TileModel[cantTilesY][cantTilesX];
-        this.exit = new ExitModel(650,350); //ACA A FUTURO LE PASAMOS LA SALIDA PARA QUE CAMBIE
+        this.exit = new ExitModel(exitX,exitY); //ACA A FUTURO LE PASAMOS LA SALIDA PARA QUE CAMBIE
         for (int y = 0; y < cantTilesY; y++) {
             for (int x = 0; x < cantTilesX; x++) {
                 BufferedImage tileImage = fullImage.getSubimage(x * LemmingConstants.TILE_WIDTH, y * LemmingConstants.TILE_HEIGHT, LemmingConstants.TILE_WIDTH, LemmingConstants.TILE_HEIGHT);

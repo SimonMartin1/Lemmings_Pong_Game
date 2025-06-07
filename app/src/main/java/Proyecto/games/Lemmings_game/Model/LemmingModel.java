@@ -24,6 +24,7 @@ public class LemmingModel {
     boolean isStartingToWalk = false;
     LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
     boolean isOnExit = false;
+    boolean saved = false;
 
     public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
         this.id = id;
@@ -120,6 +121,13 @@ public class LemmingModel {
         return isOnExit;
     }
 
+    public boolean isSaved() {
+        return saved;
+    }
+    
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
     public void walk(){
 
         if(isWalkingToRight){
