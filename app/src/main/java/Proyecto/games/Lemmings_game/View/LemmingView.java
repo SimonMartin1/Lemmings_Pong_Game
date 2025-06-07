@@ -36,12 +36,14 @@ public class LemmingView{
 
 
     public void draw(Graphics g) {
-        updateAnimation();
-        BufferedImage[] frames = animations.get(model.getCurrentState());
-        if (frames == null) return;
-        BufferedImage currentFrame = frames[currentFrameIndex];
-        g.drawImage(currentFrame, model.getX(), model.getY(), 20, 30, null);
 
+        if(!model.getOnExit()){
+            updateAnimation();
+            BufferedImage[] frames = animations.get(model.getCurrentState());
+            if (frames == null) return;
+            BufferedImage currentFrame = frames[currentFrameIndex];
+            g.drawImage(currentFrame, model.getX(), model.getY(), 20, 30, null);
+        }
         //g.drawImage(currentFrame, model.getX(), model.getY(), null);
     }
 
@@ -86,9 +88,6 @@ public class LemmingView{
         }
 
         stopFrames[0] = lemmingStopingSprites.getSubimage(0, 0, 10, 10);
-
-
-        
 
         animations.put(LemmingAnimationState.WALKING_RIGHT, walkRightFrames);
         animations.put(LemmingAnimationState.WALKING_LEFT, walkLeftFrames);

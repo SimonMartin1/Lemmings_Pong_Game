@@ -23,7 +23,7 @@ public class LemmingModel {
     boolean isWalkingToRight = true;
     boolean isStartingToWalk = false;
     LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
-
+    boolean isOnExit = false;
 
     public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
         this.id = id;
@@ -94,7 +94,8 @@ public class LemmingModel {
         else{
             //applyHability(delta);
         }
-        
+        checkExit();
+        //verPosicion(); //para debugear
         // si no está cayendo, sigue con la habilidad o caminando
         applyHability(delta);
         
@@ -102,6 +103,7 @@ public class LemmingModel {
         //System.out.println(currentState);
 
     }
+
 
     public void applyHability(double delta){
 
@@ -119,6 +121,18 @@ public class LemmingModel {
             
             walk();
         }
+    }
+
+
+    public void checkExit(){
+        if(firstLevelMapModel.getExit().checkLemming(this)){
+            firstLevelMapModel.getExit().sumLemming(this);
+            isOnExit = true;
+        }
+    }
+
+    public boolean getOnExit(){
+        return isOnExit;
     }
 
     public void walk(){
