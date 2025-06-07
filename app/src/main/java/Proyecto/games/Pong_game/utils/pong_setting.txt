@@ -1,5 +1,5 @@
-musicOff=true
+musicOff=false
 track=TRACK3
-difficult=HARD
+difficult=EASY
 maxPoints=5
 twoPlayers=false
