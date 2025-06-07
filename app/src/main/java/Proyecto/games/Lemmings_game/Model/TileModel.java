@@ -22,9 +22,6 @@ public class TileModel {
 
         if (x >= 0 && x < this.image.getWidth() && y >= 0 && y < this.image.getHeight()) {
             int pixelRGB = this.image.getRGB(x, y);
-
-            System.out.println("X: "+ x + "| Y: "+ y + " | --- | " + pixelRGB);
-
             this.color = new Color(pixelRGB, true);
         }
 
@@ -45,7 +42,7 @@ public class TileModel {
         }
     }
 
-    public void setTileColor(int tileX, int tileY, Color color) {
+    public void setTileColor(Color color) {
         try{
             image = ImageIO.read(getClass().getResourceAsStream("/black.png"));
         }catch (Exception err){
@@ -53,8 +50,13 @@ public class TileModel {
         }
 
         this.color = color;
-        //System.out.println("color: " + color);
-        this.tipo = 0; // vaciado
+
+        if(Color.BLACK.equals(this.color)){
+            this.tipo = 0; // vaciado
+        }
+        else{
+            this.tipo = 1;
+        }
     }
 
 }

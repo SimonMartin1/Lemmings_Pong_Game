@@ -82,46 +82,31 @@ public class LemmingModel {
        currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
        currentTileX = (x + firstLevelMapView.getCamX())/LemmingConstants.TILE_WIDTH;
 
-        //System.out.println("mi speed es: " + speed);
-
-        if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX)) && isWalkingToRight ||
-           Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX + 1)) && !isWalkingToRight
-        ){
-            currentState = LemmingAnimationState.FALLING; //hallar el problema de que no cae
-            //if(!isStartingToWalk)
-            y += speed;
-            return;
+        if(hasAbility()){
+            applyHability(delta);
         }
         else{
-            //applyHability(delta);
+            if(shouldItFall()){
+                fall();
+            }
+            else{
+                walk();
+            }
         }
-        checkExit();
-        //verPosicion(); //para debugear
-        // si no está cayendo, sigue con la habilidad o caminando
-        applyHability(delta);
-        
 
-        //System.out.println(currentState);
+
+        checkExit();
 
     }
 
 
     public void applyHability(double delta){
 
-        if(currentAbility != null){
-
-            /*
-            switch (currentAbility.getName()){
-                case Ability.DIGGER -> currentState = LemmingAnimationState.DIGGING;
-            }
-             */
-
-            currentAbility.apply(this, delta);
+        switch (currentAbility.getName()){
+            case Ability.DIGGER -> currentState = LemmingAnimationState.DIGGING;
         }
-        else{
-            
-            walk();
-        }
+
+        currentAbility.apply(this, delta);
     }
 
 
@@ -144,7 +129,6 @@ public class LemmingModel {
         this.saved = saved;
     }
     public void walk(){
-        isStartingToWalk = true;
 
         if(isWalkingToRight){
             currentState = LemmingAnimationState.WALKING_RIGHT;
@@ -179,6 +163,23 @@ public class LemmingModel {
 
     }
 
+    public boolean shouldItFall(){
+
+        return Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 2, currentTileX)) && isWalkingToRight ||
+                Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 2, currentTileX + 1)) && !isWalkingToRight;
+
+    }
+
+
+    public void fall(){
+
+        if(Color.BLACK.equals(firstLevelMapModel.getMapTiles()[currentTileY + 4][currentTileX].getColor())){
+            currentState = LemmingAnimationState.FALLING;
+        }
+
+        y += speed;
+    }
+
     public boolean isClicked(double clickX, double clickY){
 
         double minClickableX = this.x - LemmingConstants.LEMMING_WIDTH;
@@ -188,9 +189,6 @@ public class LemmingModel {
 
         boolean clickedX = clickX >= minClickableX && clickX <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
-
-        //System.out.println("M_X: "+ clickedX + " - [" + minClickableX + ", " +maxClickableX + "]");
-        //System.out.println("M_X: "+ clickedY + " - [" + minClickableY + ", " +maxClickableY + "]");
 
         return clickedX && clickedY;
     }

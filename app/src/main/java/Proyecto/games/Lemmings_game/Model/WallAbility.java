@@ -18,11 +18,11 @@ public class WallAbility implements AbilityModel {
         lemming.setSpeed(0);
 
         //aca le seteo para que no pasen jajaja
-        lemming.getMap().getMapTiles()[tileY][tileX].setTileColor(tileX, tileY, Color.GREEN);
-        lemming.getMap().getMapTiles()[tileY - 1][tileX].setTileColor(tileX, tileY, Color.GREEN);
-        lemming.getMap().getMapTiles()[tileY - 2][tileX].setTileColor(tileX, tileY, Color.GREEN);
-        lemming.getMap().getMapTiles()[tileY - 3][tileX].setTileColor(tileX, tileY, Color.GREEN);
-        lemming.getMap().getMapTiles()[tileY - 4][tileX].setTileColor(tileX, tileY, Color.GREEN);
+        lemming.getMap().getMapTiles()[tileY][tileX].setTileColor(Color.GREEN);
+        lemming.getMap().getMapTiles()[tileY - 1][tileX].setTileColor(Color.GREEN);
+        lemming.getMap().getMapTiles()[tileY - 2][tileX].setTileColor(Color.GREEN);
+        lemming.getMap().getMapTiles()[tileY - 3][tileX].setTileColor(Color.GREEN);
+        lemming.getMap().getMapTiles()[tileY - 4][tileX].setTileColor(Color.GREEN);
 
 
         //lemming.getMap().getMapTiles()[tileY][tileX + 1].setTileColor(tileX, tileY, Color.GREEN);

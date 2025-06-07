@@ -1,5 +1,6 @@
 package Proyecto.games.Pong_game;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 
@@ -7,19 +8,19 @@ import javax.swing.ImageIcon;
 
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
-import Proyecto.games.Pong_game.utils.SoundPlayer;
+
 import Proyecto.games.Pong_game.Controller.BallController;
 import Proyecto.games.Pong_game.Controller.PaddleController;
 import Proyecto.games.Pong_game.Controller.PaddleIAController;
 import Proyecto.games.Pong_game.Controller.SettingController;
 import Proyecto.games.Pong_game.Model.BallModel;
 import Proyecto.games.Pong_game.Model.Difficult;
-import Proyecto.games.Pong_game.Model.Track;
 import Proyecto.games.Pong_game.Model.PaddleIAmodel;
 import Proyecto.games.Pong_game.Model.PaddleModel;
 import Proyecto.games.Pong_game.Model.Player;
 import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import Proyecto.games.Pong_game.Model.SettingsModel;
+import Proyecto.games.Pong_game.Model.Track;
 import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
@@ -27,6 +28,7 @@ import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
+import Proyecto.games.Pong_game.utils.SoundPlayer;
 
 
 public class Pong extends JGame {
@@ -45,12 +47,13 @@ public class Pong extends JGame {
     GameMenuView gameMenu;
     GamePauseView gamePauseView;
     SettingController settingController;
-    GameSettingsView gameSettingsView;
+    GameSettingsView settingsView;
     SettingsModel settingsModel;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers=false,musicOFF=true;
+    SettingsModel.Settings setting;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF,resetSettings;
     private Player winner;
     private Difficult difficult;
-    private Track track=Track.TRACK1;
+    private Track track;
     private int maxPoints=5;
 
 
@@ -71,8 +74,9 @@ public class Pong extends JGame {
         setDifficult(1);
         setTwoPlayers(true);
         settingsModel = new SettingsModel();
-        gameSettingsView = new GameSettingsView(getWidth(), getHeight(),this);
-        settingController = new SettingController(gameSettingsView,settingsModel , getMouse(),this);
+        settingsView = new GameSettingsView(getWidth(), getHeight(),this);
+        settingController = new SettingController(settingsView,settingsModel , getMouse(),this);
+        initSettings();
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
         if(twoplayers){
@@ -127,6 +131,54 @@ public class Pong extends JGame {
         }
     });
     }
+
+    public void initSettings(){
+        setting = SettingsModel.loadSettings();
+        musicOFF = setting.musicOff;
+        track = setting.track;
+        difficult = setting.difficult;
+        maxPoints = setting.maxPoints;
+        twoplayers = setting.twoPlayers;
+
+    if(musicOFF){
+        settingsView.setDraw("Off");
+    }
+    else{
+        settingsView.setDraw("Track");
+        playTrack(track);
+    }
+    if (setting.twoPlayers) {
+        settingsView.setDraw("TwoPlayers");
+    }
+    else{
+        switch (setting.difficult) {
+            case HARD -> settingsView.setDraw("Hard");
+            case MEDIUM -> settingsView.setDraw("Medium");
+            case EASY -> settingsView.setDraw("Easy");
+        }
+    }
+
+    // WinPoints
+    switch (setting.maxPoints) {
+        case 5 -> settingsView.setDraw("Win5");
+        case 10 -> settingsView.setDraw("Win10");
+        case 15 -> settingsView.setDraw("Win15");
+    }
+
+    // TwoPlayers
+    
+    }
+
+    public void saveSettings(){
+        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers);
+    }
+    public void resetSettings(){
+        musicOFF = false;
+        track = Track.TRACK3;
+        difficult = Difficult.EASY;
+        maxPoints = 5;
+        twoplayers = false;
+    }
     public boolean getIsinsettings() {
         return this.isInSettings;
     }
@@ -138,9 +190,9 @@ public class Pong extends JGame {
     }
     public void setMaxPoints(int option) {
         switch (option) {
-            case 0 -> this.maxPoints = 3; 
-            case 1 -> this.maxPoints = 5; 
-            case 2 -> this.maxPoints = 7; 
+            case 0 -> this.maxPoints = 5; 
+            case 1 -> this.maxPoints = 10; 
+            case 2 -> this.maxPoints = 15; 
         }
 
     }
@@ -206,7 +258,7 @@ public void playTrack(Track option) {
     public void gameUpdate(double delta) {
 
         if(isInSettings){
-            settingController = new SettingController(gameSettingsView, settingsModel, getMouse(), this);
+            settingController = new SettingController(settingsView, settingsModel, getMouse(), this);
         }
         if(isInMenu){
             gameMenu.update(delta);
@@ -283,7 +335,7 @@ public void playTrack(Track option) {
             gameMenu.drawmenu(g);
 
             if(isInSettings){
-                gameSettingsView.drawmenu(g);
+                settingsView.drawmenu(g);
             }
         }
         else{
@@ -312,6 +364,8 @@ public void playTrack(Track option) {
         if(isInMenu && !gameOver){
             gameReset();
         }
+        // Cargar settinguración
+    
     }
 
     public void gameReset(){
@@ -344,5 +398,4 @@ public void playTrack(Track option) {
         paddleRightModel.pause();
         
     }
-    @Override public void readPropertiesFile(){}
 }
