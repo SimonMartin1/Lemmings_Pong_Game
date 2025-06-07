@@ -405,7 +405,7 @@ public void playTrack(Track option) {
             }
 
             if (gameOver) {
-                gameOverMenuView.draw(g, winner);
+                gameOverMenuView.draw(g, winner, twoplayers);
             }
         }
 
