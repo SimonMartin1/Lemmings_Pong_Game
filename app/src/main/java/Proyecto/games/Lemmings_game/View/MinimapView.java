@@ -4,16 +4,26 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 public class MinimapView {
     int x, y, width, height;
     BufferedImage minimapImage;
 
-    public MinimapView(int x, int y, int width, int height) {
+    public MinimapView(int x, int y, int width, int height, int level) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+
+        try {
+            minimapImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         //this.minimapImage = minimapImage;
     }
 
@@ -26,12 +36,15 @@ public class MinimapView {
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(2));
         g.drawRect(x, y, width, height);
-    
-        // Dibujamos la imagen del minimapa escalada dentro del rectángulo
-        //g.drawImage(minimapImage, x + 4, y + 4, width - 8, height - 8, null);
-    
-        // Acá podrías dibujar el ícono del jugador encima, si querés
-        // g.drawImage(playerIcon, playerX, playerY, iconWidth, iconHeight, null);
+        
+        // Si la imagen fue cargada correctamente, la dibujamos
+        if (minimapImage != null) {
+            g.drawImage(minimapImage, x + 4, y + 4, width - 8, height - 8, null);
+        } else {
+            // En caso de que no se cargue la imagen, podés poner un mensaje de error visual
+            g.setColor(Color.RED);
+            g.drawString("No se pudo cargar el minimapa", x + 10, y + height / 2);
+        }
     }
     
 }
