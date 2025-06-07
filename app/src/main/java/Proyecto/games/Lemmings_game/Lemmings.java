@@ -30,8 +30,6 @@ public class Lemmings extends JGame {
     private boolean animation = false; 
     private double blinkTime = 0;
     private boolean showPressText = true;
-    private LemmingModel lemmingModel;
-    private LemmingView lemmingView;
     Buttons buttonDig;
     Buttons buttonBuild;
     Buttons buttonStop;
@@ -44,7 +42,7 @@ public class Lemmings extends JGame {
     private List<MapView> levelsView = new ArrayList<>();
     private int nivelActual = 0;
 
-    int cantLemmings = 3;
+    int cantLemmings = 4;
     private double spawnTimer = 0;
     private double spawnInterval = 2; // segundos entre lemmings
     private int lemmingsToSpawn = cantLemmings;
@@ -68,11 +66,11 @@ public class Lemmings extends JGame {
         //modelos
         try {
             //primer nivel
-            //firstLevelMapModel = new MapModel(1,650,350,0);
+            firstLevelMapModel = new MapModel(1,650,350,0);
             //segundo nivel
             //firstLevelMapModel = new MapModel(2,650,350,0); //arregalr el offset del mapa
             //tercer nivel
-            firstLevelMapModel = new MapModel(3,650,350,0);
+            //firstLevelMapModel = new MapModel(3,650,350,0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -93,20 +91,6 @@ public class Lemmings extends JGame {
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
         firstLevelMapView = new MapView(firstLevelMapModel);
-
-
-        for (int i = 0; i < cantLemmings; i++) {
-            //primer nivel
-            //LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
-            //segundo nivel
-            //LemmingModel model = new LemmingModel(i, 300, 50, 1, 1, firstLevelMapView, firstLevelMapModel);
-            //tercer nivel
-            LemmingModel model = new LemmingModel(i, 150, 200, 1, 1, firstLevelMapView, firstLevelMapModel);
-
-            LemmingView view = new LemmingView(model);
-            lemmingModels.add(model);
-            lemmingViews.add(view);
-        }
 
         buttonController = new ButtonController(this.getMouse());
 
