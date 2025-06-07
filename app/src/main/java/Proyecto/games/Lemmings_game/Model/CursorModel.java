@@ -27,8 +27,8 @@ public class CursorModel {
                     currentSelectedAbility = new DigAbility();
                     System.out.println("Estoy cavando!!!");
                 } else if(x >= 110 && x < 210){
-                    currentSelectedAbility = new DigAbility();
-                    //currentSelectedAbility = new StopAbility();
+                    //currentSelectedAbility = new DigAbility();
+                    currentSelectedAbility = new WallAbility();
                     System.out.println("Me frené");
                 } else if(x >= 210 && x < 310){
                     currentSelectedAbility = new DigAbility();

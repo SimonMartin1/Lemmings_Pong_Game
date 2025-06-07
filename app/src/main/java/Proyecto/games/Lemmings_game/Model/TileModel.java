@@ -45,14 +45,15 @@ public class TileModel {
         }
     }
 
-    public void setTileColor(int tileX, int tileY) {
+    public void setTileColor(int tileX, int tileY, Color color) {
         try{
             image = ImageIO.read(getClass().getResourceAsStream("/black.png"));
         }catch (Exception err){
             System.out.println("xd");
         }
 
-        this.color = Color.BLACK;
+        this.color = color;
+        //System.out.println("color: " + color);
         this.tipo = 0; // vaciado
     }
 
