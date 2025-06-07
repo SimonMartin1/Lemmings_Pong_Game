@@ -12,7 +12,7 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private final int width;
     private final int height;
-    public boolean drawHard=false,drawMedium=false,drawEasy=true, drawTwoPlayers=false,drawWin3 = true, drawWin5 = false, drawWin7 = false, drawOff = false,drawTrack=true,nextTrack =false,prevMousePressed = false;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin3, drawWin5, drawWin7, drawOff, drawTrack, nextTrack ,prevMousePressed;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {

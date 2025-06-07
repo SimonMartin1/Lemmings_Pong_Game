@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 
 
 public class SettingsModel {
-       private static final String CONFIG_FILE = "app\\src\\main\\java\\Proyecto\\games\\Pong_game\\utils\\pong_config.txt";
+    private static final String CONFIG_FILE = "app\\src\\main\\java\\Proyecto\\games\\Pong_game\\utils\\pong_config.txt";
 
     public static void saveConfig(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(CONFIG_FILE))) {
@@ -44,10 +44,10 @@ public class SettingsModel {
     }
 
     public static class Config {
-        public boolean musicOff = true;
-        public Track track = Track.TRACK1;
+        public boolean musicOff = false;
+        public Track track = Track.TRACK3;
         public Difficult difficult = Difficult.MEDIUM;
         public int maxPoints = 5;
-        public boolean twoPlayers = true;
+        public boolean twoPlayers = false;
     }
 }
