@@ -67,7 +67,12 @@ public class Lemmings extends JGame {
     public void gameStartup() {
         //modelos
         try {
-            firstLevelMapModel = new MapModel(1);
+            //primer nivel
+            //firstLevelMapModel = new MapModel(1,650,350,0);
+            //segundo nivel
+            //firstLevelMapModel = new MapModel(2,650,350,0); //arregalr el offset del mapa
+            //tercer nivel
+            firstLevelMapModel = new MapModel(3,650,350,0);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -91,7 +96,13 @@ public class Lemmings extends JGame {
 
 
         for (int i = 0; i < cantLemmings; i++) {
-            LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+            //primer nivel
+            //LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
+            //segundo nivel
+            //LemmingModel model = new LemmingModel(i, 300, 50, 1, 1, firstLevelMapView, firstLevelMapModel);
+            //tercer nivel
+            LemmingModel model = new LemmingModel(i, 150, 200, 1, 1, firstLevelMapView, firstLevelMapModel);
+
             LemmingView view = new LemmingView(model);
             lemmingModels.add(model);
             lemmingViews.add(view);
@@ -168,7 +179,14 @@ public class Lemmings extends JGame {
             if (animation) {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
+                //primer nivel
                 firstLevelMapView.draw(g, 430, 0);
+
+                //segundo nivel
+                //firstLevelMapView.draw(g, 300, 0);
+
+                //tercer nivel
+                firstLevelMapView.draw(g, 300, 0);
                 
                 //lemmingView.draw(g);
                 //lemmingViews.get(0).draw(g);
