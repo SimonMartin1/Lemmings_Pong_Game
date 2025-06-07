@@ -23,7 +23,7 @@ public class LemmingModel {
     boolean isWalkingToRight = true;
     boolean isStartingToWalk = false;
     LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
-
+    boolean isOnExit = false;
 
     public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
         this.id = id;
@@ -81,25 +81,29 @@ public class LemmingModel {
        currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
        currentTileX = (x + firstLevelMapView.getCamX())/LemmingConstants.TILE_WIDTH;
 
+        //System.out.println("mi speed es: " + speed);
+
         if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX)) && isWalkingToRight ||
            Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX + 1)) && !isWalkingToRight
         ){
-            currentState =LemmingAnimationState.FALLING;
+            currentState = LemmingAnimationState.FALLING; //hallar el problema de que no cae
             //if(!isStartingToWalk)
             y += speed;
             return;
         }
         else{
-            applyHability(delta);
+            //applyHability(delta);
         }
-        
+        checkExit();
+        //verPosicion(); //para debugear
         // si no está cayendo, sigue con la habilidad o caminando
         applyHability(delta);
         
 
-        System.out.println(currentState);
+        //System.out.println(currentState);
 
     }
+
 
     public void applyHability(double delta){
 
@@ -114,8 +118,21 @@ public class LemmingModel {
             currentAbility.apply(this, delta);
         }
         else{
+            
             walk();
         }
+    }
+
+
+    public void checkExit(){
+        if(firstLevelMapModel.getExit().checkLemming(this)){
+            firstLevelMapModel.getExit().sumLemming(this);
+            isOnExit = true;
+        }
+    }
+
+    public boolean getOnExit(){
+        return isOnExit;
     }
 
     public void walk(){
@@ -164,8 +181,8 @@ public class LemmingModel {
         boolean clickedX = clickX >= minClickableX && clickX <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
 
-        System.out.println("M_X: "+ clickedX + " - [" + minClickableX + ", " +maxClickableX + "]");
-        System.out.println("M_X: "+ clickedY + " - [" + minClickableY + ", " +maxClickableY + "]");
+        //System.out.println("M_X: "+ clickedX + " - [" + minClickableX + ", " +maxClickableX + "]");
+        //System.out.println("M_X: "+ clickedY + " - [" + minClickableY + ", " +maxClickableY + "]");
 
         return clickedX && clickedY;
     }
@@ -183,4 +200,7 @@ public class LemmingModel {
         return currentState;
     }
 
+    public void setSpeed(int speed){
+        this.speed = speed;
+    }
 }
