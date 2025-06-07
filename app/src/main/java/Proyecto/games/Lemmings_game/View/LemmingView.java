@@ -1,5 +1,6 @@
 package Proyecto.games.Lemmings_game.View;
 
+import Proyecto.games.Lemmings_game.Lemmings;
 import Proyecto.games.Lemmings_game.Model.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 
@@ -38,12 +39,12 @@ public class LemmingView{
     public void draw(Graphics g) {
 
         if(!model.getOnExit()){
-            updateAnimation();
             BufferedImage[] frames = animations.get(model.getCurrentState());
+            updateAnimation();
 
             if (frames == null) return;
 
-            BufferedImage currentFrame = frames[currentFrameIndex];
+            BufferedImage currentFrame = model.getCurrentState().equals(LemmingAnimationState.STOPING) ?  frames[0] : frames[currentFrameIndex];
             g.drawImage(currentFrame, model.getX(), model.getY(), 20, 30, null);
         }
         //g.drawImage(currentFrame, model.getX(), model.getY(), null);
@@ -102,7 +103,7 @@ public class LemmingView{
 
     private void updateAnimation() {
         long now = System.currentTimeMillis();
-        long frameDuration = 100;
+        long frameDuration = 70;
 
         if (now - lastFrameChangeTime > frameDuration) {
             switch(model.getCurrentState()){
@@ -115,11 +116,12 @@ public class LemmingView{
                     currentFrameIndex = (currentFrameIndex + 1) % 8;
                     break;
                 case DIGGING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 8;
+                    currentFrameIndex = (currentFrameIndex + 1) % 16;
                     break;
                 case STOPING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 1;
+                    currentFrameIndex = 0;
                     break;
+                default: currentFrameIndex = 0;
             }
 
             lastFrameChangeTime = now;
