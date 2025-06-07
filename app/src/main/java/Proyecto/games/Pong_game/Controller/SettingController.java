@@ -57,6 +57,7 @@ public class SettingController {
         }
 
         if (view.isResetClicked(m)) {
+            game.resetSettings();
             view.setDraw("Reset");
         }
     }
