@@ -12,7 +12,7 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private final int width;
     private final int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,fullScreen,nextPitchSkin,nextBallskin;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {
@@ -297,6 +297,32 @@ public class GameSettingsView {
 
     // --- RESET ---
     public boolean isResetClicked(Mouse m) {
+        int mx = m.getX();
+        int my = m.getY();
+        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
+    }
+        public boolean isFullScreenClicked(Mouse m) {
+        int mx = m.getX();
+        int my = m.getY();
+        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
+    }
+        public boolean isFullScreenOffClicked(Mouse m) {
+        int mx = m.getX();
+        int my = m.getY();
+        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
+    }
+
+        public boolean isPitchskinClicked(Mouse m) {
+        int mx = m.getX();
+        int my = m.getY();
+        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
+    }
+
+        public boolean isBallColorClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
         int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"

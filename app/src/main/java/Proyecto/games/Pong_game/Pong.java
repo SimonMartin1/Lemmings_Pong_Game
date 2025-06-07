@@ -49,8 +49,8 @@ public class Pong extends JGame {
     SettingController settingController;
     GameSettingsView settingsView;
     SettingsModel settingsModel;
-    SettingsModel.Config config;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
+    SettingsModel.Settings setting;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF,resetSettings;
     private Player winner;
     private Difficult difficult;
     private Track track;
@@ -133,12 +133,12 @@ public class Pong extends JGame {
     }
 
     public void initSettings(){
-        config = SettingsModel.loadConfig();
-        musicOFF = config.musicOff;
-        track = config.track;
-        difficult = config.difficult;
-        maxPoints = config.maxPoints;
-        twoplayers = config.twoPlayers;
+        setting = SettingsModel.loadSettings();
+        musicOFF = setting.musicOff;
+        track = setting.track;
+        difficult = setting.difficult;
+        maxPoints = setting.maxPoints;
+        twoplayers = setting.twoPlayers;
 
     if(musicOFF){
         settingsView.setDraw("Off");
@@ -147,11 +147,11 @@ public class Pong extends JGame {
         settingsView.setDraw("Track");
         playTrack(track);
     }
-    if (config.twoPlayers) {
+    if (setting.twoPlayers) {
         settingsView.setDraw("TwoPlayers");
     }
     else{
-        switch (config.difficult) {
+        switch (setting.difficult) {
             case HARD -> settingsView.setDraw("Hard");
             case MEDIUM -> settingsView.setDraw("Medium");
             case EASY -> settingsView.setDraw("Easy");
@@ -159,7 +159,7 @@ public class Pong extends JGame {
     }
 
     // WinPoints
-    switch (config.maxPoints) {
+    switch (setting.maxPoints) {
         case 5 -> settingsView.setDraw("Win5");
         case 10 -> settingsView.setDraw("Win10");
         case 15 -> settingsView.setDraw("Win15");
@@ -170,7 +170,14 @@ public class Pong extends JGame {
     }
 
     public void saveSettings(){
-        SettingsModel.saveConfig(musicOFF, track, difficult, maxPoints, twoplayers);
+        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers);
+    }
+    public void resetSettings(){
+        musicOFF = false;
+        track = Track.TRACK3;
+        difficult = Difficult.EASY;
+        maxPoints = 5;
+        twoplayers = false;
     }
     public boolean getIsinsettings() {
         return this.isInSettings;
@@ -357,7 +364,7 @@ public void playTrack(Track option) {
         if(isInMenu && !gameOver){
             gameReset();
         }
-        // Cargar configuración
+        // Cargar settinguración
     
     }
 
