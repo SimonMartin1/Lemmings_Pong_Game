@@ -14,7 +14,7 @@ public class DigAbility implements AbilityModel {
         int tileX = (lemming.getX() + lemming.getView().getCamX()) / 8;
         int tileY = (lemming.getY()) / 8;
 
-        if(!lemming.getMap().getMapTiles()[tileY + 2][tileX].getColor().equals(Color.BLACK)){
+        if(!lemming.getMap().getMapTiles()[tileY + 3][tileX].getColor().equals(Color.BLACK)){
 
             lemming.getMap().getMapTiles()[tileY][tileX].setTileColor(Color.BLACK);
             lemming.getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
@@ -34,6 +34,9 @@ public class DigAbility implements AbilityModel {
 
             lemming.getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
             lemming.getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
+
+            lemming.getMap().getMapTiles()[tileY + 2][tileX].setTileColor(Color.BLACK);
+            lemming.getMap().getMapTiles()[tileY + 2][tileX + 1].setTileColor(Color.BLACK);
 
             lemming.setAbility(null);
         }
