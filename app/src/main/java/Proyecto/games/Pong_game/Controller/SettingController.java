@@ -4,7 +4,6 @@ import com.entropyinteractive.Mouse;
 import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.Pong;
 import Proyecto.games.Pong_game.View.GameSettingsView;
-
 public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
         if(view.isHardClicked(m)){
@@ -38,6 +37,7 @@ public class SettingController {
                 view.setDraw("nextTrack");
             } else {
                 view.setDraw("Track");
+                game.setMusicOFF();
             }
         }
 

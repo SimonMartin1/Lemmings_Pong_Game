@@ -50,7 +50,7 @@ public class Pong extends JGame {
     GameSettingsView settingsView;
     SettingsModel settingsModel;
     SettingsModel.Config config;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF=false;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private Player winner;
     private Difficult difficult;
     private Track track;
@@ -77,7 +77,6 @@ public class Pong extends JGame {
         settingsView = new GameSettingsView(getWidth(), getHeight(),this);
         settingController = new SettingController(settingsView,settingsModel , getMouse(),this);
         initSettings();
-        playTrack(track);
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
         if(twoplayers){
@@ -141,8 +140,11 @@ public class Pong extends JGame {
         maxPoints = config.maxPoints;
         twoplayers = config.twoPlayers;
 
-    if(!musicOFF){
-        settingsView.setDraw("Hard");
+    if(musicOFF){
+        settingsView.setDraw("Off");
+    }
+    else{
+        settingsView.setDraw("Track");
         playTrack(track);
     }
 
