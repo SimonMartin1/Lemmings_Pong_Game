@@ -12,7 +12,7 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private final int width;
     private final int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin3, drawWin5, drawWin7, drawOff, drawTrack, nextTrack ,prevMousePressed;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {
@@ -54,9 +54,9 @@ public class GameSettingsView {
         g.drawString("2 Players", width/2-265 , 215);
         g.drawString("On", width/2-120 , 215);
         g.drawString("WinPoints", width/2-265 , 260);
-        g.drawString("7", width/2-120 , 260);
-        g.drawString("5", width/2-60 , 260); 
-        g.drawString("3", width/2 , 260);
+        g.drawString("15", width/2-120 , 260);
+        g.drawString("10", width/2-60 , 260); 
+        g.drawString("5", width/2 , 260);
         g.drawString("Save", width-325 , 550);
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
@@ -89,26 +89,26 @@ public class GameSettingsView {
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString("On", width/2-120 , 215);
         }
-        if(drawWin3){
+        if(drawWin5){
         g.setColor(Color.WHITE);
         g.fillRoundRect(width/2-10, 240, 30, 30, 10, 10);
         g.setColor(new Color(0, 0, 0, 255));
         g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("3", width/2, 260);
+        g.drawString("5", width/2, 260);
         }
-        if(drawWin7){
+        if(drawWin15){
         g.setColor(Color.WHITE);
-        g.fillRoundRect(width/2-130, 240, 30, 30, 10, 10);
+        g.fillRoundRect(width/2-125, 240, 30, 30, 10, 10);
         g.setColor(new Color(0, 0, 0, 255));
         g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("7", width/2-120, 260);
+        g.drawString("15", width/2-120, 260);
         }
-        if(drawWin5){
+        if(drawWin10){
         g.setColor(Color.WHITE);
-        g.fillRoundRect(width/2-70, 240, 30, 30, 10, 10);
+        g.fillRoundRect(width/2-65, 240, 30, 30, 10, 10);
         g.setColor(new Color(0, 0, 0, 255));
         g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("5", width/2-60, 260);
+        g.drawString("10", width/2-60, 260);
         }
         if(drawOff){
         g.setColor(Color.WHITE);
@@ -167,21 +167,21 @@ public class GameSettingsView {
                 drawEasy = false;
             }
             
-            case "Win3" -> {
-            drawWin3 = true;
-            drawWin5 = false;
-            drawWin7 = false;
+            case "Win5" -> {
+            drawWin5 = true;
+            drawWin10 = false;
+            drawWin15 = false;
             }
 
-            case "Win5" -> {
-            drawWin3 = false;
-            drawWin5 = true;
-            drawWin7 = false;
-            }
-            case "Win7" -> {
-            drawWin3 = false;
+            case "Win10" -> {
             drawWin5 = false;
-            drawWin7 = true;
+            drawWin10 = true;
+            drawWin15 = false;
+            }
+            case "Win15" -> {
+            drawWin5 = false;
+            drawWin10 = false;
+            drawWin15 = true;
             }
             case "Off" -> {
             drawOff = true;
@@ -193,9 +193,9 @@ public class GameSettingsView {
                 drawMedium = false;
                 drawEasy = true;
                 drawTwoPlayers = false;
-                drawWin3 = true;
-                drawWin5 = false;
-                drawWin7 = false;
+                drawWin5 = true;
+                drawWin10 = false;
+                drawWin15 = false;
                 drawOff = false;
                 drawTrack = true;
             }
@@ -256,7 +256,7 @@ public class GameSettingsView {
     }
 
     // --- WINPOINTS 7 ---
-    public boolean isWinPoints7Clicked(Mouse m) {
+    public boolean isWinPoints15Clicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
         int bx = width/2-140, by = 205, bw = 40, bh = 40; // "7"
@@ -264,7 +264,7 @@ public class GameSettingsView {
     }
 
     // --- WINPOINTS 5 ---
-    public boolean isWinPoints5Clicked(Mouse m) {
+    public boolean isWinPoints10Clicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
         int bx = width/2-80, by = 205, bw = 40, bh = 40; // "5"
@@ -272,7 +272,7 @@ public class GameSettingsView {
     }
 
     // --- WINPOINTS 3 ---
-    public boolean isWinPoints3Clicked(Mouse m) {
+    public boolean isWinPoints5Clicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
         int bx = width/2-40, by = 205, bw = 40, bh = 40; // "3"
