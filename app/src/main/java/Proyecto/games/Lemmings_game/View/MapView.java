@@ -6,13 +6,17 @@ import Proyecto.games.Lemmings_game.Model.*;
 import javax.swing.JPanel;
 import java.awt.Graphics;
 
-public class MapView extends JPanel {
+public class MapView {
     private MapModel model;
     private int camX;
     private int camY;
+    private SpawnerView spawnerView;
+    private ExitView exitView;
 
-    public MapView(MapModel model) {
+    public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView) {
         this.model = model;
+        this.spawnerView = spawnerView;
+        this.exitView = exitView;
     }
 
     public void draw(Graphics g, int camX, int camY) {
@@ -36,6 +40,9 @@ public class MapView extends JPanel {
                 }
             }
         }
+
+        spawnerView.draw(g);
+        exitView.draw(g);
     }
 
     public int getCamX() {
@@ -44,5 +51,10 @@ public class MapView extends JPanel {
 
     public int getCamY() {
         return camY;
+    }
+
+    public void setCameraPosition(int x, int y) {
+        this.camX = x;
+        this.camY = y;
     }
 }

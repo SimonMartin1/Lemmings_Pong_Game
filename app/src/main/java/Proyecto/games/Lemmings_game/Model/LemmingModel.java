@@ -24,8 +24,18 @@ public class LemmingModel {
     boolean isStartingToWalk = false;
     LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
     boolean isOnExit = false;
+    boolean saved = false;
+    LemmingState state = LemmingState.ALIVE;
 
-    public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
+    int camX = 0;
+
+    public int getCamX(){ return this.camX; }
+
+    public void setCamX(int camX){
+        this.camX = camX;
+    }
+
+    public LemmingModel(int id, int x, int y, int vx, int speed, MapModel firstLevelMapModel) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -33,7 +43,6 @@ public class LemmingModel {
         this.speed = speed;
         this.currentTileX = x/LemmingConstants.TILE_WIDTH;
         this.currentTileY = y/LemmingConstants.TILE_HEIGHT;
-        this.firstLevelMapView  = firstLevelMapView;    
         this.firstLevelMapModel = firstLevelMapModel;
     }
 
@@ -73,54 +82,39 @@ public class LemmingModel {
         this.currentState = currentState;
     }
 
-    public void setCurrentAbility(AbilityModel currentAbility){ this.currentAbility = currentAbility; }
-
     public boolean hasAbility(){ return currentAbility != null;}
 
     public void update(double delta) {
+
        currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
-       currentTileX = (x + firstLevelMapView.getCamX())/LemmingConstants.TILE_WIDTH;
+       currentTileX = (x + 430) /LemmingConstants.TILE_WIDTH;
 
-        //System.out.println("mi speed es: " + speed);
-
-        if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX)) && isWalkingToRight ||
-           Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 1, currentTileX + 1)) && !isWalkingToRight
-        ){
-            currentState = LemmingAnimationState.FALLING; //hallar el problema de que no cae
-            //if(!isStartingToWalk)
-            y += speed;
-            return;
+        if(hasAbility()){
+            applyHability(delta);
         }
         else{
-            //applyHability(delta);
+            if(shouldItFall()){
+                fall();
+            }
+            else{
+                //System.out.println("CAMINO");
+                walk();
+            }
         }
-        checkExit();
-        //verPosicion(); //para debugear
-        // si no está cayendo, sigue con la habilidad o caminando
-        applyHability(delta);
-        
 
-        //System.out.println(currentState);
+
+        checkExit();
 
     }
 
 
     public void applyHability(double delta){
 
-        if(currentAbility != null){
-
-            /*
-            switch (currentAbility.getName()){
-                case Ability.DIGGER -> currentState = LemmingAnimationState.DIGGING;
-            }
-             */
-
-            currentAbility.apply(this, delta);
+        switch (currentAbility.getName()){
+            case Ability.DIGGER -> currentState = LemmingAnimationState.DIGGING;
         }
-        else{
-            
-            walk();
-        }
+
+        currentAbility.apply(this, delta);
     }
 
 
@@ -135,8 +129,14 @@ public class LemmingModel {
         return isOnExit;
     }
 
+    public boolean isSaved() {
+        return saved;
+    }
+    
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
     public void walk(){
-        isStartingToWalk = true;
 
         if(isWalkingToRight){
             currentState = LemmingAnimationState.WALKING_RIGHT;
@@ -171,6 +171,23 @@ public class LemmingModel {
 
     }
 
+    public boolean shouldItFall(){
+
+        return Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 2, currentTileX)) && isWalkingToRight ||
+                Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY + 2, currentTileX + 1)) && !isWalkingToRight;
+
+    }
+
+
+    public void fall(){
+
+        if(Color.BLACK.equals(firstLevelMapModel.getMapTiles()[currentTileY + 4][currentTileX].getColor())){
+            currentState = LemmingAnimationState.FALLING;
+        }
+
+        y += speed;
+    }
+
     public boolean isClicked(double clickX, double clickY){
 
         double minClickableX = this.x - LemmingConstants.LEMMING_WIDTH;
@@ -181,14 +198,14 @@ public class LemmingModel {
         boolean clickedX = clickX >= minClickableX && clickX <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
 
-        //System.out.println("M_X: "+ clickedX + " - [" + minClickableX + ", " +maxClickableX + "]");
-        //System.out.println("M_X: "+ clickedY + " - [" + minClickableY + ", " +maxClickableY + "]");
-
         return clickedX && clickedY;
     }
 
     public void assignAbility(AbilityModel ability){
-        this.currentAbility = ability;
+
+        if(!currentState.equals(LemmingAnimationState.STOPING)){
+            this.currentAbility = ability;
+        }
     }
 
     public boolean isWalkingToRight(){
@@ -202,5 +219,13 @@ public class LemmingModel {
 
     public void setSpeed(int speed){
         this.speed = speed;
+    }
+
+    public boolean isActive() {
+        return state == LemmingState.ALIVE;
+    }
+
+    public void setStateLemming(LemmingState state){
+        this.state = state;
     }
 }

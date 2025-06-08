@@ -1,7 +1,6 @@
 package Proyecto.games.Lemmings_game;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,54 +8,31 @@ import java.util.List;
 import javax.swing.ImageIcon;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
-import Proyecto.games.Lemmings_game.Model.CursorModel;
+import Proyecto.games.Lemmings_game.Controller.LevelController;
+import Proyecto.games.Lemmings_game.Model.*;
+import Proyecto.games.Lemmings_game.View.*;
 import com.entropyinteractive.JGame;
-
-import Proyecto.games.Lemmings_game.Model.MapModel;
-import Proyecto.games.Lemmings_game.View.Buttons;
-import Proyecto.games.Lemmings_game.View.MapView;
-import Proyecto.games.Lemmings_game.Model.LemmingModel;
-import Proyecto.games.Lemmings_game.View.LemmingView;
-import Proyecto.games.Lemmings_game.View.MinimapView;
-import Proyecto.games.Lemmings_game.View.GameMenuView;
 
 
 public class Lemmings extends JGame {
 
-    private MapModel firstLevelMapModel;
-    private MapView firstLevelMapView;
     GameMenuView gameMenuView;
     private Graphics2D g;
-    private boolean animation = false; 
-    private double blinkTime = 0;
-    private boolean showPressText = true;
-    private LemmingModel lemmingModel;
-    private LemmingView lemmingView;
-    Buttons buttonDig;
-    Buttons buttonBuild;
-    Buttons buttonStop;
-    Buttons buttonFly;
+
     ButtonController buttonController;
-    MinimapView minimapView;
-    CursorModel cursorModel;
-    //lista de mapas y vistas
-    private List<MapModel> levelsModel = new ArrayList<>();
-    private List<MapView> levelsView = new ArrayList<>();
+
     private int nivelActual = 0;
 
-    int cantLemmings = 3;
-    private double spawnTimer = 0;
-    private double spawnInterval = 2; // segundos entre lemmings
-    private int lemmingsToSpawn = cantLemmings;
-    private int spawnedLemmings = 0;
-
-
-    private java.util.List<LemmingModel> lemmingModels = new java.util.ArrayList<LemmingModel>();
-    private java.util.List<LemmingView> lemmingViews = new java.util.ArrayList<LemmingView>();
+    private List<MapModel> mapModels  = new ArrayList<>();
+    private List<MapView> mapViews = new ArrayList<>();
+    private List<LevelModel> levelModels = new ArrayList<>();
+    private List<LevelView> levelViews = new ArrayList<>();
+    private List<LevelController> levelControllers = new ArrayList<>();
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
+
     public static void main(String[] args) {
         Lemmings game = new Lemmings("Lemmings", 800, 600);
         game.run(1.0 / 60.0); // 60 FPS
@@ -65,91 +41,73 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameStartup() {
-        //modelos
-        try {
-            firstLevelMapModel = new MapModel(1);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+
+        try{
+            MapModel firstLevelMapModel = new MapModel(1,630,350,0);
+            MapModel secondLevelMapModel = new MapModel(2,650,350,0);
+            MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
+
+            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(260, 70), new ExitView(580, 300));
+            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150));
+            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150));
+
+            //Agrego los modelos
+            mapModels.add(firstLevelMapModel);
+            mapModels.add(secondLevelMapModel);
+            mapModels.add(thirdLevelMapModel);
+
+            //Agrego las vistas
+            mapViews.add(firstLevelMapView);
+            mapViews.add(secondLevelMapView);
+            mapViews.add(thirdLevelMapView);
+
+        }catch (Exception e){
+            e.printStackTrace();
         }
 
+        //MapModel map, Stock stock, int lemmingsToGenerate, int percentajeToWin, int level, String lvlName
+
+        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), new Stock(), 3, .8, 1, "Just digging");
+        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), new Stock(), 3, .8, 2, "Cap 2");
+        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), new Stock(), 3, .8, 3, "Cap 3");
+
+        levelModels.add(firstLevelModel);
+        levelModels.add(secondLevelModel);
+        levelModels.add(thirdLevelModel);
+
+        LevelView firstLevelView = new LevelView( levelModels.get(0), mapViews.get(0));
+        LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1));
+        LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2));
+
+        levelViews.add(firstLevelView);
+        levelViews.add(secondLevelView);
+        levelViews.add(thirdLevelView);
+
+
+        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 430, 0));
+        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0));
+        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0));
+
+
+        //Agregamos el listener del mouse
         getFrame().addMouseListener(this.getMouse());
 
-        //creacion lemmings 
-        
 
-
-        //vistas
-        buttonDig = new Buttons("Cavar", 10, 450, 100, 150);
-        buttonStop = new Buttons("Parar",110,450,100,150);
-        buttonBuild = new Buttons("Construir",210,450,100,150);
-        buttonFly = new Buttons("Volar",310,450,100,150);
-        minimapView = new MinimapView(480, 480, 250, 100);
-
-        ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png"); 
+        ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
-        firstLevelMapView = new MapView(firstLevelMapModel);
-
-
-        for (int i = 0; i < cantLemmings; i++) {
-            LemmingModel model = new LemmingModel(i, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
-            LemmingView view = new LemmingView(model);
-            lemmingModels.add(model);
-            lemmingViews.add(view);
-        }
 
         buttonController = new ButtonController(this.getMouse());
-
-        cursorModel = new CursorModel(this.getMouse());
-        cursorModel.setCurrentLemmings(lemmingModels);
-
         gameMenuView = new GameMenuView(getWidth(), getHeight());
     }
 
     @Override
     public void gameUpdate(double delta) {
-        if (!animation) {
-            
-            if (getMouse().isLeftButtonPressed()) {
-                int mx = getMouse().getX();
-                int my = getMouse().getY();
-                int bx = getWidth()/2 - 100, by = 300, bw = 200, bh = 60;
-                if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
-                    animation = true;
-                }
-            }
-            if (getKeyboard().isKeyPressed(10)) {
-                animation = true;
-            }
-            
-            blinkTime += delta;
-            if (blinkTime >= 0.6) { 
-                showPressText = !showPressText;
-                blinkTime = 0;
-            }
+        if (!gameMenuView.isStarting(getMouse()) && !gameMenuView.isStarting(getKeyboard())) {
+            gameMenuView.update(delta);
         }else{
-            cursorModel.update();
-
-            for (LemmingModel l : lemmingModels) {
-                l.update(delta);
-            }
-
-            // Spawn con delay
-            if (spawnedLemmings < lemmingsToSpawn) {
-                spawnTimer += delta;
-                if (spawnTimer >= spawnInterval) {
-                    spawnTimer = 0;
-                    spawnedLemmings++;
-
-                    LemmingModel nuevo = new LemmingModel(1, 300, 100, 1, 1, firstLevelMapView, firstLevelMapModel);
-                    LemmingView nuevoView = new LemmingView(nuevo);
-                    lemmingModels.add(nuevo);
-                    lemmingViews.add(nuevoView);
-
-                }
-
-            }
-
-
+            //aca lvl se updatea
+            buttonController.update();
+            levelControllers.get(0).update(delta);
         }
 
     }
@@ -157,34 +115,17 @@ public class Lemmings extends JGame {
     @Override
     public void gameDraw(Graphics2D g) {
             this.g=g;
-            gameMenuView.draw(g);
 
-            if (!animation && showPressText) {
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 24));
-                g.drawString("Click or Enter", getWidth()/2 - 71, 420);
+            if(!gameMenuView.isStarting(getMouse()) || !gameMenuView.isStarting(getKeyboard())){
+                gameMenuView.draw(g);
             }
-
-            if (animation) {
+            else {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
-                firstLevelMapView.draw(g, 430, 0);
-                
-                //lemmingView.draw(g);
-                //lemmingViews.get(0).draw(g);
-                
-                buttonDig.draw(g);
-                buttonStop.draw(g);
-                buttonBuild.draw(g);
-                buttonFly.draw(g);
-                minimapView.drawMinimap(g);
-            
-                //lemmingViews.get(0).draw(g);
-                
-                for (LemmingView view : lemmingViews) {
-                    view.draw(g);
-                }
-                
+
+                //Aca segundo lvl
+                levelControllers.get(0).draw(g);
+
             }
 
     }

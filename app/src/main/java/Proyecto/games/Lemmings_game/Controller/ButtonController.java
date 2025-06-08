@@ -25,6 +25,7 @@ public class ButtonController {
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
 
+        
         if(isPressed && !wasPressedLastFrame){
             // Esto solo se ejecuta UNA VEZ cuando se presiona el botón
             if(x<=110 && x >= 10 && y>=450 && y<= 600){
@@ -36,6 +37,9 @@ public class ButtonController {
                 System.out.println("Construyendo!");
             } else if(x<=410 && x >= 310 && y>=450 && y<= 600){
                 System.out.println("Volando");
+            } else if (x <= 730 && x >= 480 && y >= 480 && y <= 580) {
+                System.out.println("Minimap clickeado!");
+                //minimapModel.handleClick(x, y);
             }
         }
 
