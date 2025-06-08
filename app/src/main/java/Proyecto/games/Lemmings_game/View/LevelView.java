@@ -42,7 +42,7 @@ public class LevelView {
 
     public void drawLevel(Graphics2D g) {
 
-        mapView.draw(g, camX, camY);
+        mapView.draw(g);
 
         buttonDig.draw(g);
         buttonStop.draw(g);
@@ -69,5 +69,12 @@ public class LevelView {
     public void setCamY(int camY){
         this.camY = camY;
     }
+
+    public int getCamX(){
+        return camX;
+    }
+    public int getCamY(){
+        return camY;
+    }   
 
 }

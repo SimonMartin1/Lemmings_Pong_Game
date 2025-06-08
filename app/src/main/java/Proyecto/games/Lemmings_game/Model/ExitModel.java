@@ -8,14 +8,16 @@ public class ExitModel {
     public int savedLemmings = 0;
     private final int width = 32; 
     private final int height = 32;
+    private MapModel mapModel;
 
-    public ExitModel(int x, int y) {
+    public ExitModel(int x, int y, MapModel mapModel) {
         this.x = x;
         this.y = y;
+        this.mapModel = mapModel;
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+        return new Rectangle(x- mapModel.getCameraX(), y, width, height);
     }
 
     public int getX() {
@@ -28,10 +30,10 @@ public class ExitModel {
 
 
     public boolean checkLemming(LemmingModel lemming){
-        if(getBounds().intersects(lemming.getX(),lemming.getY(),16,16)){
+        if(getBounds().intersects(lemming.getX() - mapModel.getCameraX(), lemming.getY(),16,16)){
             //System.out.println("llege a la salida");
         }
-        return getBounds().intersects(lemming.getX(),lemming.getY(),16,16);
+        return getBounds().intersects(lemming.getX() - mapModel.getCameraX(), lemming.getY(),16,16);
     }
 
     public void sumLemming(LemmingModel lemming){
