@@ -12,7 +12,7 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private final int width;
     private final int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,drawFullScreen,drawFullScreenOff,nextPitchSkin,nextBallskin;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,drawFullScreen,nextPitchSkin,nextBallskin;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {
@@ -100,7 +100,7 @@ public class GameSettingsView {
         g.drawString("Save", width-325 , 550);
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
-        //g.drawRoundRect(width/2-140 , 325, 85, 35, 20, 20); 
+        g.fillRoundRect(width/2-50, 365, 80, 40, 20, 20);
 
     
 
@@ -141,6 +141,9 @@ public class GameSettingsView {
         }
         if(drawFullScreen){
             activeButtons(g, width/2-120 , 395,"On", 425, 105, 40, 30, 10, 10);
+        }
+        if(!drawFullScreen){
+            activeButtons(g, width/2-90 , 395,"On", 425, 105, 40, 30, 10, 10);
         }
         
     }
@@ -219,9 +222,10 @@ public class GameSettingsView {
                 drawWin15 = false;
                 drawOff = false;
                 drawTrack = true;
+                drawFullScreen=false;
             }
-            case "fullscreen" ->{}
-            case "fullscreenOff" ->{}
+            case "fullscreen" ->{drawFullScreen=true;}
+            case "fullscreenOff" ->{drawFullScreen=false;}
         }
     }
     private boolean isMouseJustPressed(Mouse m) {
