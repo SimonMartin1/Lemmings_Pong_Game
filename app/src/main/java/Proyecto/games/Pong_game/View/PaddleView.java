@@ -5,10 +5,10 @@ import Proyecto.games.Pong_game.Model.PaddleModel;
 import java.awt.*;
 
 public class PaddleView {
-    private PaddleModel model;
-    private Color paddleColor = Color.WHITE; // Color de la paleta
-    private int paddleWidth = 10;
-    private int paddleHeight = 150;
+    private final PaddleModel model;
+    private final Color paddleColor = Color.WHITE; // Color de la paleta
+    private final int paddleWidth = 10;
+    private final int paddleHeight = 150;
     private int fixedX = 10;
 
 
