@@ -2,6 +2,7 @@ package Proyecto.games.Lemmings_game.View;
 
 import Proyecto.games.Lemmings_game.Model.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
+import Proyecto.games.Lemmings_game.Model.LemmingState;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -20,7 +21,9 @@ public class LemmingView{
     private int frameWalkLength = 8;
     private int frameFallLength = 8;
     private int frameDigLength = 16;
-    private int frameStopLength = 1;    
+    private int frameStopLength = 1;
+
+    private LemmingAnimationState lastState;
 
     private Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
 
@@ -45,8 +48,12 @@ public class LemmingView{
             updateAnimation();
             BufferedImage[] frames = animations.get(model.getCurrentState());
 
-            if (frames == null) return;
+            if(lastState != model.getCurrentState()) {
+                lastState = model.getCurrentState();
+                currentFrameIndex = 0;
+            }
 
+            if (frames == null) return;
 
             BufferedImage currentFrame = frames[currentFrameIndex];
             g.drawImage(currentFrame, drawX, model.getY(), 20, 30, null);
