@@ -6,13 +6,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import Proyecto.games.Pong_game.PitchSkins;
 import Proyecto.games.Pong_game.View.BallSkins;
 
 
 public class SettingsModel {
     private static final String setting_FILE = "app\\src\\main\\java\\Proyecto\\games\\Pong_game\\utils\\pong_setting.txt";
 
-    public static void saveSettings(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers, BallSkins ballSkin) {
+    public static void saveSettings(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers, BallSkins ballSkin, PitchSkins pitchSkin, boolean fullScreen) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(setting_FILE))) {
             writer.println("musicOff=" + musicOff);
             writer.println("track=" + track);
@@ -20,6 +21,8 @@ public class SettingsModel {
             writer.println("maxPoints=" + maxPoints);
             writer.println("twoPlayers=" + twoPlayers);
             writer.println("ballSkin=" + ballSkin);
+            writer.println("pitchSkin=" + pitchSkin);
+            writer.println("fullScreen=" + fullScreen);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -39,10 +42,12 @@ public class SettingsModel {
                     case "maxPoints" -> setting.maxPoints = Integer.parseInt(kv[1]);
                     case "twoPlayers" -> setting.twoPlayers = Boolean.parseBoolean(kv[1]);
                     case "ballSkin" -> setting.ballSkin = BallSkins.valueOf(kv[1]);
+                    case "pitchSkin" -> setting.pitchSkin = PitchSkins.valueOf(kv[1]);
+                    case "fullScreen" -> setting.fullScreen = Boolean.parseBoolean(kv[1]);
                 }
             }
         } catch (IOException e) {
-            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin);
+            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin, setting.pitchSkin,setting.fullScreen );
         }
         return setting;
     }
@@ -52,7 +57,8 @@ public class SettingsModel {
         public Track track = Track.TRACK3;
         public Difficult difficult = Difficult.EASY;
         public int maxPoints = 5;
-        public boolean twoPlayers = false;
+        public boolean twoPlayers = false, fullScreen=false;
         public BallSkins ballSkin = BallSkins.NORMAL;
+        public PitchSkins pitchSkin = PitchSkins.BLACK;
     }
 }

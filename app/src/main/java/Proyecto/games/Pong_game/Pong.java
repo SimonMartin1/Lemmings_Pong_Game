@@ -1,5 +1,4 @@
 package Proyecto.games.Pong_game;
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -42,6 +41,7 @@ public class Pong extends JGame {
     BallModel ballModel;
     BallController ballController;
     Keyboard keyboard;
+    PitchView pitch;
     ScoreManagerModel scoreManagerModel;
     ScoreManagerView scoreManagerView;
     GameOverMenuView gameOverMenuView;
@@ -52,11 +52,12 @@ public class Pong extends JGame {
     SettingsModel settingsModel;
     SettingsModel.Settings setting;
     public SettingsModel.Settings backupSettings;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF,resetSettings;
-    private boolean backupDrawHard, backupDrawMedium, backupDrawEasy, backupDrawTwoPlayers, backupDrawWin5, backupDrawWin10, backupDrawWin15, backupDrawOff, backupDrawTrack, backupDrawBallSkin;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
+    private boolean backupDrawHard, backupDrawMedium, backupDrawEasy, backupDrawTwoPlayers, backupDrawWin5, backupDrawWin10, backupDrawWin15, backupDrawOff, backupDrawTrack,backupFullScreen,fullScreen;
     private Player winner;
     private Difficult difficult;
     private BallSkins ballSkin;
+    private PitchSkins pitchSkin;
     private Track track;
     private int maxPoints=5;
 
@@ -105,6 +106,7 @@ public class Pong extends JGame {
         }
         paddleRightView = new PaddleView(paddleRightModel,795);
         ballView = new BallView(ballModel);
+        pitch = new PitchView();
         gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView = new GamePauseView(getWidth(), getHeight());
@@ -144,6 +146,8 @@ public class Pong extends JGame {
         maxPoints = setting.maxPoints;
         twoplayers = setting.twoPlayers;
         ballSkin = setting.ballSkin;
+        pitchSkin=setting.pitchSkin;
+        fullScreen=setting.fullScreen;
 
     if(musicOFF){
         settingsView.setDraw("Off");
@@ -182,6 +186,8 @@ public class Pong extends JGame {
         backupSettings.difficult = difficult;
         backupSettings.maxPoints = maxPoints;
         backupSettings.twoPlayers = twoplayers;
+        backupSettings.ballSkin= ballSkin;
+        backupSettings.pitchSkin=pitchSkin;
 
         // Guarda el estado visual de los botones
         backupDrawHard = settingsView.drawHard;
@@ -193,7 +199,7 @@ public class Pong extends JGame {
         backupDrawWin15 = settingsView.drawWin15;
         backupDrawOff = settingsView.drawOff;
         backupDrawTrack = settingsView.drawTrack;
-        //backupDrawBallSkin = settingsView.drawBallSkin;
+        backupFullScreen= settingsView.drawFullScreen;
 
     }
     public boolean getBackUpSettings(int option){
@@ -213,7 +219,7 @@ public class Pong extends JGame {
     }
 
     public void saveSettings(){
-        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin);
+        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin, pitchSkin,fullScreen);
     }
     public void resetSettings(){
         musicOFF = false;
@@ -239,6 +245,17 @@ public class Pong extends JGame {
                 case 3->this.track = Track.TRACK3;
             }
         }
+    }
+        public PitchSkins getPitchSkin(){
+            return this.pitchSkin;
+        }
+        public void setPitchSkin(int option) {
+        switch (option) {
+            case 1-> this.pitchSkin = PitchSkins.BLACK;
+            case 2-> this.pitchSkin = PitchSkins.BLUE; 
+            case 5-> this.pitchSkin = PitchSkins.BASKET; 
+        }
+        ballView.setBallType(ballSkin);
     }
     public BallSkins getBallSkin(){
         return ballSkin;
@@ -284,6 +301,9 @@ public void playTrack(Track option) {
         }
     }
 }
+public void stopTrack() {
+        SoundPlayer.stopSound();
+    }
     public void setDifficult(int difficult) {
         switch (difficult) {
             case 0:
@@ -392,8 +412,7 @@ public void playTrack(Track option) {
         }
         else{
             
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
+            pitch.draw(g, getWidth(),getHeight(),pitchSkin);
 
             scoreManagerView.draw(g);
             paddleRightView.draw(g);

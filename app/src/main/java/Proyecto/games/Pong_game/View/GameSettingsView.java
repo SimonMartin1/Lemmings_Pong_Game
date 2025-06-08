@@ -12,7 +12,7 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private final int width;
     private final int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,fullScreen,nextPitchSkin,nextBallskin;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,drawFullScreen,drawFullScreenOff,nextPitchSkin,nextBallskin;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {
@@ -31,6 +31,16 @@ public class GameSettingsView {
         }
         return res;
     }
+    public String getPitchSkin(){
+        String res="";
+        
+        switch (game.getPitchSkin()) {
+            case BLACK -> res = "Black";
+            case BLUE -> res = "Blue";
+            case BASKET -> res = "Basket";
+        }
+        return res;
+    }
         public String getBallSkin(){
         String res="";
         
@@ -43,6 +53,13 @@ public class GameSettingsView {
         }
         return res;
     }
+    public void activeButtons(Graphics2D g, int xtext, int ytext, String text ,int xfill,int yfill, int width, int height, int arcx, int arcy){
+            g.setColor(Color.WHITE);
+            g.fillRoundRect(xfill, yfill, width, height, arcx, arcy);
+            g.setColor(new Color(0, 0, 0, 255));
+            g.setFont(new Font("Arial", Font.BOLD, 18));
+            g.drawString(text, xtext , ytext);
+    }
 
     public void drawmenu(Graphics2D g) {
         g.setColor(Color.BLACK);
@@ -50,7 +67,8 @@ public class GameSettingsView {
         g.setColor(Color.WHITE);
         g.setStroke(new BasicStroke(3));
         g.drawRoundRect(width/2 -140, 145, 400, 40, 20, 20); 
-        g.drawRoundRect(width/2-110, 100, 100, 40, 20, 20); 
+        g.drawRoundRect(width/2-145, 325, 95, 35, 20, 20); 
+        g.drawRoundRect(width/2-145, 280, 95, 35, 20, 20); 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Settings", width/2-50 , 70);
@@ -71,9 +89,9 @@ public class GameSettingsView {
         g.drawString("10", width/2-60 , 260); 
         g.drawString("5", width/2 , 260);
         g.drawString("Pitch Skin", width/2-265 , 305);
+        g.drawString(getPitchSkin(), width/2-120 , 305);
         g.drawString("Ball Skin", width/2-265 , 350);
         g.drawString(getBallSkin(), width/2-120 , 350);
-        g.drawString("Off", width/2-40 , 350);
         g.drawString("Full Screen", width/2-265 , 395);
         g.drawString("On", width/2-120 , 395);
         g.drawString("Off", width/2-40 , 395);
@@ -82,63 +100,33 @@ public class GameSettingsView {
         g.drawString("Save", width-325 , 550);
         g.drawString("Cancel", width-245 , 550);
         g.drawString("Reset", width-145 , 550);
+        //g.drawRoundRect(width/2-140 , 325, 85, 35, 20, 20); 
 
+    
 
         if(drawHard){
-            g.setColor(Color.WHITE);
-            g.fillRoundRect(width/2-15, 145, 70, 40, 20, 20);
-            g.setColor(new Color(0, 0, 0, 255));
-            g.setFont(new Font("Arial", Font.BOLD, 18));
-            g.drawString("Hard", width/2 , 170);
+            activeButtons(g, width/2, 170,"Hard", width/2-15, 145,70,40,20,20);
         }
         if(drawMedium){
-            g.setColor(Color.WHITE);
-            g.fillRoundRect(width/2+85, 145, 80, 40, 20, 20);
-            g.setColor(new Color(0, 0, 0, 255));
-            g.setFont(new Font("Arial", Font.BOLD, 18));
-            g.drawString("Medium", width/2+90 , 170);
+            activeButtons(g, width/2+90 , 170,"Medium", width/2+85, 145, 80, 40,20,20);
         }
         if(drawEasy){
-            g.setColor(Color.WHITE);
-            g.fillRoundRect(width/2+190, 145, 70, 40, 20, 20);
-            g.setColor(new Color(0, 0, 0, 255));
-            g.setFont(new Font("Arial", Font.BOLD, 18));
-            g.drawString("Easy", width/2+200 , 170);
+            activeButtons(g, width/2+200 , 170,"Easy" ,width/2+190, 145, 70, 40,20,20);
         }
         if(drawTwoPlayers){
-            g.setColor(Color.WHITE);
-            g.fillRoundRect(width/2-135, 190, 60, 40, 20, 20);
-            g.setColor(new Color(0, 0, 0, 255));
-            g.setFont(new Font("Arial", Font.BOLD, 18));
-            g.drawString("On", width/2-120 , 215);
+            activeButtons(g, width/2-120 , 215,"On", width/2-135, 190, 60, 40,20,20);
         }
         if(drawWin5){
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(width/2-10, 240, 30, 30, 10, 10);
-        g.setColor(new Color(0, 0, 0, 255));
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("5", width/2, 260);
+        activeButtons(g, width/2, 260,"5", width/2-10, 240, 30, 30,10,10);
         }
         if(drawWin15){
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(width/2-125, 240, 30, 30, 10, 10);
-        g.setColor(new Color(0, 0, 0, 255));
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("15", width/2-120, 260);
+        activeButtons(g,width/2-120, 260,"15",width/2-125, 240, 30, 30, 10, 10);
         }
         if(drawWin10){
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(width/2-65, 240, 30, 30, 10, 10);
-        g.setColor(new Color(0, 0, 0, 255));
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("10", width/2-60, 260);
+        activeButtons(g,width/2-60, 260 ,"10",width/2-65, 240, 30, 30, 10, 10);
         }
         if(drawOff){
-        g.setColor(Color.WHITE);
-        g.fillRoundRect(425, 105, 40, 30, 10, 10);
-        g.setColor(new Color(0, 0, 0, 255));
-        g.setFont(new Font("Arial", Font.BOLD, 18));
-        g.drawString("Off", 430, 125);
+        activeButtons(g,430, 125,"Off", 425, 105, 40, 30, 10, 10);
         }
         if(drawTrack){
         g.setColor(Color.WHITE);
@@ -151,6 +139,10 @@ public class GameSettingsView {
         if (nextBallskin) {
             g.drawString(getBallSkin(), width/2-120 , 350);
         }
+        if(drawFullScreen){
+            activeButtons(g, width/2-120 , 395,"On", 425, 105, 40, 30, 10, 10);
+        }
+        
     }
 
     public boolean getDrawTrack(){
@@ -228,6 +220,8 @@ public class GameSettingsView {
                 drawOff = false;
                 drawTrack = true;
             }
+            case "fullscreen" ->{}
+            case "fullscreenOff" ->{}
         }
     }
     private boolean isMouseJustPressed(Mouse m) {
@@ -334,27 +328,27 @@ public class GameSettingsView {
         public boolean isFullScreenClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        int bx =width/2-120 , by = 395, bw = 40, bh = 40; 
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
         public boolean isFullScreenOffClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        int bx = width/2-45, by = 370, bw = 40, bh = 40; 
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
         public boolean isPitchskinClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        int bx = width/2-140, by = 280, bw = 85, bh = 35; 
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 
         public boolean isBallSkinClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
+        int bx = width/2-140, by = 325, bw = 85, bh = 35; 
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m) && game.getIsinsettings();
     }
 }

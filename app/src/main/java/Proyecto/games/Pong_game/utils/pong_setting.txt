@@ -1,6 +1,6 @@
 musicOff=true
-track=TRACK3
+track=TRACK1
 difficult=EASY
 maxPoints=5
 twoPlayers=false
-ballSkin=NORMAL
+ballSkin=TENNIS
