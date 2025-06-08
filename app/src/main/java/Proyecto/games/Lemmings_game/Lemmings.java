@@ -27,9 +27,6 @@ public class Lemmings extends JGame {
     private MapView firstLevelMapView;
     GameMenuView gameMenuView;
     private Graphics2D g;
-    private boolean animation = false; 
-    private double blinkTime = 0;
-    private boolean showPressText = true;
     Buttons buttonDig;
     Buttons buttonBuild;
     Buttons buttonStop;
@@ -63,6 +60,7 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameStartup() {
+
         //modelos
         try {
             //primer nivel
@@ -102,25 +100,8 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameUpdate(double delta) {
-        if (!animation) {
-            
-            if (getMouse().isLeftButtonPressed()) {
-                int mx = getMouse().getX();
-                int my = getMouse().getY();
-                int bx = getWidth()/2 - 100, by = 300, bw = 200, bh = 60;
-                if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
-                    animation = true;
-                }
-            }
-            if (getKeyboard().isKeyPressed(10)) {
-                animation = true;
-            }
-            
-            blinkTime += delta;
-            if (blinkTime >= 0.6) { 
-                showPressText = !showPressText;
-                blinkTime = 0;
-            }
+        if (!gameMenuView.isStarting(getMouse()) && !gameMenuView.isStarting(getKeyboard())) {
+            gameMenuView.update(delta);
         }else{
             cursorModel.update();
 
@@ -152,15 +133,11 @@ public class Lemmings extends JGame {
     @Override
     public void gameDraw(Graphics2D g) {
             this.g=g;
-            gameMenuView.draw(g);
 
-            if (!animation && showPressText) {
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("Arial", Font.BOLD, 24));
-                g.drawString("Click or Enter", getWidth()/2 - 71, 420);
+            if(!gameMenuView.isStarting(getMouse()) || !gameMenuView.isStarting(getKeyboard())){
+                gameMenuView.draw(g);
             }
-
-            if (animation) {
+            else {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 //primer nivel

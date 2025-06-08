@@ -74,8 +74,6 @@ public class LemmingModel {
         this.currentState = currentState;
     }
 
-    public void setCurrentAbility(AbilityModel currentAbility){ this.currentAbility = currentAbility; }
-
     public boolean hasAbility(){ return currentAbility != null;}
 
     public void update(double delta) {
@@ -194,7 +192,10 @@ public class LemmingModel {
     }
 
     public void assignAbility(AbilityModel ability){
-        this.currentAbility = ability;
+
+        if(!currentState.equals(LemmingAnimationState.STOPING)){
+            this.currentAbility = ability;
+        }
     }
 
     public boolean isWalkingToRight(){
