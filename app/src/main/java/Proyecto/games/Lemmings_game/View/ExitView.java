@@ -15,9 +15,9 @@ public class ExitView {
     private int currentFrameIndex = 0;
     private long lastFrameChangeTime = 0;
 
-    private final int frameWidth = 32;   // ajustá según tu spritesheet
-    private final int frameHeight = 32;
-    private final int frameCount = 4;    // poné la cantidad de frames reales
+    private final int frameWidth = 33;   // ajustá según tu spritesheet
+    private final int frameHeight = 25;
+    private final int frameCount = 1;    // poné la cantidad de frames reales
 
     public ExitView(int x, int y) {
         this.x = x;
@@ -32,7 +32,7 @@ public class ExitView {
 
     private void loadAnimations() throws IOException {
         // Carga la imagen desde el paquete (tiene que estar en src/main/resources si usás Maven)
-        //spriteSheet = ImageIO.read(getClass().getResourceAsStream("/lemming_exit.png"));
+        spriteSheet = ImageIO.read(getClass().getResourceAsStream("/lemming_exit.png"));
 
         frames = new BufferedImage[frameCount];
 
@@ -54,7 +54,7 @@ public class ExitView {
     public void draw(Graphics g) {
         if (frames != null && frames[currentFrameIndex] != null) {
             updateAnimation();
-            g.drawImage(frames[currentFrameIndex], x, y, null);
+            g.drawImage(frames[currentFrameIndex], x, y,100 ,80,null);
         }
     }
 }

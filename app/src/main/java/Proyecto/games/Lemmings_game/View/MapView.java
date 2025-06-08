@@ -11,10 +11,12 @@ public class MapView {
     private int camX;
     private int camY;
     private SpawnerView spawnerView;
+    private ExitView exitView;
 
-    public MapView(MapModel model, SpawnerView spawnerView) {
+    public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView) {
         this.model = model;
         this.spawnerView = spawnerView;
+        this.exitView = exitView;
     }
 
     public void draw(Graphics g, int camX, int camY) {
@@ -40,6 +42,7 @@ public class MapView {
         }
 
         spawnerView.draw(g);
+        exitView.draw(g);
     }
 
     public int getCamX() {

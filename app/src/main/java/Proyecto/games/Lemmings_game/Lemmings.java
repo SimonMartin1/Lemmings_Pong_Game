@@ -43,13 +43,13 @@ public class Lemmings extends JGame {
     public void gameStartup() {
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,650,350,0);
+            MapModel firstLevelMapModel = new MapModel(1,630,350,0);
             MapModel secondLevelMapModel = new MapModel(2,650,350,0);
             MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
-            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(200, 50));
-            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150));
-            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150));
+            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(260, 70), new ExitView(580, 300));
+            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150));
+            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150));
 
             //Agrego los modelos
             mapModels.add(firstLevelMapModel);
