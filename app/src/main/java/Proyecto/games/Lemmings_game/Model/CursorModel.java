@@ -42,6 +42,7 @@ public class CursorModel {
             }
             // Click en un lemming
             else {
+                System.out.println("XD");
                 for(LemmingModel lemming : currentLemmings){
                     if(lemming.isClicked(x, y)){ // ← implementá esto en LemmingModel
                         if(currentSelectedAbility != null){

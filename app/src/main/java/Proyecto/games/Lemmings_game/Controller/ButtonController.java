@@ -23,8 +23,6 @@ public class ButtonController {
     }
 
     public void checkClick(int x, int y){
-        System.out.println("click" + x + " " + y);
-
         boolean isPressed = mouse.isLeftButtonPressed();
 
         

@@ -12,9 +12,7 @@ public class MapModel {
     private int cameraY = 0;
     private int cameraX;
     private ExitModel exit;
-    private int getQuantityLemmingsToSpawn;
-    private int quantityLemminsToWin;
-    private int getQuantityLemmingSaved = 0;
+
 
 
     public MapModel(int level, int exitX, int exitY, int cameraX) throws Exception {
@@ -44,6 +42,9 @@ public class MapModel {
         }
     }
 
+    public int getLemmingsSaved(){
+        return exit.savedLemmings;
+    }
     
     public TileModel[][] getMapTiles() {
         return mapTiles;
@@ -65,6 +66,8 @@ public class MapModel {
 
         return res;
     }
+
+    public int getCameraX(){ return this.cameraX; }
     
     public void setCameraPosition(int x, int y) {
         this.cameraX = x;
