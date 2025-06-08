@@ -38,6 +38,7 @@ public class ExitModel {
         if (checkLemming(lemming) && !lemming.isSaved()) {
             savedLemmings++;
             lemming.setSaved(true);
+            lemming.setStateLemming(LemmingState.EXITED);
             System.out.println("lemming salido: " + savedLemmings);
         }
     }
