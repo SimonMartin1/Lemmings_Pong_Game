@@ -47,8 +47,10 @@ public class LemmingView{
 
             if (frames == null) return;
 
-            BufferedImage currentFrame = model.getCurrentState().equals(LemmingAnimationState.STOPING) ? frames[0] : frames[currentFrameIndex];
-            g.drawImage(currentFrame, drawX, model.getY(), 20, 30, null);
+
+            BufferedImage currentFrame = frames[currentFrameIndex];
+            g.drawImage(currentFrame, model.getX(), model.getY(), 20, 30, null);
+
         }
     }
 
@@ -56,17 +58,17 @@ public class LemmingView{
 
     private void loadAnimations() throws IOException {
 
-        int frameWalkWidth = 6;
-        int frameWalkHeight = 10;
+        int frameWalkWidth = 13;
+        int frameWalkHeight = 21;
         frameWalkLength = 8;
-        frameStopLength = 1;
-        frameFallLength = 8;
+        frameStopLength = 6;
+        frameFallLength = 4;
         frameDigLength = 16;
 
-        BufferedImage lemmingWalkingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_walk.png"));
-        BufferedImage lemmingFallingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_fall.png"));
+        BufferedImage lemmingWalkingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_walk_v2.png"));
+        BufferedImage lemmingFallingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_fall_v2.png"));
         BufferedImage lemmingDiggingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_dig.png"));
-        BufferedImage lemmingStopingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_stop.png"));
+        BufferedImage lemmingStopingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_stop_v2.png"));
 
         BufferedImage[] walkRightFrames = new BufferedImage[frameWalkLength];
         BufferedImage[] walkLeftFrames = new BufferedImage[frameWalkLength];
@@ -84,15 +86,19 @@ public class LemmingView{
             walkLeftFrames[i] = createFlippedImage(walkRightFrames[i]);
         }
 
-        for (int i = 0; i < 8; i++){
-            fallFrames[i] = lemmingFallingSprites.getSubimage(i * 6, 0, 6, 10);
+        for (int i = 0; i < 4; i++){
+            fallFrames[i] = lemmingFallingSprites.getSubimage(i * 12, 0, 12, 20);
         }
 
         for (int i = 0; i < 16; i++){
             digFrames[i] = lemmingDiggingSprites.getSubimage(i * 8, 0, 8, 14);
         }
 
-        stopFrames[0] = lemmingStopingSprites.getSubimage(0, 0, 10, 10);
+        for (int i = 0; i < 6; i++){
+            stopFrames[i] = lemmingStopingSprites.getSubimage(i * 20, 0, 20, 20);
+        }
+
+        //stopFrames[0] = lemmingStopingSprites.getSubimage(0, 0, 20, 20);
 
         animations.put(LemmingAnimationState.WALKING_RIGHT, walkRightFrames);
         animations.put(LemmingAnimationState.WALKING_LEFT, walkLeftFrames);
@@ -115,13 +121,13 @@ public class LemmingView{
                 case WALKING_LEFT:
                     currentFrameIndex = (currentFrameIndex + 1) % 8;
                 case FALLING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 8;
+                    currentFrameIndex = (currentFrameIndex + 1) % 4;
                     break;
                 case DIGGING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 8;
+                    currentFrameIndex = (currentFrameIndex + 1) % 16;
                     break;
                 case STOPING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 1;
+                    currentFrameIndex = (currentFrameIndex + 1) % 6;
                     break;
             }
 
