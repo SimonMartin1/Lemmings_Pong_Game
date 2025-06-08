@@ -6,23 +6,21 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-
 import Proyecto.games.Pong_game.Model.BallModel;
 
 public class BallView extends JPanel {
     private BufferedImage spriteSheet;
-    private int frameWidth = 32;   // Cada frame es de 32x32 píxeles
+    private int frameWidth = 32;   // Cambia si tus frames son de otro tamaño
     private int frameHeight = 32;
-    private int totalFrames = 8;   // 8 frames por tipo de pelota
+    private int totalFrames = 8;   // Cambia si hay más/menos frames por fila
     private int currentFrame = 0;
     private int frameDelay = 5;
     private int frameDelayCounter = 0;
-    private int ballType = 1;      // 0: gris, 1: playa, 2: fútbol, 3: basket
+    private int ballType = 0;      // 0: tenis, 1: fútbol, 2: basket
     BallModel ballModel;
-    public boolean defaultBall=true;
+    public boolean defaultBall, crazyBall;
 
     public BallView(BallModel ballModel){
         this.ballModel = ballModel;
@@ -34,13 +32,13 @@ public class BallView extends JPanel {
     }
 
     public void draw(Graphics g){
-        if (spriteSheet == null || defaultBall) {
-            g.setColor(new Color(randomNumber(), randomNumber(), randomNumber()));
-            g.fillOval(
-                (int)(ballModel.getPosX() - frameWidth/2),
-                (int)(ballModel.getPosY() - frameHeight/2),
-                frameWidth, frameHeight
-            );
+        if (spriteSheet == null || defaultBall || crazyBall) {
+            if(crazyBall){
+                g.setColor(new Color(randomNumber(), randomNumber(), randomNumber()));
+            } else {
+                g.setColor(Color.ORANGE);
+            }
+            g.fillOval((int)(ballModel.getPosX() - frameWidth/2),(int)(ballModel.getPosY() - frameHeight/2),frameWidth, frameHeight);
         } else {
             int x = (int)(ballModel.getPosX() - frameWidth/2);
             int y = (int)(ballModel.getPosY() - frameHeight/2);
@@ -63,20 +61,20 @@ public class BallView extends JPanel {
                 frameDelayCounter = 0;
             }
         }
-}
+    }
 
     // Permite cambiar el tipo de pelota en tiempo de ejecución
-    public void setBallType(int type) {
-        
+    public void setBallType(BallSkins type) {
         switch(type){
-            case 0 -> ballType = 0; 
-            case 1 -> ballType = 1; 
-            case 2 -> ballType = 2; 
-            default -> defaultBall=true;
-        }        
+            case TENNIS -> { ballType = 0; defaultBall = false; crazyBall = false; }
+            case FOOTBALL -> { ballType = 1; defaultBall = false; crazyBall = false; }
+            case BASKET -> { ballType = 2; defaultBall = false; crazyBall = false; }
+            case NORMAL -> { defaultBall = true; crazyBall = false; }
+            case CRAZY -> { crazyBall = true; defaultBall = false; }
+        }
     }
 
     public static int randomNumber() {
-    return 50 + (int)(Math.random() * (256 - 50));
-}
+        return 50 + (int)(Math.random() * (256 - 50));
+    }
 }
