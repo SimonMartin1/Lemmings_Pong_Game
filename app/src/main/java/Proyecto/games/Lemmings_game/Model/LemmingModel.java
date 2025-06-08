@@ -25,8 +25,17 @@ public class LemmingModel {
     LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
     boolean isOnExit = false;
     boolean saved = false;
+    LemmingState state = LemmingState.ALIVE;
 
-    public LemmingModel(int id, int x, int y, int vx, int speed, MapView firstLevelMapView, MapModel firstLevelMapModel) {
+    int camX = 0;
+
+    public int getCamX(){ return this.camX; }
+
+    public void setCamX(int camX){
+        this.camX = camX;
+    }
+
+    public LemmingModel(int id, int x, int y, int vx, int speed, MapModel firstLevelMapModel) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -34,7 +43,6 @@ public class LemmingModel {
         this.speed = speed;
         this.currentTileX = x/LemmingConstants.TILE_WIDTH;
         this.currentTileY = y/LemmingConstants.TILE_HEIGHT;
-        this.firstLevelMapView  = firstLevelMapView;    
         this.firstLevelMapModel = firstLevelMapModel;
     }
 
@@ -77,8 +85,9 @@ public class LemmingModel {
     public boolean hasAbility(){ return currentAbility != null;}
 
     public void update(double delta) {
+
        currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
-       currentTileX = (x + firstLevelMapView.getCamX())/LemmingConstants.TILE_WIDTH;
+       currentTileX = (x + 430) /LemmingConstants.TILE_WIDTH;
 
         if(hasAbility()){
             applyHability(delta);
@@ -88,6 +97,7 @@ public class LemmingModel {
                 fall();
             }
             else{
+                //System.out.println("CAMINO");
                 walk();
             }
         }
@@ -209,5 +219,13 @@ public class LemmingModel {
 
     public void setSpeed(int speed){
         this.speed = speed;
+    }
+
+    public boolean isActive() {
+        return state == LemmingState.ALIVE;
+    }
+
+    public void setStateLemming(LemmingState state){
+        this.state = state;
     }
 }

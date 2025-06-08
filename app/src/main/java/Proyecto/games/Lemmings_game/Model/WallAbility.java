@@ -10,11 +10,9 @@ public class WallAbility implements AbilityModel {
     public void apply(LemmingModel lemming, double delta) {
         lemming.setCurrentLeemingState(LemmingAnimationState.STOPING);
 
-        int tileX = (lemming.getX() + lemming.getView().getCamX()) / 8;
+        int tileX = (lemming.getX() + lemming.getCamX()) / 8;
         int tileY = (lemming.getY()) / 8;
 
-        //System.out.println("me frene");
-        //pruebo aca si se para el lemming
         lemming.setSpeed(0);
 
         //aca le seteo para que no pasen jajaja
@@ -23,14 +21,6 @@ public class WallAbility implements AbilityModel {
         lemming.getMap().getMapTiles()[tileY - 2][tileX].setTileColor(Color.GREEN);
         lemming.getMap().getMapTiles()[tileY - 3][tileX].setTileColor(Color.GREEN);
         lemming.getMap().getMapTiles()[tileY - 4][tileX].setTileColor(Color.GREEN);
-
-
-        //lemming.getMap().getMapTiles()[tileY][tileX + 1].setTileColor(tileX, tileY, Color.GREEN);
-        //lemming.getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(tileX + 1, tileY, Color.GREEN);
-
-
-        //despues le seteo donde esta parado color brown a los tiles 
-
     }
 
     @Override
