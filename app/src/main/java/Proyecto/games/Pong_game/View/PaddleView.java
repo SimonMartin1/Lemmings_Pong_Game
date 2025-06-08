@@ -9,7 +9,7 @@ public class PaddleView {
     private final Color paddleColor = Color.WHITE; // Color de la paleta
     private final int paddleWidth = 10;
     private final int paddleHeight = 150;
-    private int fixedX = 10;
+    private int fixedX;
 
 
     public PaddleView(PaddleModel model, int fixedX) {
