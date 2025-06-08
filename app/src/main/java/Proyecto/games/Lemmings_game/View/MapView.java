@@ -13,15 +13,17 @@ public class MapView {
     private SpawnerView spawnerView;
     private ExitView exitView;
 
-    public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView) {
+    public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView, int camX, int camY) {
+        this.camX = camX;
+        this.camY = camY;
         this.model = model;
         this.spawnerView = spawnerView;
         this.exitView = exitView;
     }
 
-    public void draw(Graphics g, int camX, int camY) {
-        this.camX = camX;
-        this.camY = camY;
+    public void draw(Graphics g) {
+
+        //System.out.println("camX: " + camX + " camY: " + camY);
 
         TileModel[][] tiles = model.getMapTiles();
 
@@ -41,11 +43,12 @@ public class MapView {
             }
         }
 
-        spawnerView.draw(g);
-        exitView.draw(g);
+        spawnerView.draw(g,camX,camY);
+        exitView.draw(g,camX,camY);
     }
 
     public int getCamX() {
+        System.out.println("camX en mapView: " + camX);
         return camX;
     }
 

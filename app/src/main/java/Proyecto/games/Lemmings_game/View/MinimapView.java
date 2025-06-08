@@ -46,5 +46,13 @@ public class MinimapView {
             g.drawString("No se pudo cargar el minimapa", x + 10, y + height / 2);
         }
     }
+
+    public int getMinimapPositionX(){
+        return x;
+    }
+
+    public int getMinimapPositionY(){
+        return y;
+    }
     
 }

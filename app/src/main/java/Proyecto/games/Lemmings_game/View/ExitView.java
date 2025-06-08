@@ -51,10 +51,12 @@ public class ExitView {
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int camX, int camY) {
+        int drawX = x - camX;
+        int drawY = y - camY;
         if (frames != null && frames[currentFrameIndex] != null) {
             updateAnimation();
-            g.drawImage(frames[currentFrameIndex], x, y,100 ,80,null);
+            g.drawImage(frames[currentFrameIndex], drawX, drawY,100 ,80,null);
         }
     }
 }
