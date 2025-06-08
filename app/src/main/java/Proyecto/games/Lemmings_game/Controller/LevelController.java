@@ -3,6 +3,8 @@ package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
+import Proyecto.games.Lemmings_game.Model.MapModel;
+import Proyecto.games.Lemmings_game.Model.MinimapModel;
 import Proyecto.games.Lemmings_game.View.*;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
@@ -14,7 +16,10 @@ public class LevelController {
     private LevelModel levelModel;
     private LevelView levelView;
     private CursorModel cursorModel;
-
+    private MinimapModel mapModel;
+    
+    
+    private MinimapModel minimapModel;
     private Mouse mouse;
     private Keyboard keyboard;
 
@@ -26,7 +31,7 @@ public class LevelController {
     private java.util.List<LemmingView> lemmingViews = new java.util.ArrayList<LemmingView>();
 
 
-    public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY){
+    public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel){
         this.levelModel = lvlModel;
         this.levelView = lvlView;
         this.cursorModel = new CursorModel(m);
@@ -36,14 +41,23 @@ public class LevelController {
 
         this.keyboard = k;
         this.mouse = m;
+        //this.camX = levelView.getCamX();
 
         this.camX = camX;
         this.camY = camY;
-
+        this.minimapModel = minimapModel;
         cursorModel.setCurrentLemmings(levelModel.getLemmings());
     }
 
     public void update(double delta){
+        //OJITO ACA LRPM
+
+
+        if(mouse.isLeftButtonPressed()){
+            if(mouse.getX() <= 730 && mouse.getX() >= 480 && mouse.getY() >= 480 && mouse.getY() <= 580){
+                minimapModel.handleClick(mouse.getX(), mouse.getY());
+            }
+        }
 
         levelModel.setCamX(this.camX);
 
@@ -56,12 +70,14 @@ public class LevelController {
         }
 
         levelModel.update(delta);
-
+        cursorModel.setCamX(levelView.getCamX());
         cursorModel.update();
         syncLemmingViews();
     }
 
     public void draw(Graphics2D g){
+
+
 
         if(isStarting){
             levelView.drawPreLevelScreen(g);
@@ -77,7 +93,10 @@ public class LevelController {
                 levelView.drawLevel(g);
 
                 for (LemmingView view : lemmingViews) {
-                    view.draw(g);
+                    this.camX = levelView.getCamX();
+                    //System.out.println("camX en controller: " + camX );
+
+                    view.draw(g, camX, camY);
                 }
             }
         }

@@ -2,10 +2,13 @@ package Proyecto.games.Pong_game.Controller;
 import com.entropyinteractive.Mouse;
 
 import Proyecto.games.Pong_game.Model.SettingsModel;
+import Proyecto.games.Pong_game.Model.Track;
+import Proyecto.games.Pong_game.PitchSkins;
 import Proyecto.games.Pong_game.Pong;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
+        
         if(view.isHardClicked(m)){
             view.setDraw("Hard");
             game.setDifficult(2);
@@ -32,22 +35,51 @@ public class SettingController {
             game.setMaxPoints(0);
         } else if(view.isOffClicked(m)){
             view.setDraw("Off");
-            game.setMusicOFF();
+            game.setMusicOFF(true);
+            game.stopTrack();
+        }else if(view.isFullScreenClicked(m)){
+            view.setDraw("fullscreen");
+        }
+        else if(view.isFullScreenOffClicked(m)){
+            view.setDraw("fullscreenOff");
+        } 
+        if(view.isPitchSkinClicked(m)){
+            int nextPitchSkin;
+            switch (game.getPitchSkin()) {
+                case BLACK -> nextPitchSkin = 2;   // BLACK -> BLUE
+                case BLUE -> nextPitchSkin = 3;    // BLUE -> BASKET
+                case BASKET -> nextPitchSkin = 1;  // BASKET -> BLACK
+                default -> nextPitchSkin = 1;
+            }
+            game.setPitchSkin(nextPitchSkin);
+        }
+        
+        if(view.isBallSkinClicked(m)){
+            int nextBallskin;
+            switch (game.getBallSkin()) {
+                case NORMAL -> nextBallskin = 2;
+                case CRAZY -> nextBallskin = 3;
+                case TENNIS -> nextBallskin = 4;
+                case FOOTBALL -> nextBallskin = 5;
+                case BASKET -> nextBallskin = 1;
+                default -> nextBallskin = 1;
+            }
+            game.setBallSkin(nextBallskin);
         }
         
         if (view.isTrackNameClicked(m)) {
             if (view.getDrawTrack()) {
                 int nextTrack = 1;
-                if (game.getTrack() == Proyecto.games.Pong_game.Model.Track.TRACK1) {
+                if (game.getTrack() == Track.TRACK1) {
                     nextTrack = 2;
-                } else if (game.getTrack() == Proyecto.games.Pong_game.Model.Track.TRACK2) {
+                } else if (game.getTrack() == Track.TRACK2) {
                     nextTrack = 3;
                 }
                 game.setTrack(nextTrack);
                 view.setDraw("nextTrack");
             } else {
                 view.setDraw("Track");
-                game.setMusicOFF();
+                game.setMusicOFF(false);
             }
         }
 
@@ -59,6 +91,50 @@ public class SettingController {
         if (view.isResetClicked(m)) {
             game.resetSettings();
             view.setDraw("Reset");
+        }
+        if(view.isCancelClicked(m)){
+            game.setMusicOFF(game.getSettings().musicOff);
+            switch(game.backupSettings.track){
+                case TRACK1 -> {game.setTrack(0);}
+                case TRACK2 -> {game.setTrack(1);}
+                case TRACK3 -> {game.setTrack(2);}
+            }
+            switch(game.backupSettings.difficult){
+                case HARD -> {game.setDifficult(2);}
+                case MEDIUM -> {game.setDifficult(1);}
+                case EASY -> {game.setDifficult(0);}
+            }
+            switch(game.backupSettings.maxPoints){
+                case 5 ->{game.setMaxPoints(0);}
+                case 10 ->{game.setMaxPoints(1);}
+                case 15 ->{game.setMaxPoints(2);}
+            }
+            game.setTwoPlayers(game.backupSettings.twoPlayers);
+            switch(game.backupSettings.ballSkin){
+                case NORMAL -> {game.setBallSkin(0);}
+                case CRAZY -> {game.setBallSkin(1);}
+                case FOOTBALL -> {game.setBallSkin(2);}
+                case BASKET -> {game.setBallSkin(3);}
+                case TENNIS -> {game.setBallSkin(4);}
+                
+            }
+            switch(game.backupSettings.pitchSkin){
+                case BLACK -> {game.setPitchSkin(1);}
+                case BLUE -> {game.setPitchSkin(2);}
+            case BASKET -> {game.setPitchSkin(3);}
+            }
+
+            view.drawHard = game.getBackUpSettings(0);
+            view.drawMedium = game.getBackUpSettings(1);
+            view.drawEasy = game.getBackUpSettings(2);
+            view.drawTwoPlayers = game.getBackUpSettings(3);
+            view.drawWin5 = game.getBackUpSettings(4);
+            view.drawWin10 = game.getBackUpSettings(5);
+            view.drawWin15 = game.getBackUpSettings(6);
+            view.drawOff = game.getBackUpSettings(7);
+            view.drawTrack = game.getBackUpSettings(8);
+            view.drawFullScreen=game.getBackUpSettings(9);
+            
         }
     }
 }

@@ -53,12 +53,14 @@ public class SpawnerView {
         }
     }
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int camX, int camY) {
+        int drawX = x - camX;
+        int drawY = y - camY;
         if (frames != null && frames[currentFrameIndex] != null) {
             //System.out.println(" lei bien ");
             g.drawRect(x, y, frameWidth, frameHeight);
             updateAnimation();
-            g.drawImage(frames[currentFrameIndex], x, y,110,70, null);
+            g.drawImage(frames[currentFrameIndex], drawX, drawY,110,70, null);
         }else{
             System.out.println("no pude leer la imagen");
         }

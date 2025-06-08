@@ -8,6 +8,8 @@ public class CursorModel {
     private List<LemmingModel> currentLemmings;
     private AbilityModel currentSelectedAbility;
     private Mouse mouse;
+    int camX;
+    int camY;
 
     boolean wasPressedLastFrame = false;
 
@@ -42,9 +44,12 @@ public class CursorModel {
             }
             // Click en un lemming
             else {
-                System.out.println("XD");
+                //System.out.println("XD");
                 for(LemmingModel lemming : currentLemmings){
+                    //SI SE ROMPE BORRAR LA RESTA DE CAMX
+                    System.out.println("camX en cursorModel: " +  (x) );
                     if(lemming.isClicked(x, y)){ // ← implementá esto en LemmingModel
+                        System.out.println("entre al click!!!!");
                         if(currentSelectedAbility != null){
                             lemming.assignAbility(currentSelectedAbility);
                             System.out.println("Habilidad asignada al lemming!");
@@ -63,5 +68,9 @@ public class CursorModel {
 
     public void setCurrentLemmings(List<LemmingModel> currentLemmings){
         this.currentLemmings = currentLemmings;
+    }
+    
+    public void setCamX(int camX){
+        this.camX = camX;
     }
 }

@@ -22,7 +22,7 @@ public class MapModel {
         int cantTilesX = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
         mapTiles = new TileModel[cantTilesY][cantTilesX];
 
-        this.exit = new ExitModel(exitX,exitY); //ACA A FUTURO LE PASAMOS LA SALIDA PARA QUE CAMBIE
+        this.exit = new ExitModel(exitX,exitY, this); //ACA A FUTURO LE PASAMOS LA SALIDA PARA QUE CAMBIE
 
         for (int y = 0; y < cantTilesY; y++) {
             for (int x = 0; x < cantTilesX; x++) {
@@ -33,7 +33,8 @@ public class MapModel {
     }
 
     public TileModel getTileDebajo(int x, int y) {
-        int tileX = x / LemmingConstants.TILE_WIDTH;
+        int tileX = (x - cameraX) / LemmingConstants.TILE_WIDTH;    
+        //int tileX = x / LemmingConstants.TILE_WIDTH;
         int tileY = (y + LemmingConstants.LEMMING_HEIGHT) / LemmingConstants.TILE_HEIGHT;
         if (tileY >= 0 && tileY < mapTiles.length && tileX >= 0 && tileX < mapTiles[0].length) {
             return mapTiles[tileY][tileX];
@@ -67,7 +68,17 @@ public class MapModel {
         return res;
     }
 
-    public int getCameraX(){ return this.cameraX; }
+    public void setCamX(int camX){
+        this.cameraX = camX;
+    }
+
+    public int getCameraX(){
+        return this.cameraX; 
+    }
+
+    public int getCameraY(){
+        return this.cameraY;
+    }
     
     public void setCameraPosition(int x, int y) {
         this.cameraX = x;

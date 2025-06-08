@@ -35,7 +35,11 @@ public class LemmingView{
     }
 
 
-    public void draw(Graphics g) {
+    public void draw(Graphics g, int camX, int camY) {
+        //System.out.println("camX: " + camX + " camY: " + camY);
+        int drawX = model.getX() - camX;
+        //int drawY = model.getY() - camY;
+        //System.out.println("drawX: " + drawX);
 
         if(!model.getOnExit()){
             updateAnimation();
@@ -43,8 +47,10 @@ public class LemmingView{
 
             if (frames == null) return;
 
+
             BufferedImage currentFrame = frames[currentFrameIndex];
             g.drawImage(currentFrame, model.getX(), model.getY(), 20, 30, null);
+
         }
     }
 
