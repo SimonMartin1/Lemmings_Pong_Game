@@ -2,9 +2,9 @@ package Proyecto.games.Pong_game.Controller;
 import com.entropyinteractive.Mouse;
 
 import Proyecto.games.Pong_game.Model.SettingsModel;
-import Proyecto.games.Pong_game.Pong;
-import Proyecto.games.Pong_game.View.BallSkins;
 import Proyecto.games.Pong_game.Model.Track;
+import Proyecto.games.Pong_game.PitchSkins;
+import Proyecto.games.Pong_game.Pong;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 public class SettingController {
     public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
@@ -43,9 +43,17 @@ public class SettingController {
         else if(view.isFullScreenOffClicked(m)){
             view.setDraw("fullscreenOff");
         } 
+        if(view.isPitchSkinClicked(m)){
+            int nextPitchSkin;
+            switch (game.getPitchSkin()) {
+                case BLACK -> nextPitchSkin = 2;   // BLACK -> BLUE
+                case BLUE -> nextPitchSkin = 3;    // BLUE -> BASKET
+                case BASKET -> nextPitchSkin = 1;  // BASKET -> BLACK
+                default -> nextPitchSkin = 1;
+            }
+            game.setPitchSkin(nextPitchSkin);
+        }
         
-        
-
         if(view.isBallSkinClicked(m)){
             int nextBallskin;
             switch (game.getBallSkin()) {
@@ -57,7 +65,6 @@ public class SettingController {
                 default -> nextBallskin = 1;
             }
             game.setBallSkin(nextBallskin);
-            view.setDraw("nextBallSkin");
         }
         
         if (view.isTrackNameClicked(m)) {
@@ -111,6 +118,11 @@ public class SettingController {
                 case TENNIS -> {game.setBallSkin(4);}
                 
             }
+            switch(game.backupSettings.pitchSkin){
+                case BLACK -> {game.setPitchSkin(1);}
+                case BLUE -> {game.setPitchSkin(2);}
+            case BASKET -> {game.setPitchSkin(3);}
+            }
 
             view.drawHard = game.getBackUpSettings(0);
             view.drawMedium = game.getBackUpSettings(1);
@@ -121,6 +133,7 @@ public class SettingController {
             view.drawWin15 = game.getBackUpSettings(6);
             view.drawOff = game.getBackUpSettings(7);
             view.drawTrack = game.getBackUpSettings(8);
+            view.drawFullScreen=game.getBackUpSettings(9);
             
         }
     }

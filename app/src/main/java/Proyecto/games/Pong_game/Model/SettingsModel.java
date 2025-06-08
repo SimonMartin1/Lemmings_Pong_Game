@@ -47,7 +47,7 @@ public class SettingsModel {
                 }
             }
         } catch (IOException e) {
-            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin, setting.pitchSkin,setting.fullScreen );
+            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin, setting.pitchSkin,setting.fullScreen);
         }
         return setting;
     }

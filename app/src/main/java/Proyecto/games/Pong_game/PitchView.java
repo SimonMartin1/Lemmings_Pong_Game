@@ -15,6 +15,7 @@ public class PitchView {
             Image res;
         switch(option){
             default  -> res=pitch1;
+            case BLACK -> res=pitch1;
             case BLUE -> res=pitch2;
             case BASKET -> res=pitch3;
 

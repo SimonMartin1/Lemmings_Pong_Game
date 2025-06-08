@@ -20,26 +20,26 @@ import Proyecto.games.Pong_game.Model.Player;
 import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.Model.Track;
+import Proyecto.games.Pong_game.View.BallSkins;
 import Proyecto.games.Pong_game.View.BallView;
 import Proyecto.games.Pong_game.View.GameMenuView;
 import Proyecto.games.Pong_game.View.GameOverMenuView;
 import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
-import Proyecto.games.Pong_game.View.BallSkins;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
 import Proyecto.games.Pong_game.utils.SoundPlayer;
 
 
 public class Pong extends JGame {
-    PaddleView paddleLeftView, paddleRightView;
+    PaddleView paddleLeftView,paddleLeftIAView, paddleRightView;
     PaddleModel paddleLeftModel,paddleRightModel;
     PaddleIAmodel paddleIAModel;
-    PaddleIAController paddleLefIAtController;
+    PaddleIAController paddleLeftIAController;
     PaddleController paddleLeftController,paddleRightController;
     BallView ballView;
     BallModel ballModel;
-    BallController ballController;
+    BallController ballController,ballIAController;
     Keyboard keyboard;
     PitchView pitch;
     ScoreManagerModel scoreManagerModel;
@@ -85,12 +85,9 @@ public class Pong extends JGame {
         backUpSettings();
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
-        if(twoplayers){
-            paddleLeftModel = new PaddleModel(250);
-            }
-        else{
-            paddleIAModel = new PaddleIAmodel(250);
-        }
+
+        paddleLeftModel = new PaddleModel(250);
+        paddleIAModel = new PaddleIAmodel(250);
         paddleRightModel = new PaddleModel(250);
         ballModel = new BallModel(400,270,10);
         
@@ -98,12 +95,9 @@ public class Pong extends JGame {
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
         scoreManagerView = new ScoreManagerView(scoreManagerModel);
-        if(twoplayers){
-            paddleLeftView = new PaddleView(paddleLeftModel,8);
-        }
-        else{
-            paddleLeftView = new PaddleView(paddleIAModel,8);
-        }
+
+        paddleLeftView = new PaddleView(paddleLeftModel,8);
+        paddleLeftIAView = new PaddleView(paddleIAModel,8);
         paddleRightView = new PaddleView(paddleRightModel,795);
         ballView = new BallView(ballModel);
         pitch = new PitchView();
@@ -112,19 +106,14 @@ public class Pong extends JGame {
         gamePauseView = new GamePauseView(getWidth(), getHeight());
 
         //controladores
-        if(twoplayers){
-            paddleLeftController = new PaddleController(paddleLeftModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
-        }
-        else{
-            paddleLefIAtController = new PaddleIAController(paddleIAModel);
-        }
+        paddleLeftController = new PaddleController(paddleLeftModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
+        paddleLeftIAController = new PaddleIAController(paddleIAModel);
+
         paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
-        if(twoplayers){
-            ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel);
-        }
-        else{
-            ballController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
-        }
+        
+        ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel);
+        
+        ballIAController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
@@ -173,13 +162,14 @@ public class Pong extends JGame {
         case 10 -> settingsView.setDraw("Win10");
         case 15 -> settingsView.setDraw("Win15");
     }
+
     }
     public SettingsModel.Settings getSettings() {
         return setting;
     }  
     
     public void backUpSettings() {
-    // Guarda el modelo
+
         backupSettings = new SettingsModel.Settings();
         backupSettings.musicOff = musicOFF;
         backupSettings.track = track;
@@ -189,7 +179,6 @@ public class Pong extends JGame {
         backupSettings.ballSkin= ballSkin;
         backupSettings.pitchSkin=pitchSkin;
 
-        // Guarda el estado visual de los botones
         backupDrawHard = settingsView.drawHard;
         backupDrawMedium = settingsView.drawMedium;
         backupDrawEasy = settingsView.drawEasy;
@@ -214,6 +203,7 @@ public class Pong extends JGame {
             case 6 -> backup = backupDrawWin15; // Win 15
             case 7 -> backup = backupDrawOff; // Off
             case 8 -> backup = backupDrawTrack; // Track
+            case 9 -> backup = backupFullScreen; // Off FullScreen
         }
         return backup;
     }
@@ -253,7 +243,7 @@ public class Pong extends JGame {
         switch (option) {
             case 1-> this.pitchSkin = PitchSkins.BLACK;
             case 2-> this.pitchSkin = PitchSkins.BLUE; 
-            case 5-> this.pitchSkin = PitchSkins.BASKET; 
+            case 3-> this.pitchSkin = PitchSkins.BASKET; 
         }
         ballView.setBallType(ballSkin);
     }
@@ -369,15 +359,16 @@ public void stopTrack() {
                     if(twoplayers){
                         paddleLeftController.update();
                         paddleLeftModel.update(delta);
+                        ballController.update();
                     }
                     else{
                         updateIA(delta);
                         paddleIAModel.update(delta);
+                        ballIAController.update();
                     }
 
                     paddleRightModel.update(delta);
                     paddleRightController.update();
-                    ballController.update();
                 }
             }
         }
@@ -387,16 +378,16 @@ public void stopTrack() {
         switch (difficult) {
             case EASY -> {
                 if (ballModel.getPosX() < 800 * 0.1) {
-                    paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                    paddleLeftIAController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                 }
             }
             case MEDIUM -> {
                 if (ballModel.getPosX() < 800 * 0.2) {
-                    paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                    paddleLeftIAController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
                 }
             }
             case HARD -> {
-                paddleLefIAtController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
+                paddleLeftIAController.update(delta, ballModel.getPosX(), ballModel.getPosY(), ballModel.getDirX(), ballModel.getDirY());
             }
         }
     }
@@ -416,7 +407,12 @@ public void stopTrack() {
 
             scoreManagerView.draw(g);
             paddleRightView.draw(g);
-            paddleLeftView.draw(g);
+            if(twoplayers){
+                paddleLeftView.draw(g);
+            }
+            else{
+                paddleLeftIAView.draw(g);
+            }
             ballView.draw(g);
 
             if (gamePause) {
@@ -432,7 +428,7 @@ public void stopTrack() {
 
     @Override
     public void gameShutdown() {
-        if(isInMenu && !gameOver){
+        if(!isInMenu && !isInSettings && !gameOver){
             gameReset();
         }
         // Cargar settinguración
