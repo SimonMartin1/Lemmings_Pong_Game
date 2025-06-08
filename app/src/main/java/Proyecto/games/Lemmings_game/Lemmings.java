@@ -47,9 +47,9 @@ public class Lemmings extends JGame {
             MapModel secondLevelMapModel = new MapModel(2,650,350,0);
             MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
-            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(260, 70), new ExitView(580, 300));
-            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150));
-            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150));
+            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 430, 0);
+            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 430, 0);
+            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 430, 0);
 
             //Agrego los modelos
             mapModels.add(firstLevelMapModel);
@@ -83,10 +83,14 @@ public class Lemmings extends JGame {
         levelViews.add(secondLevelView);
         levelViews.add(thirdLevelView);
 
+        //minimapmodel
+        MinimapModel minimapModel = new MinimapModel(mapViews.get(0), levelViews.get(0), levelModels.get(0));
 
-        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 430, 0));
-        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0));
-        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0));
+        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 430, 0, minimapModel));
+        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel));
+        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel));
+
+
 
 
         //Agregamos el listener del mouse

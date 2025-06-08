@@ -26,6 +26,7 @@ public class LemmingModel {
     boolean isOnExit = false;
     boolean saved = false;
     LemmingState state = LemmingState.ALIVE;
+    
 
     int camX = 0;
 
@@ -85,9 +86,11 @@ public class LemmingModel {
     public boolean hasAbility(){ return currentAbility != null;}
 
     public void update(double delta) {
+        //le actualizamos el camX probar
+        camX = firstLevelMapModel.getCameraX();
 
-       currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
-       currentTileX = (x + 430) /LemmingConstants.TILE_WIDTH;
+        currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
+        currentTileX = (x - camX) /LemmingConstants.TILE_WIDTH;
 
         if(hasAbility()){
             applyHability(delta);
@@ -187,15 +190,23 @@ public class LemmingModel {
 
         y += speed;
     }
-
+    
     public boolean isClicked(double clickX, double clickY){
 
-        double minClickableX = this.x - LemmingConstants.LEMMING_WIDTH;
-        double maxClickableX = this.x + LemmingConstants.LEMMING_WIDTH;
+        //le actualizamos el camX probar
+        camX = firstLevelMapModel.getCameraX();
+        //SI SE ROMPE BORRAR LA RESTA DE CAMX
+        double minClickableX = (this.x - camX);
+        double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
+        //double minClickableX = (this.x - camX) - LemmingConstants.LEMMING_WIDTH;
+        //double maxClickableX = (this.x - camX) + LemmingConstants.LEMMING_WIDTH;
         double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT;
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
 
-        boolean clickedX = clickX >= minClickableX && clickX <= maxClickableX;
+        System.out.println("minClickableX: " + minClickableX + " maxClickableX: " + maxClickableX);
+        System.out.println("lemming x: " + this.x);
+        System.out.println("clickX: " + clickX + 431);
+        boolean clickedX = clickX  + 431 >= minClickableX && clickX + 431 <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
 
         return clickedX && clickedY;

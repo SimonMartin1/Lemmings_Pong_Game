@@ -2,11 +2,14 @@ package Proyecto.games.Lemmings_game.Controller;
 
 import com.entropyinteractive.Mouse;
 
+import Proyecto.games.Lemmings_game.Model.MinimapModel;
+
 import javax.swing.*;
 
 public class ButtonController {
     private Mouse mouse;
     private ButtonModel buttonModel;
+    private MinimapModel minimapModel;
     boolean wasPressedLastFrame = false;
 
 
@@ -25,7 +28,6 @@ public class ButtonController {
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
 
-        
         if(isPressed && !wasPressedLastFrame){
             // Esto solo se ejecuta UNA VEZ cuando se presiona el botón
             if(x<=110 && x >= 10 && y>=450 && y<= 600){
