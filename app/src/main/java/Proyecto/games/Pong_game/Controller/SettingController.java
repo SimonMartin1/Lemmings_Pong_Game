@@ -3,7 +3,6 @@ import com.entropyinteractive.Mouse;
 
 import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.Model.Track;
-import Proyecto.games.Pong_game.PitchSkins;
 import Proyecto.games.Pong_game.Pong;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 public class SettingController {
@@ -39,11 +38,12 @@ public class SettingController {
             game.stopTrack();
         }else if(view.isFullScreenClicked(m)){
             view.setDraw("fullscreen");
+            game.setFullScreen(true);
         }
         else if(view.isFullScreenOffClicked(m)){
             view.setDraw("fullscreenOff");
-        } 
-        if(view.isPitchSkinClicked(m)){
+            game.setFullScreen(false);
+        }else if(view.isPitchSkinClicked(m)){
             int nextPitchSkin;
             switch (game.getPitchSkin()) {
                 case BLACK -> nextPitchSkin = 2;   // BLACK -> BLUE
@@ -52,9 +52,7 @@ public class SettingController {
                 default -> nextPitchSkin = 1;
             }
             game.setPitchSkin(nextPitchSkin);
-        }
-        
-        if(view.isBallSkinClicked(m)){
+        }else if(view.isBallSkinClicked(m)){
             int nextBallskin;
             switch (game.getBallSkin()) {
                 case NORMAL -> nextBallskin = 2;
@@ -65,9 +63,12 @@ public class SettingController {
                 default -> nextBallskin = 1;
             }
             game.setBallSkin(nextBallskin);
+        }else if(view.isChangeKeysClicked(m)){
+            view.setkeys=true;
+        }else if(view.isCancelSetKeysClicked(m)){
+            view.setkeys=false;
         }
-        
-        if (view.isTrackNameClicked(m)) {
+        else if (view.isTrackNameClicked(m)) {
             if (view.getDrawTrack()) {
                 int nextTrack = 1;
                 if (game.getTrack() == Track.TRACK1) {
@@ -81,18 +82,13 @@ public class SettingController {
                 view.setDraw("Track");
                 game.setMusicOFF(false);
             }
-        }
-
-        if(view.isSaveClicked(m)){
+        }else if(view.isSaveClicked(m)){
             game.saveSettings();
             game.setIsinsettings();
-        }
-
-        if (view.isResetClicked(m)) {
+        }else if (view.isResetClicked(m)) {
             game.resetSettings();
             view.setDraw("Reset");
-        }
-        if(view.isCancelClicked(m)){
+        }else if(view.isCancelClicked(m)){
             game.setMusicOFF(game.getSettings().musicOff);
             switch(game.backupSettings.track){
                 case TRACK1 -> {game.setTrack(0);}

@@ -29,7 +29,7 @@ public class MinimapModel {
         int worldX = (int) ((clickX - minimapX) * scaleX);
         //int worldY = (int) ((clickY - minimapY) * scaleY);
 
-        //System.out.println("worldX: " + worldX);
+        System.out.println("worldX: " + worldX);
 
         mapView.setCameraPosition(worldX,0);
         levelView.setCamX(worldX);  

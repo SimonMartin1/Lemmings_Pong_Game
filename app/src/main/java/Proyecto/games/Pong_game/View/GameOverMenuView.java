@@ -7,13 +7,12 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class GameOverMenuView {
-
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
 
     public GameOverMenuView(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.width=width;
+        this.height=height;
     }
 
     public void draw(Graphics2D g, Player winner, boolean isTwoPlayers) {
@@ -47,5 +46,10 @@ public class GameOverMenuView {
     }
     public boolean wantsBackMenu(Keyboard keyboard) {
         return keyboard.isKeyPressed(KeyEvent.VK_ESCAPE);
+    }
+
+    public void updateSize(int width, int height){
+        this.width=width;
+        this.height=height;
     }
 }

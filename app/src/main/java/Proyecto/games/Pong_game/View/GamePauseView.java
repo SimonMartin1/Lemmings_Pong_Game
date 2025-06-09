@@ -5,13 +5,13 @@ import java.awt.event.KeyEvent;
 
 import com.entropyinteractive.Keyboard;
 public class GamePauseView {
-    private final int width;
-    private final int height;
     private Boolean prevPausePressed = null;
+    private int width;
+    private int height;
 
     public GamePauseView(int width, int height) {
-        this.width = width;
-        this.height = height;
+    this.width=width;
+        this.height=height;
     }
 
     public void draw(Graphics2D g) {
@@ -27,6 +27,10 @@ public class GamePauseView {
 
         g.setFont(new Font("Arial", Font.PLAIN, 20));
         g.drawString("Press P continue playing - ENTER back to Menu", width / 2 - 210, height / 2 - 120);
+    }
+        public void updateSize(int width, int height){
+        this.width=width;
+        this.height=height;
     }
     
     public boolean wantsBackMenu(Keyboard keyboard) {

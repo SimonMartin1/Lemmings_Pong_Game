@@ -1,6 +1,8 @@
 package Proyecto.games.Lemmings_game.View;
 
+import Proyecto.games.Lemmings_game.Model.Ability;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
+import Proyecto.games.Lemmings_game.Model.Stock;
 
 import java.awt.*;
 
@@ -8,6 +10,7 @@ public class LevelView {
     private LevelModel model;
     private MapView mapView;
 
+    private Stock stock;
     private MinimapView minimapView;
 
     private Buttons buttonDig;
@@ -18,25 +21,26 @@ public class LevelView {
     private int camX;
     private int camY;
 
-    public LevelView(LevelModel model, MapView mapView) {
-        this.mapView  = mapView;
+    public LevelView(LevelModel model, MapView mapView, Stock stock) {
+        this.mapView = mapView;
         this.model = model;
-    
+        this.stock = stock;
+
+
         // Relativo a pantalla: x = porcentaje del ancho, y = porcentaje del alto
         // ancho = 100px de 768px ≈ 0.13 — alto = 150px de 600px ≈ 0.25
         float buttonWidth = 0.13f;
         float buttonHeight = 0.25f;
         float startY = 0.75f; // 450/600
-    
-        buttonDig    = new Buttons("Cavar",     0.01f, startY, buttonWidth, buttonHeight);
-        buttonBuild  = new Buttons("Parar",     0.16f, startY, buttonWidth, buttonHeight);
-        buttonStop   = new Buttons("Construir", 0.31f, startY, buttonWidth, buttonHeight);
-        buttonFly    = new Buttons("Volar",     0.46f, startY, buttonWidth, buttonHeight);
-    
+
+        buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
+        buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
+        buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER), 0.31f, startY, buttonWidth, buttonHeight);
+        buttonFly = new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
+
         // El minimapa queda igual si sigue con valores absolutos (o lo podés escalar también)
         minimapView = new MinimapView(480, 480, 250, 100, model.getNumLevel());
     }
-    
 
 
     public void drawPreLevelScreen(Graphics2D g) {
@@ -51,11 +55,11 @@ public class LevelView {
     public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
         mapView.draw(g);
     
-        buttonDig.draw(g, panelWidth, panelHeight);
-        buttonStop.draw(g, panelWidth, panelHeight);
-        buttonBuild.draw(g, panelWidth, panelHeight);
-        buttonFly.draw(g, panelWidth, panelHeight);
-    
+        buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
+        buttonStop.draw(g,"xd | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
+        buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
+        buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
+
         minimapView.drawMinimap(g);
     }
     

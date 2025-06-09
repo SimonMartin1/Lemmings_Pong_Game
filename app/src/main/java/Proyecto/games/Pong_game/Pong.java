@@ -60,11 +60,18 @@ public class Pong extends JGame {
     private PitchSkins pitchSkin;
     private Track track;
     private int maxPoints=5;
+    private int[] player1Keys,player2Keys;
+    private int width, height;
+    private final int oldwidth, oldheight;
 
 
 
     public Pong(String title, int width, int height) {
         super(title, width, height);
+        this.width=getWidth();
+        this.height=getHeight();
+        this.oldwidth=getWidth();
+        this.oldheight=getHeight();
     }
 
     public static void main(String[] args) {
@@ -79,37 +86,39 @@ public class Pong extends JGame {
         setDifficult(1);
         setTwoPlayers(true);
         settingsModel = new SettingsModel();
-        settingsView = new GameSettingsView(getWidth(), getHeight(),this);
+        settingsView = new GameSettingsView(width, this.height,this);
         settingController = new SettingController(settingsView,settingsModel , getMouse(),this);
+        player1Keys=new int[2];
+        player2Keys=new int[2];
         initSettings();
         backUpSettings();
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
 
-        paddleLeftModel = new PaddleModel(250);
-        paddleIAModel = new PaddleIAmodel(250);
-        paddleRightModel = new PaddleModel(250);
-        ballModel = new BallModel(400,270,10);
+        paddleLeftModel = new PaddleModel(height/2);
+        paddleIAModel = new PaddleIAmodel(height/2);
+        paddleRightModel = new PaddleModel(height/2);
+        ballModel = new BallModel(width/2,height/2,10);
         
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
-        scoreManagerView = new ScoreManagerView(scoreManagerModel);
+        scoreManagerView = new ScoreManagerView(scoreManagerModel, this.width,this.height);
 
-        paddleLeftView = new PaddleView(paddleLeftModel,8);
-        paddleLeftIAView = new PaddleView(paddleIAModel,8);
-        paddleRightView = new PaddleView(paddleRightModel,795);
+        paddleLeftView = new PaddleView(paddleLeftModel,15);
+        paddleLeftIAView = new PaddleView(paddleIAModel,15);
+        paddleRightView = new PaddleView(paddleRightModel,width-25);
         ballView = new BallView(ballModel);
         pitch = new PitchView();
-        gameOverMenuView = new GameOverMenuView(getWidth(), getWidth());
-        gameMenu = new GameMenuView(getWidth(), getHeight(),this);
-        gamePauseView = new GamePauseView(getWidth(), getHeight());
+        gameOverMenuView = new GameOverMenuView(this.width, this.height);
+        gameMenu = new GameMenuView(width, this.height,this);
+        gamePauseView = new GamePauseView(this.width, this.height);
 
         //controladores
-        paddleLeftController = new PaddleController(paddleLeftModel,keyboard, KeyEvent.VK_W, KeyEvent.VK_S );
+        paddleLeftController = new PaddleController(paddleLeftModel,keyboard, player1Keys[0],player1Keys[1] );
         paddleLeftIAController = new PaddleIAController(paddleIAModel);
 
-        paddleRightController = new PaddleController(paddleRightModel, keyboard,KeyEvent.VK_UP, KeyEvent.VK_DOWN);
+        paddleRightController = new PaddleController(paddleRightModel, keyboard,player2Keys[0], player2Keys[1]);
         
         ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel);
         
@@ -137,6 +146,8 @@ public class Pong extends JGame {
         ballSkin = setting.ballSkin;
         pitchSkin=setting.pitchSkin;
         fullScreen=setting.fullScreen;
+        player1Keys=setting.Player1Keys;
+        player2Keys=setting.Player2Keys;
 
     if(musicOFF){
         settingsView.setDraw("Off");
@@ -209,7 +220,7 @@ public class Pong extends JGame {
     }
 
     public void saveSettings(){
-        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin, pitchSkin,fullScreen);
+        SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin, pitchSkin,fullScreen,player1Keys,player2Keys);
     }
     public void resetSettings(){
         musicOFF = false;
@@ -217,7 +228,45 @@ public class Pong extends JGame {
         difficult = Difficult.EASY;
         maxPoints = 5;
         twoplayers = false;
+        player1Keys[0]=87;
+        player1Keys[1]=83;
+        player2Keys[0]=38;
+        player2Keys[1]=40;
+
     }
+    public void setFullScreen(boolean enable) {
+    java.awt.Frame frame = this.getFrame();
+    if (enable) {
+        frame.dispose();
+        frame.setUndecorated(true);
+        frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        this.width = screenSize.width;
+        this.height = screenSize.height;
+    } else {
+        frame.dispose();
+        frame.setUndecorated(false);
+        frame.setExtendedState(java.awt.Frame.NORMAL);
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        this.width = 800;
+        this.height = 600;
+    }
+    // Actualiza vistas y modelos
+    settingsView.updateSize(width, height);
+    gameMenu.updateSize(width, height);
+    gamePauseView.updateSize(width, height);
+    gameOverMenuView.updateSize(width, height);
+    scoreManagerView.updateSize(width);
+    paddleLeftView.updateSize(60,30,300);
+    paddleLeftIAView.updateSize(60,30,300);
+    paddleRightView.updateSize(width-90,30,300);
+    paddleLeftIAController.updateSize(height);
+    ballModel.updateSize(width, height);
+    ballController.updateSize(width, height);
+}
     public boolean getIsinsettings() {
         return this.isInSettings;
     }
@@ -308,6 +357,19 @@ public void stopTrack() {
             default:
                 this.difficult = Difficult.EASY;
         }
+    }
+    public int setPlayersKeys(){
+        int res=KeyEvent.KEY_FIRST;
+        return res;
+    }
+    public int[] getPlayersKeys(int option){
+        int [] res;
+        switch(option){
+            default -> res=player1Keys;
+            case 1 -> res=player1Keys;
+            case 2 -> res=player2Keys;
+        }
+        return res;
     }
 
     public void setTwoPlayers(boolean twoplayers) {
@@ -403,7 +465,7 @@ public void stopTrack() {
         }
         else{
             
-            pitch.draw(g, getWidth(),getHeight(),pitchSkin);
+            pitch.draw(g, this.width,this.height,pitchSkin);
 
             scoreManagerView.draw(g);
             paddleRightView.draw(g);
@@ -431,7 +493,8 @@ public void stopTrack() {
         if(!isInMenu && !isInSettings && !gameOver){
             gameReset();
         }
-        // Cargar settinguración
+        saveSettings();
+        System.exit(0);
     
     }
 

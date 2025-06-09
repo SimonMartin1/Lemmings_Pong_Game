@@ -14,8 +14,8 @@ import com.entropyinteractive.Mouse;
 import Proyecto.games.Pong_game.Pong;
 
 public class GameMenuView {
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
     private double blinkTime;
     private boolean showPressText = true;
     private Boolean prevPausePressed = null;
@@ -28,21 +28,23 @@ public class GameMenuView {
         this.height = height;
         this.game=game;
     }
+        public void updateSize(int width, int height){
+        this.width=width;
+        this.height=height;
+    }
 
     public void drawmenu(Graphics2D g) {
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Pong_back.jpg").getImage();
-        g.drawImage(background, 215, 15, width/2-20, height/2,null);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.drawString("Play Game!", width/2 - 60, 370);
+        g.drawImage(background, width/2-width/4, 15, width/2, height/2,null);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
-        g.drawString("Settings", width-250 , 500);
+        g.drawString("Play Game!", width/2-70, height/2+50);
+        g.drawString("Settings", width-250 , height-60);
 
         if (showPressText) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 24));
-            g.drawString("Click or Enter", width/2 - 71, 450);
+            g.drawString("Click or Enter", width/2 - 70, height/2+140);
         }
     }
 
@@ -61,7 +63,7 @@ public class GameMenuView {
 
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2 - 100, by = 300, bw = 150, bh = 60;
+        int bx = width/2, by = height/2, bw = 150, bh = 60;
 
         if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings()) {
             isClicked = true;
@@ -100,7 +102,7 @@ public class GameMenuView {
     public boolean detectSetting(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width - 250, by = 420, bw = 150, bh = 80;
+        int bx = width - 250, by = height-110, bw = 150, bh = 80;
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
 

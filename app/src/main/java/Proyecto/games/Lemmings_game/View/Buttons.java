@@ -18,7 +18,7 @@ public class Buttons {
         this.relHeight = relHeight;
     }
 
-    public void draw(Graphics2D g, int screenWidth, int screenHeight) {
+    public void draw(Graphics2D g,String text, int screenWidth, int screenHeight) {
         // Convertimos proporciones a píxeles reales
         int x = (int)(relX * screenWidth);
         int y = (int)(relY * screenHeight);

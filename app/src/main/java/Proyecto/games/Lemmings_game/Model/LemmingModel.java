@@ -83,6 +83,10 @@ public class LemmingModel {
         this.y = y; 
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
     public void setCurrentLeemingState(LemmingAnimationState currentState){
         this.currentState = currentState;
     }
@@ -94,6 +98,7 @@ public class LemmingModel {
         camX = firstLevelMapModel.getCameraX();
 
         currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
+
         currentTileX = (x) /LemmingConstants.TILE_WIDTH;
 
         if(hasAbility()){
@@ -194,8 +199,10 @@ public class LemmingModel {
 
         y += speed;
     }
-    public boolean isClicked(double clickX, double clickY, int camX) {
-        double minClickableX = this.x;
+
+    public boolean isClicked(double clickX, double clickY, int camX){
+        double minClickableX = (this.x);
+
         double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
     
         double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT;
@@ -218,7 +225,6 @@ public class LemmingModel {
         System.out.println("¿Está dentro del rango Y?: " + clickedY);
         System.out.println("¿CLICK VALIDO?: " + (clickedX && clickedY));
         System.out.println("-------------------------");
-    
         return clickedX && clickedY;
     }
     
