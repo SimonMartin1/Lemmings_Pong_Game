@@ -11,8 +11,8 @@ import Proyecto.games.Pong_game.Pong;
 
 
 public class GameSettingsView {
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
     public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,drawFullScreen,setkeys=false;
     private final Pong game;
 
@@ -112,11 +112,11 @@ public class GameSettingsView {
         g.drawString("Keys", width/2-265 , 440);
         g.drawString("Player1 Up: "+getKeys(1)+"  Down: "+getKeys(2), width/2-200 , 440);
         g.drawString("Change Keys", width/2+100 , 440);
-        g.drawString("Save", width-325 , 550);
-        g.drawString("Cancel", width-245 , 550);
-        g.drawString("Reset", width-145 , 550);
-        //g.fillRect(width/2+100, 420, 125, 35);
-        //int bx = width/2+100, by = 420, bw = 125, bh = 35; 
+        g.drawString("Save", width-325 , height-65);
+        g.drawString("Cancel", width-245 , height-65);
+        g.drawString("Reset", width-145 , height-65);
+        //g.fillRect(width/2-45,height/2+60,40,40);
+        //int bx = width/2-45, by = height/2+60, bw = 40, bh = 40; 
     
 
         if(drawHard){
@@ -143,7 +143,7 @@ public class GameSettingsView {
         activeButtons(g,width/2-60, 260 ,"10",width/2-65, 240, 30, 30, 10, 10);
         }
         if(drawOff){
-        activeButtons(g,430, 125,"Off", 425, 105, 40, 30, 10, 10);
+        activeButtons(g,width/2+25, 125,"Off", width/2+20, 105, 40, 30, 10, 10);
         }
         if(drawTrack){
         g.setColor(Color.WHITE);
@@ -249,6 +249,11 @@ public class GameSettingsView {
             case "fullscreenOff" ->{drawFullScreen=false;}
         }
     }
+        public void updateSize(int width, int height){
+        this.width=width;
+        this.height=height;
+    }
+
     private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
@@ -328,38 +333,39 @@ public class GameSettingsView {
     }
 
     // --- SAVE ---
-    public boolean isSaveClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width-325, by = 500, bw = 60, bh = 30; // "Save"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
-    }
+    // --- SAVE ---
+public boolean isSaveClicked(Mouse m) {
+    int mx = m.getX();
+    int my = m.getY();
+    int bx = width - 325, by = height - 50, bw = 60, bh = 30; // Ajustado al borde inferior
+    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+}
 
-    // --- CANCEL ---
-    public boolean isCancelClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = 555, by = 500, bw = 70, bh = 30; // "Cancel"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
-    }
+// --- CANCEL ---
+public boolean isCancelClicked(Mouse m) {
+    int mx = m.getX();
+    int my = m.getY();
+    int bx = width - 245, by = height - 50, bw = 70, bh = 30; // Ajustado al borde inferior
+    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+}
 
-    // --- RESET ---
-    public boolean isResetClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = 655, by = 500, bw = 60, bh = 30; // "Reset"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
-    }
+// --- RESET ---
+public boolean isResetClicked(Mouse m) {
+    int mx = m.getX();
+    int my = m.getY();
+    int bx = width - 145, by = height - 50, bw = 60, bh = 30; // Ajustado al borde inferior
+    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+}
         public boolean isFullScreenClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2-120, by = 345, bw = 30, bh = 30; 
+        int bx = width/2-120, by = height/2+50, bw = 40, bh = 40; 
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
     }
         public boolean isFullScreenOffClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2-50, by = 345, bw = 30, bh = 30; 
+        int bx = width/2-60, by = height/2+50, bw = 40, bh = 40; 
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
     }
 
@@ -379,13 +385,13 @@ public class GameSettingsView {
         public boolean isChangeKeysClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx =width/2+100 , by = 400, bw = 125, bh = 35; ;
+        int bx =width/2+105 , by = height/2+65, bw = 125, bh = 35; ;
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
     }
     public boolean isCancelSetKeysClicked(Mouse m) {
     int mx = m.getX();
     int my = m.getY();
-    int bx = width/2+75, by = 380, bw = 300, bh = 300;
+    int bx = width/2+90, by = height/2+65, bw = 300, bh = 300;
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
     return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && justPressed && game.getIsinsettings() && setkeys;

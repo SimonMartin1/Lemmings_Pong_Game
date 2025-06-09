@@ -103,7 +103,7 @@ public class Pong extends JGame {
         //vistas
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Pong_icon.png"); 
         this.getFrame().setIconImage(icon.getImage());
-        scoreManagerView = new ScoreManagerView(scoreManagerModel);
+        scoreManagerView = new ScoreManagerView(scoreManagerModel, this.width,this.height);
 
         paddleLeftView = new PaddleView(paddleLeftModel,15);
         paddleLeftIAView = new PaddleView(paddleIAModel,15);
@@ -236,39 +236,36 @@ public class Pong extends JGame {
     }
     public void setFullScreen(boolean enable) {
     java.awt.Frame frame = this.getFrame();
-    // Cierra el frame actual y detén el loop de juego
-    frame.dispose();
-
     if (enable) {
+        frame.dispose();
+        frame.setUndecorated(true);
+        frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+        frame.setVisible(true);
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        int newWidth = screenSize.width;
-        int newHeight = screenSize.height;
-
-        javax.swing.SwingUtilities.invokeLater(() -> {
-        Pong newGame = new Pong("Mi Pong", newWidth, newHeight);
-        java.awt.Frame newFrame = newGame.getFrame();
-        newFrame.setVisible(false); // Asegúrate de que NO sea visible
-        newFrame.setUndecorated(true);
-        newFrame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        newFrame.setVisible(true); // Ahora sí, mostrarlo
-        newGame.run(1.0 / 60.0);
-    });
-
+        this.width = screenSize.width;
+        this.height = screenSize.height;
     } else {
-        javax.swing.SwingUtilities.invokeLater(() -> {
-            Pong newGame = new Pong("Mi Pong", 800, 600);
-            java.awt.Frame newFrame = newGame.getFrame();
-            newFrame.setUndecorated(false);
-            newFrame.setExtendedState(java.awt.Frame.NORMAL);
-            newFrame.setSize(800, 600);
-            newFrame.setLocationRelativeTo(null);
-            newFrame.setVisible(true);
-            newGame.run(1.0 / 60.0);
-        });
-        this.gameShutdown();
+        frame.dispose();
+        frame.setUndecorated(false);
+        frame.setExtendedState(java.awt.Frame.NORMAL);
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        this.width = 800;
+        this.height = 600;
     }
-
-    
+    // Actualiza vistas y modelos
+    settingsView.updateSize(width, height);
+    gameMenu.updateSize(width, height);
+    gamePauseView.updateSize(width, height);
+    gameOverMenuView.updateSize(width, height);
+    scoreManagerView.updateSize(width);
+    paddleLeftView.updateSize(60,30,300);
+    paddleLeftIAView.updateSize(60,30,300);
+    paddleRightView.updateSize(width-90,30,300);
+    paddleLeftIAController.updateSize(height);
+    ballModel.updateSize(width, height);
+    ballController.updateSize(width, height);
 }
     public boolean getIsinsettings() {
         return this.isInSettings;

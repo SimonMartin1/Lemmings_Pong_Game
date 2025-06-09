@@ -10,12 +10,12 @@ public class BallController {
     private final PaddleModel paddleRightModel;
     private final ScoreManagerModel scoreManagerModel;
 
-    private static final int LEFT_PADDLE_X_LIMIT = 10;
-    private static final int LEFT_GOAL_LIMIT = -100;
-    private static final int RIGHT_PADDLE_X_LIMIT = 775;
+    private static  int LEFT_PADDLE_X_LIMIT = 10;
+    private static  int LEFT_GOAL_LIMIT = -100;
+    private static  int RIGHT_PADDLE_X_LIMIT = 775;
     private static final int RIGHT_GOAL_LIMIT = 900;
-    private static final int TOP_BOUNDARY = 30;
-    private static final int BOTTOM_BOUNDARY = 570;
+    private static  int TOP_BOUNDARY = 30;
+    private static  int BOTTOM_BOUNDARY = 570;
     private static final int PADDLE_HEIGHT = 120;
 
     public BallController(BallModel ballModel, PaddleModel paddleLeftModel, PaddleModel paddleRightModel, ScoreManagerModel scoreManagerModel) {
@@ -25,6 +25,12 @@ public class BallController {
         this.scoreManagerModel = scoreManagerModel;
     }
 
+    public void updateSize(int width, int height){
+        TOP_BOUNDARY=height;
+        BOTTOM_BOUNDARY=0;
+        LEFT_PADDLE_X_LIMIT=60;
+        RIGHT_PADDLE_X_LIMIT=width-90;
+    }
     public void update() {
         ballModel.move();
 

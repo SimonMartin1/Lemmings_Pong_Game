@@ -7,8 +7,8 @@ import java.awt.*;
 public class PaddleView {
     private final PaddleModel model;
     private final Color paddleColor = Color.WHITE; // Color de la paleta
-    private final int paddleWidth = 10;
-    private final int paddleHeight = 150;
+    private int paddleWidth = 10;
+    private int paddleHeight = 150;
     private int fixedX;
 
 
@@ -19,10 +19,15 @@ public class PaddleView {
     }
 
     public void draw(Graphics g) {
-        //super.paintComponent(g); // esto siempre hay que llamarlo primero
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(paddleColor);
         g2d.fillRect(fixedX, model.getY(), paddleWidth, paddleHeight);
+    }
+
+    public void updateSize(int width,int paddleWidth,int paddleHeight){
+        this.fixedX=width;
+        this.paddleWidth=paddleWidth;
+        this.paddleHeight=paddleHeight;
     }
 }
