@@ -77,6 +77,10 @@ public class LemmingModel {
         this.y = y; 
     }
 
+    public void setX(int x){
+        this.x = x;
+    }
+
     public void setCurrentLeemingState(LemmingAnimationState currentState){
         this.currentState = currentState;
     }
@@ -88,6 +92,7 @@ public class LemmingModel {
         camX = firstLevelMapModel.getCameraX();
 
         currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
+
         currentTileX = (x) /LemmingConstants.TILE_WIDTH;
 
         if(hasAbility()){
@@ -189,6 +194,7 @@ public class LemmingModel {
         y += speed;
     }
     
+
     public boolean isClicked(double clickX, double clickY, int camX){
         double minClickableX = (this.x);
         double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
@@ -197,6 +203,7 @@ public class LemmingModel {
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
 
         boolean clickedX = clickX  + camX >= minClickableX && clickX + camX <= maxClickableX;
+
         boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
 
         return clickedX && clickedY;

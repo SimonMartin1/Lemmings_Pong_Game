@@ -16,7 +16,7 @@ public class Buttons {
         this.height = height;
     }
 
-    public void draw(Graphics2D g) {
+    public void draw(Graphics2D g, String text) {
         // Antialiasing off para ese look pixelado noventero
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
 

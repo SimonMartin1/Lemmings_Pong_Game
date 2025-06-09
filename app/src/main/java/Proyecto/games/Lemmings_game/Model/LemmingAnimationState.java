@@ -6,5 +6,7 @@ public enum LemmingAnimationState {
     FALLING,
     STOPING,
     DIGGING,
+    CLIMBING_RIGHT,
+    CLIMBING_LEFT,
     IDLE
 }

@@ -7,13 +7,18 @@ import java.util.List;
 public class CursorModel {
     private List<LemmingModel> currentLemmings;
     private AbilityModel currentSelectedAbility;
+    private Ability currentAbility;
+    private Stock stock;
     private Mouse mouse;
     int camX;
     int camY;
 
     boolean wasPressedLastFrame = false;
 
-    public CursorModel(Mouse mouse){ this.mouse = mouse; }
+    public CursorModel(Stock stock, Mouse mouse){
+        this.stock = stock;
+        this.mouse = mouse;
+    }
 
     public void update(){
         checkClick(mouse.getX(), mouse.getY());
@@ -24,36 +29,61 @@ public class CursorModel {
 
         if(isPressed && !wasPressedLastFrame){
             // Click en botón de habilidad
-            if(y >= 450 && y <= 600) {
-                if(x >= 10 && x < 110){
-                    currentSelectedAbility = new DigAbility();
-                    System.out.println("Estoy cavando!!!");
-                } else if(x >= 110 && x < 210){
-                    //currentSelectedAbility = new DigAbility();
-                    currentSelectedAbility = new WallAbility();
-                    System.out.println("Me frené");
-                } else if(x >= 210 && x < 310){
-                    currentSelectedAbility = new DigAbility();
-                    //currentSelectedAbility = new BuildAbility();
-                    System.out.println("Construyendo!");
-                } else if(x >= 310 && x < 410){
-                    currentSelectedAbility = new DigAbility();
-                    //currentSelectedAbility = new FlyAbility();
-                    System.out.println("Volando!");
+            if (y >= 450 && y <= 600) {
+                if (x >= 10 && x < 110) {
+                    if (stock.hasAbility(Ability.DIGGER)) {
+                        currentSelectedAbility = new DigAbility();
+                        currentAbility = Ability.DIGGER;
+                        System.out.println("Habilidad Digger guardada en el cursor");
+                    } else {
+                        System.out.println("No hay stock de Digger");
+                    }
+
+                } else if (x >= 110 && x < 210) {
+                    if (stock.hasAbility(Ability.STOP)) {
+                        currentSelectedAbility = new WallAbility();
+                        currentAbility = Ability.STOP;
+                        System.out.println("Habilidad Wall guardada en el cursor");
+                    } else {
+                        System.out.println("No hay stock de Wall");
+                    }
+
+                } else if (x >= 210 && x < 310) {
+                    if (stock.hasAbility(Ability.DIGGER)) {
+                        currentSelectedAbility = new DigAbility();
+                        currentAbility = Ability.DIGGER;
+                        System.out.println("Habilidad Build guardada en el cursor");
+                    } else {
+                        System.out.println("No hay stock de Build");
+                    }
+
+                } else if (x >= 310 && x < 410) {
+                    if (stock.hasAbility(Ability.CLIMB)) {
+                        currentSelectedAbility = new ClimbAbility();
+                        currentAbility = Ability.CLIMB;
+                        System.out.println("Habilidad Climb guardada en el cursor");
+                    } else {
+                        System.out.println("No hay stock de Climb");
+                    }
                 }
             }
-            // Click en un lemming
+
             else {
-                //System.out.println("XD");
                 for(LemmingModel lemming : currentLemmings){
+
                     //SI SE ROMPE BORRAR LA RESTA DE CAMX
                     System.out.println("camX en cursorModel: " +  camX );
                     if(lemming.isClicked(x, y, camX)){ // ← implementá esto en LemmingModel
                         System.out.println("entre al click!!!!");
+
                         if(currentSelectedAbility != null){
-                            lemming.assignAbility(currentSelectedAbility);
                             System.out.println("Habilidad asignada al lemming!");
-                            currentSelectedAbility = null; // ← se "gasta" la habilidad seleccionada
+
+                            lemming.assignAbility(currentSelectedAbility);
+                            stock.substractAbility(currentAbility);
+
+                            currentAbility = null;
+                            currentSelectedAbility = null;
                         } else {
                             System.out.println("No hay habilidad seleccionada.");
                         }
