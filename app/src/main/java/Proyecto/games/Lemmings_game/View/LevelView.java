@@ -1,6 +1,8 @@
 package Proyecto.games.Lemmings_game.View;
 
+import Proyecto.games.Lemmings_game.Model.Ability;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
+import Proyecto.games.Lemmings_game.Model.Stock;
 
 import java.awt.*;
 
@@ -8,6 +10,7 @@ public class LevelView {
     private LevelModel model;
     private MapView mapView;
 
+    private Stock stock;
     private MinimapView minimapView;
 
     private Buttons buttonDig;
@@ -18,15 +21,17 @@ public class LevelView {
     private int camX;
     private int camY;
 
-    public LevelView(LevelModel model, MapView mapView){
+    public LevelView(LevelModel model, MapView mapView, Stock stock){
         this.mapView  = mapView;
         this.model = model;
+        this.stock = stock;
 
-        buttonDig =  new Buttons("Cavar", 10, 450, 100, 150);
         minimapView = new MinimapView(480, 480, 250, 100, model.getNumLevel());
-        buttonBuild = new Buttons("Parar",110,450,100,150);
-        buttonStop = new Buttons("Construir",210,450,100,150);
-        buttonFly =  new Buttons("Volar",310,450,100,150);
+
+        buttonDig =  new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 10, 450, 100, 150);
+        buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP),110,450,100,150);
+        buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER),210,450,100,150);
+        buttonFly =  new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB),310,450,100,150);
 
     }
 
@@ -44,10 +49,10 @@ public class LevelView {
 
         mapView.draw(g);
 
-        buttonDig.draw(g);
-        buttonStop.draw(g);
-        buttonBuild.draw(g);
-        buttonFly.draw(g);
+        buttonDig.draw(g, "Cavar | " + stock.getQuantityAbility(Ability.DIGGER));
+        buttonStop.draw(g, "xd | " + stock.getQuantityAbility(Ability.DIGGER));
+        buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP));
+        buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB));
         minimapView.drawMinimap(g);
     }
 

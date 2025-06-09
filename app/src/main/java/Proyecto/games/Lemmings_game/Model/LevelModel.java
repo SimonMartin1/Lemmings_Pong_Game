@@ -16,6 +16,7 @@ public class LevelModel {
     private double spawnTimer = 0;
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
+    private int camX = 0;
 
     private List<LemmingModel> lemmings = new ArrayList<>();
 
@@ -38,7 +39,7 @@ public class LevelModel {
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                LemmingModel nuevo = new LemmingModel(1, 770, 115, 1, 1, mapModel);
+                LemmingModel nuevo = new LemmingModel(1, 500, 205, 1, 1, mapModel);
                 //LemmingModel nuevo = new LemmingModel(1, 720, 120, 1, 1, mapModel);
                 lemmings.add(nuevo);
             }
@@ -48,11 +49,13 @@ public class LevelModel {
             l.update(delta);
         }
 
-        mapModel.setCamX(mapModel.getCameraX());
+        mapModel.setCamX(camX);
+
     }
 
 
     public void setCamX(int camX){
+        //this.camX= camX; 
         for (LemmingModel l : lemmings) {
             l.setCamX(camX);
         }
@@ -79,6 +82,8 @@ public class LevelModel {
 
 
     // Getters básicos
+
+    public Stock getStock(){ return  stock; }
 
     public int getNumLevel(){
         return numlevel;
