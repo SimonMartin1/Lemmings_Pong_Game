@@ -39,7 +39,7 @@ public class LemmingModel {
     int quantityTilesFalling = 0;
     boolean isDead = false;
     int currentFrame = 0;
-    int ticksPerFrame = 8;  // Ajustá esto para la velocidad
+    int ticksPerFrame = 6;  // Ajustá esto para la velocidad
     int tickCounter = 0;
     boolean finishedDeathAnimation = false;
 
