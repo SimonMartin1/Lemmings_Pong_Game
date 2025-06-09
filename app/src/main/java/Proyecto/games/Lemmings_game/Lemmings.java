@@ -115,7 +115,7 @@ public class Lemmings extends JGame {
         }
 
     }
-
+    
     @Override
     public void gameDraw(Graphics2D g) {
             this.g=g;

@@ -35,6 +35,7 @@ public class MinimapModel {
         levelView.setCamX(worldX);  
         levelModel.setCamX(worldX);
         
+        
         //cursorModel.setCamX(worldX);
     }
     
