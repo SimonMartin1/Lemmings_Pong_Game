@@ -47,7 +47,6 @@ public class LemmingView{
 
             if (frames == null) return;
 
-
             BufferedImage currentFrame = frames[currentFrameIndex];
             g.drawImage(currentFrame, drawX, model.getY(), 20, 30, null);
 
