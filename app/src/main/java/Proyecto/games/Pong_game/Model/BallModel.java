@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class BallModel {
 
-    private static final double RESET_POS_X = 370;
-    private static final double RESET_POS_Y = 330;
+    private static double RESET_POS_X = 370;
+    private static double RESET_POS_Y = 330;
 
     private double posX;
     private double posY;
@@ -24,6 +24,10 @@ public class BallModel {
         } else {
             return Math.toRadians(135 + rand.nextDouble() * 90); // de 135 a 225
         }
+    }
+            public void updateSize(int width, int height){
+        RESET_POS_X=width;
+        RESET_POS_Y=height;
     }
 
     public BallModel(double startX, double startY, double speed) {

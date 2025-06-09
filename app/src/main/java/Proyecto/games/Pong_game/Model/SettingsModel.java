@@ -13,7 +13,7 @@ import Proyecto.games.Pong_game.View.BallSkins;
 public class SettingsModel {
     private static final String setting_FILE = "app\\src\\main\\java\\Proyecto\\games\\Pong_game\\utils\\pong_setting.txt";
 
-    public static void saveSettings(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers, BallSkins ballSkin, PitchSkins pitchSkin, boolean fullScreen) {
+    public static void saveSettings(boolean musicOff, Track track, Difficult difficult, int maxPoints, boolean twoPlayers, BallSkins ballSkin, PitchSkins pitchSkin, boolean fullScreen, int[] Player1Keys,int[] Player2Keys ) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(setting_FILE))) {
             writer.println("musicOff=" + musicOff);
             writer.println("track=" + track);
@@ -23,6 +23,8 @@ public class SettingsModel {
             writer.println("ballSkin=" + ballSkin);
             writer.println("pitchSkin=" + pitchSkin);
             writer.println("fullScreen=" + fullScreen);
+            writer.println("Player1Keys=" + Player1Keys);
+            writer.println("Player2Keys=" + Player2Keys);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,7 +49,7 @@ public class SettingsModel {
                 }
             }
         } catch (IOException e) {
-            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin, setting.pitchSkin,setting.fullScreen);
+            saveSettings(setting.musicOff, setting.track, setting.difficult, setting.maxPoints, setting.twoPlayers,setting.ballSkin, setting.pitchSkin,setting.fullScreen, setting.Player1Keys,setting.Player2Keys);
         }
         return setting;
     }
@@ -60,5 +62,6 @@ public class SettingsModel {
         public boolean twoPlayers = false, fullScreen=false;
         public BallSkins ballSkin = BallSkins.NORMAL;
         public PitchSkins pitchSkin = PitchSkins.BLACK;
+        public int[] Player1Keys={87,83},Player2Keys={38,40};
     }
 }

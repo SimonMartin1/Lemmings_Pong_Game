@@ -5,7 +5,7 @@ import Proyecto.games.Pong_game.Model.PaddleModel;
 
 public class PaddleIAController {
     private final PaddleModel paddleIAmodel;
-    private final double PADDLE_HEIGHT = 40;
+    private double PADDLE_HEIGHT = 40;
     private final double FOLLOW_MARGIN = 15;
 
     public PaddleIAController(PaddleModel paddleModel){
@@ -27,5 +27,9 @@ public class PaddleIAController {
         }
 
         paddleIAmodel.update(delta);
+    }
+
+    public void updateSize(int height){
+        this.PADDLE_HEIGHT=height;
     }
 }
