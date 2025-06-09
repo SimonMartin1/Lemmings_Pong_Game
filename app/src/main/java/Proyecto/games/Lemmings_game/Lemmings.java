@@ -26,7 +26,7 @@ public class Lemmings extends JGame {
 
     ButtonController buttonController;
 
-    private int currentLevel = 0;
+    private int currentLevel = 2;
 
     private List<MapModel> mapModels  = new ArrayList<>();
     private List<MapView> mapViews = new ArrayList<>();
@@ -65,8 +65,8 @@ public class Lemmings extends JGame {
             MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
             MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0);
-            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 430, 0);
-            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 430, 0);
+            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0);
+            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(410, 200), new ExitView(1050, 260), 430, 0);
 
             //Agrego los modelos
             mapModels.add(firstLevelMapModel);
