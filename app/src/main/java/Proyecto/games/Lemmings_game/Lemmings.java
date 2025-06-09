@@ -69,7 +69,7 @@ public class Lemmings extends JGame {
 
         LevelModel firstLevelModel = new LevelModel(mapModels.get(0), new Stock(), 3, .8, 1, "Just digging");
         LevelModel secondLevelModel = new LevelModel(mapModels.get(1), new Stock(), 3, .8, 2, "Cap 2");
-        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), new Stock(), 3, .8, 3, "Cap 3");
+        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), new Stock(), 5, .8, 3, "Cap 3");
 
         levelModels.add(firstLevelModel);
         levelModels.add(secondLevelModel);
@@ -111,7 +111,7 @@ public class Lemmings extends JGame {
         }else{
             //aca lvl se updatea
             buttonController.update();
-            levelControllers.get(0).update(delta);
+            levelControllers.get(2).update(delta);
         }
 
     }
@@ -128,7 +128,7 @@ public class Lemmings extends JGame {
                 g.fillRect(0, 0, getWidth(), getHeight());
 
                 //Aca segundo lvl
-                levelControllers.get(0).draw(g);
+                levelControllers.get(2).draw(g);
 
             }
 

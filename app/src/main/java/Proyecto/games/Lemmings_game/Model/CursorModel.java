@@ -37,9 +37,9 @@ public class CursorModel {
                     //currentSelectedAbility = new BuildAbility();
                     System.out.println("Construyendo!");
                 } else if(x >= 310 && x < 410){
-                    currentSelectedAbility = new DigAbility();
+                    currentSelectedAbility = new ClimbAbility();
                     //currentSelectedAbility = new FlyAbility();
-                    System.out.println("Volando!");
+                    System.out.println("Climbeando!");
                 }
             }
             // Click en un lemming

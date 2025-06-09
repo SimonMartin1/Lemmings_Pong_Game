@@ -38,7 +38,7 @@ public class LevelModel {
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                LemmingModel nuevo = new LemmingModel(1, 770, 115, 1, 1, mapModel);
+                LemmingModel nuevo = new LemmingModel(1, 500, 205, 1, 1, mapModel);
                 //LemmingModel nuevo = new LemmingModel(1, 720, 120, 1, 1, mapModel);
                 lemmings.add(nuevo);
             }

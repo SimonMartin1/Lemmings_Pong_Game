@@ -62,7 +62,7 @@ public class LevelController {
         levelModel.setCamX(this.camX);
 
         if (isStarting) {
-            if (keyboard.isKeyPressed(KeyEvent.VK_ENTER) || mouse.isLeftButtonPressed()) {
+            if (keyboard.isKeyPressed(KeyEvent.VK_I) || mouse.isLeftButtonPressed()) {
                 isStarting = false;
             }
 
@@ -76,8 +76,6 @@ public class LevelController {
     }
 
     public void draw(Graphics2D g){
-
-
 
         if(isStarting){
             levelView.drawPreLevelScreen(g);
@@ -102,6 +100,11 @@ public class LevelController {
         }
 
 
+    }
+
+
+    public boolean wantsToStart(Keyboard k){
+        return k.isKeyPressed(KeyEvent.VK_I);
     }
 
     private void syncLemmingViews() {
