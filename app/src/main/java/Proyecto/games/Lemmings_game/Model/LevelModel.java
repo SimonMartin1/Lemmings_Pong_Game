@@ -80,6 +80,8 @@ public class LevelModel {
 
     // Getters básicos
 
+    public Stock getStock(){ return  stock; }
+
     public int getNumLevel(){
         return numlevel;
     }

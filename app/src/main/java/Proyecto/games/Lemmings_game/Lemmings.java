@@ -3,7 +3,9 @@ package Proyecto.games.Lemmings_game;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 
@@ -67,17 +69,36 @@ public class Lemmings extends JGame {
 
         //MapModel map, Stock stock, int lemmingsToGenerate, int percentajeToWin, int level, String lvlName
 
-        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), new Stock(), 3, .8, 1, "Just digging");
-        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), new Stock(), 3, .8, 2, "Cap 2");
-        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), new Stock(), 5, .8, 3, "Cap 3");
+        Stock stockLevelOne = new Stock(new HashMap<Ability, Integer>(Map.of(
+                Ability.DIGGER, 5,
+                Ability.CLIMB, 0,
+                Ability.STOP, 1
+        )));
+
+        Stock stockLevelTwo = new Stock(new HashMap<Ability, Integer>(Map.of(
+                Ability.DIGGER, 0,
+                Ability.CLIMB, 0,
+                Ability.STOP, 5
+        )));
+
+        Stock stockLevelThree = new Stock(new HashMap<Ability, Integer>(Map.of(
+                Ability.DIGGER, 0,
+                Ability.CLIMB, 5,
+                Ability.STOP, 2
+        )));
+
+
+        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging");
+        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2");
+        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 5, .8, 3, "Cap 3");
 
         levelModels.add(firstLevelModel);
         levelModels.add(secondLevelModel);
         levelModels.add(thirdLevelModel);
 
-        LevelView firstLevelView = new LevelView( levelModels.get(0), mapViews.get(0));
-        LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1));
-        LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2));
+        LevelView firstLevelView = new LevelView( levelModels.get(0), mapViews.get(0), stockLevelOne);
+        LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1), stockLevelTwo);
+        LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2), stockLevelThree);
 
         levelViews.add(firstLevelView);
         levelViews.add(secondLevelView);

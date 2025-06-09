@@ -34,7 +34,7 @@ public class LevelController {
     public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel){
         this.levelModel = lvlModel;
         this.levelView = lvlView;
-        this.cursorModel = new CursorModel(m);
+        this.cursorModel = new CursorModel(lvlModel.getStock(), m);
 
         this.levelView.setCamX(camX);
         this.levelView.setCamY(camY);
