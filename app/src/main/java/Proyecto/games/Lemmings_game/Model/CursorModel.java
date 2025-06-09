@@ -71,7 +71,10 @@ public class CursorModel {
             else {
                 for(LemmingModel lemming : currentLemmings){
 
-                    if(lemming.isClicked(x, y)){
+                    //SI SE ROMPE BORRAR LA RESTA DE CAMX
+                    System.out.println("camX en cursorModel: " +  camX );
+                    if(lemming.isClicked(x, y, camX)){ // ← implementá esto en LemmingModel
+                        System.out.println("entre al click!!!!");
 
                         if(currentSelectedAbility != null){
                             System.out.println("Habilidad asignada al lemming!");

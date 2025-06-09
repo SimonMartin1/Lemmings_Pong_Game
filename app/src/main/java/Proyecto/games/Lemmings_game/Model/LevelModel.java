@@ -16,6 +16,7 @@ public class LevelModel {
     private double spawnTimer = 0;
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
+    private int camX = 0;
 
     private List<LemmingModel> lemmings = new ArrayList<>();
 
@@ -48,11 +49,13 @@ public class LevelModel {
             l.update(delta);
         }
 
-        mapModel.setCamX(mapModel.getCameraX());
+        mapModel.setCamX(camX);
+
     }
 
 
     public void setCamX(int camX){
+        //this.camX= camX; 
         for (LemmingModel l : lemmings) {
             l.setCamX(camX);
         }

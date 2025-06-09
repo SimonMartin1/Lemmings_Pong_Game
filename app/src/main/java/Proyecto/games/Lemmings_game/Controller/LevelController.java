@@ -69,11 +69,14 @@ public class LevelController {
             return;
         }
 
+
         levelModel.update(delta);
         cursorModel.setCamX(levelView.getCamX());
         cursorModel.update();
         syncLemmingViews();
     }
+
+
 
     public void draw(Graphics2D g){
 
