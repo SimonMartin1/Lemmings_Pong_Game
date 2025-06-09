@@ -68,7 +68,9 @@ public class SettingController {
         }else if(view.isCancelSetKeysClicked(m)){
             view.setkeys=false;
         }
-        else if (view.isTrackNameClicked(m)) {
+        
+        if (view.isTrackNameClicked(m)) {
+                System.out.println("botn mapeado");
             if (view.getDrawTrack()) {
                 int nextTrack = 1;
                 if (game.getTrack() == Track.TRACK1) {
@@ -81,8 +83,8 @@ public class SettingController {
             } else {
                 view.setDraw("Track");
                 game.setMusicOFF(false);
-            }
-        }else if(view.isSaveClicked(m)){
+            }}
+        if(view.isSaveClicked(m)){
             game.saveSettings();
             game.setIsinsettings();
         }else if (view.isResetClicked(m)) {

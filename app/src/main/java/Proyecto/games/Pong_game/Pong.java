@@ -120,9 +120,9 @@ public class Pong extends JGame {
 
         paddleRightController = new PaddleController(paddleRightModel, keyboard,player2Keys[0], player2Keys[1]);
         
-        ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel);
+        ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel,width,height);
         
-        ballIAController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel);
+        ballIAController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel, width,height);
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
@@ -386,7 +386,7 @@ public void stopTrack() {
         if(isInMenu){
             gameMenu.update(delta);
 
-            if(gameMenu.detectSettings(getKeyboard()) || gameMenu.detectSetting(getMouse())){ isInSettings = !isInSettings; }
+            if(gameMenu.detectSettings(getKeyboard()) || gameMenu.detectSetting(getMouse())){ if(isInSettings){saveSettings();} isInSettings = !isInSettings;  }
             if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ isInMenu = false; }
         }
         else{
