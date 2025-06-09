@@ -12,20 +12,24 @@ public class MinimapView {
     int x, y, width, height;
     BufferedImage minimapImage;
 
-    public MinimapView(int x, int y, int width, int height, int level) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-
+    public MinimapView(int baseX, int baseY, int baseWidth, int baseHeight, int level, int screenWidth, int screenHeight) {
+        // Resolución base (la que usaste para calcular 480, 480, 250, 100)
+        int baseScreenWidth = 1366;
+        int baseScreenHeight = 768;
+    
+        // Escalar proporcionalmente
+        this.x = baseX * screenWidth / baseScreenWidth;
+        this.y = baseY * screenHeight / baseScreenHeight;
+        this.width = baseWidth * screenWidth / baseScreenWidth;
+        this.height = baseHeight * screenHeight / baseScreenHeight;
+    
         try {
             minimapImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        //this.minimapImage = minimapImage;
     }
+    
 
     public void drawMinimap(Graphics2D g) {
         // Marco marrón oscuro para el minimapa
