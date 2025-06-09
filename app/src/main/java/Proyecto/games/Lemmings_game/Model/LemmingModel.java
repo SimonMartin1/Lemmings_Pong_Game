@@ -27,6 +27,12 @@ public class LemmingModel {
     boolean saved = false;
     LemmingState state = LemmingState.ALIVE;
     int camX = 0;
+    //ventana
+    int offsetY = 0;
+    int offsetY2 = 0; 
+    //pantalla completa
+    //int offsetY = 0;
+    //int offsetY2 = 0;
 
     public int getCamX(){ return this.camX; }
 
@@ -193,21 +199,35 @@ public class LemmingModel {
 
         y += speed;
     }
-    
 
     public boolean isClicked(double clickX, double clickY, int camX){
         double minClickableX = (this.x);
-        double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
 
+        double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
+    
         double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT;
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
-
-        boolean clickedX = clickX  + camX >= minClickableX && clickX + camX <= maxClickableX;
-
-        boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
-
+    
+        double clickXCam = clickX + camX;
+    
+        System.out.println("---- Click Detection ----");
+        System.out.println("Click en pantalla: (" + clickX + ", " + clickY + ")");
+        System.out.println("Click ajustado con camX: " + clickXCam);
+        System.out.println("Lemming X range: [" + minClickableX + " , " + maxClickableX + "]");
+        System.out.println("Lemming Y range: [" + (minClickableY - 20) + " , " + (maxClickableY - 30) + "]");
+        System.out.println("camX: " + camX);
+        System.out.println("Lemming actual en: (" + this.x + ", " + this.y + ")");
+    
+        boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
+        boolean clickedY = clickY >= minClickableY - offsetY && clickY <= maxClickableY - offsetY2;
+    
+        System.out.println("¿Está dentro del rango X?: " + clickedX);
+        System.out.println("¿Está dentro del rango Y?: " + clickedY);
+        System.out.println("¿CLICK VALIDO?: " + (clickedX && clickedY));
+        System.out.println("-------------------------");
         return clickedX && clickedY;
     }
+    
 
     public void assignAbility(AbilityModel ability){
 

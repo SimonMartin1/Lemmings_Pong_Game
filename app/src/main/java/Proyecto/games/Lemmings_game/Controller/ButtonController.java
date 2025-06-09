@@ -11,6 +11,8 @@ public class ButtonController {
     private ButtonModel buttonModel;
     private MinimapModel minimapModel;
     boolean wasPressedLastFrame = false;
+    private int panelWidth = 1366;
+    private int panelHeight = 768;
 
 
     public ButtonController(Mouse mouse){
@@ -25,26 +27,54 @@ public class ButtonController {
 
     }
 
-    public void checkClick(int x, int y){
+    public void checkClick(int x, int y) {
         boolean isPressed = mouse.isLeftButtonPressed();
-
-        if(isPressed && !wasPressedLastFrame){
-            // Esto solo se ejecuta UNA VEZ cuando se presiona el botón
-            if(x<=110 && x >= 10 && y>=450 && y<= 600){
-                //new DigAbility(le)
-                System.out.println("Estoy cavando!!!");
-            } else if(x<=210 && x >= 110 && y>=450 && y<= 600){
-                System.out.println("Me frene");
-            } else if(x<=310 && x >= 210 && y>=450 && y<= 600){
-                System.out.println("Construyendo!");
-            } else if(x<=410 && x >= 310 && y>=450 && y<= 600){
-                System.out.println("Volando");
-            } else if (x <= 730 && x >= 480 && y >= 480 && y <= 580) {
+    
+        int windowWidth = panelWidth;
+        int windowHeight = panelHeight;
+    
+        // Valores relativos
+        float startY = 0.75f;
+        float buttonHeight = 0.25f;
+        float buttonWidth = 0.13f;
+        float espacio = 0.03f;
+        float startX = 0.01f;
+    
+        if (isPressed && !wasPressedLastFrame) {
+            // Calculamos las posiciones absolutas
+            for (int i = 0; i < 4; i++) {
+                float relX = startX + i * (buttonWidth + espacio);
+                int absX = (int)(relX * windowWidth);
+                int absY = (int)(startY * windowHeight);
+                int absW = (int)(buttonWidth * windowWidth);
+                int absH = (int)(buttonHeight * windowHeight);
+    
+                if (x >= absX && x <= absX + absW && y >= absY && y <= absY + absH) {
+                    switch (i) {
+                        case 0:
+                            System.out.println("Estoy cavando!!!");
+                            break;
+                        case 1:
+                            System.out.println("Me frene");
+                            break;
+                        case 2:
+                            System.out.println("Construyendo!");
+                            break;
+                        case 3:
+                            System.out.println("Volando");
+                            break;
+                    }
+                }
+            }
+    
+            // Minimap (mantiene coordenadas absolutas)
+            if (x <= 730 && x >= 480 && y >= 480 && y <= 580) {
                 System.out.println("Minimap clickeado!");
-                //minimapModel.handleClick(x, y);
+                // minimapModel.handleClick(x, y);
             }
         }
-
+    
         wasPressedLastFrame = isPressed;
     }
+    
 }
