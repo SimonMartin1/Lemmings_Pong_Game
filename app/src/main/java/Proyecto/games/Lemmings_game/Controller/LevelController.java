@@ -114,6 +114,8 @@ public class LevelController {
     private void syncLemmingViews() {
         java.util.List<LemmingModel> lemmingModels = levelModel.getLemmings();
 
+        lemmingViews.removeIf(view -> !lemmingModels.contains(view.getModel()));
+
         while (lemmingViews.size() < lemmingModels.size()) {
             LemmingModel newModel = lemmingModels.get(lemmingViews.size());
             lemmingViews.add(new LemmingView(newModel));
