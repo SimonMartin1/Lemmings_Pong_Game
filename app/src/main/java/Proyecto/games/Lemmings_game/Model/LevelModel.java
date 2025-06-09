@@ -1,6 +1,7 @@
 package Proyecto.games.Lemmings_game.Model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class LevelModel {
@@ -39,11 +40,16 @@ public class LevelModel {
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                LemmingModel nuevo = new LemmingModel(1, 500, 205, 1, 1, mapModel);
+                LemmingModel nuevo = new LemmingModel(spawnedLemmings, 500, 205, 1, 1, mapModel);
                 //LemmingModel nuevo = new LemmingModel(1, 720, 120, 1, 1, mapModel);
                 lemmings.add(nuevo);
             }
         }
+
+
+        lemmings.removeIf(l -> l.state == LemmingState.DEAD);
+
+        lemmings.removeIf(l -> l.state == LemmingState.EXITED);
 
         for (LemmingModel l : lemmings) {
             l.update(delta);
