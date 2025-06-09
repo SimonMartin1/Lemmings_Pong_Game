@@ -21,6 +21,15 @@ public class LevelView {
     private int camX;
     private int camY;
 
+    int screenWidth = 1366;
+    int screenHeight = 768;
+    
+    // Estos son los valores fijos que usabas antes
+    int baseX = 850;
+    int baseY = 600;
+    int baseWidth = 250;
+    int baseHeight = 100;
+
     public LevelView(LevelModel model, MapView mapView, Stock stock) {
         this.mapView = mapView;
         this.model = model;
@@ -39,7 +48,7 @@ public class LevelView {
         buttonFly = new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
 
         // El minimapa queda igual si sigue con valores absolutos (o lo podés escalar también)
-        minimapView = new MinimapView(480, 480, 250, 100, model.getNumLevel());
+        minimapView = new MinimapView(baseX, baseY, baseWidth, baseHeight, model.getNumLevel(), screenWidth, screenHeight);
     }
 
 
