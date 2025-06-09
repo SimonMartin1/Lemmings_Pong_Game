@@ -10,7 +10,8 @@ public class CursorModel {
     private Mouse mouse;
     int camX;
     int camY;
-
+    private int panelWidth = 1366;
+    private int panelHeight = 768;
     boolean wasPressedLastFrame = false;
 
     public CursorModel(Mouse mouse){ this.mouse = mouse; }
@@ -21,39 +22,58 @@ public class CursorModel {
 
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
-
+    
+        int windowWidth = panelWidth;
+        int windowHeight = panelHeight;
+    
+        float startY = 0.75f;
+        float buttonHeight = 0.25f;
+        float buttonWidth = 0.13f;
+        float espacio = 0.03f;
+        float startX = 0.01f;
+    
         if(isPressed && !wasPressedLastFrame){
-            // Click en botón de habilidad
-            if(y >= 450 && y <= 600) {
-                if(x >= 10 && x < 110){
-                    currentSelectedAbility = new DigAbility();
-                    System.out.println("Estoy cavando!!!");
-                } else if(x >= 110 && x < 210){
-                    //currentSelectedAbility = new DigAbility();
-                    currentSelectedAbility = new WallAbility();
-                    System.out.println("Me frené");
-                } else if(x >= 210 && x < 310){
-                    currentSelectedAbility = new DigAbility();
-                    //currentSelectedAbility = new BuildAbility();
-                    System.out.println("Construyendo!");
-                } else if(x >= 310 && x < 410){
-                    currentSelectedAbility = new DigAbility();
-                    //currentSelectedAbility = new FlyAbility();
-                    System.out.println("Volando!");
+            int absY = (int)(startY * windowHeight);
+            int absH = (int)(buttonHeight * windowHeight);
+    
+            if(y >= absY && y <= absY + absH) {
+                for (int i = 0; i < 4; i++) {
+                    float relX = startX + i * (buttonWidth + espacio);
+                    int absX = (int)(relX * windowWidth);
+                    int absW = (int)(buttonWidth * windowWidth);
+    
+                    if(x >= absX && x <= absX + absW){
+                        switch (i) {
+                            case 0:
+                                currentSelectedAbility = new DigAbility();
+                                System.out.println("Estoy cavando!!!");
+                                break;
+                            case 1:
+                                currentSelectedAbility = new WallAbility();
+                                System.out.println("Me frené");
+                                break;
+                            case 2:
+                                currentSelectedAbility = new DigAbility(); // Cambialo si usás otra
+                                System.out.println("Construyendo!");
+                                break;
+                            case 3:
+                                currentSelectedAbility = new DigAbility(); // Cambialo si usás otra
+                                System.out.println("Volando!");
+                                break;
+                        }
+                        break;
+                    }
                 }
-            }
-            // Click en un lemming
-            else {
-                //System.out.println("XD");
+            } else {
+                // Click en un lemming
                 for(LemmingModel lemming : currentLemmings){
-                    //SI SE ROMPE BORRAR LA RESTA DE CAMX
                     System.out.println("camX en cursorModel: " +  camX );
-                    if(lemming.isClicked(x, y, camX)){ // ← implementá esto en LemmingModel
+                    if(lemming.isClicked(x, y, camX)){
                         System.out.println("entre al click!!!!");
                         if(currentSelectedAbility != null){
                             lemming.assignAbility(currentSelectedAbility);
                             System.out.println("Habilidad asignada al lemming!");
-                            currentSelectedAbility = null; // ← se "gasta" la habilidad seleccionada
+                            currentSelectedAbility = null;
                         } else {
                             System.out.println("No hay habilidad seleccionada.");
                         }
@@ -62,10 +82,10 @@ public class CursorModel {
                 }
             }
         }
-
+    
         wasPressedLastFrame = isPressed;
     }
-
+    
     public void setCurrentLemmings(List<LemmingModel> currentLemmings){
         this.currentLemmings = currentLemmings;
     }

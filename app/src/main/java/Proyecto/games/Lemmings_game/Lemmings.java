@@ -2,10 +2,13 @@ package Proyecto.games.Lemmings_game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
@@ -21,7 +24,7 @@ public class Lemmings extends JGame {
 
     ButtonController buttonController;
 
-    private int nivelActual = 0;
+    private int currentLevel = 0;
 
     private List<MapModel> mapModels  = new ArrayList<>();
     private List<MapView> mapViews = new ArrayList<>();
@@ -29,25 +32,37 @@ public class Lemmings extends JGame {
     private List<LevelView> levelViews = new ArrayList<>();
     private List<LevelController> levelControllers = new ArrayList<>();
 
+    private static boolean fullScreen = true;
+
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
-
+    
     public static void main(String[] args) {
-        Lemmings game = new Lemmings("Lemmings", 800, 600);
-        game.run(1.0 / 60.0); // 60 FPS
+        if(!fullScreen){
+            Lemmings game = new Lemmings("Lemmings", 800, 600);
+            game.run(1.0 / 60.0); // 60 FPS
+        }else{
+            Lemmings game = new Lemmings("Lemmings", 1280, 1000);
+            game.run(1.0 / 60.0); // 60 FPS
+        }
+
+        
     }
 
 
     @Override
     public void gameStartup() {
+        if (fullScreen) {
+            setFullScreen(); 
+        }
 
         try{
             MapModel firstLevelMapModel = new MapModel(1,1070,350,0);
             MapModel secondLevelMapModel = new MapModel(2,650,350,0);
             MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
-            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 430, 0);
+            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0);
             MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 430, 0);
             MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 430, 0);
 
@@ -67,7 +82,7 @@ public class Lemmings extends JGame {
 
         //MapModel map, Stock stock, int lemmingsToGenerate, int percentajeToWin, int level, String lvlName
 
-        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), new Stock(), 3, .8, 1, "Just digging");
+        LevelModel firstLevelModel = new LevelModel(mapModels.get(currentLevel), new Stock(), 3, .8, 1, "Just digging");
         LevelModel secondLevelModel = new LevelModel(mapModels.get(1), new Stock(), 3, .8, 2, "Cap 2");
         LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), new Stock(), 3, .8, 3, "Cap 3");
 
@@ -75,7 +90,7 @@ public class Lemmings extends JGame {
         levelModels.add(secondLevelModel);
         levelModels.add(thirdLevelModel);
 
-        LevelView firstLevelView = new LevelView( levelModels.get(0), mapViews.get(0));
+        LevelView firstLevelView = new LevelView( levelModels.get(currentLevel), mapViews.get(currentLevel));
         LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1));
         LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2));
 
@@ -84,9 +99,9 @@ public class Lemmings extends JGame {
         levelViews.add(thirdLevelView);
 
         //minimapmodel
-        MinimapModel minimapModel = new MinimapModel(mapViews.get(0), levelViews.get(0), levelModels.get(0));
+        MinimapModel minimapModel = new MinimapModel(mapViews.get(currentLevel), levelViews.get(currentLevel), levelModels.get(currentLevel));
 
-        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 430, 0, minimapModel));
+        levelControllers.add(new LevelController(levelModels.get(currentLevel), levelViews.get(currentLevel), getKeyboard(), getMouse(), 0, 0, minimapModel));
         levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel));
         levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel));
 
@@ -111,7 +126,7 @@ public class Lemmings extends JGame {
         }else{
             //aca lvl se updatea
             buttonController.update();
-            levelControllers.get(0).update(delta);
+            levelControllers.get(currentLevel).update(delta);
         }
 
     }
@@ -120,7 +135,7 @@ public class Lemmings extends JGame {
     public void gameDraw(Graphics2D g) {
             this.g=g;
 
-            if(!gameMenuView.isStarting(getMouse()) || !gameMenuView.isStarting(getKeyboard())){
+            if(!gameMenuView.isStarting(getMouse()) && !gameMenuView.isStarting(getKeyboard())){
                 gameMenuView.draw(g);
             }
             else {
@@ -128,7 +143,7 @@ public class Lemmings extends JGame {
                 g.fillRect(0, 0, getWidth(), getHeight());
 
                 //Aca segundo lvl
-                levelControllers.get(0).draw(g);
+                levelControllers.get(currentLevel).draw(g);
 
             }
 
@@ -138,4 +153,20 @@ public class Lemmings extends JGame {
     public void gameShutdown() {
         // Guardar datos, cerrar recursos
     }
+    private void setFullScreen() {
+        JFrame frame = this.getFrame();
+        frame.dispose(); // Necesario para cambiar el modo antes de que se muestre
+    
+        frame.setUndecorated(true); // Sin bordes ni barra de título
+        frame.setResizable(false);  // No redimensionable
+    
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        gd.setFullScreenWindow(frame); // ¡Pantalla completa real!
+    
+        frame.setVisible(true);
     }
+    
+    }
+
+
+    

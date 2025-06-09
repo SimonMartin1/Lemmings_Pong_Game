@@ -58,7 +58,7 @@ public class SpawnerView {
         int drawY = y - camY;
         if (frames != null && frames[currentFrameIndex] != null) {
             //System.out.println(" lei bien ");
-            g.drawRect(x, y, frameWidth, frameHeight);
+            //g.drawRect(x, y, frameWidth, frameHeight);
             updateAnimation();
             g.drawImage(frames[currentFrameIndex], drawX, drawY,110,70, null);
         }else{

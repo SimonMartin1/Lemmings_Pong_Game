@@ -18,17 +18,25 @@ public class LevelView {
     private int camX;
     private int camY;
 
-    public LevelView(LevelModel model, MapView mapView){
+    public LevelView(LevelModel model, MapView mapView) {
         this.mapView  = mapView;
         this.model = model;
-
-        buttonDig =  new Buttons("Cavar", 10, 450, 100, 150);
+    
+        // Relativo a pantalla: x = porcentaje del ancho, y = porcentaje del alto
+        // ancho = 100px de 768px ≈ 0.13 — alto = 150px de 600px ≈ 0.25
+        float buttonWidth = 0.13f;
+        float buttonHeight = 0.25f;
+        float startY = 0.75f; // 450/600
+    
+        buttonDig    = new Buttons("Cavar",     0.01f, startY, buttonWidth, buttonHeight);
+        buttonBuild  = new Buttons("Parar",     0.16f, startY, buttonWidth, buttonHeight);
+        buttonStop   = new Buttons("Construir", 0.31f, startY, buttonWidth, buttonHeight);
+        buttonFly    = new Buttons("Volar",     0.46f, startY, buttonWidth, buttonHeight);
+    
+        // El minimapa queda igual si sigue con valores absolutos (o lo podés escalar también)
         minimapView = new MinimapView(480, 480, 250, 100, model.getNumLevel());
-        buttonBuild = new Buttons("Parar",110,450,100,150);
-        buttonStop = new Buttons("Construir",210,450,100,150);
-        buttonFly =  new Buttons("Volar",310,450,100,150);
-
     }
+    
 
 
     public void drawPreLevelScreen(Graphics2D g) {
@@ -40,17 +48,17 @@ public class LevelView {
         // Podés agregar botón o esperar input para comenzar
     }
 
-    public void drawLevel(Graphics2D g) {
-
+    public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
         mapView.draw(g);
-
-        buttonDig.draw(g);
-        buttonStop.draw(g);
-        buttonBuild.draw(g);
-        buttonFly.draw(g);
+    
+        buttonDig.draw(g, panelWidth, panelHeight);
+        buttonStop.draw(g, panelWidth, panelHeight);
+        buttonBuild.draw(g, panelWidth, panelHeight);
+        buttonFly.draw(g, panelWidth, panelHeight);
+    
         minimapView.drawMinimap(g);
     }
-
+    
     public void drawEndScreen(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 32));
