@@ -72,6 +72,13 @@ public class Lemmings extends JGame {
         this.isInSettings = !this.isInSettings;
     }
 
+        public boolean getIsinMenu() {
+        return this.isInMenu;
+    }
+    public void setIsinMenu(boolean option) {
+        this.isInMenu = option;
+    }
+
     @Override
     public void gameStartup() {
         if (fullScreen) {
@@ -170,9 +177,19 @@ public class Lemmings extends JGame {
 
         if(isInMenu){
             gameMenu.update(delta);
-            if(gameMenu.detectSetting(getMouse())){ if(isInSettings){/*saveSettings();+/* */} isInSettings = true;  }
-            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ isInMenu = false; 
-                buttonController.update(); levelControllers.get(currentLevel).update(delta);}
+            if(gameMenu.detectSetting(getMouse())){ 
+                if(isInSettings){
+                    /*saveSettings();+/* */
+                } 
+                isInSettings = !isInSettings;  
+            }
+            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ 
+                isInMenu = false; 
+                levelControllers.get(0).setStarting(true);
+                levelControllers.get(0).update(delta);
+                buttonController.update(); 
+                
+            }
         }
 
     }
@@ -184,6 +201,9 @@ public class Lemmings extends JGame {
             if(isInSettings){
                 settingsView.drawmenu(g);
             }
+            }
+            else{
+                levelControllers.get(0).draw(g);
             }
     }
 
