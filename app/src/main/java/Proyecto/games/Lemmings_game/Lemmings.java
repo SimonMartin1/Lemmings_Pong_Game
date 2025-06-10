@@ -50,7 +50,7 @@ public class Lemmings extends JGame {
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
     private final boolean scoreAlreadySaved = false;
-
+    private final List<MinimapModel> minimapModels = new ArrayList<>();
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -155,11 +155,18 @@ public class Lemmings extends JGame {
         levelViews.add(thirdLevelView);
 
         //minimapmodel
-        MinimapModel minimapModel = new MinimapModel(mapViews.get(0), levelViews.get(0), levelModels.get(0));
+        MinimapModel minimapModelOne = new MinimapModel(mapViews.get(0), levelViews.get(0), levelModels.get(0));
+        MinimapModel minimapModelTwo = new MinimapModel(mapViews.get(1), levelViews.get(1), levelModels.get(1));
+        MinimapModel minimapModelThree = new MinimapModel(mapViews.get(2), levelViews.get(2), levelModels.get(2));
 
-        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 0, 0, minimapModel, screenWidth, screenHeight));
-        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
-        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
+
+        minimapModels.add(minimapModelOne);
+        minimapModels.add(minimapModelTwo);
+        minimapModels.add(minimapModelThree);
+
+        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 0, 0, minimapModels.get(0), screenWidth, screenHeight));
+        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0,  minimapModels.get(1), screenWidth, screenHeight));
+        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0,  minimapModels.get(2), screenWidth, screenHeight));
 
         //Agregamos el listener del mouse
         getFrame().addMouseListener(this.getMouse());
