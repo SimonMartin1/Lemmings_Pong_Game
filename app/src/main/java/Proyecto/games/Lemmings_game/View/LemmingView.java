@@ -71,6 +71,11 @@ public class LemmingView {
         BufferedImage stopSprites = load("/lemming_stop_v2.png");
         BufferedImage climbSprites = load("/lemming_climb.png");
         BufferedImage explFallSprites = load("/lemming_explanting_fall.png");
+        BufferedImage umbrellaSprites = load("/lemming_umbrella.png");
+        BufferedImage nukeSprites = load("/lemming_nuke.png");
+
+
+        // Animations
 
         animations.put(LemmingAnimationState.WALKING_RIGHT, sliceFrames(walkSprites, 13, 21, 8, 0));
         animations.put(LemmingAnimationState.WALKING_LEFT, flipFrames(animations.get(LemmingAnimationState.WALKING_RIGHT)));
@@ -84,6 +89,12 @@ public class LemmingView {
 
         animations.put(LemmingAnimationState.EXPLANTING_FALL, sliceFrames(explFallSprites, 29, 20, 8, 0));
 
+        animations.put(LemmingAnimationState.UMBRELLA_RIGHT, sliceFrames(umbrellaSprites, 20, 31, 10, 0));
+        animations.put(LemmingAnimationState.UMBRELLA_LEFT, sliceFrames(umbrellaSprites, 20, 31, 10, 0));
+
+        animations.put(LemmingAnimationState.NUKE, sliceFrames(nukeSprites, 16, 20, 12,0));
+
+        //state - length
         frameLengths.put(LemmingAnimationState.WALKING_RIGHT, 8);
         frameLengths.put(LemmingAnimationState.WALKING_LEFT, 8);
         frameLengths.put(LemmingAnimationState.FALLING, 4);
@@ -92,6 +103,9 @@ public class LemmingView {
         frameLengths.put(LemmingAnimationState.CLIMBING_RIGHT, 8);
         frameLengths.put(LemmingAnimationState.CLIMBING_LEFT, 8);
         frameLengths.put(LemmingAnimationState.EXPLANTING_FALL, 8);
+        frameLengths.put(LemmingAnimationState.UMBRELLA_RIGHT, 10);
+        frameLengths.put(LemmingAnimationState.UMBRELLA_LEFT, 10);
+        frameLengths.put(LemmingAnimationState.NUKE, 12);
     }
 
     private BufferedImage[] sliceFrames(BufferedImage spriteSheet, int frameWidth, int frameHeight, int frameCount, int row) {

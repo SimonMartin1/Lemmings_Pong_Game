@@ -1,6 +1,7 @@
 package Proyecto.games.Pong_game;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 
 import javax.swing.ImageIcon;
@@ -31,7 +32,7 @@ import Proyecto.games.Pong_game.View.ScoreManagerView;
 import Proyecto.games.Pong_game.utils.SoundPlayer;
 
 
-public class Pong extends JGame {
+public class Pong extends JGame implements KeyListener{
     PaddleView paddleLeftView,paddleLeftIAView, paddleRightView;
     PaddleModel paddleLeftModel,paddleRightModel;
     PaddleIAmodel paddleIAModel;
@@ -61,8 +62,7 @@ public class Pong extends JGame {
     private Track track;
     private int maxPoints=5;
     private int[] player1Keys,player2Keys;
-    private int width, height;
-    private final int oldwidth, oldheight;
+    private int width, height,lastKeyPressed;
 
 
 
@@ -70,8 +70,6 @@ public class Pong extends JGame {
         super(title, width, height);
         this.width=getWidth();
         this.height=getHeight();
-        this.oldwidth=getWidth();
-        this.oldheight=getHeight();
     }
 
     public static void main(String[] args) {
@@ -115,10 +113,12 @@ public class Pong extends JGame {
         gamePauseView = new GamePauseView(this.width, this.height);
 
         //controladores
-        paddleLeftController = new PaddleController(paddleLeftModel,keyboard, player1Keys[0],player1Keys[1] );
+        paddleLeftController = new PaddleController(paddleLeftModel,keyboard);
         paddleLeftIAController = new PaddleIAController(paddleIAModel);
-
-        paddleRightController = new PaddleController(paddleRightModel, keyboard,player2Keys[0], player2Keys[1]);
+        paddleRightController = new PaddleController(paddleRightModel, keyboard);
+                
+        paddleLeftController.setPaddleKeys(player2Keys[0], player2Keys[1]);
+        paddleRightController.setPaddleKeys(player1Keys[0], player1Keys[1]);
         
         ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel,width,height);
         
@@ -126,6 +126,7 @@ public class Pong extends JGame {
 
         // Forzar foco
         getFrame().addKeyListener(keyboard);
+        getFrame().addKeyListener(this);
         getFrame().setFocusable(true);
         getFrame().requestFocus();
         getFrame().addWindowListener(new WindowAdapter() {
@@ -189,6 +190,8 @@ public class Pong extends JGame {
         backupSettings.twoPlayers = twoplayers;
         backupSettings.ballSkin= ballSkin;
         backupSettings.pitchSkin=pitchSkin;
+        backupSettings.Player1Keys=player1Keys;
+        backupSettings.Player2Keys=player2Keys;
 
         backupDrawHard = settingsView.drawHard;
         backupDrawMedium = settingsView.drawMedium;
@@ -221,6 +224,8 @@ public class Pong extends JGame {
 
     public void saveSettings(){
         SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin, pitchSkin,fullScreen,player1Keys,player2Keys);
+        paddleLeftController.setPaddleKeys(player2Keys[0], player2Keys[1]);
+        paddleRightController.setPaddleKeys(player1Keys[0], player1Keys[1]);
     }
     public void resetSettings(){
         musicOFF = false;
@@ -228,45 +233,45 @@ public class Pong extends JGame {
         difficult = Difficult.EASY;
         maxPoints = 5;
         twoplayers = false;
-        player1Keys[0]=87;
-        player1Keys[1]=83;
-        player2Keys[0]=38;
-        player2Keys[1]=40;
-
+        player1Keys[0]=KeyEvent.VK_UP;
+        player1Keys[1]=KeyEvent.VK_DOWN;
+        player2Keys[0]=KeyEvent.VK_W;
+        player2Keys[1]=KeyEvent.VK_S;
     }
     public void setFullScreen(boolean enable) {
     java.awt.Frame frame = this.getFrame();
-    if (enable) {
-        frame.dispose();
-        frame.setUndecorated(true);
-        frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-        frame.setVisible(true);
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        this.width = screenSize.width;
-        this.height = screenSize.height;
-    } else {
-        frame.dispose();
-        frame.setUndecorated(false);
-        frame.setExtendedState(java.awt.Frame.NORMAL);
-        frame.setSize(800, 600);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        this.width = 800;
-        this.height = 600;
-    }
-    // Actualiza vistas y modelos
-    settingsView.updateSize(width, height);
-    gameMenu.updateSize(width, height);
-    gamePauseView.updateSize(width, height);
-    gameOverMenuView.updateSize(width, height);
-    scoreManagerView.updateSize(width);
-    paddleLeftView.updateSize(60,30,300);
-    paddleLeftIAView.updateSize(60,30,300);
-    paddleRightView.updateSize(width-90,30,300);
-    paddleLeftIAController.updateSize(height);
-    ballModel.updateSize(width, height);
-    ballController.updateSize(width, height);
-}
+        if (enable) {
+            frame.dispose();
+            frame.setUndecorated(true);
+            frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+            frame.setVisible(true);
+            java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            this.width = screenSize.width;
+            this.height = screenSize.height;
+        } else {
+            frame.dispose();
+            frame.setUndecorated(false);
+            frame.setExtendedState(java.awt.Frame.NORMAL);
+            frame.setSize(800, 600);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            this.width = 800;
+            this.height = 600;
+        }
+        // Actualiza vistas y modelos
+        settingsView.updateSize(width, height);
+        gameMenu.updateSize(width, height);
+        gamePauseView.updateSize(width, height);
+        gameOverMenuView.updateSize(width, height);
+        scoreManagerView.updateSize(width);
+        paddleLeftView.updateSize(60,30,300);
+        paddleLeftIAView.updateSize(60,30,300);
+        paddleRightView.updateSize(width-90,30,300);
+        paddleLeftIAController.updateSize(height);
+        ballModel.updateSize(width, height);
+        ballController.updateSize(width, height);
+        }
+    
     public boolean getIsinsettings() {
         return this.isInSettings;
     }
@@ -303,9 +308,6 @@ public class Pong extends JGame {
         switch (option) {
             case 1-> this.ballSkin = BallSkins.NORMAL;
             case 2-> this.ballSkin = BallSkins.CRAZY; 
-            case 3-> this.ballSkin = BallSkins.TENNIS; 
-            case 4-> this.ballSkin = BallSkins.FOOTBALL; 
-            case 5-> this.ballSkin = BallSkins.BASKET; 
         }
         ballView.setBallType(ballSkin);
     }
@@ -358,9 +360,25 @@ public void stopTrack() {
                 this.difficult = Difficult.EASY;
         }
     }
-    public int setPlayersKeys(){
-        int res=KeyEvent.KEY_FIRST;
-        return res;
+
+    public void setPlayerKeys(int option,int [] keys){
+        switch (option) {
+            default ->{player1Keys=keys;}
+            case 1 ->{player1Keys=keys;}
+            case 2 ->{player2Keys=keys;}
+        }
+        paddleLeftController.setPaddleKeys(player2Keys[0], player2Keys[1]);
+        paddleRightController.setPaddleKeys(player1Keys[0], player1Keys[1]);
+    }
+
+    public void setPlayerKeys(int option, int keycode){
+        switch(option){
+            default->{player1Keys[0]=keycode;}
+            case 1 ->{player2Keys[0]=keycode;}
+            case 2 ->{player2Keys[1]=keycode;}
+            case 3 ->{player1Keys[0]=keycode;}
+            case 4 ->{player1Keys[1]=keycode;}
+        }
     }
     public int[] getPlayersKeys(int option){
         int [] res;
@@ -371,6 +389,31 @@ public void stopTrack() {
         }
         return res;
     }
+
+    @Override public void keyTyped(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (settingsView.getKey) {
+            lastKeyPressed = e.getKeyCode();
+            settingsView.getKey = false;
+            settingsView.setkeys=false;
+            switch (settingController.getKeyToSet()) {
+                default -> {setPlayerKeys(3,lastKeyPressed);}
+                case 1 -> {setPlayerKeys(3,lastKeyPressed);}
+                case 2 -> {setPlayerKeys(4,lastKeyPressed);}
+                case 3 -> {setPlayerKeys(1,lastKeyPressed);}
+                case 4 -> {setPlayerKeys(2,lastKeyPressed);}
+            }
+        }
+    }
+
+
+    public int getLastKeyPressed() {
+        return lastKeyPressed;
+    }
+
+    @Override public void keyReleased(KeyEvent e) {}
 
     public void setTwoPlayers(boolean twoplayers) {
         this.twoplayers = twoplayers;
@@ -386,7 +429,7 @@ public void stopTrack() {
         if(isInMenu){
             gameMenu.update(delta);
 
-            if(gameMenu.detectSettings(getKeyboard()) || gameMenu.detectSetting(getMouse())){ if(isInSettings){saveSettings();} isInSettings = !isInSettings;  }
+            if(gameMenu.detectSetting(getMouse())){ if(isInSettings){saveSettings();} isInSettings = !isInSettings;  }
             if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ isInMenu = false; }
         }
         else{

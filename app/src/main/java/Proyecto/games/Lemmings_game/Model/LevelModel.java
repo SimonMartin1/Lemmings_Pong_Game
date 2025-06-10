@@ -1,5 +1,6 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Utils.LemmingState;
 
 import java.util.ArrayList;
@@ -7,19 +8,26 @@ import java.util.List;
 
 public class LevelModel {
 
-    private MapModel mapModel;
-    private Stock stock;
+    private final MapModel mapModel;
+    private final Stock stock;
 
-    private String levelName;
+    private final String levelName;
 
-    private int lemmingsToGenerate;
-    private double percentajeToWin;
-    private int numlevel;
+    private final int lemmingsToGenerate;
+    private final double percentajeToWin;
+    private int numLevel;
     private double spawnTimer = 0;
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
     private int camX = 0;
+
+    private boolean nukeConfirmed = false;
+    private long nukeStartTime = -1;
+    private long cleanDeaths = -1;
+
+    private boolean isNukeTime = false;
     private ExitModel exit;
+
     private List<LemmingModel> lemmings = new ArrayList<>();
     private int lemmingSpawnX;
     private int lemmingSpawnY;
@@ -29,7 +37,7 @@ public class LevelModel {
         this.mapModel = map;
         this.stock = stock;
         this.levelName = lvlName;
-        this.numlevel = level;
+        this.numLevel = level;
         this.exit = exit;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
@@ -44,21 +52,16 @@ public class LevelModel {
 
     public void update(double delta) {
 
-        if (spawnedLemmings < lemmingsToGenerate) {
-            spawnTimer += delta;
-            if (spawnTimer >= spawnInterval) {
-                spawnTimer = 0;
-                spawnedLemmings++;
-                LemmingModel nuevo = new LemmingModel(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, 1, mapModel);
-                //LemmingModel nuevo = new LemmingModel(1, 720, 120, 1, 1, mapModel);
-                lemmings.add(nuevo);
-            }
-        }
+        updateLemmingSpawn(delta, lemmingSpawnX, lemmingSpawnY);
 
+        // Contar 3s luego de que isNukeTime es true
+        confirmNuke();
+        handleNukeConfirmed();
 
         lemmings.removeIf(l -> l.state == LemmingState.DEAD);
-
         lemmings.removeIf(l -> l.state == LemmingState.EXITED);
+
+        handleNukeTime();
 
         for (LemmingModel l : lemmings) {
             l.update(delta);
@@ -80,28 +83,102 @@ public class LevelModel {
         return mapModel.getLemmingsSaved() >= lemmingsToGenerate * percentajeToWin;
     }
 
-    public boolean isLevelFinished(){
+    public boolean isLevelFinished() {
+        boolean result = false;
 
-        if(lemmings.size() < lemmingsToGenerate) return false;
+        if (spawnedLemmings < lemmingsToGenerate) {
+            result = false;
+        } else {
+            if (lemmings.isEmpty()) {
+                if (cleanDeaths == -1) {
+                    cleanDeaths = System.currentTimeMillis();
+                }
 
-        for (LemmingModel l : lemmings) {
-            if (l.isActive()) {
-                return false;
+                long elapsed = System.currentTimeMillis() - cleanDeaths;
+
+                if (elapsed >= 3000) {
+                    result = true;
+                }
             }
         }
 
-        return true;
+        return result;
     }
 
-    
+    // Logic
 
+    private void updateLemmingSpawn(double delta, int lemmingSpawnX, int lemmingSpawnY) {
+        if (spawnedLemmings < lemmingsToGenerate) {
+            spawnTimer += delta;
+            if (spawnTimer >= spawnInterval) {
+                spawnTimer = 0;
+                spawnedLemmings++;
+                LemmingModel nuevo = new LemmingModel(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, 1, mapModel);
+                lemmings.add(nuevo);
+            }
+        }
+    }
+
+    private void confirmNuke(){
+        if(isNukeTime){
+            if (nukeStartTime == -1) {
+                nukeStartTime = System.currentTimeMillis();
+            }
+
+            long elapsed = System.currentTimeMillis() - nukeStartTime;
+
+            if (elapsed >= 3000) {
+                nukeConfirmed = true;
+            }
+        }
+    }
+
+    private void handleNukeTime(){
+        if(noMoreActiveLemmings()){
+            if(lemmings.isEmpty()) {
+                isNukeTime = false;
+
+            }else{
+                for (LemmingModel l : lemmings) {
+                    if(!l.getState().equals(LemmingState.EXPLOTING)) {
+                        l.setCurrentLeemingState(LemmingAnimationState.NUKE);
+                    }
+                }
+
+                isNukeTime = true;
+            }
+
+        }
+    }
+
+    private void handleNukeConfirmed(){
+        if (nukeConfirmed) {
+            for (LemmingModel l :lemmings){
+                if(!LemmingState.DEAD.equals(l.getState())){
+                    l.setStateLemming(LemmingState.EXPLOTING);
+                }
+            }
+        }
+    }
+    public boolean noMoreActiveLemmings() {
+        boolean response = true;
+
+        for (LemmingModel l : lemmings){
+            if (!l.getState().equals(LemmingState.WAITING)) {
+                response = false;
+                break;
+            }
+        }
+
+        return response;
+    }
 
     // Getters básicos
 
     public Stock getStock(){ return  stock; }
 
     public int getNumLevel(){
-        return numlevel;
+        return numLevel;
     }
 
     public String getLevelName(){
@@ -124,4 +201,5 @@ public class LevelModel {
         return percentajeToWin;
     }
 
+    public boolean getNukeConfirmed(){ return nukeConfirmed; }
 }
