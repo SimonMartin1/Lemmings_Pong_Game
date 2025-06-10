@@ -27,6 +27,7 @@ import Proyecto.games.Lemmings_game.View.GameMenuView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
+import Proyecto.utils.SoundPlayer;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
 
 
@@ -175,7 +176,7 @@ public class Lemmings extends JGame {
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
-
+        SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenu = new GameMenuView(getWidth(), getHeight(), this);
     }
@@ -187,7 +188,7 @@ public class Lemmings extends JGame {
         } else {
             buttonController.update();
             levelControllers.get(currentLevel).update(delta);
-    
+            
             // Chequeo si se completó el nivel
             if (levelModels.get(currentLevel).isLevelFinished()) {
                 nextLevel();
@@ -210,34 +211,6 @@ public class Lemmings extends JGame {
 
             //Aca segundo lvl
             levelControllers.get(currentLevel).draw(g);
-
-            int windowWidth = screenWidth;
-            int windowHeight = screenHeight;
-            int extraMargin = 10;
-            float startY = 0.75f;
-            float buttonHeight = 0.13f;
-            float buttonWidth = 0.10f;
-            float espacio = 0.03f;
-            float startX = 0.01f;
-            int offsetX = (int)(0.59f * windowWidth);
-            
-            float extraRelWidth = buttonWidth * 0.5f;
-            float extraRelHeight = buttonHeight * 0.4f;
-            
-            float slowRelX = startX;         // 0.01f
-            float slowRelY = 0.83f;          // según lo que pusiste antes para slow
-            int slowAbsX = (int)(slowRelX * windowWidth) + offsetX;
-            int slowAbsY = (int)(slowRelY * windowHeight);
-            int slowAbsW = (int)(extraRelWidth * windowWidth);
-            int slowAbsH = (int)(extraRelHeight * windowHeight);
-            g.setColor(Color.RED);  // o cualquier color que te sirva para ver bien
-            g.drawRect(
-                slowAbsX - extraMargin,
-                slowAbsY - extraMargin,
-                slowAbsW + 2 * extraMargin,
-                slowAbsH + 2 * extraMargin
-            ); 
-            
 
 
         }

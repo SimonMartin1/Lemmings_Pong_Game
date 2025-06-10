@@ -39,7 +39,7 @@ public class CursorModel {
         int extraMargin = 10;
         float startY = 0.75f;
         float buttonHeight = 0.25f;
-        float buttonWidth = 0.10f;
+        float buttonWidth = 0.12f;
         float espacio = 0.03f;
         float startX = 0.01f;
     
