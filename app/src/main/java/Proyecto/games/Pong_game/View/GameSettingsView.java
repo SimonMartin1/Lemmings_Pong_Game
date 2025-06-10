@@ -1,10 +1,11 @@
 package Proyecto.games.Pong_game.View;
+//import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
+
 import com.entropyinteractive.Mouse;
 
 import Proyecto.games.Pong_game.Pong;
@@ -13,7 +14,7 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private int width;
     private int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack, nextTrack ,prevMousePressed,drawFullScreen,setkeys=false;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,dibujar;
     private final Pong game;
 
     public GameSettingsView(int width, int height, Pong game) {
@@ -115,8 +116,11 @@ public class GameSettingsView {
         g.drawString("Save", width-325 , height-65);
         g.drawString("Cancel", width-245 , height-65);
         g.drawString("Reset", width-145 , height-65);
-        //g.fillRect(width/2-45,height/2+60,40,40);
-        //int bx = width/2-45, by = height/2+60, bw = 40, bh = 40; 
+        //g.fillRect(width/2-140,105,85,30);
+        //g.drawLine(0,height/2,width,height/2);
+        //g.drawLine(width/2,0,width/2,height);
+        //width/2+105 , by = height/2+65, bw = 125, bh = 35;
+        
     
 
         if(drawHard){
@@ -150,22 +154,19 @@ public class GameSettingsView {
         g.setStroke(new BasicStroke(3));
         g.drawRoundRect(width/2-140, 100, 100, 40, 20, 20);
         }
-        if(nextTrack){
-            g.drawString(getTrack(), width/2-125 , 125);
-        }
         if(drawFullScreen){
             activeButtons(g, width/2-120 , 395,"On", width/2-125, 375, 40, 30, 10, 10);
         }else{
             activeButtons(g, width/2-40 , 395,"Off", width/2-45, 375, 40, 30, 10, 10);
         }
-        if(setkeys){
-            g.setColor(Color.BLACK);
-            g.fillRect(width/2+100 ,400, 125,50);
-            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
-            g.fillRect(0, 0, width, height);
-            g.setColor(Color.WHITE);
-            g.drawString("Cancel", width/2+100 , 440);
-        }
+        // if(setkeys){
+        //     g.setColor(Color.BLACK);
+        //     g.fillRect(width/2+100 ,400, 125,50);
+        //     g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
+        //     g.fillRect(0, 0, width, height);
+        //     g.setColor(Color.WHITE);
+        //     g.drawString("Cancel", width/2+100 , 440);
+        // }
         
     }
 
@@ -180,9 +181,6 @@ public class GameSettingsView {
                 drawTrack=true;
                 drawOff = false;
                 
-            }
-            case "nextTrack" -> {
-                nextTrack=true;
             }
             case "Hard" -> {
                 drawHard = true;
@@ -228,7 +226,6 @@ public class GameSettingsView {
             case "Off" -> {
             drawOff = true;
             drawTrack = false;
-            nextTrack = false;
             }
             case "Cancel" -> {
                 
@@ -260,140 +257,96 @@ public class GameSettingsView {
     return justPressed && game.getIsinsettings() && !setkeys ;
 }
 
-    // --- TRACK NAME ---
-    public boolean isTrackNameClicked(Mouse m) {
+    public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2-110, by = 40, bw = 60, bh = 60;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m);
+    }
+
+    // --- TRACK NAME ---
+    public boolean isTrackNameClicked(Mouse m) {
+        return mouseTracker(width/2-120, 85, 105, 25, m);
     }
 
     // --- OFF ---
     public boolean isOffClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-5, by = 40, bw = 60, bh = 60; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-5, 40, 60, 60, m);
     }
 
     // --- HARD ---
     public boolean isHardClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-15, by = 130, bw = 80, bh = 45; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-15, 130, 80, 45, m);
     }
 
     // --- MEDIUM ---
     public boolean isMediumClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2+85, by = 130, bw = 80, bh = 45; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2+85, 130, 80, 45, m);
     }
 
     // --- EASY ---
     public boolean isEasyClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2+195, by = 130, bw = 80, bh = 45; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2+195, 130, 80, 45, m);
     }
 
     // --- ON ---
     public boolean isOnClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-160, by = 175, bw = 60, bh = 40; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-160, 175, 60, 40, m);
     }
 
     // --- WINPOINTS 7 ---
     public boolean isWinPoints15Clicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-140, by = 205, bw = 40, bh = 40;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-140, 220, 40, 20, m);
     }
 
     // --- WINPOINTS 5 ---
     public boolean isWinPoints10Clicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-80, by = 205, bw = 40, bh = 40; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-80, 220, 40, 40, m);
     }
 
     // --- WINPOINTS 3 ---
     public boolean isWinPoints5Clicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-40, by = 205, bw = 40, bh = 40; // "3"
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-40, 220, 40, 40, m);
     }
 
     // --- SAVE ---
     // --- SAVE ---
 public boolean isSaveClicked(Mouse m) {
-    int mx = m.getX();
-    int my = m.getY();
-    int bx = width - 325, by = height - 50, bw = 60, bh = 30; // Ajustado al borde inferior
-    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+    return mouseTracker(width-325, 500, 30, 30, m);
 }
 
 // --- CANCEL ---
 public boolean isCancelClicked(Mouse m) {
-    int mx = m.getX();
-    int my = m.getY();
-    int bx = width - 245, by = height - 50, bw = 70, bh = 30; // Ajustado al borde inferior
-    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+    return mouseTracker(width-245, 500, 60, 30, m);
 }
 
 // --- RESET ---
 public boolean isResetClicked(Mouse m) {
-    int mx = m.getX();
-    int my = m.getY();
-    int bx = width - 145, by = height - 50, bw = 60, bh = 30; // Ajustado al borde inferior
-    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+    return mouseTracker(width-145, 500, 60, 30, m);
 }
         public boolean isFullScreenClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-120, by = height/2+50, bw = 40, bh = 40; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-120, height/2+50, 30, 30, m);
     }
         public boolean isFullScreenOffClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-60, by = height/2+50, bw = 40, bh = 40; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-60, 375, 60, 30, m);
     }
 
         public boolean isPitchSkinClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2-140, by = 260, bw = 85, bh = 35; 
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return  mouseTracker(width/2-140, 260, 45, 35, m);
     }
 
         public boolean isBallSkinClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx =width/2-140 , by = 290, bw = 85, bh = 35;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+        return mouseTracker(width/2-140, 290, 85, 35, m);
     }
         public boolean isChangeKeysClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx =width/2+105 , by = height/2+65, bw = 125, bh = 35; ;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && isMouseJustPressed(m);
+//height/2+65
+        return mouseTracker(width/2+110, 400, 125, 35, m);
     }
-    public boolean isCancelSetKeysClicked(Mouse m) {
-    int mx = m.getX();
-    int my = m.getY();
-    int bx = width/2+90, by = height/2+65, bw = 300, bh = 300;
-    boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-    prevMousePressed = m.isLeftButtonPressed();
-    return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && justPressed && game.getIsinsettings() && setkeys;
-}
+//     public boolean isCancelSetKeysClicked(Mouse m) {
+//     int mx = m.getX();
+//     int my = m.getY();
+//     int bx = width/2+90, by = height/2+65, bw = 300, bh = 300;
+//     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
+//     prevMousePressed = m.isLeftButtonPressed();
+//     return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && justPressed && game.getIsinsettings() && setkeys;
+// }
 }

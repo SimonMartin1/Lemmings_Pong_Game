@@ -23,8 +23,10 @@ public class SettingsModel {
             writer.println("ballSkin=" + ballSkin);
             writer.println("pitchSkin=" + pitchSkin);
             writer.println("fullScreen=" + fullScreen);
-            writer.println("Player1Keys=" + Player1Keys);
-            writer.println("Player2Keys=" + Player2Keys);
+            // writer.println("Player1Keys1=" + Player1Keys[0]);
+            // writer.println("Player1Keys2=" + Player1Keys[1]);
+            // writer.println("Player2Keys1=" + Player2Keys[0]);
+            // writer.println("Player2Keys2=" + Player2Keys[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,6 +48,10 @@ public class SettingsModel {
                     case "ballSkin" -> setting.ballSkin = BallSkins.valueOf(kv[1]);
                     case "pitchSkin" -> setting.pitchSkin = PitchSkins.valueOf(kv[1]);
                     case "fullScreen" -> setting.fullScreen = Boolean.parseBoolean(kv[1]);
+                    // case "Player1Keys1" -> setting.maxPoints = Integer.parseInt(kv[1]);
+                    // case "Player1Keys2" -> setting.maxPoints = Integer.parseInt(kv[1]);
+                    // case "Player2Keys1" -> setting.maxPoints = Integer.parseInt(kv[1]);
+                    // case "Player2Keys2" -> setting.maxPoints = Integer.parseInt(kv[1]);
                 }
             }
         } catch (IOException e) {

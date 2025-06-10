@@ -15,6 +15,7 @@ public class PaddleModel {
 
         public void updateSize(int movement){
         this.MOVE_AMOUNT=movement;
+        
     }
 
     public void setMoveDown(boolean isMoveDown){
