@@ -1,37 +1,28 @@
 package Proyecto.games.Lemmings_game.View;
 
-import Proyecto.games.Lemmings_game.Model.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
-import Proyecto.games.Lemmings_game.Model.LemmingState;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
 
+import javax.imageio.ImageIO;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+public class LemmingView {
 
-public class LemmingView{
-
-    private LemmingModel model;
+    private final LemmingModel model;
 
     private int currentFrameIndex = 0;
     private long lastFrameChangeTime = 0;
-    private int frameWalkLength = 8;
-    private int frameFallLength = 8;
-    private int frameDigLength = 16;
-    private int frameStopLength = 1;
-    private int frameClimbLength = 8;
-    private int frameExplatingFallLength = 8;
 
     private LemmingAnimationState lastState;
-
-    private Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
+    private final Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
+    private final Map<LemmingAnimationState, Integer> frameLengths = new HashMap<>();
 
     public LemmingView(LemmingModel model) {
         this.model = model;
-
         try {
             loadAnimations();
         } catch (IOException e) {
@@ -39,144 +30,101 @@ public class LemmingView{
         }
     }
 
-
     public void draw(Graphics g, int camX, int camY) {
-        //System.out.println("camX: " + camX + " camY: " + camY);
+        if (model.getOnExit()) return;
+
         int drawX = model.getX() - camX;
-        //int drawY = model.getY() - camY;
-        //System.out.println("drawX: " + drawX);
+        int drawY = model.getY();
 
-        if(!model.getOnExit()){
-            updateAnimation();
-            BufferedImage[] frames = animations.get(model.getCurrentState());
+        updateAnimation();
 
-            if(lastState != model.getCurrentState()) {
-                lastState = model.getCurrentState();
-                currentFrameIndex = 0;
-            }
+        LemmingAnimationState state = model.getCurrentStateAnimation();
+        BufferedImage[] frames = animations.get(state);
 
-            if (frames == null) return;
+        if (frames == null) return;
 
-            BufferedImage currentFrame = frames[currentFrameIndex];
-            g.drawImage(currentFrame, drawX, model.getY(), 20, 30, null);
-
+        if (lastState != state) {
+            lastState = state;
+            currentFrameIndex = 0;
         }
+
+        BufferedImage currentFrame = frames[currentFrameIndex];
+        g.drawImage(currentFrame, drawX, drawY, 20, 30, null);
     }
-
-
-
-    private void loadAnimations() throws IOException {
-
-        int frameWalkWidth = 13;
-        int frameWalkHeight = 21;
-        frameWalkLength = 8;
-        frameStopLength = 6;
-        frameFallLength = 4;
-        frameDigLength = 16;
-
-        BufferedImage lemmingWalkingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_walk_v2.png"));
-        BufferedImage lemmingFallingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_fall_v2.png"));
-        BufferedImage lemmingDiggingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_dig.png"));
-        BufferedImage lemmingStopingSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_stop_v2.png"));
-        BufferedImage lemmingClimbSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_climb.png"));
-        BufferedImage lemmingExplatingFallSprites = ImageIO.read(getClass().getResourceAsStream("/lemming_explanting_fall.png"));
-
-        BufferedImage[] walkRightFrames = new BufferedImage[frameWalkLength];
-        BufferedImage[] walkLeftFrames = new BufferedImage[frameWalkLength];
-        BufferedImage[] fallFrames = new BufferedImage[frameFallLength];
-        BufferedImage[] digFrames = new BufferedImage[frameDigLength];
-        BufferedImage[] stopFrames = new BufferedImage[frameStopLength];
-
-        BufferedImage[] clibLeftFrame = new BufferedImage[frameClimbLength];
-        BufferedImage[] clibRightFrame = new BufferedImage[frameClimbLength];
-
-        BufferedImage[] explatingFallFrame = new BufferedImage[frameExplatingFallLength];
-
-        // Asumiendo que fila 0 = caminar derecha, fila 1 = caminar izquierda (si no hay fila izquierda, se hace flip)
-        for (int i = 0; i < frameWalkLength; i++) {
-            walkRightFrames[i] = lemmingWalkingSprites.getSubimage(i * frameWalkWidth, 0, frameWalkWidth, frameWalkHeight);
-        }
-
-        // Generar caminar izquierda reflejando los frames de caminar derecha
-        for (int i = 0; i < frameWalkLength; i++) {
-            walkLeftFrames[i] = createFlippedImage(walkRightFrames[i]);
-        }
-
-        for (int i = 0; i < 4; i++){
-            fallFrames[i] = lemmingFallingSprites.getSubimage(i * 12, 0, 12, 20);
-        }
-
-        for (int i = 0; i < 16; i++){
-            digFrames[i] = lemmingDiggingSprites.getSubimage(i * 8, 0, 8, 14);
-        }
-
-        for (int i = 0; i < 6; i++){
-            stopFrames[i] = lemmingStopingSprites.getSubimage(i * 20, 0, 20, 20);
-        }
-
-        for (int i = 0; i < frameClimbLength; i++){
-            clibRightFrame[i] = lemmingClimbSprites.getSubimage(i * 17, 0,17, 22);
-        }
-
-        for (int i = 0; i < frameClimbLength; i++){
-            clibLeftFrame[i] = createFlippedImage(clibRightFrame[i]);
-        }
-
-        for (int i = 0; i < frameExplatingFallLength; i++){
-            explatingFallFrame[i] = lemmingExplatingFallSprites.getSubimage(i * 29, 0,29, 20);
-        }
-
-        //stopFrames[0] = lemmingStopingSprites.getSubimage(0, 0, 20, 20);
-
-        animations.put(LemmingAnimationState.WALKING_RIGHT, walkRightFrames);
-        animations.put(LemmingAnimationState.WALKING_LEFT, walkLeftFrames);
-        animations.put(LemmingAnimationState.FALLING, fallFrames);
-        animations.put(LemmingAnimationState.DIGGING, digFrames);
-        animations.put(LemmingAnimationState.STOPING, stopFrames);
-        animations.put(LemmingAnimationState.CLIMBING_RIGHT, clibRightFrame);
-        animations.put(LemmingAnimationState.CLIMBING_LEFT, clibLeftFrame);
-        animations.put(LemmingAnimationState.EXPLANTING_FALL, explatingFallFrame);
-        // Aca más animaciones
-    }
-
 
     private void updateAnimation() {
         long now = System.currentTimeMillis();
         long frameDuration = 100;
 
         if (now - lastFrameChangeTime > frameDuration) {
-            switch(model.getCurrentState()){
-                case WALKING_RIGHT:
-                case WALKING_LEFT:
-                case CLIMBING_RIGHT:
-                case CLIMBING_LEFT:
-                case EXPLANTING_FALL:
-                    currentFrameIndex = (currentFrameIndex + 1) % 8;
-                    break;
-                case FALLING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 4;
-                    break;
-                case DIGGING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 16;
-                    break;
-                case STOPING:
-                    currentFrameIndex = (currentFrameIndex + 1) % 6;
-                    break;
-            }
-
+            LemmingAnimationState state = model.getCurrentStateAnimation();
+            int length = frameLengths.getOrDefault(state, 1);
+            currentFrameIndex = (currentFrameIndex + 1) % length;
             lastFrameChangeTime = now;
         }
+    }
+
+    private void loadAnimations() throws IOException {
+        BufferedImage walkSprites = load("/lemming_walk_v2.png");
+        BufferedImage fallSprites = load("/lemming_fall_v2.png");
+        BufferedImage digSprites = load("/lemming_dig.png");
+        BufferedImage stopSprites = load("/lemming_stop_v2.png");
+        BufferedImage climbSprites = load("/lemming_climb.png");
+        BufferedImage explFallSprites = load("/lemming_explanting_fall.png");
+
+        animations.put(LemmingAnimationState.WALKING_RIGHT, sliceFrames(walkSprites, 13, 21, 8, 0));
+        animations.put(LemmingAnimationState.WALKING_LEFT, flipFrames(animations.get(LemmingAnimationState.WALKING_RIGHT)));
+
+        animations.put(LemmingAnimationState.FALLING, sliceFrames(fallSprites, 12, 20, 4, 0));
+        animations.put(LemmingAnimationState.DIGGING, sliceFrames(digSprites, 8, 14, 16, 0));
+        animations.put(LemmingAnimationState.STOPING, sliceFrames(stopSprites, 20, 20, 6, 0));
+
+        animations.put(LemmingAnimationState.CLIMBING_RIGHT, sliceFrames(climbSprites, 17, 22, 8, 0));
+        animations.put(LemmingAnimationState.CLIMBING_LEFT, flipFrames(animations.get(LemmingAnimationState.CLIMBING_RIGHT)));
+
+        animations.put(LemmingAnimationState.EXPLANTING_FALL, sliceFrames(explFallSprites, 29, 20, 8, 0));
+
+        frameLengths.put(LemmingAnimationState.WALKING_RIGHT, 8);
+        frameLengths.put(LemmingAnimationState.WALKING_LEFT, 8);
+        frameLengths.put(LemmingAnimationState.FALLING, 4);
+        frameLengths.put(LemmingAnimationState.DIGGING, 16);
+        frameLengths.put(LemmingAnimationState.STOPING, 6);
+        frameLengths.put(LemmingAnimationState.CLIMBING_RIGHT, 8);
+        frameLengths.put(LemmingAnimationState.CLIMBING_LEFT, 8);
+        frameLengths.put(LemmingAnimationState.EXPLANTING_FALL, 8);
+    }
+
+    private BufferedImage[] sliceFrames(BufferedImage spriteSheet, int frameWidth, int frameHeight, int frameCount, int row) {
+        BufferedImage[] frames = new BufferedImage[frameCount];
+        for (int i = 0; i < frameCount; i++) {
+            frames[i] = spriteSheet.getSubimage(i * frameWidth, row * frameHeight, frameWidth, frameHeight);
+        }
+        return frames;
+    }
+
+    private BufferedImage[] flipFrames(BufferedImage[] original) {
+        BufferedImage[] flipped = new BufferedImage[original.length];
+        for (int i = 0; i < original.length; i++) {
+            flipped[i] = createFlippedImage(original[i]);
+        }
+        return flipped;
     }
 
     private BufferedImage createFlippedImage(BufferedImage image) {
         int w = image.getWidth();
         int h = image.getHeight();
         BufferedImage flipped = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-        java.awt.Graphics2D g = flipped.createGraphics();
+        Graphics g = flipped.createGraphics();
         g.drawImage(image, 0, 0, w, h, w, 0, 0, h, null);
         g.dispose();
         return flipped;
     }
 
-    public LemmingModel getModel(){ return model; }
+    private BufferedImage load(String path) throws IOException {
+        return ImageIO.read(getClass().getResourceAsStream(path));
+    }
+
+    public LemmingModel getModel() {
+        return model;
+    }
 }

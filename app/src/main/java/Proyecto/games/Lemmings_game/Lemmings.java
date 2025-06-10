@@ -15,6 +15,7 @@ import javax.swing.JFrame;
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
 import Proyecto.games.Lemmings_game.Model.*;
+import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.View.*;
 import com.entropyinteractive.JGame;
 

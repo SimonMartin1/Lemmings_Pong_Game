@@ -1,10 +1,16 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.Ability;
+import Proyecto.games.Lemmings_game.Utils.AbilityClass;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+
 import java.awt.Color;
 
-public class DigAbility implements AbilityModel {
+public class DigAbility extends AbilityClass {
 
-    private final Ability name = Ability.DIGGER;
+    public DigAbility(){
+        super(Ability.DIGGER);
+    }
 
     @Override
     public void apply(LemmingModel lemming, double delta) {
@@ -40,12 +46,6 @@ public class DigAbility implements AbilityModel {
 
             lemming.setAbility(null);
         }
-
-
     }
 
-    @Override
-    public Ability getName() {
-        return name;
-    }
 }

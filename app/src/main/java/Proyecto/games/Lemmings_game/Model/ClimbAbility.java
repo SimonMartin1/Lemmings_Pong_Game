@@ -1,13 +1,17 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.Ability;
+import Proyecto.games.Lemmings_game.Utils.AbilityClass;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+
 import java.awt.*;
 
-public class ClimbAbility implements AbilityModel{
+public class ClimbAbility extends AbilityClass {
+
     private boolean isClimbing = false;
 
-    @Override
-    public Ability getName() {
-        return Ability.CLIMB;
+    public ClimbAbility(){
+        super(Ability.CLIMB);
     }
 
     @Override

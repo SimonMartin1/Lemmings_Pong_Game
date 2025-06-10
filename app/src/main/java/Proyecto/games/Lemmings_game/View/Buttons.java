@@ -6,8 +6,8 @@ import java.awt.geom.RoundRectangle2D;
 
 
 public class Buttons {
-    String text;        
-    float relX, relY, relWidth, relHeight; // proporciones relativas
+    private String text;
+    private float relX, relY, relWidth, relHeight; // proporciones relativas
     private Color baseColor = new Color(101, 67, 33); // marrón tierra oscuro
 
     public Buttons(String text, float relX, float relY, float relWidth, float relHeight) {
