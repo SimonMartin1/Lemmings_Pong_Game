@@ -23,17 +23,17 @@ public class LevelView {
 
     int screenWidth = 1366;
     int screenHeight = 768;
-    
-    // Estos son los valores fijos que usabas antes
-    int baseX = 850;
-    int baseY = 600;
-    int baseWidth = 250;
-    int baseHeight = 100;
 
     public LevelView(LevelModel model, MapView mapView, Stock stock) {
         this.mapView = mapView;
         this.model = model;
         this.stock = stock;
+
+        // Estos son los valores fijos que usabas antes
+        int baseX = 850;
+        int baseY = 600;
+        int baseWidth = 250;
+        int baseHeight = 100;
 
 
         // Relativo a pantalla: x = porcentaje del ancho, y = porcentaje del alto

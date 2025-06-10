@@ -9,8 +9,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class MinimapView {
-    int x, y, width, height;
-    BufferedImage minimapImage;
+    private int x, y, width, height;
+    private BufferedImage minimapImage;
 
     public MinimapView(int baseX, int baseY, int baseWidth, int baseHeight, int level, int screenWidth, int screenHeight) {
         // Resolución base (la que usaste para calcular 480, 480, 250, 100)
