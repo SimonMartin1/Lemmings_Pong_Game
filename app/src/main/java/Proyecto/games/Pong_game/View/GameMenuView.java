@@ -86,18 +86,6 @@ public class GameMenuView {
         return justPressed;
     }
 
-    public boolean detectSettings(Keyboard k){
-        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_C);
-
-        if (prevSettingsPressed == null) {
-            prevSettingsPressed = currentPressed;
-            return false;
-        }
-
-        boolean justPressed = currentPressed && !prevSettingsPressed;
-        prevSettingsPressed = currentPressed;
-        return justPressed;
-    }
 
     public boolean detectSetting(Mouse m) {
         int mx = m.getX();
