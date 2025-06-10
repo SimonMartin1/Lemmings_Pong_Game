@@ -1,6 +1,6 @@
 package Proyecto.games.Lemmings_game.View;
 
-import Proyecto.games.Lemmings_game.Model.LemmingAnimationState;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 
 import java.awt.Graphics;

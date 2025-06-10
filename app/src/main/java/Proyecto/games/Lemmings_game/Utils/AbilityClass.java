@@ -1,6 +1,5 @@
 package Proyecto.games.Lemmings_game.Utils;
 
-import Proyecto.games.Lemmings_game.Model.Ability;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 
 public abstract class AbilityClass{

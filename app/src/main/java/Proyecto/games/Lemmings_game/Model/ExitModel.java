@@ -1,12 +1,14 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.LemmingState;
+
 import java.awt.Rectangle;
 
 public class ExitModel {
     private final int x;
     private final int y;
     public int savedLemmings = 0;
-    private final int width = 32; 
+    private final int width = 32;
     private final int height = 32;
     private MapModel mapModel;
 

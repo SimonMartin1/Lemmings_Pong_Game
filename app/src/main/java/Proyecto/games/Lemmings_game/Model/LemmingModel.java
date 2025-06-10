@@ -3,7 +3,10 @@ package Proyecto.games.Lemmings_game.Model;
 import java.awt.Color;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Utils.AbilityClass;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+import Proyecto.games.Lemmings_game.Utils.LemmingState;
 
 public class LemmingModel {
     private int id;

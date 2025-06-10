@@ -1,6 +1,6 @@
 package Proyecto.games.Lemmings_game.View;
 
-import Proyecto.games.Lemmings_game.Model.Ability;
+import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
 import Proyecto.games.Lemmings_game.Model.Stock;
 

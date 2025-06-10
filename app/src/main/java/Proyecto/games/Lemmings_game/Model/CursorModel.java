@@ -1,5 +1,6 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Utils.AbilityClass;
 import com.entropyinteractive.Mouse;
 
