@@ -1,5 +1,5 @@
 package Proyecto.games.Pong_game.View;
-//import java.awt.AlphaComposite;
+import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,15 +14,15 @@ import Proyecto.games.Pong_game.Pong;
 public class GameSettingsView {
     private int width;
     private int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,dibujar;
+    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,getKey;
     private final Pong game;
+
 
     public GameSettingsView(int width, int height, Pong game) {
         this.width = width;
         this.height = height;
         this.game = game;
     }
-
         public String getKeys(int option){
             String res;
         
@@ -68,6 +68,7 @@ public class GameSettingsView {
         }
         return res;
     }
+
     public void activeButtons(Graphics2D g, int xtext, int ytext, String text ,int xfill,int yfill, int width, int height, int arcx, int arcy){
             g.setColor(Color.WHITE);
             g.fillRoundRect(xfill, yfill, width, height, arcx, arcy);
@@ -116,7 +117,7 @@ public class GameSettingsView {
         g.drawString("Save", width-325 , height-65);
         g.drawString("Cancel", width-245 , height-65);
         g.drawString("Reset", width-145 , height-65);
-        //g.fillRect(width/2-140,105,85,30);
+        //g.fillRect(width/2+100,420,120,30);
         //g.drawLine(0,height/2,width,height/2);
         //g.drawLine(width/2,0,width/2,height);
         //width/2+105 , by = height/2+65, bw = 125, bh = 35;
@@ -159,14 +160,34 @@ public class GameSettingsView {
         }else{
             activeButtons(g, width/2-40 , 395,"Off", width/2-45, 375, 40, 30, 10, 10);
         }
-        // if(setkeys){
-        //     g.setColor(Color.BLACK);
-        //     g.fillRect(width/2+100 ,400, 125,50);
-        //     g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
-        //     g.fillRect(0, 0, width, height);
-        //     g.setColor(Color.WHITE);
-        //     g.drawString("Cancel", width/2+100 , 440);
-        // }
+        if(setkeys){
+            g.setColor(Color.BLACK);
+            g.fillRect(width/2+100 ,400, 125,50);
+            g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.9f));
+            g.fillRect(0, 0, width, height);
+            g.setColor(Color.WHITE);
+            g.fillRoundRect(width/2-70, 125, 150, 40, 20, 20); 
+            g.fillRoundRect(width/2-80, 185, 65, 40, 20, 20);
+            g.fillRoundRect(width/2+20, 185, 65, 40, 20, 20); 
+            g.fillRoundRect(width/2-70, 250, 150, 40, 20, 20);
+            g.fillRoundRect(width/2+20, 310, 65, 40, 20, 20); 
+            g.fillRoundRect(width/2-80, 310, 65, 40, 20, 20);
+            g.fillRoundRect(width/2+75, 405, 150, 40, 20, 20); 
+            g.setColor(Color.BLACK);
+            g.drawString("Cancel", width/2+120 , 430);
+            g.drawString("Player 1", width/2-30, 150);
+            g.drawString("Player 2", width/2-30 , 275);
+            g.drawString("Up", width/2+40 , 210);
+            g.drawString("Down", width/2-75 , 210);
+            g.drawString("Up", width/2+40 , 335);
+            g.drawString("Down", width/2-75 , 335);
+        }
+        if(getKey){
+            g.setColor(Color.BLACK);
+            g.fillRect(0 ,0, width,height);
+            g.setColor(Color.WHITE);
+            g.drawString("Select the new key", width/2-70, 150);
+        }
         
     }
 
@@ -254,13 +275,19 @@ public class GameSettingsView {
     private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
-    return justPressed && game.getIsinsettings() && !setkeys ;
+    return  justPressed && game.getIsinsettings();
 }
 
     public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         int mx = m.getX();
         int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m);
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m) && !setkeys;
+    }
+
+    public boolean mouseTrackerSetKeys(int x, int y, int width,int height, Mouse m){
+        int mx = m.getX();
+        int my = m.getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m) && setkeys;
     }
 
     // --- TRACK NAME ---
@@ -309,20 +336,19 @@ public class GameSettingsView {
     }
 
     // --- SAVE ---
-    // --- SAVE ---
-public boolean isSaveClicked(Mouse m) {
+    public boolean isSaveClicked(Mouse m) {
     return mouseTracker(width-325, 500, 30, 30, m);
-}
+    }
 
-// --- CANCEL ---
-public boolean isCancelClicked(Mouse m) {
+    // --- CANCEL ---
+    public boolean isCancelClicked(Mouse m) {
     return mouseTracker(width-245, 500, 60, 30, m);
-}
+    }
 
-// --- RESET ---
-public boolean isResetClicked(Mouse m) {
+    // --- RESET ---
+    public boolean isResetClicked(Mouse m) {
     return mouseTracker(width-145, 500, 60, 30, m);
-}
+    }
         public boolean isFullScreenClicked(Mouse m) {
         return mouseTracker(width/2-120, height/2+50, 30, 30, m);
     }
@@ -338,15 +364,22 @@ public boolean isResetClicked(Mouse m) {
         return mouseTracker(width/2-140, 290, 85, 35, m);
     }
         public boolean isChangeKeysClicked(Mouse m) {
-//height/2+65
-        return mouseTracker(width/2+110, 400, 125, 35, m);
+        return mouseTracker(width/2+100,390,70,30, m);
     }
-//     public boolean isCancelSetKeysClicked(Mouse m) {
-//     int mx = m.getX();
-//     int my = m.getY();
-//     int bx = width/2+90, by = height/2+65, bw = 300, bh = 300;
-//     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-//     prevMousePressed = m.isLeftButtonPressed();
-//     return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && justPressed && game.getIsinsettings() && setkeys;
-// }
+    
+    public boolean isCancelSetKeysClicked(Mouse m) {
+        return mouseTrackerSetKeys(width/2+100, 381, 70,45,m);
+    }
+    public boolean isPlayer1UpClicked(Mouse m) {
+        return mouseTrackerSetKeys(width/2+20, 170, 65,40,m);
+    }
+    public boolean isPlayer1DownClicked(Mouse m) {
+        return mouseTrackerSetKeys(width/2-80, 170, 65,40,m);
+    }
+    public boolean isPlayer2UpClicked(Mouse m) {
+        return mouseTrackerSetKeys(width/2+20, 292, 65,40,m);
+    }
+    public boolean isPlayer2DownClicked(Mouse m) {
+        return mouseTrackerSetKeys(width/2-80, 292, 65,40,m);
+    }
 }

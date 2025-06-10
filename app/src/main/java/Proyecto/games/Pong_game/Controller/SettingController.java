@@ -5,9 +5,9 @@ import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.Model.Track;
 import Proyecto.games.Pong_game.Pong;
 import Proyecto.games.Pong_game.View.GameSettingsView;
-public class SettingController {
+public class SettingController{
+        private int keyToSet;
     public SettingController(GameSettingsView view, SettingsModel model, Mouse m,Pong game) {
-        
         if(view.isHardClicked(m)){
             view.setDraw("Hard");
             game.setDifficult(2);
@@ -65,10 +65,23 @@ public class SettingController {
             game.setBallSkin(nextBallskin);
         }else if(view.isChangeKeysClicked(m)){
             view.setkeys=true;
-        }else 
-        // if(view.isCancelSetKeysClicked(m)){
-        //     view.setkeys=false;
-        // }
+        }
+        if(view.isCancelSetKeysClicked(m)){
+            view.setkeys=false;
+        }
+        if(view.isPlayer1UpClicked(m)){
+            view.getKey=true;
+            keyToSet = 1;
+        }else if(view.isPlayer1DownClicked(m)){
+            view.getKey=true;
+            keyToSet = 2;
+        }else if(view.isPlayer2UpClicked(m)){
+            view.getKey=true;
+            keyToSet = 3;
+        }else if(view.isPlayer2DownClicked(m)){
+            view.getKey=true;
+            keyToSet = 4;
+        }
         
         if (view.isTrackNameClicked(m)) {
             if (view.getDrawTrack()) {
@@ -133,6 +146,9 @@ public class SettingController {
             view.drawFullScreen=game.getBackUpSettings(9);
             
         }
+    }
+    public int getKeyToSet(){
+        return keyToSet;
     }
 }
 
