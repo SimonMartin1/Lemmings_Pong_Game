@@ -11,11 +11,9 @@ public class PaddleController {
     private int upKey;
     private int downKey;
 
-    public PaddleController(PaddleModel paddleModel, Keyboard keyboard, int upKey, int downKey) {
+    public PaddleController(PaddleModel paddleModel, Keyboard keyboard) {
         this.paddleModel = paddleModel;
         this.keyboard = keyboard;
-        this.upKey = upKey;
-        this.downKey = downKey;
     }
 
     public void update() {

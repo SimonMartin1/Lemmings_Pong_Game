@@ -62,9 +62,6 @@ public class GameSettingsView {
         switch (game.getBallSkin()) {
             case NORMAL -> res = "Normal";
             case CRAZY -> res = "Crazy";
-            case TENNIS -> res = "Tenis";
-            case FOOTBALL -> res = "Football";
-            case BASKET -> res = "Basket";
         }
         return res;
     }

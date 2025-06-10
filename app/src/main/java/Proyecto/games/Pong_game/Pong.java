@@ -113,10 +113,12 @@ public class Pong extends JGame implements KeyListener{
         gamePauseView = new GamePauseView(this.width, this.height);
 
         //controladores
-        paddleLeftController = new PaddleController(paddleLeftModel,keyboard, player1Keys[0],player1Keys[1] );
+        paddleLeftController = new PaddleController(paddleLeftModel,keyboard);
         paddleLeftIAController = new PaddleIAController(paddleIAModel);
-
-        paddleRightController = new PaddleController(paddleRightModel, keyboard,player2Keys[0], player2Keys[1]);
+        paddleRightController = new PaddleController(paddleRightModel, keyboard);
+                
+        paddleLeftController.setPaddleKeys(player2Keys[0], player2Keys[1]);
+        paddleRightController.setPaddleKeys(player1Keys[0], player1Keys[1]);
         
         ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel,width,height);
         
@@ -306,9 +308,6 @@ public class Pong extends JGame implements KeyListener{
         switch (option) {
             case 1-> this.ballSkin = BallSkins.NORMAL;
             case 2-> this.ballSkin = BallSkins.CRAZY; 
-            case 3-> this.ballSkin = BallSkins.TENNIS; 
-            case 4-> this.ballSkin = BallSkins.FOOTBALL; 
-            case 5-> this.ballSkin = BallSkins.BASKET; 
         }
         ballView.setBallType(ballSkin);
     }

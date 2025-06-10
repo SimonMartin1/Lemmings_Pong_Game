@@ -4,6 +4,7 @@ import com.entropyinteractive.Mouse;
 import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.games.Pong_game.Model.Track;
 import Proyecto.games.Pong_game.Pong;
+import Proyecto.games.Pong_game.View.BallSkins;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 public class SettingController{
         private int keyToSet;
@@ -54,13 +55,11 @@ public class SettingController{
             game.setPitchSkin(nextPitchSkin);
         }else if(view.isBallSkinClicked(m)){
             int nextBallskin;
-            switch (game.getBallSkin()) {
-                case NORMAL -> nextBallskin = 2;
-                case CRAZY -> nextBallskin = 3;
-                case TENNIS -> nextBallskin = 4;
-                case FOOTBALL -> nextBallskin = 5;
-                case BASKET -> nextBallskin = 1;
-                default -> nextBallskin = 1;
+            if (game.getBallSkin()==BallSkins.NORMAL) {
+                nextBallskin = 2;
+            }
+            else{
+                nextBallskin = 1;
             }
             game.setBallSkin(nextBallskin);
         }else if(view.isChangeKeysClicked(m)){
@@ -99,6 +98,9 @@ public class SettingController{
         if(view.isSaveClicked(m)){
             game.saveSettings();
             game.setIsinsettings();
+            if(!game.getmusicOFF()){
+                game.playTrack(game.getTrack());
+            }
         }else if (view.isResetClicked(m)) {
             game.resetSettings();
             view.setDraw("Reset");
@@ -121,12 +123,9 @@ public class SettingController{
             }
             game.setTwoPlayers(game.backupSettings.twoPlayers);
             switch(game.backupSettings.ballSkin){
-                case NORMAL -> {game.setBallSkin(0);}
-                case CRAZY -> {game.setBallSkin(1);}
-                case FOOTBALL -> {game.setBallSkin(2);}
-                case BASKET -> {game.setBallSkin(3);}
-                case TENNIS -> {game.setBallSkin(4);}
-                
+                default -> {game.setBallSkin(1);}
+                case NORMAL -> {game.setBallSkin(1);}
+                case CRAZY -> {game.setBallSkin(2);}
             }
             switch(game.backupSettings.pitchSkin){
                 case BLACK -> {game.setPitchSkin(1);}
