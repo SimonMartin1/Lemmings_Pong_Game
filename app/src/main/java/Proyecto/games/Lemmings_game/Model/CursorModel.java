@@ -1,13 +1,13 @@
 package Proyecto.games.Lemmings_game.Model;
 
-import Proyecto.games.Lemmings_game.Utils.AbilityInterface;
+import Proyecto.games.Lemmings_game.Utils.AbilityClass;
 import com.entropyinteractive.Mouse;
 
 import java.util.List;
 
 public class CursorModel {
     private List<LemmingModel> currentLemmings;
-    private AbilityInterface currentSelectedAbility;
+    private AbilityClass currentSelectedAbility;
     private Ability currentAbility;
     private Stock stock;
     private Mouse mouse;

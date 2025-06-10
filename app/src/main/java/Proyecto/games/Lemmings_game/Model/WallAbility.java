@@ -1,12 +1,14 @@
 package Proyecto.games.Lemmings_game.Model;
 
-import Proyecto.games.Lemmings_game.Utils.AbilityInterface;
+import Proyecto.games.Lemmings_game.Utils.AbilityClass;
 
 import java.awt.Color;
 
-public class WallAbility implements AbilityInterface {
+public class WallAbility extends AbilityClass {
 
-    private final Ability name = Ability.STOP;
+    public WallAbility(){
+        super(Ability.STOP);
+    }
 
     @Override
     public void apply(LemmingModel lemming, double delta) {
@@ -25,8 +27,4 @@ public class WallAbility implements AbilityInterface {
         lemming.getMap().getMapTiles()[tileY - 4][tileX].setTileColor(Color.GREEN);
     }
 
-    @Override
-    public Ability getName() {
-        return name;
-    }
 }
