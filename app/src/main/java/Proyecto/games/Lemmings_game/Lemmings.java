@@ -35,9 +35,9 @@ public class Lemmings extends JGame {
     private List<LevelView> levelViews = new ArrayList<>();
     private List<LevelController> levelControllers = new ArrayList<>();
 
-    private static boolean fullScreen = true;
-    private int screenWidth = 1366;
-    private int screenHeight = 768;
+    private static boolean fullScreen = false;
+    private int screenWidth = 800;
+    private int screenHeight = 600;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -90,19 +90,22 @@ public class Lemmings extends JGame {
         Stock stockLevelOne = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 5,
                 Ability.CLIMB, 0,
-                Ability.STOP, 1
+                Ability.STOP, 1,
+                Ability.UMBRELLA, 0
         )));
 
         Stock stockLevelTwo = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 0,
                 Ability.CLIMB, 0,
-                Ability.STOP, 5
+                Ability.STOP, 5,
+                Ability.UMBRELLA, 0
         )));
 
         Stock stockLevelThree = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 0,
                 Ability.CLIMB, 5,
-                Ability.STOP, 2
+                Ability.STOP, 2,
+                Ability.UMBRELLA, 3
         )));
 
 
