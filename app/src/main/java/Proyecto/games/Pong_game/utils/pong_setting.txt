@@ -1,8 +1,8 @@
 musicOff=true
-track=TRACK1
-difficult=EASY
+track=TRACK2
+difficult=HARD
 maxPoints=5
 twoPlayers=false
-ballSkin=FOOTBALL
+ballSkin=NORMAL
 pitchSkin=BLUE
 fullScreen=false

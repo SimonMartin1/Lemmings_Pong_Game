@@ -65,12 +65,12 @@ public class SettingController {
             game.setBallSkin(nextBallskin);
         }else if(view.isChangeKeysClicked(m)){
             view.setkeys=true;
-        }else if(view.isCancelSetKeysClicked(m)){
-            view.setkeys=false;
-        }
+        }else 
+        // if(view.isCancelSetKeysClicked(m)){
+        //     view.setkeys=false;
+        // }
         
         if (view.isTrackNameClicked(m)) {
-                System.out.println("botn mapeado");
             if (view.getDrawTrack()) {
                 int nextTrack = 1;
                 if (game.getTrack() == Track.TRACK1) {
@@ -79,7 +79,6 @@ public class SettingController {
                     nextTrack = 3;
                 }
                 game.setTrack(nextTrack);
-                view.setDraw("nextTrack");
             } else {
                 view.setDraw("Track");
                 game.setMusicOFF(false);
