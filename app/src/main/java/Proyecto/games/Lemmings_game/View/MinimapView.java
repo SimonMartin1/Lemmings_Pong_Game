@@ -14,18 +14,18 @@ public class MinimapView {
 
 
     public MinimapView(int baseX, int baseY, int baseWidth, int baseHeight, int level, int screenWidth, int screenHeight) {
-        // Resolución base (la que usaste para calcular 480, 480, 250, 100)
-        int baseScreenWidth = 1366;
-        int baseScreenHeight = 768;
-        baseScreenWidth = screenWidth;
-        baseScreenHeight = screenHeight;
+        // Resolución BASE de diseño
+        int baseScreenWidth = 800;
+        int baseScreenHeight = 600;
     
-        // Escalar proporcionalmente
-        this.x = baseX * screenWidth / baseScreenWidth;
-        this.y = baseY * screenHeight / baseScreenHeight;
+        // Escalamos desde la resolución base hacia la actual
         this.width = baseWidth * screenWidth / baseScreenWidth;
         this.height = baseHeight * screenHeight / baseScreenHeight;
-    
+        
+        int margen = 20;
+        this.x = screenWidth - this.width - margen;
+        this.y = screenHeight - this.height - margen;
+        
         try {
             minimapImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
         } catch (IOException e) {
