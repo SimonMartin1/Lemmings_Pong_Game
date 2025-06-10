@@ -19,6 +19,7 @@ public class LevelView {
     private Buttons buttonFly;
     private Buttons buttonAcelerate; 
     private Buttons buttonSlow;
+    private Buttons buttonNuke;
     private int camX;
     private int camY;
 
@@ -48,6 +49,7 @@ public class LevelView {
         float startY = 0.75f; // 450/600
         buttonAcelerate = new Buttons("+", 0.01f, startY, 0.1f, 0.1f);
         buttonSlow = new Buttons("-", 0.01f, 0.82f, 0.1f, 0.1f);
+        buttonNuke = new Buttons("Nuke", 0.01f, 0.89f, 0.1f, 0.1f);
         buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
         buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
         buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER), 0.31f, startY, buttonWidth, buttonHeight);
@@ -72,11 +74,11 @@ public class LevelView {
         mapView.draw(g);
         buttonAcelerate.drawExtraButton(g, "+", panelWidth, panelHeight);
         buttonSlow.drawExtraButton(g, "-", panelWidth, panelHeight);
+        buttonNuke.drawExtraButton(g, "Nuke", panelWidth, panelHeight);
         buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
         buttonStop.draw(g,"xd | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
         buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
         buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
-
         minimapView.drawMinimap(g);
 
         g.setColor(Color.WHITE);

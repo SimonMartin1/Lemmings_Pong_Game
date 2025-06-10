@@ -28,7 +28,7 @@ public class Lemmings extends JGame {
 
     ButtonController buttonController;
 
-    private int currentLevel = 0;
+    private int currentLevel = 1;
 
     private List<MapModel> mapModels  = new ArrayList<>();
     private List<MapView> mapViews = new ArrayList<>();
@@ -67,12 +67,12 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,1070,350,0, db);
-            MapModel secondLevelMapModel = new MapModel(2,650,350,0, db);
-            MapModel thirdLevelMapModel = new MapModel(3,650,350,0, db);
+            MapModel firstLevelMapModel = new MapModel(1,0, db, 690, 70);
+            MapModel secondLevelMapModel = new MapModel(2,0, db, 1100, 340);
+            MapModel thirdLevelMapModel = new MapModel(3,0, db, 1050, 260);    
 
             MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0, screenWidth, screenHeight);
-            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0, screenWidth, screenHeight);
+            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(400, 30), new ExitView(1100, 340), 0, 0, screenWidth, screenHeight);
             MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(410, 200), new ExitView(1050, 260), 430, 0, screenWidth, screenHeight);
 
             //Agrego los modelos
@@ -110,9 +110,9 @@ public class Lemmings extends JGame {
         )));
 
 
-        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging", mapModels.get(0).getExitModel());
-        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2", mapModels.get(1).getExitModel());
-        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 3, .8, 3, "Cap 3", mapModels.get(2).getExitModel());
+        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging", mapModels.get(0).getExit(), 690, 70);
+        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2",   mapModels.get(1).getExit(), 400, 30);
+        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 3, .8, 3, "Cap 3", mapModels.get(2).getExit(), 410, 200);
         levelModels.add(firstLevelModel);
         levelModels.add(secondLevelModel);
         levelModels.add(thirdLevelModel);

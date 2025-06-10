@@ -16,7 +16,7 @@ public class MapModel {
     private ScoreDatabase db;
 
 
-    public MapModel(int level, int exitX, int exitY, int cameraX, ScoreDatabase db) throws Exception {
+    public MapModel(int level,  int cameraX, ScoreDatabase db, int exitX, int exitY) throws Exception {
         BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
         this.cameraX = cameraX;
         int cantTilesY = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
@@ -44,9 +44,10 @@ public class MapModel {
         }
     }
     
-    public void addScore(String name){
+    /*public void addScore(String name){
         db.addScore(name, exit.getSavedLemmings()*10);
     }
+    */
     //ACA LE AGREGAMOS A LA BD 
     public int getLemmingsSaved(){
         return exit.savedLemmings;
@@ -90,7 +91,7 @@ public class MapModel {
         this.cameraY = y;
     }
 
-    public ExitModel getExitModel(){
+    /*public ExitModel getExitModel(){
         return exit;
-    }
+    }*/
 }
