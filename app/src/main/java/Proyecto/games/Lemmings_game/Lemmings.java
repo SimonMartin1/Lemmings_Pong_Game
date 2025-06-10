@@ -12,35 +12,42 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import com.entropyinteractive.JGame;
+
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
-import Proyecto.games.Lemmings_game.Model.*;
+import Proyecto.games.Lemmings_game.Model.LevelModel;
+import Proyecto.games.Lemmings_game.Model.MapModel;
+import Proyecto.games.Lemmings_game.Model.MinimapModel;
+import Proyecto.games.Lemmings_game.Model.Stock;
 import Proyecto.games.Lemmings_game.Utils.Ability;
-import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
-import Proyecto.games.Lemmings_game.View.*;
-import com.entropyinteractive.JGame;
+import Proyecto.games.Lemmings_game.View.ExitView;
+import Proyecto.games.Lemmings_game.View.GameMenuView;
+import Proyecto.games.Lemmings_game.View.LevelView;
+import Proyecto.games.Lemmings_game.View.MapView;
+import Proyecto.games.Lemmings_game.View.SpawnerView;
+import Proyecto.games.Lemmings_game.View.GameSettingsView;
 
 
 public class Lemmings extends JGame {
 
-    GameMenuView gameMenuView;
-    private Graphics2D g;
+    GameMenuView gameMenu;
 
     ButtonController buttonController;
 
     private int currentLevel = 0;
 
-    private List<MapModel> mapModels  = new ArrayList<>();
-    private List<MapView> mapViews = new ArrayList<>();
-    private List<LevelModel> levelModels = new ArrayList<>();
-    private List<LevelView> levelViews = new ArrayList<>();
-    private List<LevelController> levelControllers = new ArrayList<>();
-
-    private static boolean fullScreen = false;
-    private int screenWidth = 800;
-    private int screenHeight = 600;
-    private ScoreDatabase db = new ScoreDatabase("lemmings.db");
-    private boolean scoreAlreadySaved = false;
+    private final List<MapModel> mapModels  = new ArrayList<>();
+    private final List<MapView> mapViews = new ArrayList<>();
+    private final List<LevelModel> levelModels = new ArrayList<>();
+    private final List<LevelView> levelViews = new ArrayList<>();
+    private final List<LevelController> levelControllers = new ArrayList<>();
+    private GameSettingsView settingsView;
+    private final static boolean fullScreen = false;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
+    private final int screenWidth = getWidth();
+    private final int screenHeight = getHeight();
+    private final boolean scoreAlreadySaved = false;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -58,6 +65,12 @@ public class Lemmings extends JGame {
         
     }
 
+    public boolean getIsinsettings() {
+        return this.isInSettings;
+    }
+    public void setIsinsettings() {
+        this.isInSettings = !this.isInSettings;
+    }
 
     @Override
     public void gameStartup() {
@@ -67,9 +80,10 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,1070,350,0, db);
-            MapModel secondLevelMapModel = new MapModel(2,650,350,0, db);
-            MapModel thirdLevelMapModel = new MapModel(3,650,350,0, db);
+            settingsView = new GameSettingsView(this.screenWidth, this.screenHeight,this);
+            MapModel firstLevelMapModel = new MapModel(1,1070,350,0);
+            MapModel secondLevelMapModel = new MapModel(2,650,350,0);
+            MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
             MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0, screenWidth, screenHeight);
             MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0, screenWidth, screenHeight);
@@ -136,9 +150,6 @@ public class Lemmings extends JGame {
         levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
         levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
 
-
-
-
         //Agregamos el listener del mouse
         getFrame().addMouseListener(this.getMouse());
 
@@ -147,38 +158,33 @@ public class Lemmings extends JGame {
         this.getFrame().setIconImage(icon.getImage());
 
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
-        gameMenuView = new GameMenuView(getWidth(), getHeight());
+        gameMenu = new GameMenuView(getWidth(), getHeight(), this);
     }
 
     @Override
     public void gameUpdate(double delta) {
-        if (!gameMenuView.isStarting(getMouse()) && !gameMenuView.isStarting(getKeyboard())) {
-            gameMenuView.update(delta);
-        }else{
-            //aca lvl se updatea
-            buttonController.update();
-            levelControllers.get(currentLevel).update(delta);
+        
+        if(isInSettings){
+            //settingController = new SettingController(settingsView, settingsModel, getMouse(), this);
+        }
+
+        if(isInMenu){
+            gameMenu.update(delta);
+            if(gameMenu.detectSetting(getMouse())){ if(isInSettings){/*saveSettings();+/* */} isInSettings = true;  }
+            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ isInMenu = false; 
+                buttonController.update(); levelControllers.get(currentLevel).update(delta);}
         }
 
     }
     
     @Override
     public void gameDraw(Graphics2D g) {
-            this.g=g;
-
-            if(!gameMenuView.isStarting(getMouse()) && !gameMenuView.isStarting(getKeyboard())){
-                gameMenuView.draw(g);
+            if(isInMenu){
+            gameMenu.drawmenu(g);
+            if(isInSettings){
+                settingsView.drawmenu(g);
             }
-            else {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, getWidth(), getHeight());
-
-                //Aca segundo lvl
-                levelControllers.get(currentLevel).draw(g);
-
-
             }
-
     }
 
     @Override

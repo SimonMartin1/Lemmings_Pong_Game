@@ -1,28 +1,26 @@
 package Proyecto.games.Lemmings_game.Model;
 
-import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
-import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
-
 import java.awt.Color;
 import java.awt.image.BufferedImage;
+
 import javax.imageio.ImageIO;
+
+import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
 
 public class MapModel {
     TileModel[][] mapTiles;
     //private int cameraX = 0;
     private int cameraY = 0;
     private int cameraX;
-    private ExitModel exit;
-    private ScoreDatabase db;
+    private final ExitModel exit;
 
 
-    public MapModel(int level, int exitX, int exitY, int cameraX, ScoreDatabase db) throws Exception {
+    public MapModel(int level, int exitX, int exitY, int cameraX) throws Exception {
         BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
         this.cameraX = cameraX;
         int cantTilesY = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
         int cantTilesX = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
         mapTiles = new TileModel[cantTilesY][cantTilesX];
-        this.db = db; 
         this.exit = new ExitModel(exitX,exitY, this); //ACA A FUTURO LE PASAMOS LA SALIDA PARA QUE CAMBIE
 
         for (int y = 0; y < cantTilesY; y++) {
@@ -44,8 +42,8 @@ public class MapModel {
         }
     }
     
-    public void addScore(String name){
-        db.addScore(name, exit.getSavedLemmings()*10);
+    public int addScore(String name){
+        return(exit.getSavedLemmings()*10);
     }
     //ACA LE AGREGAMOS A LA BD 
     public int getLemmingsSaved(){
