@@ -1,4 +1,4 @@
-package Proyecto.games.Lemmings_game.Model;
+package Proyecto.games.Lemmings_game.Utils;
 
 public enum LemmingAnimationState {
     WALKING_RIGHT,
@@ -9,5 +9,7 @@ public enum LemmingAnimationState {
     CLIMBING_RIGHT,
     CLIMBING_LEFT,
     EXPLANTING_FALL,
+    UMBRELLA_RIGHT,
+    UMBRELLA_LEFT,
     IDLE
 }

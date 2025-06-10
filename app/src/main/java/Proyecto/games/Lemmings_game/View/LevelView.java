@@ -1,6 +1,6 @@
 package Proyecto.games.Lemmings_game.View;
 
-import Proyecto.games.Lemmings_game.Model.Ability;
+import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
 import Proyecto.games.Lemmings_game.Model.Stock;
 
@@ -21,8 +21,10 @@ public class LevelView {
     private int camX;
     private int camY;
 
-    int screenWidth = 1366;
-    int screenHeight = 768;
+    //int screenWidth = 1366;
+    //int screenHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
     
     // Estos son los valores fijos que usabas antes
     int baseX = 850;
@@ -30,11 +32,13 @@ public class LevelView {
     int baseWidth = 250;
     int baseHeight = 100;
 
-    public LevelView(LevelModel model, MapView mapView, Stock stock) {
+    public LevelView(LevelModel model, MapView mapView, Stock stock, int screenWidth, int screenHeight) {
         this.mapView = mapView;
         this.model = model;
         this.stock = stock;
 
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
 
         // Relativo a pantalla: x = porcentaje del ancho, y = porcentaje del alto
         // ancho = 100px de 768px ≈ 0.13 — alto = 150px de 600px ≈ 0.25
@@ -44,8 +48,8 @@ public class LevelView {
 
         buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
         buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
-        buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER), 0.31f, startY, buttonWidth, buttonHeight);
-        buttonFly = new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
+        buttonStop = new Buttons("Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), 0.31f, startY, buttonWidth, buttonHeight);
+        buttonFly = new Buttons("Escalar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
 
         // El minimapa queda igual si sigue con valores absolutos (o lo podés escalar también)
         minimapView = new MinimapView(baseX, baseY, baseWidth, baseHeight, model.getNumLevel(), screenWidth, screenHeight);
@@ -65,9 +69,9 @@ public class LevelView {
         mapView.draw(g);
     
         buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
-        buttonStop.draw(g,"xd | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
+        buttonStop.draw(g,"Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), panelWidth, panelHeight);
         buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
-        buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
+        buttonFly.draw(g, "Escalar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
 
         minimapView.drawMinimap(g);
     }
@@ -79,7 +83,7 @@ public class LevelView {
         if (model.isLevelWon()) {
             g.drawString("¡Nivel completado!", 200, 200);
         } else {
-            g.drawString("Perdiste 😢", 200, 200);
+            g.drawString("Perdiste", 200, 200);
         }
     }
 

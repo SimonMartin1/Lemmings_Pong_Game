@@ -1,36 +1,35 @@
 package Proyecto.games.Lemmings_game.Model;
 
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
-import Proyecto.games.Lemmings_game.Lemmings;
-import Proyecto.games.Lemmings_game.View.MapView;
-
-import javax.imageio.ImageIO;
+import Proyecto.games.Lemmings_game.Utils.Ability;
+import Proyecto.games.Lemmings_game.Utils.AbilityClass;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+import Proyecto.games.Lemmings_game.Utils.LemmingState;
 
 public class LemmingModel {
-    int id;
-    int x;
-    int y;
-    int vx;
-    int speed;
-    int currentTileX;
-    int currentTileY;
-    MapView firstLevelMapView;
+    private int id;
+    private int x;
+    private int y;
+    private int vx;
+    private int speed;
+    private int currentTileX;
+    private int currentTileY;
     MapModel firstLevelMapModel;
-    private AbilityModel currentAbility; // Nueva línea
+    private AbilityClass currentAbility; // Nueva línea
     boolean isWalkingToRight = true;
     boolean isStartingToWalk = false;
-    LemmingAnimationState currentState = LemmingAnimationState.WALKING_RIGHT;
+    LemmingAnimationState currentStateAnimation = LemmingAnimationState.WALKING_RIGHT;
     boolean isOnExit = false;
     boolean saved = false;
     LemmingState state = LemmingState.ALIVE;
     int camX = 0;
+
     //ventana
-    int offsetY = 0;
-    int offsetY2 = 0; 
+    int offsetY = 20;
+    int offsetY2 = 30;
+
     //pantalla completa
     //int offsetY = 0;
     //int offsetY2 = 0;
@@ -41,7 +40,7 @@ public class LemmingModel {
     int currentFrame = 0;
     int ticksPerFrame = 6;  // Ajustá esto para la velocidad
     int tickCounter = 0;
-    boolean finishedDeathAnimation = false;
+    boolean isFinishedDeathAnimation = false;
 
     public int getCamX(){ return this.camX; }
 
@@ -60,11 +59,11 @@ public class LemmingModel {
         this.firstLevelMapModel = firstLevelMapModel;
     }
 
-    public void setAbility(AbilityModel ability) {
+    public void setAbility(AbilityClass ability) {
         this.currentAbility = ability;
     }
 
-    public AbilityModel getCurrentAbility(){
+    public AbilityClass getCurrentAbility(){
         return currentAbility;
     }
 
@@ -74,10 +73,6 @@ public class LemmingModel {
 
     public MapModel getMap() {
         return firstLevelMapModel;
-    }
-
-    public MapView getView() {
-        return firstLevelMapView;
     }
 
     public int getX() {
@@ -97,7 +92,7 @@ public class LemmingModel {
     }
 
     public void setCurrentLeemingState(LemmingAnimationState currentState){
-        this.currentState = currentState;
+        this.currentStateAnimation = currentState;
     }
 
     public boolean hasAbility(){ return currentAbility != null;}
@@ -116,7 +111,7 @@ public class LemmingModel {
         else{
             if(shouldItFall()){
 
-                if(quantityTilesFalling - lastTileBeforeFalling > 20 && isStartingToWalk) isDead = true;
+                if(HeIsGoingToDie() && isStartingToWalk && !Ability.UMBRELLA.equals(currentAbility)) isDead = true;
 
 
                 fall();
@@ -136,7 +131,7 @@ public class LemmingModel {
     public void applyHability(double delta){
 
         switch (currentAbility.getName()){
-            case Ability.DIGGER -> currentState = LemmingAnimationState.DIGGING;
+            case Ability.DIGGER -> currentStateAnimation = LemmingAnimationState.DIGGING;
         }
 
         currentAbility.apply(this, delta);
@@ -165,7 +160,7 @@ public class LemmingModel {
         lastTileBeforeFalling = currentTileY;
 
         if(isDead) {
-            currentState = LemmingAnimationState.EXPLANTING_FALL;
+            currentStateAnimation = LemmingAnimationState.EXPLANTING_FALL;
 
             tickCounter++;
 
@@ -174,7 +169,7 @@ public class LemmingModel {
                 currentFrame++;
 
                 if (currentFrame >= 8) {  // Suponiendo que la animación de morir tiene 8 cuadros
-                    finishedDeathAnimation = true;
+                    isFinishedDeathAnimation = true;
                     state = LemmingState.DEAD;
                 }
             }
@@ -182,7 +177,7 @@ public class LemmingModel {
         }
         else {
             if (isWalkingToRight) {
-                currentState = LemmingAnimationState.WALKING_RIGHT;
+                currentStateAnimation = LemmingAnimationState.WALKING_RIGHT;
 
                 //subida
                 if (Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY - 1, currentTileX))) {
@@ -195,7 +190,7 @@ public class LemmingModel {
                     isWalkingToRight = false;
                 }
             } else {
-                currentState = LemmingAnimationState.WALKING_LEFT;
+                currentStateAnimation = LemmingAnimationState.WALKING_LEFT;
 
                 //subida
                 if (Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY - 1, currentTileX))) {
@@ -223,7 +218,7 @@ public class LemmingModel {
     public void fall(){
 
         if(Color.BLACK.equals(firstLevelMapModel.getMapTiles()[currentTileY + 4][currentTileX].getColor())){
-            currentState = LemmingAnimationState.FALLING;
+            currentStateAnimation = LemmingAnimationState.FALLING;
         }
 
         quantityTilesFalling = currentTileY;
@@ -259,9 +254,9 @@ public class LemmingModel {
     }
     
 
-    public void assignAbility(AbilityModel ability){
+    public void assignAbility(AbilityClass ability){
 
-        if(!currentState.equals(LemmingAnimationState.STOPING)){
+        if(!currentStateAnimation.equals(LemmingAnimationState.STOPING)){
             this.currentAbility = ability;
         }
     }
@@ -271,8 +266,8 @@ public class LemmingModel {
     }
 
 
-    public LemmingAnimationState getCurrentState(){
-        return currentState;
+    public LemmingAnimationState getCurrentStateAnimation(){
+        return currentStateAnimation;
     }
 
     public void setSpeed(int speed){
@@ -285,5 +280,9 @@ public class LemmingModel {
 
     public void setStateLemming(LemmingState state){
         this.state = state;
+    }
+
+    public boolean HeIsGoingToDie(){
+        return this.quantityTilesFalling - this.lastTileBeforeFalling > 20;
     }
 }

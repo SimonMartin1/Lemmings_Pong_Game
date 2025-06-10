@@ -1,24 +1,30 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.Ability;
+import Proyecto.games.Lemmings_game.Utils.AbilityClass;
 import com.entropyinteractive.Mouse;
 
 import java.util.List;
 
 public class CursorModel {
     private List<LemmingModel> currentLemmings;
-    private AbilityModel currentSelectedAbility;
+    private AbilityClass currentSelectedAbility;
     private Ability currentAbility;
     private Stock stock;
     private Mouse mouse;
     int camX;
     int camY;
-    private int panelWidth = 1366;
-    private int panelHeight = 768;
+    //private int panelWidth = 1366;
+    //private int panelHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
     boolean wasPressedLastFrame = false;
 
-    public CursorModel(Stock stock, Mouse mouse){
+    public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight){
         this.stock = stock;
         this.mouse = mouse;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public void update(){
@@ -28,8 +34,8 @@ public class CursorModel {
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
     
-        int windowWidth = panelWidth;
-        int windowHeight = panelHeight;
+        int windowWidth = screenWidth;
+        int windowHeight = screenHeight;
     
         float startY = 0.75f;
         float buttonHeight = 0.25f;
@@ -68,12 +74,12 @@ public class CursorModel {
                                 }
                                 break;
                             case 2:
-                                if (stock.hasAbility(Ability.DIGGER)) {
-                                    currentSelectedAbility = new DigAbility();
-                                    currentAbility = Ability.DIGGER;
+                                if (stock.hasAbility(Ability.UMBRELLA)) {
+                                    currentSelectedAbility = new UmbrellaAbility();
+                                    currentAbility = Ability.UMBRELLA;
                                     System.out.println("Habilidad Build guardada en el cursor");
                                 } else {
-                                    System.out.println("No hay stock de Build");
+                                    System.out.println("No hay stock de Umbrellas");
                                 }
                                 break;
                             case 3:

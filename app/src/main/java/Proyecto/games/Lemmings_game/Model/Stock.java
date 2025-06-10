@@ -1,6 +1,7 @@
 package Proyecto.games.Lemmings_game.Model;
 
-import java.util.HashMap;
+import Proyecto.games.Lemmings_game.Utils.Ability;
+
 import java.util.Map;
 
 public class Stock {
