@@ -10,12 +10,14 @@ import javax.imageio.ImageIO;
 
 public class MinimapView {
     int x, y, width, height;
-    BufferedImage minimapImage;
+    BufferedImage minimapImage; 
 
     public MinimapView(int baseX, int baseY, int baseWidth, int baseHeight, int level, int screenWidth, int screenHeight) {
         // Resolución base (la que usaste para calcular 480, 480, 250, 100)
         int baseScreenWidth = 1366;
         int baseScreenHeight = 768;
+        baseScreenWidth = screenWidth;
+        baseScreenHeight = screenHeight;
     
         // Escalar proporcionalmente
         this.x = baseX * screenWidth / baseScreenWidth;

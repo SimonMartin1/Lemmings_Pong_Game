@@ -17,8 +17,10 @@ public class LevelController {
     private LevelView levelView;
     private CursorModel cursorModel;
     private MinimapModel mapModel;
-    private int panelWidth = 1366;
-    private int panelHeight = 768;
+    //private int panelWidth = 1366;
+    //private int panelHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
     
     private MinimapModel minimapModel;
     private Mouse mouse;
@@ -32,7 +34,7 @@ public class LevelController {
     private java.util.List<LemmingView> lemmingViews = new java.util.ArrayList<LemmingView>();
 
 
-    public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel){
+    public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight){
         this.levelModel = lvlModel;
         this.levelView = lvlView;
         this.cursorModel = new CursorModel(lvlModel.getStock(), m);
@@ -48,6 +50,8 @@ public class LevelController {
         this.camY = camY;
         this.minimapModel = minimapModel;
         cursorModel.setCurrentLemmings(levelModel.getLemmings());
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public void update(double delta){
@@ -92,7 +96,7 @@ public class LevelController {
                 levelView.drawEndScreen(g);
             }
             else{
-                levelView.drawLevel(g ,panelWidth , panelHeight);
+                levelView.drawLevel(g ,screenWidth , screenHeight);
 
                 for (LemmingView view : lemmingViews) {
                     this.camX = levelView.getCamX();
