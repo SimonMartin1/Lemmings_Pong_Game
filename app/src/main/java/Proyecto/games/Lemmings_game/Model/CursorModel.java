@@ -14,13 +14,17 @@ public class CursorModel {
     private Mouse mouse;
     int camX;
     int camY;
-    private int panelWidth = 1366;
-    private int panelHeight = 768;
+    //private int panelWidth = 1366;
+    //private int panelHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
     boolean wasPressedLastFrame = false;
 
-    public CursorModel(Stock stock, Mouse mouse){
+    public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight){
         this.stock = stock;
         this.mouse = mouse;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public void update(){
@@ -30,8 +34,8 @@ public class CursorModel {
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
     
-        int windowWidth = panelWidth;
-        int windowHeight = panelHeight;
+        int windowWidth = screenWidth;
+        int windowHeight = screenHeight;
     
         float startY = 0.75f;
         float buttonHeight = 0.25f;

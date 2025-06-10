@@ -36,6 +36,8 @@ public class Lemmings extends JGame {
     private List<LevelController> levelControllers = new ArrayList<>();
 
     private static boolean fullScreen = true;
+    private int screenWidth = 1366;
+    private int screenHeight = 768;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -65,9 +67,9 @@ public class Lemmings extends JGame {
             MapModel secondLevelMapModel = new MapModel(2,650,350,0);
             MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
-            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0);
-            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0);
-            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(410, 200), new ExitView(1050, 260), 430, 0);
+            MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0, screenWidth, screenHeight);
+            MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0, screenWidth, screenHeight);
+            MapView thirdLevelMapView = new MapView(thirdLevelMapModel, new SpawnerView(410, 200), new ExitView(1050, 260), 430, 0, screenWidth, screenHeight);
 
             //Agrego los modelos
             mapModels.add(firstLevelMapModel);
@@ -111,9 +113,9 @@ public class Lemmings extends JGame {
         levelModels.add(secondLevelModel);
         levelModels.add(thirdLevelModel);
 
-        LevelView firstLevelView = new LevelView( levelModels.get(currentLevel), mapViews.get(currentLevel), stockLevelOne);
-        LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1), stockLevelTwo);
-        LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2), stockLevelThree);
+        LevelView firstLevelView = new LevelView( levelModels.get(currentLevel), mapViews.get(currentLevel), stockLevelOne, screenWidth, screenHeight);
+        LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1), stockLevelTwo, screenWidth, screenHeight);
+        LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2), stockLevelThree, screenWidth, screenHeight);
 
 
         levelViews.add(firstLevelView);
@@ -123,9 +125,9 @@ public class Lemmings extends JGame {
         //minimapmodel
         MinimapModel minimapModel = new MinimapModel(mapViews.get(currentLevel), levelViews.get(currentLevel), levelModels.get(currentLevel));
 
-        levelControllers.add(new LevelController(levelModels.get(currentLevel), levelViews.get(currentLevel), getKeyboard(), getMouse(), 0, 0, minimapModel));
-        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel));
-        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel));
+        levelControllers.add(new LevelController(levelModels.get(currentLevel), levelViews.get(currentLevel), getKeyboard(), getMouse(), 0, 0, minimapModel, screenWidth, screenHeight));
+        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
+        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
 
 
 
@@ -137,7 +139,7 @@ public class Lemmings extends JGame {
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
 
-        buttonController = new ButtonController(this.getMouse());
+        buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenuView = new GameMenuView(getWidth(), getHeight());
     }
 

@@ -11,25 +11,33 @@ public class BallController {
     private final ScoreManagerModel scoreManagerModel;
 
     private static  int LEFT_PADDLE_X_LIMIT = 10;
-    private static  int LEFT_GOAL_LIMIT = -100;
+    private static  int LEFT_GOAL_LIMIT;
     private static  int RIGHT_PADDLE_X_LIMIT = 775;
-    private static final int RIGHT_GOAL_LIMIT = 900;
+    private static  int RIGHT_GOAL_LIMIT;
     private static  int TOP_BOUNDARY = 30;
     private static  int BOTTOM_BOUNDARY = 570;
-    private static final int PADDLE_HEIGHT = 120;
+    private static  int PADDLE_HEIGHT = 120;
+    private int width,height;
 
-    public BallController(BallModel ballModel, PaddleModel paddleLeftModel, PaddleModel paddleRightModel, ScoreManagerModel scoreManagerModel) {
+    public BallController(BallModel ballModel, PaddleModel paddleLeftModel, PaddleModel paddleRightModel, ScoreManagerModel scoreManagerModel, int width, int height) {
+        this.width=width;
+        this.height=height;
         this.ballModel = ballModel;
         this.paddleLeftModel = paddleLeftModel;
         this.paddleRightModel = paddleRightModel;
         this.scoreManagerModel = scoreManagerModel;
+        RIGHT_GOAL_LIMIT=width+100;
+        LEFT_GOAL_LIMIT=-100;
     }
 
     public void updateSize(int width, int height){
-        TOP_BOUNDARY=height;
-        BOTTOM_BOUNDARY=0;
+        this.width=width;
+        this.height=height;
+        TOP_BOUNDARY=height-60;
+        BOTTOM_BOUNDARY=60;
         LEFT_PADDLE_X_LIMIT=60;
         RIGHT_PADDLE_X_LIMIT=width-90;
+        RIGHT_GOAL_LIMIT=width-100;
     }
     public void update() {
         ballModel.move();
@@ -59,7 +67,7 @@ public class BallController {
 
     private void handleRightPaddleCollision() {
 
-        if(ballModel.getPosX() > 795){
+        if(ballModel.getPosX() > width-5){
             handleLeftGoal();
         }
         else if (ballModel.getDirX() > 0 && ballModel.getPosX() + 15 >= RIGHT_PADDLE_X_LIMIT) {
@@ -74,7 +82,7 @@ public class BallController {
     }
 
     private void handleLeftGoal() {
-        if (ballModel.getPosX() <= LEFT_GOAL_LIMIT + 40) {
+        if (ballModel.getPosX() <= LEFT_GOAL_LIMIT) {
             ballModel.reset();
             paddleLeftModel.reset();
             paddleRightModel.reset();
@@ -95,7 +103,7 @@ public class BallController {
     }
 
     private void handleRightGoal() {
-        if (ballModel.getPosX() >= RIGHT_GOAL_LIMIT - 40) {
+        if (ballModel.getPosX() >= RIGHT_GOAL_LIMIT) {
             ballModel.reset();
             paddleLeftModel.reset();
             paddleRightModel.reset();
@@ -104,7 +112,7 @@ public class BallController {
     }
 
     private boolean isCollidingWithPaddle(double ballY, double paddleY) {
-        double ballRadiusY = 15; // Radio vertical de la pelota
+        double ballRadiusY = 15; 
         return ballY + ballRadiusY >= paddleY && ballY - ballRadiusY <= paddleY + PADDLE_HEIGHT;
     }
 }

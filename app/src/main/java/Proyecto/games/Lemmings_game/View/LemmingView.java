@@ -84,7 +84,6 @@ public class LemmingView {
 
         animations.put(LemmingAnimationState.EXPLANTING_FALL, sliceFrames(explFallSprites, 29, 20, 8, 0));
 
-        // Mapear longitud de frames
         frameLengths.put(LemmingAnimationState.WALKING_RIGHT, 8);
         frameLengths.put(LemmingAnimationState.WALKING_LEFT, 8);
         frameLengths.put(LemmingAnimationState.FALLING, 4);

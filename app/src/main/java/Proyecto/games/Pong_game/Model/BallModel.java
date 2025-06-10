@@ -25,9 +25,10 @@ public class BallModel {
             return Math.toRadians(135 + rand.nextDouble() * 90); // de 135 a 225
         }
     }
-            public void updateSize(int width, int height){
-        RESET_POS_X=width;
-        RESET_POS_Y=height;
+    
+    public void updateSize(int width, int height){
+        RESET_POS_X=width/2;
+        RESET_POS_Y=height/2;
     }
 
     public BallModel(double startX, double startY, double speed) {
