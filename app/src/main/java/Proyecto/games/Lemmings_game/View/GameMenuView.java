@@ -17,7 +17,7 @@ public class GameMenuView {
     private final int height;
     private boolean animation;
     private double blinkTime;
-    private boolean showPressText = true;
+    private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
     private final Lemmings game;
 
@@ -82,7 +82,9 @@ public class GameMenuView {
         int mx = m.getX();
         int my = m.getY();
         int bx = width - 250, by = height-110, bw = 150, bh = 80;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
+        boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
+        prevMousePressed = m.isLeftButtonPressed();
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && justPressed;
     }
 
 }

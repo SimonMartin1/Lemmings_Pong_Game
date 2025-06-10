@@ -87,9 +87,9 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,0, db, 690, 70);
-            MapModel secondLevelMapModel = new MapModel(2,0, db, 1100, 340);
-            MapModel thirdLevelMapModel = new MapModel(3,0, db, 1050, 260);    
+            MapModel firstLevelMapModel = new MapModel(1,0, 690, 70);
+            MapModel secondLevelMapModel = new MapModel(2,0, 1100, 340);
+            MapModel thirdLevelMapModel = new MapModel(3,0, 1050, 260);    
 
 
             MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0, screenWidth, screenHeight);
@@ -187,7 +187,7 @@ public class Lemmings extends JGame {
                 isInMenu = false; 
                 levelControllers.get(0).setStarting(true);
                 levelControllers.get(0).update(delta);
-                buttonController.update(); 
+                //buttonController.update(); 
                 
             }
         }
