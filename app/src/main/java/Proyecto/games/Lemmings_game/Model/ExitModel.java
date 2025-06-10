@@ -2,6 +2,8 @@ package Proyecto.games.Lemmings_game.Model;
 
 import Proyecto.games.Lemmings_game.Utils.LemmingState;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Rectangle;
 
 public class ExitModel {
@@ -28,6 +30,11 @@ public class ExitModel {
 
     public int getY() {
         return y;
+    }
+
+    public void drawTest(Graphics g ){
+        g.setColor(Color.RED);
+        g.drawRect(x- mapModel.getCameraX(), y, width, height);
     }
 
     public boolean checkLemming(LemmingModel lemming){

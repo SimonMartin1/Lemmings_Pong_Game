@@ -50,7 +50,7 @@ public class Lemmings extends JGame {
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
     private final boolean scoreAlreadySaved = false;
-
+    private final List<MinimapModel> minimapModels = new ArrayList<>();
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -60,7 +60,7 @@ public class Lemmings extends JGame {
             Lemmings game = new Lemmings("Lemmings", 800, 600);
             game.run(1.0 / 60.0); // 60 FPS
         }else{
-            Lemmings game = new Lemmings("Lemmings", 1280, 1000);
+            Lemmings game = new Lemmings("Lemmings", 1366, 768);
             game.run(1.0 / 60.0); // 60 FPS
         }
 
@@ -89,7 +89,7 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,0, db, 690, 70);
+            MapModel firstLevelMapModel = new MapModel(1,0, db, 100, 100);
             MapModel secondLevelMapModel = new MapModel(2,0, db, 1100, 340);
             MapModel thirdLevelMapModel = new MapModel(3,0, db, 1050, 260);    
 
@@ -136,14 +136,16 @@ public class Lemmings extends JGame {
         )));
 
 
+
         LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging", mapModels.get(0).getExit(), 600, 100);
+
         LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2",   mapModels.get(1).getExit(), 400, 30);
         LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 3, .8, 3, "Cap 3", mapModels.get(2).getExit(), 410, 200);
         levelModels.add(firstLevelModel);
         levelModels.add(secondLevelModel);
         levelModels.add(thirdLevelModel);
 
-        LevelView firstLevelView = new LevelView( levelModels.get(currentLevel), mapViews.get(currentLevel), stockLevelOne, screenWidth, screenHeight);
+        LevelView firstLevelView = new LevelView( levelModels.get(0), mapViews.get(0), stockLevelOne, screenWidth, screenHeight);
         LevelView secondLevelView = new LevelView( levelModels.get(1), mapViews.get(1), stockLevelTwo, screenWidth, screenHeight);
         LevelView thirdLevelView = new LevelView( levelModels.get(2), mapViews.get(2), stockLevelThree, screenWidth, screenHeight);
 
@@ -153,11 +155,18 @@ public class Lemmings extends JGame {
         levelViews.add(thirdLevelView);
 
         //minimapmodel
-        MinimapModel minimapModel = new MinimapModel(mapViews.get(currentLevel), levelViews.get(currentLevel), levelModels.get(currentLevel));
+        MinimapModel minimapModelOne = new MinimapModel(mapViews.get(0), levelViews.get(0), levelModels.get(0));
+        MinimapModel minimapModelTwo = new MinimapModel(mapViews.get(1), levelViews.get(1), levelModels.get(1));
+        MinimapModel minimapModelThree = new MinimapModel(mapViews.get(2), levelViews.get(2), levelModels.get(2));
 
-        levelControllers.add(new LevelController(levelModels.get(currentLevel), levelViews.get(currentLevel), getKeyboard(), getMouse(), 0, 0, minimapModel, screenWidth, screenHeight));
-        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
-        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0, minimapModel, screenWidth, screenHeight));
+
+        minimapModels.add(minimapModelOne);
+        minimapModels.add(minimapModelTwo);
+        minimapModels.add(minimapModelThree);
+
+        levelControllers.add(new LevelController(levelModels.get(0), levelViews.get(0), getKeyboard(), getMouse(), 0, 0, minimapModels.get(0), screenWidth, screenHeight));
+        levelControllers.add(new LevelController(levelModels.get(1), levelViews.get(1), getKeyboard(), getMouse(), 430, 0,  minimapModels.get(1), screenWidth, screenHeight));
+        levelControllers.add(new LevelController(levelModels.get(2), levelViews.get(2), getKeyboard(), getMouse(), 430, 0,  minimapModels.get(2), screenWidth, screenHeight));
 
         //Agregamos el listener del mouse
         getFrame().addMouseListener(this.getMouse());
@@ -174,14 +183,19 @@ public class Lemmings extends JGame {
     public void gameUpdate(double delta) {
         if (!gameMenu.detectPlay(getMouse()) && !gameMenu.detectPlay(getKeyboard())) {
             gameMenu.update(delta);
-        }else{
-            //aca lvl se updatea
+        } else {
             buttonController.update();
             levelControllers.get(currentLevel).update(delta);
-
+    
+            // Chequeo si se completó el nivel
+            if (levelModels.get(currentLevel).isLevelFinished()) {
+                avanzarDeNivel();
+            }
         }
-
     }
+
+    
+    
 
     @Override
     public void gameDraw(Graphics2D g) {
@@ -195,6 +209,7 @@ public class Lemmings extends JGame {
 
             //Aca segundo lvl
             levelControllers.get(currentLevel).draw(g);
+
 
 
         }
@@ -216,6 +231,16 @@ public class Lemmings extends JGame {
         gd.setFullScreenWindow(frame); // ¡Pantalla completa real!
     
         frame.setVisible(true);
+    }
+    private void avanzarDeNivel() {
+        if (currentLevel < levelModels.size() - 1) {
+            currentLevel++;
+            System.out.println("¡Pasaste al nivel " + (currentLevel + 1) + "!");
+        } else {
+            System.out.println("¡Felicitaciones! Completaste todos los niveles.");
+            // Podés reiniciar o mostrar un mensaje de fin de juego
+            // gameMenuView.reset(); o lo que necesites
+        }
     }
     
     }
