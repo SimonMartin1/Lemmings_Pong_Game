@@ -6,6 +6,8 @@ import Proyecto.games.Lemmings_game.Model.LevelModel;
 import java.util.ArrayList;
 import java.util.List;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+import Proyecto.games.Lemmings_game.Utils.LemmingState;
 import Proyecto.games.Lemmings_game.View.*;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;

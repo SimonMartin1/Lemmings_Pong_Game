@@ -1,4 +1,4 @@
-musicOff=true
+musicOff=false
 track=TRACK1
 difficult=EASY
 maxPoints=5

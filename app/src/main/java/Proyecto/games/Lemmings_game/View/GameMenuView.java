@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
@@ -29,11 +28,12 @@ public class GameMenuView {
     }
 
     public void drawmenu(Graphics2D g) {
+
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
             g.drawImage(background, 0, 0, width, height,null);
             
             Image lemmings = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_title.png").getImage();
-            g.drawImage(lemmings,width/2-290 , 125, width/2+200, 160,null);
+            g.drawImage(lemmings,width/2-width/4-90 , 125, width/2+200, height/4,null);
 
             Image lemmings_button = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_button.png").getImage();
             g.drawImage(lemmings_button,width/2-50 , height/2-40, 120, 120,null);
@@ -41,6 +41,7 @@ public class GameMenuView {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 28));
             g.drawString("Settings", width-250 , height-60);
+            g.drawString("Score", 250 , height-60);
 
         if (!animation && showPressText) {
             g.setColor(Color.WHITE);
@@ -58,23 +59,24 @@ public class GameMenuView {
     }
 
     public boolean detectPlay(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2, by = height/2, bw = 150, bh = 60;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
+        if (m.isLeftButtonPressed()) {
+            int mx = m.getX();
+            int my = m.getY();
+            int bx = width/2 - 100, by = 300, bw = 200, bh = 60;
+            if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
+                animation = true;
+            }
+        }
+
+        return animation;
     }
 
     public boolean detectPlay(Keyboard k){
-        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_ENTER);
-
-        if (prevPausePressed == null) {
-            prevPausePressed = currentPressed;
-            return false;
+        if (k.isKeyPressed(10)) {
+            animation = true;
         }
 
-        boolean justPressed = currentPressed && !prevPausePressed;
-        prevPausePressed = currentPressed;
-        return justPressed;
+        return animation;
     }
 
 
@@ -82,9 +84,7 @@ public class GameMenuView {
         int mx = m.getX();
         int my = m.getY();
         int bx = width - 250, by = height-110, bw = 150, bh = 80;
-        boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-        prevMousePressed = m.isLeftButtonPressed();
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && justPressed;
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
 
 }

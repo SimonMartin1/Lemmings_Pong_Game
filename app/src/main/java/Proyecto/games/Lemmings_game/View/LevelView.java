@@ -61,6 +61,7 @@ public class LevelView {
 
 
     public void drawPreLevelScreen(Graphics2D g) {
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Nivel: " + model.getLevelName(), 100, 100);
@@ -91,6 +92,7 @@ public class LevelView {
     }
     
     public void drawEndScreen(Graphics2D g) {
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 32));
 

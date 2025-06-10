@@ -11,5 +11,6 @@ public enum LemmingAnimationState {
     EXPLANTING_FALL,
     UMBRELLA_RIGHT,
     UMBRELLA_LEFT,
+    NUKE,
     IDLE
 }

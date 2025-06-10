@@ -234,11 +234,9 @@ public class LemmingModel {
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
     
         double clickXCam = clickX + camX;
-
-    
         boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - offsetY && clickY <= maxClickableY - offsetY2;
-    
+
         return clickedX && clickedY;
     }
     
@@ -267,7 +265,7 @@ public class LemmingModel {
     }
 
     public boolean isActive() {
-        return state == LemmingState.ALIVE;
+        return state == LemmingState.ALIVE || state == LemmingState.WAITING;
     }
 
     public void setStateLemming(LemmingState state){
@@ -277,4 +275,8 @@ public class LemmingModel {
     public boolean HeIsGoingToDie(){
         return this.quantityTilesFalling - this.lastTileBeforeFalling > 20;
     }
+
+    public int getId(){ return id; }
+
+    public LemmingState getState(){ return state; }
 }
