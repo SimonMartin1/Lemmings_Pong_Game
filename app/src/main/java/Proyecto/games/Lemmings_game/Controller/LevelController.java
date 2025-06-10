@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 public class LevelController {
     private final LevelModel levelModel;
     private final LevelView levelView;
-    private final CursorModel cursorModel;
+    private CursorModel cursorModel;
     private MinimapModel mapModel;
     //private int panelWidth = 1366;
     //private int panelHeight = 768;
@@ -78,6 +78,11 @@ public class LevelController {
             }
         }
 
+        if(levelModel.isLevelFinished()){
+            if (keyboard.isKeyPressed(KeyEvent.VK_ENTER)) {
+                reset();
+            }
+        }
 
         levelModel.update(delta);
         cursorModel.setCamX(levelView.getCamX());
@@ -129,6 +134,16 @@ public class LevelController {
             LemmingModel newModel = lemmingModels.get(lemmingViews.size());
             lemmingViews.add(new LemmingView(newModel));
         }
+    }
+
+
+    public void reset(){
+
+        levelModel.reset();
+        levelView.reset();
+
+        this.cursorModel = new CursorModel(levelModel.getStock(), mouse, screenWidth, screenHeight);
+        cursorModel.setCurrentLemmings(levelModel.getLemmings());
     }
 
 }
