@@ -45,7 +45,7 @@ public class Lemmings extends JGame {
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
-    private final static boolean fullScreen = true;
+    private final static boolean fullScreen = false;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
@@ -210,7 +210,34 @@ public class Lemmings extends JGame {
 
             //Aca segundo lvl
             levelControllers.get(currentLevel).draw(g);
-            mapModels.get(0).getExit().drawTest(g);
+
+            int windowWidth = screenWidth;
+            int windowHeight = screenHeight;
+            int extraMargin = 10;
+            float startY = 0.75f;
+            float buttonHeight = 0.13f;
+            float buttonWidth = 0.10f;
+            float espacio = 0.03f;
+            float startX = 0.01f;
+            int offsetX = (int)(0.59f * windowWidth);
+            
+            float extraRelWidth = buttonWidth * 0.5f;
+            float extraRelHeight = buttonHeight * 0.4f;
+            
+            float slowRelX = startX;         // 0.01f
+            float slowRelY = 0.83f;          // según lo que pusiste antes para slow
+            int slowAbsX = (int)(slowRelX * windowWidth) + offsetX;
+            int slowAbsY = (int)(slowRelY * windowHeight);
+            int slowAbsW = (int)(extraRelWidth * windowWidth);
+            int slowAbsH = (int)(extraRelHeight * windowHeight);
+            g.setColor(Color.RED);  // o cualquier color que te sirva para ver bien
+            g.drawRect(
+                slowAbsX - extraMargin,
+                slowAbsY - extraMargin,
+                slowAbsW + 2 * extraMargin,
+                slowAbsH + 2 * extraMargin
+            ); 
+            
 
 
         }

@@ -65,8 +65,9 @@ public class LevelController {
 
 
         if(mouse.isLeftButtonPressed()){
-            if(mouse.getX() <= 730 && mouse.getX() >= 480 && mouse.getY() >= 480 && mouse.getY() <= 580){
+            if(mouse.getX() <= 770 && mouse.getX() >= 520 && mouse.getY() >= 480 && mouse.getY() <= 580){
                 minimapModel.handleClick(mouse.getX(), mouse.getY());
+                System.out.println("MASTANTUONOOOO");
             }
         }
 
