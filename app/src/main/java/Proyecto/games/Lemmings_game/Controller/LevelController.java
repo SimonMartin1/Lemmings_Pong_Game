@@ -3,11 +3,8 @@ package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
-<<<<<<< HEAD
-=======
 import java.util.ArrayList;
 import java.util.List;
->>>>>>> 1226880b01c9ed482dce9cc6917533fc088038c3
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
 import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Utils.LemmingState;
