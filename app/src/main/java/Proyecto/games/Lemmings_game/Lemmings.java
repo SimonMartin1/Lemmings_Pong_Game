@@ -30,17 +30,16 @@ public class Lemmings extends JGame {
 
     private int currentLevel = 0;
 
-    private List<MapModel> mapModels  = new ArrayList<>();
-    private List<MapView> mapViews = new ArrayList<>();
-    private List<LevelModel> levelModels = new ArrayList<>();
-    private List<LevelView> levelViews = new ArrayList<>();
-    private List<LevelController> levelControllers = new ArrayList<>();
+    private final List<MapModel> mapModels  = new ArrayList<>();
+    private final List<MapView> mapViews = new ArrayList<>();
+    private final List<LevelModel> levelModels = new ArrayList<>();
+    private final List<LevelView> levelViews = new ArrayList<>();
+    private final List<LevelController> levelControllers = new ArrayList<>();
 
-    private static boolean fullScreen = false;
-    private int screenWidth = 800;
-    private int screenHeight = 600;
-    private ScoreDatabase db = new ScoreDatabase("lemmings.db");
-    private boolean scoreAlreadySaved = false;
+    private final static boolean fullScreen = false;
+    private final int screenWidth = 800;
+    private final int screenHeight = 600;
+    private final boolean scoreAlreadySaved = false;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -67,9 +66,9 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,1070,350,0, db);
-            MapModel secondLevelMapModel = new MapModel(2,650,350,0, db);
-            MapModel thirdLevelMapModel = new MapModel(3,650,350,0, db);
+            MapModel firstLevelMapModel = new MapModel(1,1070,350,0);
+            MapModel secondLevelMapModel = new MapModel(2,650,350,0);
+            MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
 
             MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0, screenWidth, screenHeight);
             MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0, screenWidth, screenHeight);
