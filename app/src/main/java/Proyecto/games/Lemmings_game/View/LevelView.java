@@ -21,8 +21,10 @@ public class LevelView {
     private int camX;
     private int camY;
 
-    int screenWidth = 1366;
-    int screenHeight = 768;
+    //int screenWidth = 1366;
+    //int screenHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
     
     // Estos son los valores fijos que usabas antes
     int baseX = 850;
@@ -30,11 +32,12 @@ public class LevelView {
     int baseWidth = 250;
     int baseHeight = 100;
 
-    public LevelView(LevelModel model, MapView mapView, Stock stock) {
+    public LevelView(LevelModel model, MapView mapView, Stock stock, int screenWidth, int screenHeight) {
         this.mapView = mapView;
         this.model = model;
         this.stock = stock;
-
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
 
         // Relativo a pantalla: x = porcentaje del ancho, y = porcentaje del alto
         // ancho = 100px de 768px ≈ 0.13 — alto = 150px de 600px ≈ 0.25

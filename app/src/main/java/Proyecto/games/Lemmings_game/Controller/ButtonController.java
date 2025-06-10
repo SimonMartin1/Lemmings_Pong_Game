@@ -11,12 +11,16 @@ public class ButtonController {
     private ButtonModel buttonModel;
     private MinimapModel minimapModel;
     boolean wasPressedLastFrame = false;
-    private int panelWidth = 1366;
-    private int panelHeight = 768;
+    //private int screenWidth = 1366;
+    //private int screenHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
 
 
-    public ButtonController(Mouse mouse){
+    public ButtonController(Mouse mouse, int screenWidth, int screenHeight){
         this.mouse = mouse;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public void update(){
@@ -30,8 +34,8 @@ public class ButtonController {
     public void checkClick(int x, int y) {
         boolean isPressed = mouse.isLeftButtonPressed();
     
-        int windowWidth = panelWidth;
-        int windowHeight = panelHeight;
+        int windowWidth = screenWidth;
+        int windowHeight = screenHeight;
     
         // Valores relativos
         float startY = 0.75f;

@@ -14,15 +14,19 @@ public class MapView {
     private int camY;
     private SpawnerView spawnerView;
     private ExitView exitView;
-    private int mapWidth = 1366;
-    private int mapHeight = 768;
+    //private int mapWidth = 1366;
+    //private int mapHeight = 768;
+    private int screenWidth;
+    private int screenHeight;
 
-    public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView, int camX, int camY) {
+    public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView, int camX, int camY, int screenWidth, int screenHeight) {
         this.camX = camX;
         this.camY = camY;
         this.model = model;
         this.spawnerView = spawnerView;
         this.exitView = exitView;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
     }
 
     public void draw(Graphics g) {
@@ -34,8 +38,8 @@ public class MapView {
         //g.fillRect(0, 0, mapWidth, mapHeight);
         int startX = camX / LemmingConstants.TILE_WIDTH;
         int startY = camY / LemmingConstants.TILE_HEIGHT;
-        int endX = (camX + mapWidth) / LemmingConstants.TILE_WIDTH + 1;
-        int endY = (camY + mapHeight) / LemmingConstants.TILE_HEIGHT + 1;
+        int endX = (camX + screenWidth) / LemmingConstants.TILE_WIDTH + 1;
+        int endY = (camY + screenHeight) / LemmingConstants.TILE_HEIGHT + 1;
     
         for (int y = startY; y < endY && y < tiles.length; y++) {
             for (int x = startX; x < endX && x < tiles[0].length; x++) {
