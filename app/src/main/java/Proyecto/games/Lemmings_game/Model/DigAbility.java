@@ -1,8 +1,10 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.AbilityInterface;
+
 import java.awt.Color;
 
-public class DigAbility implements AbilityModel {
+public class DigAbility implements AbilityInterface {
 
     private final Ability name = Ability.DIGGER;
 

@@ -1,13 +1,17 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.AbilityInterface;
+
 import java.awt.*;
 
-public class ClimbAbility implements AbilityModel{
+public class ClimbAbility implements AbilityInterface {
+
+    private final Ability name = Ability.CLIMB;
     private boolean isClimbing = false;
 
     @Override
     public Ability getName() {
-        return Ability.CLIMB;
+        return name;
     }
 
     @Override

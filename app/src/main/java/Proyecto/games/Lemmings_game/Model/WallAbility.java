@@ -1,8 +1,10 @@
 package Proyecto.games.Lemmings_game.Model;
 
+import Proyecto.games.Lemmings_game.Utils.AbilityInterface;
+
 import java.awt.Color;
 
-public class WallAbility implements AbilityModel {
+public class WallAbility implements AbilityInterface {
 
     private final Ability name = Ability.STOP;
 

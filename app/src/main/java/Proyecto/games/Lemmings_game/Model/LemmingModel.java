@@ -3,6 +3,7 @@ package Proyecto.games.Lemmings_game.Model;
 import java.awt.Color;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+import Proyecto.games.Lemmings_game.Utils.AbilityInterface;
 
 public class LemmingModel {
     private int id;
@@ -13,7 +14,7 @@ public class LemmingModel {
     private int currentTileX;
     private int currentTileY;
     MapModel firstLevelMapModel;
-    private AbilityModel currentAbility; // Nueva línea
+    private AbilityInterface currentAbility; // Nueva línea
     boolean isWalkingToRight = true;
     boolean isStartingToWalk = false;
     LemmingAnimationState currentStateAnimation = LemmingAnimationState.WALKING_RIGHT;
@@ -53,11 +54,11 @@ public class LemmingModel {
         this.firstLevelMapModel = firstLevelMapModel;
     }
 
-    public void setAbility(AbilityModel ability) {
+    public void setAbility(AbilityInterface ability) {
         this.currentAbility = ability;
     }
 
-    public AbilityModel getCurrentAbility(){
+    public AbilityInterface getCurrentAbility(){
         return currentAbility;
     }
 
@@ -248,7 +249,7 @@ public class LemmingModel {
     }
     
 
-    public void assignAbility(AbilityModel ability){
+    public void assignAbility(AbilityInterface ability){
 
         if(!currentStateAnimation.equals(LemmingAnimationState.STOPING)){
             this.currentAbility = ability;
