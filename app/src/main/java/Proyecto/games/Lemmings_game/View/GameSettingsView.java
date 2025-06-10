@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game.View;
+package Proyecto.games.Lemmings_game.View;
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 
 import com.entropyinteractive.Mouse;
 
+import Proyecto.games.Lemmings_game.Lemmings;
 import Proyecto.games.Pong_game.Pong;
 
 
@@ -15,56 +16,56 @@ public class GameSettingsView {
     private int width;
     private int height;
     public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,getKey;
-    private final Pong game;
+    private final Lemmings game;
 
 
-    public GameSettingsView(int width, int height, Pong game) {
+    public GameSettingsView(int width, int height, Lemmings game) {
         this.width = width;
         this.height = height;
         this.game = game;
     }
-        public String getKeys(int option){
-            String res;
+        // public String getKeys(int option){
+        //     String res;
         
-        switch (option) {
-            default -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
-            case 1 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
-            case 2 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[1]);
-            case 3 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[0]);
-            case 4 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[1]);
-        }
-        return res;
-    }
+    //     switch (option) {
+    //         default -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
+    //         case 1 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
+    //         case 2 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[1]);
+    //         case 3 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[0]);
+    //         case 4 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[1]);
+    //     }
+    //     return res;
+    // }
 
-    public String getTrack(){
-        String res="";
+    // public String getTrack(){
+    //     String res="";
         
-        switch (game.getTrack()) {
-            case TRACK1 -> res = "Track 1";
-            case TRACK2 -> res = "Track 2";
-            case TRACK3 -> res = "Track 3";
-        }
-        return res;
-    }
-    public String getPitchSkin(){
-        String res="";
+    //     switch (game.getTrack()) {
+    //         case TRACK1 -> res = "Track 1";
+    //         case TRACK2 -> res = "Track 2";
+    //         case TRACK3 -> res = "Track 3";
+    //     }
+    //     return res;
+    // }
+    // public String getPitchSkin(){
+    //     String res="";
         
-        switch (game.getPitchSkin()) {
-            case BLACK -> res = "Black";
-            case BLUE -> res = "Blue";
-            case BASKET -> res = "Basket";
-        }
-        return res;
-    }
-        public String getBallSkin(){
-        String res="";
+    //     switch (game.getPitchSkin()) {
+    //         case BLACK -> res = "Black";
+    //         case BLUE -> res = "Blue";
+    //         case BASKET -> res = "Basket";
+    //     }
+    //     return res;
+    // }
+    //     public String getBallSkin(){
+    //     String res="";
         
-        switch (game.getBallSkin()) {
-            case NORMAL -> res = "Normal";
-            case CRAZY -> res = "Crazy";
-        }
-        return res;
-    }
+    //     switch (game.getBallSkin()) {
+    //         case NORMAL -> res = "Normal";
+    //         case CRAZY -> res = "Crazy";
+    //     }
+    //     return res;
+    // }
 
     public void activeButtons(Graphics2D g, int xtext, int ytext, String text ,int xfill,int yfill, int width, int height, int arcx, int arcy){
             g.setColor(Color.WHITE);
@@ -87,7 +88,7 @@ public class GameSettingsView {
         g.drawString("Settings", width/2-50 , 70);
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("Music", width/2-250 , 125);
-        g.drawString(getTrack(), width/2-120 , 125);
+        g.drawString("getTrack()", width/2-120 , 125);
         g.drawString("Off", width/2+20 , 125);
         g.drawString("1 Player", width/2-265 , 170);
         g.setColor(Color.WHITE);
@@ -102,14 +103,15 @@ public class GameSettingsView {
         g.drawString("10", width/2-60 , 260); 
         g.drawString("5", width/2 , 260);
         g.drawString("Pitch Skin", width/2-265 , 305);
-        g.drawString(getPitchSkin(), width/2-125 , 305);
+        g.drawString("getPitchSkin()", width/2-125 , 305);
         g.drawString("Ball Skin", width/2-265 , 350);
-        g.drawString(getBallSkin(), width/2-125 , 350);
+        g.drawString("getBallSkin()", width/2-125 , 350);
         g.drawString("Full Screen", width/2-265 , 395);
         g.drawString("On", width/2-120 , 395);
         g.drawString("Off", width/2-40 , 395);
         g.drawString("Keys", width/2-265 , 440);
-        g.drawString("Player1 Up: "+getKeys(1)+"  Down: "+getKeys(2), width/2-200 , 440);
+        g.drawString("Player1 Up: "+"  Down: ", width/2-200 , 440);
+        //g.drawString("Player1 Up: "+getKeys(1)+"  Down: "+getKeys(2), width/2-200 , 440);
         g.drawString("Change Keys", width/2+100 , 440);
         g.drawString("Save", width-325 , height-65);
         g.drawString("Cancel", width-245 , height-65);
@@ -128,7 +130,8 @@ public class GameSettingsView {
         if(drawTwoPlayers){
             activeButtons(g, width/2-120 , 215,"On", width/2-125, 195, 40, 30,20,20);
             g.setColor(Color.WHITE);
-            g.drawString("Player2 Up: "+getKeys(3)+"  Down: "+getKeys(4), width/2-200 , 485);
+            g.drawString("Player2 Up: "+"  Down: ", width/2-200 , 485);
+            //g.drawString("Player2 Up: "+getKeys(3)+"  Down: "+getKeys(4), width/2-200 , 485);
         }
         if(drawWin5){
         activeButtons(g, width/2, 260,"5", width/2-10, 240, 30, 30,10,10);

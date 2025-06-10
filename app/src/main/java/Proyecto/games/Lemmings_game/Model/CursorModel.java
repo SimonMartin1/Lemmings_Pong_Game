@@ -94,7 +94,43 @@ public class CursorModel {
                         }
                         break;
                     }
-                }
+                    
+                    int offsetX = (int)(0.59f * windowWidth);
+            
+                    float extraRelWidth = buttonWidth * 0.5f;
+                    float extraRelHeight = buttonHeight * 0.4f;
+                    // buttonAcelerate
+
+                    
+                    float acelRelX = startX;  
+                    float acelRelY = 0.72f;       
+                    int acelAbsX = (int)(acelRelX * windowWidth) + offsetX;
+                    int acelAbsY = (int)(acelRelY * windowHeight);
+                    int acelAbsW = (int)(extraRelWidth * windowWidth);
+                    int acelAbsH = (int)(extraRelHeight * windowHeight);
+            
+                    if (x >= acelAbsX && x <= acelAbsX + acelAbsW && y >= acelAbsY && y <= acelAbsY + acelAbsH    ) {
+                        for(LemmingModel lemming : currentLemmings){
+                            if(lemming.getSpeed() < 2){
+                            lemming.setSpeed(lemming.getSpeed() +1 );
+                        }
+                    }
+                    // buttonSlow
+                    float slowRelX = startX;         // 0.01f
+                    float slowRelY = 0.80f;          // según lo que pusiste antes para slow
+                    int slowAbsX = (int)(slowRelX * windowWidth) + offsetX;
+                    int slowAbsY = (int)(slowRelY * windowHeight);
+                    int slowAbsW = (int)(extraRelWidth * windowWidth);
+                    int slowAbsH = (int)(extraRelHeight * windowHeight);
+            
+                    if (x >= slowAbsX && x <= slowAbsX + slowAbsW && y >= slowAbsY - 8 && y <= slowAbsY + slowAbsH + 8	) {
+                        for(LemmingModel lemming : currentLemmings){
+                            if(lemming.getSpeed() > 0){
+                                lemming.setSpeed(lemming.getSpeed() - 1 );
+                            }
+                        }
+                    }
+                }}
             } else {
                 // Click en un lemming
                 for(LemmingModel lemming : currentLemmings){

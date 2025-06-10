@@ -1,5 +1,6 @@
 package Proyecto.games.Pong_game.Model;
 
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -23,10 +24,10 @@ public class SettingsModel {
             writer.println("ballSkin=" + ballSkin);
             writer.println("pitchSkin=" + pitchSkin);
             writer.println("fullScreen=" + fullScreen);
-            // writer.println("Player1Keys1=" + Player1Keys[0]);
-            // writer.println("Player1Keys2=" + Player1Keys[1]);
-            // writer.println("Player2Keys1=" + Player2Keys[0]);
-            // writer.println("Player2Keys2=" + Player2Keys[1]);
+            writer.println("Player1Keys1=" + Player1Keys[0]);
+            writer.println("Player1Keys2=" + Player1Keys[1]);
+            writer.println("Player2Keys1=" + Player2Keys[0]);
+            writer.println("Player2Keys2=" + Player2Keys[1]);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,10 +49,10 @@ public class SettingsModel {
                     case "ballSkin" -> setting.ballSkin = BallSkins.valueOf(kv[1]);
                     case "pitchSkin" -> setting.pitchSkin = PitchSkins.valueOf(kv[1]);
                     case "fullScreen" -> setting.fullScreen = Boolean.parseBoolean(kv[1]);
-                    // case "Player1Keys1" -> setting.maxPoints = Integer.parseInt(kv[1]);
-                    // case "Player1Keys2" -> setting.maxPoints = Integer.parseInt(kv[1]);
-                    // case "Player2Keys1" -> setting.maxPoints = Integer.parseInt(kv[1]);
-                    // case "Player2Keys2" -> setting.maxPoints = Integer.parseInt(kv[1]);
+                    case "Player1Keys1" -> setting.Player1Keys[0] = Integer.parseInt(kv[1]);
+                    case "Player1Keys2" -> setting.Player1Keys[1] = Integer.parseInt(kv[1]);
+                    case "Player2Keys1" -> setting.Player2Keys[0] = Integer.parseInt(kv[1]);
+                    case "Player2Keys2" -> setting.Player2Keys[1] = Integer.parseInt(kv[1]);
                 }
             }
         } catch (IOException e) {
@@ -68,6 +69,6 @@ public class SettingsModel {
         public boolean twoPlayers = false, fullScreen=false;
         public BallSkins ballSkin = BallSkins.NORMAL;
         public PitchSkins pitchSkin = PitchSkins.BLACK;
-        public int[] Player1Keys={87,83},Player2Keys={38,40};
+        public int[] Player1Keys={KeyEvent.VK_UP,KeyEvent.VK_DOWN},Player2Keys={KeyEvent.VK_W,KeyEvent.VK_S};
     }
 }

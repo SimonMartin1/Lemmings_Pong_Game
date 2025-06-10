@@ -234,7 +234,6 @@ public class LemmingModel {
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
     
         double clickXCam = clickX + camX;
-    
         boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - offsetY && clickY <= maxClickableY - offsetY2;
 
@@ -260,6 +259,9 @@ public class LemmingModel {
 
     public void setSpeed(int speed){
         this.speed = speed;
+    }
+    public int getSpeed(){
+        return speed;
     }
 
     public boolean isActive() {

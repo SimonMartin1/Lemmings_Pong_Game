@@ -17,7 +17,9 @@ public class LevelView {
     private Buttons buttonBuild;
     private Buttons buttonStop;
     private Buttons buttonFly;
-
+    private Buttons buttonAcelerate; 
+    private Buttons buttonSlow;
+    private Buttons buttonNuke;
     private int camX;
     private int camY;
 
@@ -45,7 +47,9 @@ public class LevelView {
         float buttonWidth = 0.13f;
         float buttonHeight = 0.25f;
         float startY = 0.75f; // 450/600
-
+        buttonAcelerate = new Buttons("+", 0.01f, startY, 0.1f, 0.1f);
+        buttonSlow = new Buttons("-", 0.01f, 0.82f, 0.1f, 0.1f);
+        buttonNuke = new Buttons("Nuke", 0.01f, 0.89f, 0.1f, 0.1f);
         buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
         buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
         buttonStop = new Buttons("Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), 0.31f, startY, buttonWidth, buttonHeight);
@@ -66,14 +70,21 @@ public class LevelView {
     }
 
     public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
+
         mapView.draw(g);
-    
+        buttonAcelerate.drawExtraButton(g, "+", panelWidth, panelHeight);
+        buttonSlow.drawExtraButton(g, "-", panelWidth, panelHeight);
+        buttonNuke.drawExtraButton(g, "Nuke", panelWidth, panelHeight);
         buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
         buttonStop.draw(g,"Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), panelWidth, panelHeight);
         buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
         buttonFly.draw(g, "Escalar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
 
         minimapView.drawMinimap(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 12));
+        g.drawString("Lemmings salvados: " + model.getExitModel().getSavedLemmings(), 80, 80);
     }
     
     public void drawEndScreen(Graphics2D g) {

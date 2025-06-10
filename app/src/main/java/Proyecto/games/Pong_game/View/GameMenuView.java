@@ -19,7 +19,6 @@ public class GameMenuView {
     private double blinkTime;
     private boolean showPressText = true;
     private Boolean prevPausePressed = null;
-    private Boolean prevSettingsPressed = null;
     private final Pong game;
 
 
@@ -58,19 +57,10 @@ public class GameMenuView {
     }
 
     public boolean detectPlay(Mouse m) {
-        boolean isClicked = false;
-
-
         int mx = m.getX();
         int my = m.getY();
         int bx = width/2, by = height/2, bw = 150, bh = 60;
-
-        if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings()) {
-            isClicked = true;
-        }
-
-
-        return isClicked;
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
 
     public boolean detectPlay(Keyboard k){
@@ -86,18 +76,6 @@ public class GameMenuView {
         return justPressed;
     }
 
-    public boolean detectSettings(Keyboard k){
-        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_C);
-
-        if (prevSettingsPressed == null) {
-            prevSettingsPressed = currentPressed;
-            return false;
-        }
-
-        boolean justPressed = currentPressed && !prevSettingsPressed;
-        prevSettingsPressed = currentPressed;
-        return justPressed;
-    }
 
     public boolean detectSetting(Mouse m) {
         int mx = m.getX();

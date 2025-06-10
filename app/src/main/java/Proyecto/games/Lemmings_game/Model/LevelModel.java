@@ -15,7 +15,7 @@ public class LevelModel {
 
     private final int lemmingsToGenerate;
     private final double percentajeToWin;
-    private final int numLevel;
+    private int numLevel;
     private double spawnTimer = 0;
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
@@ -26,24 +26,34 @@ public class LevelModel {
     private long cleanDeaths = -1;
 
     private boolean isNukeTime = false;
+    private ExitModel exit;
 
     private List<LemmingModel> lemmings = new ArrayList<>();
+    private int lemmingSpawnX;
+    private int lemmingSpawnY;
 
 
-    public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName) {
+    public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, ExitModel exit, int lemmingSpawnX, int lemmingSpawnY) {
         this.mapModel = map;
         this.stock = stock;
         this.levelName = lvlName;
         this.numLevel = level;
-
+        this.exit = exit;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
+        this.lemmingSpawnX = lemmingSpawnX;
+        this.lemmingSpawnY = lemmingSpawnY;
 
+    }
+
+    public ExitModel getExitModel(){
+        return exit;
     }
 
     public void update(double delta) {
 
-        updateLemmingSpawn(delta);
+        updateLemmingSpawn(delta, lemmingSpawnX, lemmingSpawnY);
+
 
         // Contar 3s luego de que isNukeTime es true
         confirmNuke();
@@ -98,13 +108,13 @@ public class LevelModel {
 
     // Logic
 
-    private void updateLemmingSpawn(double delta) {
+    private void updateLemmingSpawn(double delta, int lemmingSpawnX, int lemmingSpawnY) {
         if (spawnedLemmings < lemmingsToGenerate) {
             spawnTimer += delta;
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                LemmingModel nuevo = new LemmingModel(spawnedLemmings, 500, 205, 1, 1, mapModel);
+                LemmingModel nuevo = new LemmingModel(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, 1, mapModel);
                 lemmings.add(nuevo);
             }
         }

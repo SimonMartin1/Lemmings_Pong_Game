@@ -30,7 +30,6 @@ public class ExitModel {
         return y;
     }
 
-
     public boolean checkLemming(LemmingModel lemming){
         if(getBounds().intersects(lemming.getX() - mapModel.getCameraX(), lemming.getY(),16,16)){
             //System.out.println("llege a la salida");

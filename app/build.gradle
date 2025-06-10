@@ -18,6 +18,7 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
+    implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
