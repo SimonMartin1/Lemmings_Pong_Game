@@ -3,8 +3,9 @@ package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
-import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+import Proyecto.games.Lemmings_game.Utils.LemmingState;
 import Proyecto.games.Lemmings_game.View.*;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
@@ -87,7 +88,7 @@ public class LevelController {
 
         if(isStarting){
             levelView.drawPreLevelScreen(g);
-        }else{
+        } else{
             if(levelModel.isLevelFinished()){
                 for (LemmingModel l : levelModel.getLemmings()){
                     System.out.println(l.isActive());

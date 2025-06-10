@@ -235,21 +235,9 @@ public class LemmingModel {
     
         double clickXCam = clickX + camX;
     
-        System.out.println("---- Click Detection ----");
-        System.out.println("Click en pantalla: (" + clickX + ", " + clickY + ")");
-        System.out.println("Click ajustado con camX: " + clickXCam);
-        System.out.println("Lemming X range: [" + minClickableX + " , " + maxClickableX + "]");
-        System.out.println("Lemming Y range: [" + (minClickableY - 20) + " , " + (maxClickableY - 30) + "]");
-        System.out.println("camX: " + camX);
-        System.out.println("Lemming actual en: (" + this.x + ", " + this.y + ")");
-    
         boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - offsetY && clickY <= maxClickableY - offsetY2;
-    
-        System.out.println("¿Está dentro del rango X?: " + clickedX);
-        System.out.println("¿Está dentro del rango Y?: " + clickedY);
-        System.out.println("¿CLICK VALIDO?: " + (clickedX && clickedY));
-        System.out.println("-------------------------");
+
         return clickedX && clickedY;
     }
     
@@ -275,7 +263,7 @@ public class LemmingModel {
     }
 
     public boolean isActive() {
-        return state == LemmingState.ALIVE;
+        return state == LemmingState.ALIVE || state == LemmingState.WAITING;
     }
 
     public void setStateLemming(LemmingState state){
@@ -285,4 +273,8 @@ public class LemmingModel {
     public boolean HeIsGoingToDie(){
         return this.quantityTilesFalling - this.lastTileBeforeFalling > 20;
     }
+
+    public int getId(){ return id; }
+
+    public LemmingState getState(){ return state; }
 }

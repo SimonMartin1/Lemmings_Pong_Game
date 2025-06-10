@@ -27,7 +27,7 @@ public class Lemmings extends JGame {
 
     ButtonController buttonController;
 
-    private int currentLevel = 2;
+    private int currentLevel = 0;
 
     private List<MapModel> mapModels  = new ArrayList<>();
     private List<MapView> mapViews = new ArrayList<>();
