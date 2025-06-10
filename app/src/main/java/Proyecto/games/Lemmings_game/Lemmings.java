@@ -51,7 +51,7 @@ public class Lemmings extends JGame {
             Lemmings game = new Lemmings("Lemmings", 800, 600);
             game.run(1.0 / 60.0); // 60 FPS
         }else{
-            Lemmings game = new Lemmings("Lemmings", 1280, 1000);
+            Lemmings game = new Lemmings("Lemmings", 1366, 768);
             game.run(1.0 / 60.0); // 60 FPS
         }
 

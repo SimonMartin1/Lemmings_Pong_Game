@@ -111,7 +111,7 @@ public class CursorModel {
             
                     if (x >= acelAbsX && x <= acelAbsX + acelAbsW && y >= acelAbsY && y <= acelAbsY + acelAbsH    ) {
                         for(LemmingModel lemming : currentLemmings){
-                            if(lemming.getSpeed() < 2){
+                            if(lemming.getSpeed() < 4){
                             lemming.setSpeed(lemming.getSpeed() +1 );
                         }
                     }
