@@ -94,9 +94,12 @@ public class LevelView {
         g.setFont(new Font("Arial", Font.BOLD, 32));
 
         if (model.isLevelWon()) {
-            g.drawString("¡Nivel completado!", 200, 200);
+            g.drawString("Nivel completado!", 200, 200);
+            g.drawString("Enter para avanzar al siguiente nivel", 300, 200);
         } else {
             g.drawString("Perdiste", 200, 200);
+            g.drawString("Enter para repetir el nivel", 300, 200);
+            g.drawString("Escape para volver al menu", 400, 200);
         }
     }
 
