@@ -3,6 +3,11 @@ package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
+<<<<<<< HEAD
+=======
+import java.util.ArrayList;
+import java.util.List;
+>>>>>>> 1226880b01c9ed482dce9cc6917533fc088038c3
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
 import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Utils.LemmingState;
@@ -14,25 +19,25 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class LevelController {
-    private LevelModel levelModel;
-    private LevelView levelView;
-    private CursorModel cursorModel;
+    private final LevelModel levelModel;
+    private final LevelView levelView;
+    private final CursorModel cursorModel;
     private MinimapModel mapModel;
     //private int panelWidth = 1366;
     //private int panelHeight = 768;
-    private int screenWidth;
-    private int screenHeight;
+    private final int screenWidth;
+    private final int screenHeight;
     
-    private MinimapModel minimapModel;
-    private Mouse mouse;
-    private Keyboard keyboard;
+    private final MinimapModel minimapModel;
+    private final Mouse mouse;
+    private final Keyboard keyboard;
 
     private int camX;
-    private int camY;
+    private final int camY;
 
-    private boolean isStarting = true;
+    private final List <LemmingView> lemmingViews = new ArrayList<LemmingView>();
 
-    private java.util.List<LemmingView> lemmingViews = new java.util.ArrayList<LemmingView>();
+    private boolean isStarting;
 
 
     public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight){
@@ -55,6 +60,9 @@ public class LevelController {
         this.screenHeight = screenHeight;
     }
 
+    public void setStarting(boolean value) {
+    this.isStarting = value;
+    }
     public void update(double delta){
         //OJITO ACA LRPM
 
@@ -71,8 +79,6 @@ public class LevelController {
             if (keyboard.isKeyPressed(KeyEvent.VK_I) || mouse.isLeftButtonPressed()) {
                 isStarting = false;
             }
-
-            return;
         }
 
 
@@ -88,7 +94,8 @@ public class LevelController {
 
         if(isStarting){
             levelView.drawPreLevelScreen(g);
-        } else{
+        }
+        else{
             if(levelModel.isLevelFinished()){
                 for (LemmingModel l : levelModel.getLemmings()){
                     System.out.println(l.isActive());
