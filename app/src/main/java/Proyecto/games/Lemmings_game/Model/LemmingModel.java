@@ -27,12 +27,12 @@ public class LemmingModel {
     int camX = 0;
 
     //ventana
-    int offsetY = 20;
-    int offsetY2 = 30;
+    //int offsetY = 20;
+    //int offsetY2 = 30;
 
     //pantalla completa
-    //int offsetY = 0;
-    //int offsetY2 = 0;
+    int offsetY = 0;
+    int offsetY2 = 0;
 
     int lastTileBeforeFalling;
     int quantityTilesFalling = 0;
@@ -226,19 +226,22 @@ public class LemmingModel {
     }
 
     public boolean isClicked(double clickX, double clickY, int camX){
-        double minClickableX = (this.x);
-
-        double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
+        double margenExtra = 10; // pixeles de margen que se suman a los bordes
     
-        double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT;
-        double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
+        double minClickableX = this.x - margenExtra;
+        double maxClickableX = this.x + LemmingConstants.LEMMING_WIDTH + margenExtra;
+    
+        double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT - margenExtra;
+        double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT + margenExtra;
     
         double clickXCam = clickX + camX;
+    
         boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
         boolean clickedY = clickY >= minClickableY - offsetY && clickY <= maxClickableY - offsetY2;
-
+    
         return clickedX && clickedY;
     }
+    
     
 
     public void assignAbility(AbilityClass ability){

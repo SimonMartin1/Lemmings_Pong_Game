@@ -52,7 +52,7 @@ public class ButtonController {
                 int absW = (int)(buttonWidth * windowWidth);
                 int absH = (int)(buttonHeight * windowHeight);
     
-                if (x >= absX && x <= absX + absW && y >= absY && y <= absY + absH) {
+                if (x >= absX && x <= absX + absW && y >= absY && y <= absY + absH ) {
                     switch (i) {
                         case 0:
                             System.out.println("Estoy RE NAZI cavando!!!");

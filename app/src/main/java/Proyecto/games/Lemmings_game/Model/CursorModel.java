@@ -33,7 +33,7 @@ public class CursorModel {
 
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
-    
+        
         int windowWidth = screenWidth;
         int windowHeight = screenHeight;
     

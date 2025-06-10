@@ -45,12 +45,13 @@ public class Lemmings extends JGame {
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
-    private final static boolean fullScreen = false;
+    private final static boolean fullScreen = true;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
     private final boolean scoreAlreadySaved = false;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
+
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -89,7 +90,7 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,0, db, 100, 100);
+            MapModel firstLevelMapModel = new MapModel(1,0, db, 1020, 300);
             MapModel secondLevelMapModel = new MapModel(2,0, db, 1100, 340);
             MapModel thirdLevelMapModel = new MapModel(3,0, db, 1050, 260);    
 
@@ -189,7 +190,7 @@ public class Lemmings extends JGame {
     
             // Chequeo si se completó el nivel
             if (levelModels.get(currentLevel).isLevelFinished()) {
-                avanzarDeNivel();
+                nextLevel();
             }
         }
     }
@@ -209,7 +210,7 @@ public class Lemmings extends JGame {
 
             //Aca segundo lvl
             levelControllers.get(currentLevel).draw(g);
-
+            mapModels.get(0).getExit().drawTest(g);
 
 
         }
@@ -232,7 +233,8 @@ public class Lemmings extends JGame {
     
         frame.setVisible(true);
     }
-    private void avanzarDeNivel() {
+
+    private void nextLevel() {
         if (currentLevel < levelModels.size() - 1) {
             currentLevel++;
             System.out.println("¡Pasaste al nivel " + (currentLevel + 1) + "!");

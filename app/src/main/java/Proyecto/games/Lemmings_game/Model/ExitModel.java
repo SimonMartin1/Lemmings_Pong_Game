@@ -10,8 +10,8 @@ public class ExitModel {
     private final int x;
     private final int y;
     public int savedLemmings = 0;
-    private final int width = 32;
-    private final int height = 32;
+    private final int width = 100;
+    private final int height = 100;
     private MapModel mapModel;
 
     public ExitModel(int x, int y, MapModel mapModel) {
