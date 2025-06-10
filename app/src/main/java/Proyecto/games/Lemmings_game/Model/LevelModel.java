@@ -54,7 +54,6 @@ public class LevelModel {
 
         updateLemmingSpawn(delta, lemmingSpawnX, lemmingSpawnY);
 
-
         // Contar 3s luego de que isNukeTime es true
         confirmNuke();
         handleNukeConfirmed();

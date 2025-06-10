@@ -61,6 +61,8 @@ public class LevelView {
 
 
     public void drawPreLevelScreen(Graphics2D g) {
+        System.out.println("xd");
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Nivel: " + model.getLevelName(), 100, 100);
@@ -70,6 +72,7 @@ public class LevelView {
     }
 
     public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
+        System.out.println("xdu");
 
         mapView.draw(g);
         buttonAcelerate.drawExtraButton(g, "+", panelWidth, panelHeight);
@@ -88,6 +91,8 @@ public class LevelView {
     }
     
     public void drawEndScreen(Graphics2D g) {
+        System.out.println("xdo");
+
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 32));
 

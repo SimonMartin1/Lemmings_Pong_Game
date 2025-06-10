@@ -29,6 +29,9 @@ public class GameMenuView {
     }
 
     public void drawmenu(Graphics2D g) {
+
+        System.out.println("DrawMenu");
+
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
             g.drawImage(background, 0, 0, width, height,null);
             

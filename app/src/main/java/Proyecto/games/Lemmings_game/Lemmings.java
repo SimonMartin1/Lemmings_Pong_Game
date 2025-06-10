@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
@@ -36,7 +37,7 @@ public class Lemmings extends JGame {
     ButtonController buttonController;
 
     private int currentLevel = 0;
-
+    private ScoreDatabase db;
 
     private final List<MapModel> mapModels  = new ArrayList<>();
     private final List<MapView> mapViews = new ArrayList<>();
