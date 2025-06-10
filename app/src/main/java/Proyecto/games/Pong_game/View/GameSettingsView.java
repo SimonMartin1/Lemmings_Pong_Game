@@ -28,10 +28,10 @@ public class GameSettingsView {
         
         switch (option) {
             default -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
-            case 1 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[1]);
-            case 2 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
-            case 3 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[1]);
-            case 4 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[0]);
+            case 1 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
+            case 2 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[1]);
+            case 3 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[0]);
+            case 4 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[1]);
         }
         return res;
     }

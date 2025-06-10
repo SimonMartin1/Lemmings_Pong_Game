@@ -1,5 +1,6 @@
 package Proyecto.games.Pong_game.Model;
 
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -68,6 +69,6 @@ public class SettingsModel {
         public boolean twoPlayers = false, fullScreen=false;
         public BallSkins ballSkin = BallSkins.NORMAL;
         public PitchSkins pitchSkin = PitchSkins.BLACK;
-        public int[] Player1Keys={87,83},Player2Keys={38,40};
+        public int[] Player1Keys={KeyEvent.VK_UP,KeyEvent.VK_DOWN},Player2Keys={KeyEvent.VK_W,KeyEvent.VK_S};
     }
 }

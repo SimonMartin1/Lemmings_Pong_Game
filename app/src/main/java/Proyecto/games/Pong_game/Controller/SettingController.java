@@ -71,16 +71,16 @@ public class SettingController{
         }
         if(view.isPlayer1UpClicked(m)){
             view.getKey=true;
-            keyToSet = 1;
+            keyToSet = 3;
         }else if(view.isPlayer1DownClicked(m)){
             view.getKey=true;
-            keyToSet = 2;
+            keyToSet = 4;
         }else if(view.isPlayer2UpClicked(m)){
             view.getKey=true;
-            keyToSet = 3;
+            keyToSet = 1;
         }else if(view.isPlayer2DownClicked(m)){
             view.getKey=true;
-            keyToSet = 4;
+            keyToSet = 2;
         }
         
         if (view.isTrackNameClicked(m)) {

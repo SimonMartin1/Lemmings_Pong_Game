@@ -222,6 +222,8 @@ public class Pong extends JGame implements KeyListener{
 
     public void saveSettings(){
         SettingsModel.saveSettings(musicOFF, track, difficult, maxPoints, twoplayers, ballSkin, pitchSkin,fullScreen,player1Keys,player2Keys);
+        paddleLeftController.setPaddleKeys(player2Keys[0], player2Keys[1]);
+        paddleRightController.setPaddleKeys(player1Keys[0], player1Keys[1]);
     }
     public void resetSettings(){
         musicOFF = false;
@@ -229,11 +231,10 @@ public class Pong extends JGame implements KeyListener{
         difficult = Difficult.EASY;
         maxPoints = 5;
         twoplayers = false;
-        player1Keys[0]=87;
-        player1Keys[1]=83;
-        player2Keys[0]=38;
-        player2Keys[1]=40;
-
+        player1Keys[0]=KeyEvent.VK_UP;
+        player1Keys[1]=KeyEvent.VK_DOWN;
+        player2Keys[0]=KeyEvent.VK_W;
+        player2Keys[1]=KeyEvent.VK_S;
     }
     public void setFullScreen(boolean enable) {
     java.awt.Frame frame = this.getFrame();
@@ -374,10 +375,10 @@ public void stopTrack() {
     public void setPlayerKeys(int option, int keycode){
         switch(option){
             default->{player1Keys[0]=keycode;}
-            case 1 ->{player1Keys[0]=keycode;}
-            case 2 ->{player1Keys[1]=keycode;}
-            case 3 ->{player2Keys[0]=keycode;}
-            case 4 ->{player2Keys[1]=keycode;}
+            case 1 ->{player2Keys[0]=keycode;}
+            case 2 ->{player2Keys[1]=keycode;}
+            case 3 ->{player1Keys[0]=keycode;}
+            case 4 ->{player1Keys[1]=keycode;}
         }
     }
     public int[] getPlayersKeys(int option){
@@ -399,11 +400,11 @@ public void stopTrack() {
             settingsView.getKey = false;
             settingsView.setkeys=false;
             switch (settingController.getKeyToSet()) {
-                case 1 -> {setPlayerKeys(1,lastKeyPressed);}
-                case 2 -> {setPlayerKeys(2,lastKeyPressed);}
-                case 3 -> {setPlayerKeys(3,lastKeyPressed);}
-                case 4 -> {setPlayerKeys(4,lastKeyPressed);}
-                default -> {setPlayerKeys(1,lastKeyPressed);}
+                default -> {setPlayerKeys(3,lastKeyPressed);}
+                case 1 -> {setPlayerKeys(3,lastKeyPressed);}
+                case 2 -> {setPlayerKeys(4,lastKeyPressed);}
+                case 3 -> {setPlayerKeys(1,lastKeyPressed);}
+                case 4 -> {setPlayerKeys(2,lastKeyPressed);}
             }
         }
     }
