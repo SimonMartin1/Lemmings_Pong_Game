@@ -30,14 +30,13 @@ public class ButtonController {
     public void draw(){
 
     }
-
     public void checkClick(int x, int y) {
         boolean isPressed = mouse.isLeftButtonPressed();
     
         int windowWidth = screenWidth;
         int windowHeight = screenHeight;
     
-        // Valores relativos
+        // Valores relativos para botones normales
         float startY = 0.75f;
         float buttonHeight = 0.25f;
         float buttonWidth = 0.13f;
@@ -45,7 +44,7 @@ public class ButtonController {
         float startX = 0.01f;
     
         if (isPressed && !wasPressedLastFrame) {
-            // Calculamos las posiciones absolutas
+            // Botones principales
             for (int i = 0; i < 4; i++) {
                 float relX = startX + i * (buttonWidth + espacio);
                 int absX = (int)(relX * windowWidth);
@@ -56,7 +55,7 @@ public class ButtonController {
                 if (x >= absX && x <= absX + absW && y >= absY && y <= absY + absH) {
                     switch (i) {
                         case 0:
-                            System.out.println("Estoy cavando!!!");
+                            System.out.println("Estoy RE NAZI cavando!!!");
                             break;
                         case 1:
                             System.out.println("Me frene");
@@ -76,7 +75,7 @@ public class ButtonController {
                 System.out.println("Minimap clickeado!");
                 // minimapModel.handleClick(x, y);
             }
-        }
+        }    
     
         wasPressedLastFrame = isPressed;
     }

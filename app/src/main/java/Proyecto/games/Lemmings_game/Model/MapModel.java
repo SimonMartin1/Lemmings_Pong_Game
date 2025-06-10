@@ -1,6 +1,7 @@
 package Proyecto.games.Lemmings_game.Model;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -12,16 +13,16 @@ public class MapModel {
     private int cameraY = 0;
     private int cameraX;
     private ExitModel exit;
+    private ScoreDatabase db;
 
 
-
-    public MapModel(int level, int exitX, int exitY, int cameraX) throws Exception {
+    public MapModel(int level, int exitX, int exitY, int cameraX, ScoreDatabase db) throws Exception {
         BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
         this.cameraX = cameraX;
         int cantTilesY = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
         int cantTilesX = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
         mapTiles = new TileModel[cantTilesY][cantTilesX];
-
+        this.db = db; 
         this.exit = new ExitModel(exitX,exitY, this); //ACA A FUTURO LE PASAMOS LA SALIDA PARA QUE CAMBIE
 
         for (int y = 0; y < cantTilesY; y++) {
@@ -42,7 +43,11 @@ public class MapModel {
             return null;
         }
     }
-
+    
+    public void addScore(String name){
+        db.addScore(name, exit.getSavedLemmings()*10);
+    }
+    //ACA LE AGREGAMOS A LA BD 
     public int getLemmingsSaved(){
         return exit.savedLemmings;
     }
@@ -83,5 +88,9 @@ public class MapModel {
     public void setCameraPosition(int x, int y) {
         this.cameraX = x;
         this.cameraY = y;
+    }
+
+    public ExitModel getExitModel(){
+        return exit;
     }
 }
