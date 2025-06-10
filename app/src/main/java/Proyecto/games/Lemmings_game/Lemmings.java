@@ -12,6 +12,7 @@ import java.util.Map;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
+import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
@@ -35,7 +36,8 @@ public class Lemmings extends JGame {
 
     ButtonController buttonController;
 
-    private int currentLevel = 1;
+    private int currentLevel = 0;
+    private ScoreDatabase db;
 
     private final List<MapModel> mapModels  = new ArrayList<>();
     private final List<MapView> mapViews = new ArrayList<>();
@@ -115,7 +117,7 @@ public class Lemmings extends JGame {
         Stock stockLevelOne = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 5,
                 Ability.CLIMB, 0,
-                Ability.STOP, 1,
+                Ability.STOP, 3,
                 Ability.UMBRELLA, 0
         )));
 
@@ -134,7 +136,7 @@ public class Lemmings extends JGame {
         )));
 
 
-        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging", mapModels.get(0).getExit(), 690, 70);
+        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging", mapModels.get(0).getExit(), 600, 100);
         LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2",   mapModels.get(1).getExit(), 400, 30);
         LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 3, .8, 3, "Cap 3", mapModels.get(2).getExit(), 410, 200);
         levelModels.add(firstLevelModel);
@@ -170,41 +172,33 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameUpdate(double delta) {
-        
-        if(isInSettings){
-            //settingController = new SettingController(settingsView, settingsModel, getMouse(), this);
-        }
-
-        if(isInMenu){
+        if (!gameMenu.detectPlay(getMouse()) && !gameMenu.detectPlay(getKeyboard())) {
             gameMenu.update(delta);
-            if(gameMenu.detectSetting(getMouse())){ 
-                if(isInSettings){
-                    /*saveSettings();+/* */
-                } 
-                isInSettings = !isInSettings;  
-            }
-            if((gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard()))){ 
-                isInMenu = false; 
-                levelControllers.get(0).setStarting(true);
-                levelControllers.get(0).update(delta);
-                buttonController.update(); 
-                
-            }
+        }else{
+            //aca lvl se updatea
+            buttonController.update();
+            levelControllers.get(currentLevel).update(delta);
+
         }
 
     }
-    
+
     @Override
     public void gameDraw(Graphics2D g) {
-            if(isInMenu){
+
+        if(!gameMenu.detectPlay(getMouse()) && !gameMenu.detectPlay(getKeyboard())){
             gameMenu.drawmenu(g);
-            if(isInSettings){
-                settingsView.drawmenu(g);
-            }
-            }
-            else{
-                levelControllers.get(0).draw(g);
-            }
+        }
+        else {
+            g.setColor(Color.BLACK);
+            g.fillRect(0, 0, getWidth(), getHeight());
+
+            //Aca segundo lvl
+            levelControllers.get(currentLevel).draw(g);
+
+
+        }
+
     }
 
     @Override

@@ -46,7 +46,7 @@ public class TileModel {
         try{
             image = ImageIO.read(getClass().getResourceAsStream("/black.png"));
         }catch (Exception err){
-            System.out.println("xd");
+            err.printStackTrace();
         }
 
         this.color = color;

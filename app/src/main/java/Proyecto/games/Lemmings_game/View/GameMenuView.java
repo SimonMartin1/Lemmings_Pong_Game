@@ -29,6 +29,7 @@ public class GameMenuView {
     }
 
     public void drawmenu(Graphics2D g) {
+
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
             g.drawImage(background, 0, 0, width, height,null);
             
@@ -58,23 +59,24 @@ public class GameMenuView {
     }
 
     public boolean detectPlay(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2, by = height/2, bw = 150, bh = 60;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
+        if (m.isLeftButtonPressed()) {
+            int mx = m.getX();
+            int my = m.getY();
+            int bx = width/2 - 100, by = 300, bw = 200, bh = 60;
+            if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
+                animation = true;
+            }
+        }
+
+        return animation;
     }
 
     public boolean detectPlay(Keyboard k){
-        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_ENTER);
-
-        if (prevPausePressed == null) {
-            prevPausePressed = currentPressed;
-            return false;
+        if (k.isKeyPressed(10)) {
+            animation = true;
         }
 
-        boolean justPressed = currentPressed && !prevPausePressed;
-        prevPausePressed = currentPressed;
-        return justPressed;
+        return animation;
     }
 
 

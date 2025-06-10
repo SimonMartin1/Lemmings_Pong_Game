@@ -39,6 +39,9 @@ public class ExitModel {
 
     public void sumLemming(LemmingModel lemming){
         if (checkLemming(lemming) && !lemming.isSaved()) {
+
+            //TODO: SUMAR 10 PUNTOS AL JUGADOR POR LEMMING.
+
             savedLemmings++;
             lemming.setSaved(true);
             lemming.setStateLemming(LemmingState.EXITED);
