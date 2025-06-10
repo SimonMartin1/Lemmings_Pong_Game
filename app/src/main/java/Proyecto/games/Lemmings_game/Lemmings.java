@@ -16,6 +16,7 @@ import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
 import Proyecto.games.Lemmings_game.Model.*;
 import Proyecto.games.Lemmings_game.Utils.Ability;
+import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import Proyecto.games.Lemmings_game.View.*;
 import com.entropyinteractive.JGame;
 
@@ -38,6 +39,8 @@ public class Lemmings extends JGame {
     private static boolean fullScreen = false;
     private int screenWidth = 800;
     private int screenHeight = 600;
+    private ScoreDatabase db = new ScoreDatabase("lemmings.db");
+    private boolean scoreAlreadySaved = false;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -62,10 +65,11 @@ public class Lemmings extends JGame {
             setFullScreen(); 
         }
 
+
         try{
-            MapModel firstLevelMapModel = new MapModel(1,1070,350,0);
-            MapModel secondLevelMapModel = new MapModel(2,650,350,0);
-            MapModel thirdLevelMapModel = new MapModel(3,650,350,0);
+            MapModel firstLevelMapModel = new MapModel(1,1070,350,0, db);
+            MapModel secondLevelMapModel = new MapModel(2,650,350,0, db);
+            MapModel thirdLevelMapModel = new MapModel(3,650,350,0, db);
 
             MapView firstLevelMapView = new MapView(firstLevelMapModel, new SpawnerView(690, 70), new ExitView(1020, 300), 0, 0, screenWidth, screenHeight);
             MapView secondLevelMapView = new MapView(secondLevelMapModel, new SpawnerView(230, 150), new ExitView(230, 150), 0, 0, screenWidth, screenHeight);
@@ -151,7 +155,6 @@ public class Lemmings extends JGame {
             //aca lvl se updatea
             buttonController.update();
             levelControllers.get(currentLevel).update(delta);
-
         }
 
     }
