@@ -27,7 +27,7 @@ public class Lemmings extends JGame {
 
     ButtonController buttonController;
 
-    private int currentLevel = 2;
+    private int currentLevel = 0;
 
     private List<MapModel> mapModels  = new ArrayList<>();
     private List<MapView> mapViews = new ArrayList<>();
@@ -35,9 +35,9 @@ public class Lemmings extends JGame {
     private List<LevelView> levelViews = new ArrayList<>();
     private List<LevelController> levelControllers = new ArrayList<>();
 
-    private static boolean fullScreen = false;
-    private int screenWidth = 800;
-    private int screenHeight = 600;
+    private static boolean fullScreen = true;
+    private int screenWidth = 1366;
+    private int screenHeight = 768;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
