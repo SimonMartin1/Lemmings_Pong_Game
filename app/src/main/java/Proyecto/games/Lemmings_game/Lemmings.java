@@ -90,19 +90,22 @@ public class Lemmings extends JGame {
         Stock stockLevelOne = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 5,
                 Ability.CLIMB, 0,
-                Ability.STOP, 1
+                Ability.STOP, 1,
+                Ability.UMBRELLA, 0
         )));
 
         Stock stockLevelTwo = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 0,
                 Ability.CLIMB, 0,
-                Ability.STOP, 5
+                Ability.STOP, 5,
+                Ability.UMBRELLA, 0
         )));
 
         Stock stockLevelThree = new Stock(new HashMap<Ability, Integer>(Map.of(
                 Ability.DIGGER, 0,
                 Ability.CLIMB, 5,
-                Ability.STOP, 2
+                Ability.STOP, 2,
+                Ability.UMBRELLA, 3
         )));
 
 

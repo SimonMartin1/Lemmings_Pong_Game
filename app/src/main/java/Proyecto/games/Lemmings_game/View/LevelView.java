@@ -48,8 +48,8 @@ public class LevelView {
 
         buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
         buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
-        buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER), 0.31f, startY, buttonWidth, buttonHeight);
-        buttonFly = new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
+        buttonStop = new Buttons("Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), 0.31f, startY, buttonWidth, buttonHeight);
+        buttonFly = new Buttons("Escalar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
 
         // El minimapa queda igual si sigue con valores absolutos (o lo podés escalar también)
         minimapView = new MinimapView(baseX, baseY, baseWidth, baseHeight, model.getNumLevel(), screenWidth, screenHeight);
@@ -69,9 +69,9 @@ public class LevelView {
         mapView.draw(g);
     
         buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
-        buttonStop.draw(g,"xd | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
+        buttonStop.draw(g,"Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), panelWidth, panelHeight);
         buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
-        buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
+        buttonFly.draw(g, "Escalar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
 
         minimapView.drawMinimap(g);
     }
@@ -83,7 +83,7 @@ public class LevelView {
         if (model.isLevelWon()) {
             g.drawString("¡Nivel completado!", 200, 200);
         } else {
-            g.drawString("Perdiste 😢", 200, 200);
+            g.drawString("Perdiste", 200, 200);
         }
     }
 

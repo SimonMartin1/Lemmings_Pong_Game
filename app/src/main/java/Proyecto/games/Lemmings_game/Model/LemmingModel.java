@@ -25,9 +25,11 @@ public class LemmingModel {
     boolean saved = false;
     LemmingState state = LemmingState.ALIVE;
     int camX = 0;
+
     //ventana
     int offsetY = 20;
-    int offsetY2 = 30; 
+    int offsetY2 = 30;
+
     //pantalla completa
     //int offsetY = 0;
     //int offsetY2 = 0;
@@ -109,7 +111,7 @@ public class LemmingModel {
         else{
             if(shouldItFall()){
 
-                if(quantityTilesFalling - lastTileBeforeFalling > 20 && isStartingToWalk) isDead = true;
+                if(HeIsGoingToDie() && isStartingToWalk && !Ability.UMBRELLA.equals(currentAbility)) isDead = true;
 
 
                 fall();
@@ -278,5 +280,9 @@ public class LemmingModel {
 
     public void setStateLemming(LemmingState state){
         this.state = state;
+    }
+
+    public boolean HeIsGoingToDie(){
+        return this.quantityTilesFalling - this.lastTileBeforeFalling > 20;
     }
 }
