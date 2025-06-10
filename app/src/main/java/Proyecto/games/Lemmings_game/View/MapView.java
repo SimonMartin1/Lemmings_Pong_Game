@@ -4,6 +4,8 @@ import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
 import Proyecto.games.Lemmings_game.Model.*;
 
 import javax.swing.JPanel;
+
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class MapView {
@@ -12,6 +14,8 @@ public class MapView {
     private int camY;
     private SpawnerView spawnerView;
     private ExitView exitView;
+    private int mapWidth = 1366;
+    private int mapHeight = 768;
 
     public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView, int camX, int camY) {
         this.camX = camX;
@@ -26,11 +30,12 @@ public class MapView {
         //System.out.println("camX: " + camX + " camY: " + camY);
 
         TileModel[][] tiles = model.getMapTiles();
-
+        //g.setColor(Color.RED);
+        //g.fillRect(0, 0, mapWidth, mapHeight);
         int startX = camX / LemmingConstants.TILE_WIDTH;
         int startY = camY / LemmingConstants.TILE_HEIGHT;
-        int endX = (camX + 800) / LemmingConstants.TILE_WIDTH + 1;
-        int endY = (camY + 600) / LemmingConstants.TILE_HEIGHT + 1;
+        int endX = (camX + mapWidth) / LemmingConstants.TILE_WIDTH + 1;
+        int endY = (camY + mapHeight) / LemmingConstants.TILE_HEIGHT + 1;
     
         for (int y = startY; y < endY && y < tiles.length; y++) {
             for (int x = startX; x < endX && x < tiles[0].length; x++) {

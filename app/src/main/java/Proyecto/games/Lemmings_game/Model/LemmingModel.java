@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
+import Proyecto.games.Lemmings_game.Lemmings;
 import Proyecto.games.Lemmings_game.View.MapView;
 
 import javax.imageio.ImageIO;
@@ -27,6 +28,20 @@ public class LemmingModel {
     boolean saved = false;
     LemmingState state = LemmingState.ALIVE;
     int camX = 0;
+    //ventana
+    int offsetY = 0;
+    int offsetY2 = 0; 
+    //pantalla completa
+    //int offsetY = 0;
+    //int offsetY2 = 0;
+
+    int lastTileBeforeFalling;
+    int quantityTilesFalling = 0;
+    boolean isDead = false;
+    int currentFrame = 0;
+    int ticksPerFrame = 6;  // Ajustá esto para la velocidad
+    int tickCounter = 0;
+    boolean finishedDeathAnimation = false;
 
     public int getCamX(){ return this.camX; }
 
@@ -100,10 +115,14 @@ public class LemmingModel {
         }
         else{
             if(shouldItFall()){
+
+                if(quantityTilesFalling - lastTileBeforeFalling > 20 && isStartingToWalk) isDead = true;
+
+
                 fall();
             }
             else{
-                //System.out.println("CAMINO");
+                isStartingToWalk = true;
                 walk();
             }
         }
@@ -143,35 +162,51 @@ public class LemmingModel {
         this.saved = saved;
     }
     public void walk(){
+        lastTileBeforeFalling = currentTileY;
 
-        if(isWalkingToRight){
-            currentState = LemmingAnimationState.WALKING_RIGHT;
+        if(isDead) {
+            currentState = LemmingAnimationState.EXPLANTING_FALL;
 
-            //subida
-            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX)) ){
-                y -= speed;
+            tickCounter++;
+
+            if (tickCounter >= ticksPerFrame) {
+                tickCounter = 0;
+                currentFrame++;
+
+                if (currentFrame >= 8) {  // Suponiendo que la animación de morir tiene 8 cuadros
+                    finishedDeathAnimation = true;
+                    state = LemmingState.DEAD;
+                }
             }
 
-            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX+1))){
-                x += speed;
-            }
-            else{
-                isWalkingToRight = false;
-            }
         }
-        else{
-            currentState = LemmingAnimationState.WALKING_LEFT;
+        else {
+            if (isWalkingToRight) {
+                currentState = LemmingAnimationState.WALKING_RIGHT;
 
-            //subida
-            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-1, currentTileX))){
-                y -= speed;
-            }
+                //subida
+                if (Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY - 1, currentTileX))) {
+                    y -= speed;
+                }
 
-            if(Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY-2, currentTileX - 1))){
-                x -= speed;
-            }
-            else{
-                isWalkingToRight = true;
+                if (Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY - 2, currentTileX + 1))) {
+                    x += speed;
+                } else {
+                    isWalkingToRight = false;
+                }
+            } else {
+                currentState = LemmingAnimationState.WALKING_LEFT;
+
+                //subida
+                if (Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY - 1, currentTileX))) {
+                    y -= speed;
+                }
+
+                if (Color.BLACK.equals(firstLevelMapModel.getTileColor(currentTileY - 2, currentTileX - 1))) {
+                    x -= speed;
+                } else {
+                    isWalkingToRight = true;
+                }
             }
         }
 
@@ -191,23 +226,38 @@ public class LemmingModel {
             currentState = LemmingAnimationState.FALLING;
         }
 
+        quantityTilesFalling = currentTileY;
         y += speed;
     }
-    
 
     public boolean isClicked(double clickX, double clickY, int camX){
         double minClickableX = (this.x);
-        double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
 
+        double maxClickableX = minClickableX + LemmingConstants.LEMMING_WIDTH;
+    
         double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT;
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT;
-
-        boolean clickedX = clickX  + camX >= minClickableX && clickX + camX <= maxClickableX;
-
-        boolean clickedY = clickY >= minClickableY - 20 && clickY <= maxClickableY - 30;
-
+    
+        double clickXCam = clickX + camX;
+    
+        System.out.println("---- Click Detection ----");
+        System.out.println("Click en pantalla: (" + clickX + ", " + clickY + ")");
+        System.out.println("Click ajustado con camX: " + clickXCam);
+        System.out.println("Lemming X range: [" + minClickableX + " , " + maxClickableX + "]");
+        System.out.println("Lemming Y range: [" + (minClickableY - 20) + " , " + (maxClickableY - 30) + "]");
+        System.out.println("camX: " + camX);
+        System.out.println("Lemming actual en: (" + this.x + ", " + this.y + ")");
+    
+        boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
+        boolean clickedY = clickY >= minClickableY - offsetY && clickY <= maxClickableY - offsetY2;
+    
+        System.out.println("¿Está dentro del rango X?: " + clickedX);
+        System.out.println("¿Está dentro del rango Y?: " + clickedY);
+        System.out.println("¿CLICK VALIDO?: " + (clickedX && clickedY));
+        System.out.println("-------------------------");
         return clickedX && clickedY;
     }
+    
 
     public void assignAbility(AbilityModel ability){
 

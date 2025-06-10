@@ -17,7 +17,8 @@ public class LevelController {
     private LevelView levelView;
     private CursorModel cursorModel;
     private MinimapModel mapModel;
-    
+    private int panelWidth = 1366;
+    private int panelHeight = 768;
     
     private MinimapModel minimapModel;
     private Mouse mouse;
@@ -91,7 +92,7 @@ public class LevelController {
                 levelView.drawEndScreen(g);
             }
             else{
-                levelView.drawLevel(g);
+                levelView.drawLevel(g ,panelWidth , panelHeight);
 
                 for (LemmingView view : lemmingViews) {
                     this.camX = levelView.getCamX();
@@ -112,6 +113,8 @@ public class LevelController {
 
     private void syncLemmingViews() {
         java.util.List<LemmingModel> lemmingModels = levelModel.getLemmings();
+
+        lemmingViews.removeIf(view -> !lemmingModels.contains(view.getModel()));
 
         while (lemmingViews.size() < lemmingModels.size()) {
             LemmingModel newModel = lemmingModels.get(lemmingViews.size());

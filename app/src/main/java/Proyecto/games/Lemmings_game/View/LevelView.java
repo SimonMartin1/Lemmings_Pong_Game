@@ -21,18 +21,34 @@ public class LevelView {
     private int camX;
     private int camY;
 
-    public LevelView(LevelModel model, MapView mapView, Stock stock){
-        this.mapView  = mapView;
+    int screenWidth = 1366;
+    int screenHeight = 768;
+    
+    // Estos son los valores fijos que usabas antes
+    int baseX = 850;
+    int baseY = 600;
+    int baseWidth = 250;
+    int baseHeight = 100;
+
+    public LevelView(LevelModel model, MapView mapView, Stock stock) {
+        this.mapView = mapView;
         this.model = model;
         this.stock = stock;
 
-        minimapView = new MinimapView(480, 480, 250, 100, model.getNumLevel());
 
-        buttonDig =  new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 10, 450, 100, 150);
-        buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP),110,450,100,150);
-        buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER),210,450,100,150);
-        buttonFly =  new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB),310,450,100,150);
+        // Relativo a pantalla: x = porcentaje del ancho, y = porcentaje del alto
+        // ancho = 100px de 768px ≈ 0.13 — alto = 150px de 600px ≈ 0.25
+        float buttonWidth = 0.13f;
+        float buttonHeight = 0.25f;
+        float startY = 0.75f; // 450/600
 
+        buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
+        buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
+        buttonStop = new Buttons("Construir | " + stock.getQuantityAbility(Ability.DIGGER), 0.31f, startY, buttonWidth, buttonHeight);
+        buttonFly = new Buttons("Volar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
+
+        // El minimapa queda igual si sigue con valores absolutos (o lo podés escalar también)
+        minimapView = new MinimapView(baseX, baseY, baseWidth, baseHeight, model.getNumLevel(), screenWidth, screenHeight);
     }
 
 
@@ -45,17 +61,17 @@ public class LevelView {
         // Podés agregar botón o esperar input para comenzar
     }
 
-    public void drawLevel(Graphics2D g) {
-
+    public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
         mapView.draw(g);
+    
+        buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
+        buttonStop.draw(g,"xd | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
+        buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
+        buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
 
-        buttonDig.draw(g, "Cavar | " + stock.getQuantityAbility(Ability.DIGGER));
-        buttonStop.draw(g, "xd | " + stock.getQuantityAbility(Ability.DIGGER));
-        buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP));
-        buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB));
         minimapView.drawMinimap(g);
     }
-
+    
     public void drawEndScreen(Graphics2D g) {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 32));
