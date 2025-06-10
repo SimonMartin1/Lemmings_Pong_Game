@@ -25,9 +25,11 @@ public class LemmingModel {
     boolean saved = false;
     LemmingState state = LemmingState.ALIVE;
     int camX = 0;
+
     //ventana
     int offsetY = 20;
     int offsetY2 = 30;
+
     //pantalla completa
     //int offsetY = 0;
     //int offsetY2 = 0;
