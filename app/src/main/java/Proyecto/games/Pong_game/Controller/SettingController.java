@@ -131,8 +131,11 @@ public class SettingController{
             switch(game.backupSettings.pitchSkin){
                 case BLACK -> {game.setPitchSkin(1);}
                 case BLUE -> {game.setPitchSkin(2);}
-            case BASKET -> {game.setPitchSkin(3);}
+                case BASKET -> {game.setPitchSkin(3);}
             }
+            
+            game.setPlayerKeys(1, game.backupSettings.Player1Keys);
+            game.setPlayerKeys(2, game.backupSettings.Player2Keys);
 
             view.drawHard = game.getBackUpSettings(0);
             view.drawMedium = game.getBackUpSettings(1);

@@ -6,3 +6,7 @@ twoPlayers=true
 ballSkin=NORMAL
 pitchSkin=BLUE
 fullScreen=false
+Player1Keys1=81
+Player1Keys2=83
+Player2Keys1=38
+Player2Keys2=40

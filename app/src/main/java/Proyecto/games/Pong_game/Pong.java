@@ -188,6 +188,8 @@ public class Pong extends JGame implements KeyListener{
         backupSettings.twoPlayers = twoplayers;
         backupSettings.ballSkin= ballSkin;
         backupSettings.pitchSkin=pitchSkin;
+        backupSettings.Player1Keys=player1Keys;
+        backupSettings.Player2Keys=player2Keys;
 
         backupDrawHard = settingsView.drawHard;
         backupDrawMedium = settingsView.drawMedium;
@@ -357,6 +359,16 @@ public void stopTrack() {
             default:
                 this.difficult = Difficult.EASY;
         }
+    }
+
+    public void setPlayerKeys(int option,int [] keys){
+        switch (option) {
+            default ->{player1Keys=keys;}
+            case 1 ->{player1Keys=keys;}
+            case 2 ->{player2Keys=keys;}
+        }
+        paddleLeftController.setPaddleKeys(player2Keys[0], player2Keys[1]);
+        paddleRightController.setPaddleKeys(player1Keys[0], player1Keys[1]);
     }
 
     public void setPlayerKeys(int option, int keycode){
