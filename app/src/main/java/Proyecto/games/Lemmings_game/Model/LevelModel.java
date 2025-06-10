@@ -19,19 +19,23 @@ public class LevelModel {
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
     private int camX = 0;
-
+    private ExitModel exit;
     private List<LemmingModel> lemmings = new ArrayList<>();
 
 
-    public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName) {
+    public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, ExitModel exit) {
         this.mapModel = map;
         this.stock = stock;
         this.levelName = lvlName;
         this.numlevel = level;
-
+        this.exit = exit;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
 
+    }
+
+    public ExitModel getExitModel(){
+        return exit;
     }
 
     public void update(double delta) {

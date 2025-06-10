@@ -35,9 +35,9 @@ public class Lemmings extends JGame {
     private List<LevelView> levelViews = new ArrayList<>();
     private List<LevelController> levelControllers = new ArrayList<>();
 
-    private static boolean fullScreen = true;
-    private int screenWidth = 1366;
-    private int screenHeight = 768;
+    private static boolean fullScreen = false;
+    private int screenWidth = 800;
+    private int screenHeight = 600;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -106,9 +106,9 @@ public class Lemmings extends JGame {
         )));
 
 
-        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging");
-        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2");
-        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 3, .8, 3, "Cap 3");
+        LevelModel firstLevelModel = new LevelModel(mapModels.get(0), stockLevelOne, 3, .8, 1, "Just digging", mapModels.get(0).getExitModel());
+        LevelModel secondLevelModel = new LevelModel(mapModels.get(1), stockLevelTwo, 3, .8, 2, "Cap 2", mapModels.get(1).getExitModel());
+        LevelModel thirdLevelModel = new LevelModel(mapModels.get(2), stockLevelThree, 3, .8, 3, "Cap 3", mapModels.get(2).getExitModel());
         levelModels.add(firstLevelModel);
         levelModels.add(secondLevelModel);
         levelModels.add(thirdLevelModel);

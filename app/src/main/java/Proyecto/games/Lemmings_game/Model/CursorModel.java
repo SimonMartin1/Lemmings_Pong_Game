@@ -109,9 +109,9 @@ public class CursorModel {
                     int acelAbsW = (int)(extraRelWidth * windowWidth);
                     int acelAbsH = (int)(extraRelHeight * windowHeight);
             
-                    if (x >= acelAbsX - 10 && x <= acelAbsX + acelAbsW + 10 && y >= acelAbsY - 10 && y <= acelAbsY + acelAbsH + 10    ) {
+                    if (x >= acelAbsX && x <= acelAbsX + acelAbsW && y >= acelAbsY && y <= acelAbsY + acelAbsH    ) {
                         for(LemmingModel lemming : currentLemmings){
-                            if(lemming.getSpeed() < 3){
+                            if(lemming.getSpeed() < 2){
                             lemming.setSpeed(lemming.getSpeed() +1 );
                         }
                     }
@@ -123,7 +123,7 @@ public class CursorModel {
                     int slowAbsW = (int)(extraRelWidth * windowWidth);
                     int slowAbsH = (int)(extraRelHeight * windowHeight);
             
-                    if (x >= slowAbsX - 10 && x <= slowAbsX + slowAbsW + 10 && y >= slowAbsY - 8 && y <= slowAbsY + slowAbsH + 8	) {
+                    if (x >= slowAbsX && x <= slowAbsX + slowAbsW && y >= slowAbsY - 8 && y <= slowAbsY + slowAbsH + 8	) {
                         for(LemmingModel lemming : currentLemmings){
                             if(lemming.getSpeed() > 0){
                                 lemming.setSpeed(lemming.getSpeed() - 1 );

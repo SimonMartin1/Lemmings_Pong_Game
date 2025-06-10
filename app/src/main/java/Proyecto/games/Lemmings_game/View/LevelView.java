@@ -68,6 +68,7 @@ public class LevelView {
     }
 
     public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
+
         mapView.draw(g);
         buttonAcelerate.drawExtraButton(g, "+", panelWidth, panelHeight);
         buttonSlow.drawExtraButton(g, "-", panelWidth, panelHeight);
@@ -77,6 +78,10 @@ public class LevelView {
         buttonFly.draw(g, "Volar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
 
         minimapView.drawMinimap(g);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 12));
+        g.drawString("Lemmings salvados: " + model.getExitModel().getSavedLemmings(), 80, 80);
     }
     
     public void drawEndScreen(Graphics2D g) {

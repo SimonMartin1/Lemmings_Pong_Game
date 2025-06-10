@@ -84,4 +84,8 @@ public class MapModel {
         this.cameraX = x;
         this.cameraY = y;
     }
+
+    public ExitModel getExitModel(){
+        return exit;
+    }
 }
