@@ -21,9 +21,11 @@ public class LevelModel {
     private int camX = 0;
     private ExitModel exit;
     private List<LemmingModel> lemmings = new ArrayList<>();
+    private int lemmingSpawnX;
+    private int lemmingSpawnY;
 
 
-    public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, ExitModel exit) {
+    public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, ExitModel exit, int lemmingSpawnX, int lemmingSpawnY) {
         this.mapModel = map;
         this.stock = stock;
         this.levelName = lvlName;
@@ -31,6 +33,8 @@ public class LevelModel {
         this.exit = exit;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
+        this.lemmingSpawnX = lemmingSpawnX;
+        this.lemmingSpawnY = lemmingSpawnY;
 
     }
 
@@ -45,7 +49,7 @@ public class LevelModel {
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                LemmingModel nuevo = new LemmingModel(spawnedLemmings, 500, 205, 1, 1, mapModel);
+                LemmingModel nuevo = new LemmingModel(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, 1, mapModel);
                 //LemmingModel nuevo = new LemmingModel(1, 720, 120, 1, 1, mapModel);
                 lemmings.add(nuevo);
             }
