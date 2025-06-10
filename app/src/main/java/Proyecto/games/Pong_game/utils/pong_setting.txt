@@ -1,8 +1,12 @@
 musicOff=true
-track=TRACK2
-difficult=HARD
+track=TRACK1
+difficult=EASY
 maxPoints=5
 twoPlayers=false
-ballSkin=NORMAL
+ballSkin=CRAZY
 pitchSkin=BLUE
 fullScreen=false
+Player1Keys1=79
+Player1Keys2=40
+Player2Keys1=87
+Player2Keys2=83

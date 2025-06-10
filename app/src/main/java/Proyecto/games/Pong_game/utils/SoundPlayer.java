@@ -11,12 +11,15 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class SoundPlayer {
     private static Clip clip;
+
     public static void playSound(String soundFilePath) {
         try {
+            // Si ya hay un clip reproduciendo, detenerlo
+            stopSound();
             File soundFile = new File(soundFilePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
 
-            Clip clip = AudioSystem.getClip();
+            clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();
 
@@ -26,9 +29,16 @@ public class SoundPlayer {
     }
 
     public static void stopSound() {
-        if (clip != null && clip.isRunning()) {
+    if (clip != null) {
+        if (clip.isRunning()) {
             clip.stop();
-            clip.close(); // libera el recurso
         }
+        // Cerrar el clip en un hilo aparte para evitar bloquear el hilo principal
+        Clip oldClip = clip;
+        clip = null;
+        new Thread(() -> {
+            oldClip.close();
+        }).start();
     }
+}
 }
