@@ -1,6 +1,6 @@
 package Proyecto.games.Lemmings_game.View;
 
-import Proyecto.games.Lemmings_game.Model.Ability;
+import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
 import Proyecto.games.Lemmings_game.Model.Stock;
 
@@ -36,6 +36,7 @@ public class LevelView {
         this.mapView = mapView;
         this.model = model;
         this.stock = stock;
+
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
 

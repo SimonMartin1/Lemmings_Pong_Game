@@ -1,4 +1,4 @@
-package Proyecto.games.Lemmings_game.Model;
+package Proyecto.games.Lemmings_game.Utils;
 
 public enum LemmingState {
     ALIVE,
