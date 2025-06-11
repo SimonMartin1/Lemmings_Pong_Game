@@ -14,7 +14,6 @@ import Proyecto.games.Lemmings_game.Lemmings;
 public class GameMenuView {
     private final int width;
     private final int height;
-    private boolean animation;
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
@@ -43,7 +42,7 @@ public class GameMenuView {
             g.drawString("Settings", width-250 , height-60);
             g.drawString("Score", 250 , height-60);
 
-        if (!animation && showPressText) {
+        if (game.getIsinMenu() && showPressText) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.drawString("Click or Enter", width/2 - 71, 420);
@@ -58,33 +57,25 @@ public class GameMenuView {
         }
     }
 
-    public boolean detectPlay(Mouse m) {
-        if (m.isLeftButtonPressed()) {
-            int mx = m.getX();
-            int my = m.getY();
-            int bx = width/2 - 100, by = 300, bw = 200, bh = 60;
-            if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
-                animation = true;
-            }
-        }
+    public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
+        int mx = m.getX();
+        int my = m.getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && m.isLeftButtonPressed() ;
+    }
 
-        return animation;
+    public boolean detectPlay(Mouse m) {
+        return mouseTracker(width/2 - 100, 300,200,60, m);
     }
 
     public boolean detectPlay(Keyboard k){
-        if (k.isKeyPressed(10)) {
-            animation = true;
-        }
-
-        return animation;
+        return k.isKeyPressed(10);
     }
 
-
     public boolean detectSetting(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width - 250, by = height-110, bw = 150, bh = 80;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
+        return  mouseTracker(width - 250,height-110,150,80, m) && !game.getIsinsettings();
+    }
+        public boolean detectScore(Mouse m) {
+        return  mouseTracker(250,height-110,150,80, m) && !game.getIsinsettings();
     }
 
 }
