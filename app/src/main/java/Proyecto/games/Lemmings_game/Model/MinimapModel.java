@@ -6,6 +6,7 @@ public class MinimapModel {
     private MapView mapView;
     private LevelView levelView;
     private LevelModel levelModel;
+    private CursorModel cursorModel;
     private int mapWidth = 450 ;
     private int mapHeight = 1536;
     private int minimapWidth = 250;

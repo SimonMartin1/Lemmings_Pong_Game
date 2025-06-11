@@ -28,6 +28,7 @@ public class LevelView {
     private int screenWidth;
     private int screenHeight;
     
+    // Estos son los valores fijos que usabas antes
     int baseX = 850;
     int baseY = 600;
     int baseWidth = 250;

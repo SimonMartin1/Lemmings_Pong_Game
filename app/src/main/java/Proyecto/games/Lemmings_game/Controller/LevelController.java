@@ -28,27 +28,27 @@ public class LevelController {
     private final Mouse mouse;
     private final Keyboard keyboard;
     private int camX;
-    private final int camY = 0;
-    boolean fullscreen;
+    private final int camY;
+
     private final List<LemmingView> lemmingViews = new ArrayList<LemmingView>();
 
     private boolean isStarting;
 
 
-    public LevelController(LevelModel lvlModel, LevelView lvlView, Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight , boolean fullscreen) {
+    public LevelController(LevelModel lvlModel, LevelView lvlView, Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight) {
         this.levelModel = lvlModel;
         this.levelView = lvlView;
-        this.cursorModel = new CursorModel(lvlModel.getStock(), m, screenWidth, screenHeight, fullscreen);
-        this.fullscreen = fullscreen;
+        this.cursorModel = new CursorModel(lvlModel.getStock(), m, screenWidth, screenHeight);
+
         this.levelView.setCamX(camX);
-        //this.levelView.setCamY(camY);
+        this.levelView.setCamY(camY);
 
         this.keyboard = k;
         this.mouse = m;
         //this.camX = levelView.getCamX();
 
         this.camX = camX;
-        //this.camY = camY;
+        this.camY = camY;
         this.minimapModel = minimapModel;
         cursorModel.setCurrentLemmings(levelModel.getLemmings());
         this.screenWidth = screenWidth;
@@ -122,6 +122,9 @@ public class LevelController {
     }
 
 
+    public boolean wantsToStart(Keyboard k){
+        return k.isKeyPressed(KeyEvent.VK_I);
+    }
 
     private void syncLemmingViews() {
         java.util.List<LemmingModel> lemmingModels = levelModel.getLemmings();
@@ -140,7 +143,7 @@ public class LevelController {
         levelModel.reset();
         levelView.reset();
 
-        this.cursorModel = new CursorModel(levelModel.getStock(), mouse, screenWidth, screenHeight, fullscreen);
+        this.cursorModel = new CursorModel(levelModel.getStock(), mouse, screenWidth, screenHeight);
         cursorModel.setCurrentLemmings(levelModel.getLemmings());
     }
 }
