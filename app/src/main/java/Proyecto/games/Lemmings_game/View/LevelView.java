@@ -34,10 +34,10 @@ public class LevelView {
     int baseWidth = 250;
     int baseHeight = 100;
 
-    public LevelView(LevelModel model, MapView mapView, Stock stock, int screenWidth, int screenHeight) {
+    public LevelView(LevelModel model, MapView mapView, int screenWidth, int screenHeight) {
         this.mapView = mapView;
         this.model = model;
-        this.stock = stock;
+        this.stock = model.getStock();
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -47,9 +47,9 @@ public class LevelView {
         float buttonWidth = 0.13f;
         float buttonHeight = 0.25f;
         float startY = 0.75f; // 450/600
-        buttonAcelerate = new Buttons("+", 0.01f, startY, 0.1f, 0.1f);
-        buttonSlow = new Buttons("-", 0.01f, 0.82f, 0.1f, 0.1f);
-        buttonNuke = new Buttons("Nuke", 0.01f, 0.89f, 0.1f, 0.1f);
+        buttonAcelerate = new Buttons(":D", 0.01f, startY, 0.1f, 0.1f);
+        buttonSlow = new Buttons("+", 0.01f, 0.82f, 0.1f, 0.1f);
+        buttonNuke = new Buttons("-", 0.01f, 0.89f, 0.1f, 0.1f);
         buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
         buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
         buttonStop = new Buttons("Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), 0.31f, startY, buttonWidth, buttonHeight);
@@ -76,9 +76,9 @@ public class LevelView {
     public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
 
         mapView.draw(g);
-        buttonAcelerate.drawExtraButton(g, "+", panelWidth, panelHeight);
-        buttonSlow.drawExtraButton(g, "-", panelWidth, panelHeight);
-        buttonNuke.drawExtraButton(g, "Nuke", panelWidth, panelHeight);
+        buttonAcelerate.drawExtraButton(g, "NASHE", panelWidth, panelHeight);
+        buttonSlow.drawExtraButton(g, "+", panelWidth, panelHeight);
+        buttonNuke.drawExtraButton(g, "-", panelWidth, panelHeight);
         buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
         buttonStop.draw(g,"Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), panelWidth, panelHeight);
         buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
@@ -97,9 +97,12 @@ public class LevelView {
         g.setFont(new Font("Arial", Font.BOLD, 32));
 
         if (model.isLevelWon()) {
-            g.drawString("¡Nivel completado!", 200, 200);
+            g.drawString("Nivel completado!", 200, 200);
+            g.drawString("Enter para avanzar al siguiente nivel", 200, 300);
         } else {
             g.drawString("Perdiste", 200, 200);
+            g.drawString("Enter para repetir el nivel", 200, 300);
+            g.drawString("Escape para volver al menu", 200, 400);
         }
     }
 
@@ -118,4 +121,8 @@ public class LevelView {
         return camY;
     }   
 
+
+    public void reset(){
+        stock = model.getStock();
+    }
 }

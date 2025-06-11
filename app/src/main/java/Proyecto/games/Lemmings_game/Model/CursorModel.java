@@ -33,13 +33,13 @@ public class CursorModel {
 
     public void checkClick(int x, int y){
         boolean isPressed = mouse.isLeftButtonPressed();
-        
+    
         int windowWidth = screenWidth;
         int windowHeight = screenHeight;
-    
+        int extraMargin = 10;
         float startY = 0.75f;
         float buttonHeight = 0.25f;
-        float buttonWidth = 0.13f;
+        float buttonWidth = 0.12f;
         float espacio = 0.03f;
         float startX = 0.01f;
     
@@ -77,9 +77,9 @@ public class CursorModel {
                                 if (stock.hasAbility(Ability.UMBRELLA)) {
                                     currentSelectedAbility = new UmbrellaAbility();
                                     currentAbility = Ability.UMBRELLA;
-                                    System.out.println("Habilidad Build guardada en el cursor");
+                                    System.out.println("Habilidad UMBRELLA guardada en el cursor");
                                 } else {
-                                    System.out.println("No hay stock de Umbrellas");
+                                    System.out.println("No hay stock de Build");
                                 }
                                 break;
                             case 3:
@@ -97,40 +97,43 @@ public class CursorModel {
                     
                     int offsetX = (int)(0.59f * windowWidth);
             
-                    float extraRelWidth = buttonWidth * 0.5f;
-                    float extraRelHeight = buttonHeight * 0.4f;
-                    // buttonAcelerate
+                    float extraRelWidth = 0.10f * 0.5f;
+                    float extraRelHeight = 0.13f * 0.4f;
 
-                    
                     float acelRelX = startX;  
-                    float acelRelY = 0.72f;       
+                    float acelRelY = 0.76f;       
                     int acelAbsX = (int)(acelRelX * windowWidth) + offsetX;
                     int acelAbsY = (int)(acelRelY * windowHeight);
                     int acelAbsW = (int)(extraRelWidth * windowWidth);
                     int acelAbsH = (int)(extraRelHeight * windowHeight);
             
-                    if (x >= acelAbsX && x <= acelAbsX + acelAbsW && y >= acelAbsY && y <= acelAbsY + acelAbsH    ) {
+                    // --- BOTÓN ACELERAR ---
+                    if (x >= acelAbsX - extraMargin && x <= acelAbsX + acelAbsW + extraMargin &&
+                        y >= acelAbsY - extraMargin && y <= acelAbsY + acelAbsH + extraMargin ) {
                         for(LemmingModel lemming : currentLemmings){
                             if(lemming.getSpeed() < 4){
-                            lemming.setSpeed(lemming.getSpeed() +1 );
+                                lemming.setSpeed(lemming.getSpeed() +1 );
+                            }
                         }
                     }
                     // buttonSlow
                     float slowRelX = startX;         // 0.01f
-                    float slowRelY = 0.80f;          // según lo que pusiste antes para slow
+                    float slowRelY = 0.83f;          // según lo que pusiste antes para slow
                     int slowAbsX = (int)(slowRelX * windowWidth) + offsetX;
                     int slowAbsY = (int)(slowRelY * windowHeight);
                     int slowAbsW = (int)(extraRelWidth * windowWidth);
                     int slowAbsH = (int)(extraRelHeight * windowHeight);
-            
-                    if (x >= slowAbsX && x <= slowAbsX + slowAbsW && y >= slowAbsY - 8 && y <= slowAbsY + slowAbsH + 8	) {
+                    // --- BOTÓN RALENTIZAR ---
+                    if (x >= slowAbsX - extraMargin && x <= slowAbsX + slowAbsW + extraMargin &&
+                        y >= slowAbsY - extraMargin && y <= slowAbsY + slowAbsH + extraMargin) {
                         for(LemmingModel lemming : currentLemmings){
                             if(lemming.getSpeed() > 0){
+                                System.out.println("nashee burguer ");
                                 lemming.setSpeed(lemming.getSpeed() - 1 );
                             }
                         }
                     }
-                }}
+                }
             } else {
                 // Click en un lemming
                 for(LemmingModel lemming : currentLemmings){
