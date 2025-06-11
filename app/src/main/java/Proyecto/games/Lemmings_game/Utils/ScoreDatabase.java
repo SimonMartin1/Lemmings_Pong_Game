@@ -11,6 +11,7 @@ public class ScoreDatabase {
     public static Connection connect() {
         Connection conn = null;
         try {
+            // This creates the file if it doesn't exist
             String url = "jdbc:sqlite:app\\src\\main\\java\\Proyecto\\games\\Lemmings_game\\utils\\Lemmings_Score.db";
             conn = DriverManager.getConnection(url);
             System.out.println("Connected to SQLite");
@@ -18,6 +19,21 @@ public class ScoreDatabase {
             System.err.println("Connection error: " + e.getMessage());
         }
         return conn;
+    }
+
+    public static java.util.List<String[]> getRanking() {
+        String sql = "SELECT player, score FROM scores ORDER BY score DESC LIMIT 10";
+        java.util.List<String[]> ranking = new java.util.ArrayList<>();
+        try (Connection conn = ScoreDatabase.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                ranking.add(new String[]{rs.getString("player"), String.valueOf(rs.getInt("score"))});
+            }
+        } catch (Exception e) {
+            System.err.println("Error getting ranking: " + e.getMessage());
+        }
+        return ranking;
     }
     
     public static void createTable() {
@@ -50,18 +66,20 @@ public class ScoreDatabase {
         }
     }
     
-    public static java.util.List<String[]> getRanking() {
-    String sql = "SELECT player, score FROM scores ORDER BY score DESC LIMIT 10";
-    java.util.List<String[]> ranking = new java.util.ArrayList<>();
-    try (Connection conn = ScoreDatabase.connect();
-         Statement stmt = conn.createStatement();
-         ResultSet rs = stmt.executeQuery(sql)) {
-        while (rs.next()) {
-            ranking.add(new String[]{rs.getString("player"), String.valueOf(rs.getInt("score"))});
+    public static void showRanking() {
+        String sql = "SELECT player, score FROM scores ORDER BY score DESC LIMIT 10";
+
+        try (Connection conn = ScoreDatabase.connect();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql)) {
+
+            System.out.println("🏆 Ranking:");
+            while (rs.next()) {
+                System.out.println(rs.getString("player") + " - " + rs.getInt("score"));
+            }
+
+        } catch (Exception e) {
+            System.err.println("Error showing ranking: " + e.getMessage());
         }
-    } catch (Exception e) {
-        System.err.println("Error getting ranking: " + e.getMessage());
     }
-    return ranking;
-}
 }

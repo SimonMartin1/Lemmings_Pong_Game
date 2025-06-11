@@ -11,7 +11,7 @@ import Proyecto.games.Lemmings_game.Lemmings;
 public class GameSettingsView {
     private int width;
     private int height;
-    public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
+    private boolean drawOn=true,prevMousePressed,drawFullScreen=true;
     private final Lemmings game;
 
 
@@ -23,11 +23,11 @@ public class GameSettingsView {
 
 
     public void activeButtons(Graphics2D g, int xtext, int ytext, String text ,int xfill,int yfill, int width, int height, int arcx, int arcy){
-            g.setColor(Color.WHITE);
-            g.fillRoundRect(xfill, yfill, width, height, arcx, arcy);
-            g.setColor(new Color(0, 0, 0, 255));
-            g.setFont(new Font("Arial", Font.BOLD, 18));
-            g.drawString(text, xtext , ytext);
+        g.setColor(Color.WHITE);
+        g.fillRoundRect(xfill, yfill, width, height, arcx, arcy);
+        g.setColor(new Color(0, 0, 0, 255));
+        g.setFont(new Font("Arial", Font.BOLD, 18));
+        g.drawString(text, xtext , ytext);
     }
 
     public void drawmenu(Graphics2D g) {
@@ -48,10 +48,10 @@ public class GameSettingsView {
         g.drawString("Cancel", width-245 , height-65);
         g.drawString("Reset", width-145 , height-65);
         //g.fillRoundRect(width-325, height-80, 60, 30, 20, 20);
-    
+
 
         if(drawOn){
-        activeButtons(g,width/2-120, 125,"On", width/2-125, 105, 40, 30, 10, 10);
+            activeButtons(g,width/2-120, 125,"On", width/2-125, 105, 40, 30, 10, 10);
         }
         else{
             activeButtons(g,width/2-40, 125,"Off", width/2-45, 105, 40, 30, 10, 10);
@@ -60,7 +60,7 @@ public class GameSettingsView {
             activeButtons(g, width/2-120 , 170,"On", width/2-125, 150, 40, 30, 10, 10);
         }else{
             activeButtons(g, width/2-40 , 170,"Off", width/2-45, 150, 40, 30, 10, 10);
-        }        
+        }
     }
 
 
@@ -71,11 +71,11 @@ public class GameSettingsView {
                 drawOn=true;
             }
             case "Off" -> {
-            drawOn = false;
+                drawOn = false;
             }
             case "reset" -> {
-            drawOn = true;
-            drawFullScreen=false;
+                drawOn = true;
+                drawFullScreen=false;
             }
             case "fullscreen" ->{drawFullScreen=true;}
             case "fullscreenOff" ->{drawFullScreen=false;}
@@ -84,10 +84,10 @@ public class GameSettingsView {
 
 
     private boolean isMouseJustPressed(Mouse m) {
-    boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-    prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed && game.getIsinsettings() ;
-}
+        boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
+        prevMousePressed = m.isLeftButtonPressed();
+        return  justPressed && game.getIsinsettings() ;
+    }
 
     public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         int mx = m.getX();
@@ -96,24 +96,24 @@ public class GameSettingsView {
     }
 
     public boolean isMusicOnClicked(Mouse m) {
-    return mouseTracker(width/2-125, 85, 40, 30, m);
-}
-public boolean isMusicOffClicked(Mouse m) {
-    return mouseTracker(width/2-45, 85, 40, 30, m);
-}
-public boolean isFullScreenClicked(Mouse m) {
-    return mouseTracker(width/2-125, 107, 40, 40, m);
-}
-public boolean isFullScreenOffClicked(Mouse m) {
-    return mouseTracker(width/2-45, 107, 40, 30, m);
-}
-public boolean isSaveClicked(Mouse m) {
-    return mouseTracker(width-325, height-110, 30, 30, m);
-}
-public boolean isCancelClicked(Mouse m) {
-    return mouseTracker(width-245, height-110, 30, 30, m);
-}
-public boolean isResetClicked(Mouse m) {
-    return mouseTracker(width-145, height-110, 30, 30, m);
-}
+        return mouseTracker(width/2-125, 85, 40, 30, m);
+    }
+    public boolean isMusicOffClicked(Mouse m) {
+        return mouseTracker(width/2-45, 85, 40, 30, m);
+    }
+    public boolean isFullScreenClicked(Mouse m) {
+        return mouseTracker(width/2-125, 107, 40, 40, m);
+    }
+    public boolean isFullScreenOffClicked(Mouse m) {
+        return mouseTracker(width/2-45, 107, 40, 30, m);
+    }
+    public boolean isSaveClicked(Mouse m) {
+        return mouseTracker(width-325, height-110, 30, 30, m);
+    }
+    public boolean isCancelClicked(Mouse m) {
+        return mouseTracker(width-245, height-110, 30, 30, m);
+    }
+    public boolean isResetClicked(Mouse m) {
+        return mouseTracker(width-145, height-110, 30, 30, m);
+    }
 }

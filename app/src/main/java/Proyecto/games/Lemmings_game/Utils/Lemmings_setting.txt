@@ -1,2 +1,2 @@
 musicOff=false
-fullScreen=true
+fullScreen=false

@@ -14,17 +14,17 @@ public class GameSettingsController {
             SoundPlayer.stopSound();
         }if(view.isFullScreenClicked(game.getMouse())){
             view.setDraw("fullscreen");
-            Lemmings.setFullScreen(true);
+            game.setFullScreen(true);
         }else if(view.isFullScreenOffClicked(game.getMouse())){
             view.setDraw("fullscreenOff");
-            Lemmings.setFullScreen(false);
+            game.setFullScreen(false);
         }if(view.isSaveClicked(game.getMouse())){
             game.saveSettings();
             game.setIsinsettings();
         }if(view.isResetClicked(game.getMouse())){
             view.setDraw("reset");
             game.setMusicOFF(false);
-            Lemmings.setFullScreen(false);
+            game.setFullScreen(false);
         }if(view.isCancelClicked(game.getMouse())){
             if(game.getbackUp().musicOff){
                 view.setDraw("Off");
@@ -39,7 +39,7 @@ public class GameSettingsController {
                 view.setDraw("fullscreenOff");
             }
             game.setMusicOFF(game.getbackUp().musicOff);
-            Lemmings.setFullScreen(game.getbackUp().fullScreen);
+            game.setFullScreen(game.getbackUp().fullScreen);
         }
     }
 }
