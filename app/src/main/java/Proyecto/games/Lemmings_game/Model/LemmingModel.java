@@ -27,12 +27,12 @@ public class LemmingModel {
     int camX = 0;
 
     //ventana
-    int offsetY = 20;
-    int offsetY2 = 30;
+    //int offsetY = 20;
+    //int offsetY2 = 30;
 
     //pantalla completa
-    //int offsetY = 0;
-    //int offsetY2 = 0;
+    int offsetY = 0;
+    int offsetY2 = 0;
 
     int lastTileBeforeFalling;
     int quantityTilesFalling = 0;

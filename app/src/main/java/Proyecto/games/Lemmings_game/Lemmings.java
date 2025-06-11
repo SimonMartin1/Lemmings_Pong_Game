@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +61,7 @@ public class Lemmings extends JGame {
     private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
+    private int pointsSum;
     private final boolean scoreAlreadySaved = false;
     private Boolean prevPausePressed = null;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
@@ -112,7 +114,6 @@ public class Lemmings extends JGame {
         if (fullScreen) {
             setFullScreen(); 
         }
-
 
         try{
 
@@ -238,7 +239,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         }
     }
 
-    
+
     public boolean wantsBackMenu(Keyboard keyboard) {
         return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
     }
@@ -255,6 +256,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         prevPausePressed = currentPressed;
         return justPressed;
     }
+
 
     @Override
     public void gameDraw(Graphics2D g) {
@@ -285,7 +287,6 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
 
     @Override
     public void gameShutdown() {
-        // Guardar datos, cerrar recursos
     }
 
     private void setFullScreen() {
@@ -308,6 +309,10 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             System.out.println("¡Pasaste al nivel " + (currentLevel + 1) + "!");
         } else {
             System.out.println("¡Felicitaciones! Completaste todos los niveles.");
+            for(LevelModel l : levelModels){
+                pointsSum += l.getPointsLevel();
+            }
+            db.saveScore(getTitle(), pointsSum);
             // Podés reiniciar o mostrar un mensaje de fin de juego
             // gameMenuView.reset(); o lo que necesites
         }
