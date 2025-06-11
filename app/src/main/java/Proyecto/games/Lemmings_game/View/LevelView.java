@@ -66,6 +66,9 @@ public class LevelView {
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Nivel: " + model.getLevelName(), 100, 100);
         g.drawString("Salvá al menos: " + model.getLemmingsToGenerate() + "% de lemmings", 100, 140);
+        g.fillRoundRect(325, 310, 180, 40, 20, 20);
+        g.setColor(Color.BLACK);
+        g.drawString("Play Level", 350, 340);
 
         // Podés agregar botón o esperar input para comenzar
     }

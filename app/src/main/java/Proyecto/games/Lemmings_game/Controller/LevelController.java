@@ -28,7 +28,6 @@ public class LevelController {
     private final MinimapModel minimapModel;
     private final Mouse mouse;
     private final Keyboard keyboard;
-
     private int camX;
     private final int camY;
 
@@ -73,12 +72,13 @@ public class LevelController {
 
         levelModel.setCamX(this.camX);
 
-        if (isStarting) {
-            if (keyboard.isKeyPressed(KeyEvent.VK_I) || mouse.isLeftButtonPressed()) {
+        // if (isStarting && (mouse.getX() >= 325 && mouse.getX() <= 325 + 180 && mouse.getY() >= 310 && mouse.getY() <= 310 + 40 && mouse.isLeftButtonPressed())) {
+        //         isStarting = false;
+        // }
+
+        if (keyboard.isKeyPressed(KeyEvent.VK_I) || mouse.isLeftButtonPressed()) {
                 isStarting = false;
             }
-        }
-
 
         levelModel.update(delta);
         cursorModel.setCamX(levelView.getCamX());

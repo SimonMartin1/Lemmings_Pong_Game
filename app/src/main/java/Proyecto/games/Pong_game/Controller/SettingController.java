@@ -128,6 +128,7 @@ public class SettingController{
                 case CRAZY -> {game.setBallSkin(2);}
             }
             switch(game.backupSettings.pitchSkin){
+                default -> {game.setPitchSkin(1);}
                 case BLACK -> {game.setPitchSkin(1);}
                 case BLUE -> {game.setPitchSkin(2);}
                 case BASKET -> {game.setPitchSkin(3);}

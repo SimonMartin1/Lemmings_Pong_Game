@@ -15,7 +15,6 @@ public class SoundPlayer {
     public static void playSound(String soundFilePath) {
         try {
             // Si ya hay un clip reproduciendo, detenerlo
-            stopSound();
             File soundFile = new File(soundFilePath);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
 
