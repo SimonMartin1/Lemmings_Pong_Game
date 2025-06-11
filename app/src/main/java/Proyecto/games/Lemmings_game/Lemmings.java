@@ -48,7 +48,7 @@ public class Lemmings extends JGame {
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
-    private final static boolean fullScreen = true;
+    private final static boolean fullScreen = false;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
