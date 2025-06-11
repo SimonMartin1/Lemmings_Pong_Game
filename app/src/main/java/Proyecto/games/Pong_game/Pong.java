@@ -131,13 +131,6 @@ public class Pong extends JGame implements KeyListener{
         getFrame().addKeyListener(this);
         getFrame().setFocusable(true);
         getFrame().requestFocus();
-        getFrame().addWindowListener(new WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
-            gameShutdown();
-            System.exit(0); // Opcional: cierra la aplicación completamente
-        }
-    });
     }
     public void initSettings(){
         setting = SettingsModel.loadSettings();
@@ -539,7 +532,6 @@ public void stopTrack() {
             gameReset();
         }
         saveSettings();
-        System.exit(0);
     
     }
 
