@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 import com.entropyinteractive.JGame;
+import com.entropyinteractive.Keyboard;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
@@ -28,11 +29,11 @@ import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import Proyecto.games.Lemmings_game.View.ExitView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
+import Proyecto.games.Lemmings_game.View.GamePauseView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
 import Proyecto.utils.SoundPlayer;
-import Proyecto.games.Lemmings_game.View.GameSettingsView;
 
 
 
@@ -51,11 +52,13 @@ public class Lemmings extends JGame {
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
+    private GamePauseView gamePauseView;
     private final static boolean fullScreen = false;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
     private final boolean scoreAlreadySaved = false;
+    private Boolean prevPausePressed = null;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
     public Lemmings(String title, int width, int height) {
@@ -119,9 +122,6 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,0, db , 690, 70);
-            MapModel secondLevelMapModel = new MapModel(2,0, db, 1100, 340);
-            MapModel thirdLevelMapModel = new MapModel(3,0, db, 1050, 260);
 
             createLevel(
                     1, 1, 1020, 300, 690, 70, 0, 0,
@@ -177,6 +177,7 @@ public class Lemmings extends JGame {
         SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
+        gamePauseView= new GamePauseView(screenWidth, screenHeight);
         settingsView= new GameSettingsView(screenWidth, screenHeight, null);
     }
 
@@ -185,7 +186,7 @@ public class Lemmings extends JGame {
         
         if(isInMenu){
             gameMenu.update(delta);
-          
+
             if (gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())) {
             isInMenu=false;
             }
@@ -194,24 +195,44 @@ public class Lemmings extends JGame {
             }
         }
         else{
-            buttonController.update();
-            levelControllers.get(currentLevel).update(delta);
 
-            // Chequeo si se completó el nivel
+            if(pauseGame()){
+                gamePause=true;
+            }
+            
+            if(!gamePause){
+                buttonController.update();
+                levelControllers.get(currentLevel).update(delta);
+            
 
-            if(levelModels.get(currentLevel).isLevelFinished()){
-                if (levelModels.get(currentLevel).isLevelWon()) {
-                    nextLevel();
-                }else{
-                    repeatLevel();
+                if(levelModels.get(currentLevel).isLevelFinished()){
+                    if (levelModels.get(currentLevel).isLevelWon()) {
+                        nextLevel();
+                    }else{
+                        repeatLevel();
+                    }
                 }
             }
-
         }
     }
 
     
-    
+    public boolean wantsBackMenu(Keyboard keyboard) {
+        return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
+    }
+
+    public boolean pauseGame() {
+        boolean currentPressed = getKeyboard().isKeyPressed(KeyEvent.VK_P);
+
+        if (prevPausePressed == null) {
+            prevPausePressed = currentPressed;
+            return false;
+        }
+
+        boolean justPressed = currentPressed && !prevPausePressed;
+        prevPausePressed = currentPressed;
+        return justPressed;
+    }
 
     @Override
     public void gameDraw(Graphics2D g) {
@@ -230,6 +251,9 @@ public class Lemmings extends JGame {
 
             levelControllers.get(currentLevel).draw(g);
             mapModels.get(0).getExit().drawTest(g);
+            if(gamePause){
+                gamePauseView.draw(g);
+            }
         }
 
     }
@@ -251,6 +275,7 @@ public class Lemmings extends JGame {
     
         frame.setVisible(true);
     }
+
 
     private void nextLevel() {
         if (currentLevel < levelModels.size() - 1) {
