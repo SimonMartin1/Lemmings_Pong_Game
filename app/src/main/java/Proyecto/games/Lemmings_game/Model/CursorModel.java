@@ -25,12 +25,13 @@ public class CursorModel {
     private static final float SPEED_BUTTON_HEIGHT_RATIO = 0.052f; // 0.13f * 0.4f
     private static final float ACCEL_BUTTON_Y_RATIO = 0.76f;
     private static final float SLOW_BUTTON_Y_RATIO = 0.83f;
-    private static final float NASHE_BUTTON_Y_RATIO = 0.69f; 
-    
+    private static final float NASHE_BUTTON_Y_RATIO = 0.69f;
+
     private static final int UI_BUTTON_EXTRA_MARGIN = 10;
-    
+
     // Offset vertical para botones, ajustable para diferentes modos de pantalla.
-    private int FULLSCREEN_VERTICAL_OFFSET;
+    //private static final int FULLSCREEN_VERTICAL_OFFSET = 50;
+    private int FULLSCREEN_VERTICAL_OFFSET = 0;
     // private static final int WINDOWED_VERTICAL_OFFSET = 0;
 
     // --- Dependencias y Estado ---
@@ -44,17 +45,16 @@ public class CursorModel {
     private int camX;
     private boolean wasPressedLastFrame = false;
 
-    // --- Mapa de Habilidades (Patrón Factory) ---
     private static final Map<Ability, Supplier<AbilityClass>> ABILITY_FACTORY = Map.of(
-        Ability.DIGGER, DigAbility::new,
-        Ability.STOP, WallAbility::new,
-        Ability.UMBRELLA, UmbrellaAbility::new,
-        Ability.CLIMB, ClimbAbility::new
+            Ability.DIGGER, DigAbility::new,
+            Ability.STOP, WallAbility::new,
+            Ability.UMBRELLA, UmbrellaAbility::new,
+            Ability.CLIMB, ClimbAbility::new
     );
-    
-    // Define el orden de los botones de habilidad en la UI.
+
+
     private static final Ability[] ABILITY_BUTTON_ORDER = {
-        Ability.DIGGER, Ability.STOP, Ability.UMBRELLA, Ability.CLIMB
+            Ability.DIGGER, Ability.STOP, Ability.UMBRELLA, Ability.CLIMB
     };
 
     public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight, boolean fullscreen) {
@@ -62,7 +62,6 @@ public class CursorModel {
         this.mouse = mouse;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-
         if(fullscreen){
             FULLSCREEN_VERTICAL_OFFSET = 0;
         }else{
@@ -70,16 +69,13 @@ public class CursorModel {
         }
     }
 
-    /**
-     * Método principal de actualización, llamado en cada frame del juego.
-     */
     public void update() {
         boolean isPressed = mouse.isLeftButtonPressed();
-        
+
         if (isPressed && !wasPressedLastFrame) {
             handleMouseClick(mouse.getX(), mouse.getY());
         }
-        
+
         wasPressedLastFrame = isPressed;
     }
 
@@ -88,7 +84,7 @@ public class CursorModel {
      */
     private void handleMouseClick(int x, int y) {
         int uiStartY = (int) (UI_START_Y_RATIO * screenHeight);
-        
+
         if (y >= uiStartY) {
             handleUiClick(x, y);
         } else {
@@ -112,15 +108,15 @@ public class CursorModel {
 
                 if (isMouseInBounds(x, y, absX, absButtonY, absW, absButtonH)) {
                     selectAbility(ABILITY_BUTTON_ORDER[i]);
-                    return; 
+                    return;
                 }
             }
         }
-        
+
         // --- Comprobación de Botones de Velocidad ---
         handleSpeedButtonsClick(x, y);
     }
-    
+
     /**
      * Maneja específicamente los clics en los botones de acelerar y ralentizar.
      */
@@ -166,18 +162,18 @@ public class CursorModel {
             if (lemming.isClicked(x, y, camX)) {
                 System.out.println("Habilidad asignada al lemming!");
                 lemming.assignAbility(currentSelectedAbility);
-                
+
                 // Usamos el campo 'currentAbility' que guardamos, tal como en el código original.
-                stock.substractAbility(currentAbility); 
+                stock.substractAbility(currentAbility);
 
                 // Limpiamos ambas variables
                 currentSelectedAbility = null;
                 currentAbility = null;
-                break; 
+                break;
             }
         }
     }
-    
+
     /**
      * Intenta seleccionar una habilidad, actualizando las dos variables de estado.
      */
@@ -190,7 +186,7 @@ public class CursorModel {
             System.out.println("No hay stock de " + ability.name());
         }
     }
-    
+
     /**
      * Cambia la velocidad de todos los lemmings actuales.
      */
@@ -224,7 +220,7 @@ public class CursorModel {
     private boolean isMouseInBounds(int mouseX, int mouseY, int x, int y, int width, int height) {
         return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
     }
-    
+
     /**
      * Sobrecarga de isMouseInBounds para incluir un margen adicional.
      */
