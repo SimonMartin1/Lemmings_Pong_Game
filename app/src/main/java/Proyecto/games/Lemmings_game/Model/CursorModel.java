@@ -31,7 +31,7 @@ public class CursorModel {
     
     // Offset vertical para botones, ajustable para diferentes modos de pantalla.
     //private static final int FULLSCREEN_VERTICAL_OFFSET = 50;
-    private static final int FULLSCREEN_VERTICAL_OFFSET = 0;
+    private int FULLSCREEN_VERTICAL_OFFSET = 0;
     // private static final int WINDOWED_VERTICAL_OFFSET = 0;
 
     // --- Dependencias y Estado ---
@@ -57,11 +57,16 @@ public class CursorModel {
         Ability.DIGGER, Ability.STOP, Ability.UMBRELLA, Ability.CLIMB
     };
 
-    public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight) {
+    public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight, boolean fullscreen) {
         this.stock = stock;
         this.mouse = mouse;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        if(fullscreen){
+            FULLSCREEN_VERTICAL_OFFSET = 0; 
+        }else{
+            FULLSCREEN_VERTICAL_OFFSET = 50; 
+        }
     }
 
     public void update() {

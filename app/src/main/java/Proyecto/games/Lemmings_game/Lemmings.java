@@ -22,8 +22,8 @@ import java.time.format.DateTimeFormatter;
 
 //import Proyecto.games.Lemmings_game.Controller.ButtonController;
 
-import Proyecto.games.Lemmings_game.Controller.ButtonController;
-
+//import Proyecto.games.Lemmings_game.Controller.ButtonController;
+import Proyecto.games.Lemmings_game.Controller.GameSettingsController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
 import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
@@ -67,7 +67,7 @@ public class Lemmings extends JGame {
     private GameWinView gameWinView;
     private GameSettingsController gameSettingsController;
     private SettingsModel.Settings Settings,backUpSettings;
-    private static boolean fullScreen = false;
+    private static boolean fullScreen = true;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false,musicOff=true;
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
@@ -411,7 +411,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             LevelModel levelModel = new LevelModel(mapModel, stock, lemmingsToGenerate, percentageToWin, levelNumber, levelName, mapModel.getExit(), spawnerX, spawnerY);
             LevelView levelView = new LevelView(levelModel, mapView, screenWidth, screenHeight);
             MinimapModel minimapModel = new MinimapModel(mapView, levelView, levelModel);
-            LevelController levelController = new LevelController(levelModel, levelView, getKeyboard(), getMouse(), camX, camY, minimapModel, screenWidth, screenHeight);
+            LevelController levelController = new LevelController(levelModel, levelView, getKeyboard(), getMouse(), camX, camY, minimapModel, screenWidth, screenHeight, fullScreen);
 
             mapModels.add(mapModel);
             mapViews.add(mapView);
