@@ -171,7 +171,6 @@ public class Lemmings extends JGame {
 
         //Agregamos el listener del mouse
         getFrame().addMouseListener(this.getMouse());
-
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
         SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
