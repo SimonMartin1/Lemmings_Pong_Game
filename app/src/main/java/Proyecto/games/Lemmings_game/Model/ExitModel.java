@@ -21,7 +21,7 @@ public class ExitModel {
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x- mapModel.getCameraX(), y, width, height);
+        return new Rectangle(x- mapModel.getCamX(), y, width, height);
     }
 
     public int getX() {
@@ -34,14 +34,14 @@ public class ExitModel {
 
     public void drawTest(Graphics g ){
         g.setColor(Color.RED);
-        g.drawRect(x- mapModel.getCameraX(), y, width, height);
+        g.drawRect(x- mapModel.getCamX(), y, width, height);
     }
 
     public boolean checkLemming(LemmingModel lemming){
-        if(getBounds().intersects(lemming.getX() - mapModel.getCameraX(), lemming.getY(),16,16)){
+        if(getBounds().intersects(lemming.getX() - mapModel.getCamX(), lemming.getY(),16,16)){
             //System.out.println("llege a la salida");
         }
-        return getBounds().intersects(lemming.getX() - mapModel.getCameraX(), lemming.getY(),16,16);
+        return getBounds().intersects(lemming.getX() - mapModel.getCamX(), lemming.getY(),16,16);
     }
 
     public void sumLemming(LemmingModel lemming){

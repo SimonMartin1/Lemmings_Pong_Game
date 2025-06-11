@@ -34,10 +34,10 @@ public class LevelView {
     int baseWidth = 250;
     int baseHeight = 100;
 
-    public LevelView(LevelModel model, MapView mapView, Stock stock, int screenWidth, int screenHeight) {
+    public LevelView(LevelModel model, MapView mapView, int screenWidth, int screenHeight) {
         this.mapView = mapView;
         this.model = model;
-        this.stock = stock;
+        this.stock = model.getStock();
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -97,9 +97,12 @@ public class LevelView {
         g.setFont(new Font("Arial", Font.BOLD, 32));
 
         if (model.isLevelWon()) {
-            g.drawString("¡Nivel completado!", 200, 200);
+            g.drawString("Nivel completado!", 200, 200);
+            g.drawString("Enter para avanzar al siguiente nivel", 200, 300);
         } else {
             g.drawString("Perdiste", 200, 200);
+            g.drawString("Enter para repetir el nivel", 200, 300);
+            g.drawString("Escape para volver al menu", 200, 400);
         }
     }
 
@@ -118,4 +121,8 @@ public class LevelView {
         return camY;
     }   
 
+
+    public void reset(){
+        stock = model.getStock();
+    }
 }

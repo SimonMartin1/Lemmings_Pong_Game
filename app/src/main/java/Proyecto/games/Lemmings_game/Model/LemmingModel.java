@@ -99,7 +99,7 @@ public class LemmingModel {
 
     public void update(double delta) {
         //le actualizamos el camX probar
-        camX = firstLevelMapModel.getCameraX();
+        camX = firstLevelMapModel.getCamX();
 
         currentTileY = (y)/LemmingConstants.TILE_HEIGHT;
 
