@@ -34,14 +34,12 @@ public class BallController {
     public void updateSize(int width, int height){
         this.width=width;
         this.height=height;
-        
         TOP_BOUNDARY=60;
         BOTTOM_BOUNDARY=height- 60;
         LEFT_PADDLE_X_LIMIT=60;
-        RIGHT_PADDLE_X_LIMIT=width - 90;
-
+        RIGHT_PADDLE_X_LIMIT=width-90;
         RIGHT_GOAL_LIMIT=width-30;
-        PADDLE_HEIGHT = height/3;  
+        PADDLE_HEIGHT = height/3; 
     }
     public void update() {
         ballModel.move();
@@ -76,7 +74,7 @@ public class BallController {
         }
 
         else if (ballModel.getDirX() > 0 && ballModel.getPosX() + 15 >= RIGHT_PADDLE_X_LIMIT) {
-            double paddleY = paddleRightModel.getY();
+            double paddleY = paddleRightModel.getY() ;
             System.out.println("Ball Y: " + ballModel.getPosY());
             System.out.println("Paddle Right Y: " + paddleY);
             if (isCollidingWithPaddle(ballModel.getPosY(), paddleY)) {
@@ -120,6 +118,6 @@ public class BallController {
 
     private boolean isCollidingWithPaddle(double ballY, double paddleY) {
         double ballRadiusY = 15; 
-        return ballY + ballRadiusY >= paddleY  && ballY - ballRadiusY <= paddleY + PADDLE_HEIGHT  ;
+        return ballY + ballRadiusY >= paddleY && ballY - ballRadiusY <= paddleY + PADDLE_HEIGHT;
     }
 }
