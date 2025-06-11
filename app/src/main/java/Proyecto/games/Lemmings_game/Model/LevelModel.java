@@ -3,6 +3,7 @@ package Proyecto.games.Lemmings_game.Model;
 import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
 import Proyecto.games.Lemmings_game.Utils.LemmingState;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -175,7 +176,7 @@ public class LevelModel {
 
     // Getters básicos
 
-    public Stock getStock(){ return  stock; }
+    public Stock getStock(){ return stock; }
 
     public int getNumLevel(){
         return numLevel;
@@ -202,4 +203,23 @@ public class LevelModel {
     }
 
     public boolean getNukeConfirmed(){ return nukeConfirmed; }
+
+
+    public void reset(){
+        this.spawnedLemmings = 0;
+        this.camX = 0;
+
+        this.nukeConfirmed = false;
+        this.nukeStartTime = -1;
+        this.cleanDeaths = -1;
+
+        stock.reset();
+
+        try{
+            mapModel.reset();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
 }
