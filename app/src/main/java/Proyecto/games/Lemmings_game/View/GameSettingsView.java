@@ -47,6 +47,7 @@ public class GameSettingsView {
         g.drawString("Save", width-325 , height-65);
         g.drawString("Cancel", width-245 , height-65);
         g.drawString("Reset", width-145 , height-65);
+        //g.fillRoundRect(width-325, height-80, 60, 30, 20, 20);
     
 
         if(drawOn){
@@ -72,12 +73,9 @@ public class GameSettingsView {
             case "Off" -> {
             drawOn = false;
             }
-            case "Cancel" -> {
-                
-            }
-            case "Reset" -> {
-                drawOn = true;
-                drawFullScreen=false;
+            case "reset" -> {
+            drawOn = true;
+            drawFullScreen=false;
             }
             case "fullscreen" ->{drawFullScreen=true;}
             case "fullscreenOff" ->{drawFullScreen=false;}
@@ -88,42 +86,34 @@ public class GameSettingsView {
     private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed && game.getIsinsettings();
+    return  justPressed && game.getIsinsettings() ;
 }
 
     public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         int mx = m.getX();
         int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m);
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m) && game.getIsinsettings() ;
     }
 
-    // --- TRACK NAME ---
     public boolean isMusicOnClicked(Mouse m) {
-        return mouseTracker(width/2-120, 85, 105, 25, m);
-    }
-
-    // --- OFF ---
-    public boolean isMusicOffClicked(Mouse m) {
-        return mouseTracker(width/2-5, 40, 60, 60, m);
-    }
-    // --- SAVE ---
-    public boolean isSaveClicked(Mouse m) {
-    return mouseTracker(width-325, 500, 30, 30, m);
-    }
-
-    // --- CANCEL ---
-    public boolean isCancelClicked(Mouse m) {
-    return mouseTracker(width-245, 500, 60, 30, m);
-    }
-
-    // --- RESET ---
-    public boolean isResetClicked(Mouse m) {
-    return mouseTracker(width-145, 500, 60, 30, m);
-    }
-        public boolean isFullScreenClicked(Mouse m) {
-        return mouseTracker(width/2-120, height/2+50, 30, 30, m);
-    }
-        public boolean isFullScreenOffClicked(Mouse m) {
-        return mouseTracker(width/2-60, 375, 60, 30, m);
-    }
+    return mouseTracker(width/2-125, 85, 40, 30, m);
+}
+public boolean isMusicOffClicked(Mouse m) {
+    return mouseTracker(width/2-45, 85, 40, 30, m);
+}
+public boolean isFullScreenClicked(Mouse m) {
+    return mouseTracker(width/2-125, 107, 40, 40, m);
+}
+public boolean isFullScreenOffClicked(Mouse m) {
+    return mouseTracker(width/2-45, 107, 40, 30, m);
+}
+public boolean isSaveClicked(Mouse m) {
+    return mouseTracker(width-325, height-110, 30, 30, m);
+}
+public boolean isCancelClicked(Mouse m) {
+    return mouseTracker(width-245, height-110, 30, 30, m);
+}
+public boolean isResetClicked(Mouse m) {
+    return mouseTracker(width-145, height-110, 30, 30, m);
+}
 }

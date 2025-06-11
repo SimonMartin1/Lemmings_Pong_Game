@@ -19,7 +19,11 @@ import com.entropyinteractive.Mouse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+
 //import Proyecto.games.Lemmings_game.Controller.ButtonController;
+
+import Proyecto.games.Lemmings_game.Controller.ButtonController;
+
 import Proyecto.games.Lemmings_game.Controller.LevelController;
 import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
@@ -61,9 +65,10 @@ public class Lemmings extends JGame {
     private GamePauseView gamePauseView;
     private GameScoreView gameScoreView;
     private GameWinView gameWinView;
-    private SettingsModel.Settings Settings;
+    private GameSettingsController gameSettingsController;
+    private SettingsModel.Settings Settings,backUpSettings;
     private static boolean fullScreen = false;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false,musicOff;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false,musicOff=true;
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
     private int pointsSum;
@@ -90,6 +95,17 @@ public class Lemmings extends JGame {
         musicOff=Settings.musicOff;
         fullScreen=Settings.fullScreen;
     }
+
+    public void backUpSettings(){
+        backUpSettings = new SettingsModel.Settings();
+        backUpSettings.fullScreen=fullScreen;
+        backUpSettings.musicOff=musicOff;
+    }
+
+    public SettingsModel.Settings getbackUp(){
+        return backUpSettings;
+    }
+
     public void saveSettings(){
         GameSettingsModel.saveSettings(musicOff,fullScreen);
     }
@@ -101,6 +117,7 @@ public class Lemmings extends JGame {
     public void setMusicOFF(boolean option){
         this.musicOff=option;
     }
+
 
     public boolean getIsinsettings() {
         return this.isInSettings;
@@ -138,6 +155,8 @@ public class Lemmings extends JGame {
         ScoreDatabase.createTable();
 
         playTrack();
+        initSettings();
+        backUpSettings();
 
         if (fullScreen) {
             setFullScreen(); 
@@ -232,6 +251,10 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     @Override
     public void gameUpdate(double delta) {
         
+        if(isInSettings){
+            gameSettingsController= new GameSettingsController(gameSettingsView, this);
+        }
+
         if(isInMenu){
             gameMenu.update(delta);
 
