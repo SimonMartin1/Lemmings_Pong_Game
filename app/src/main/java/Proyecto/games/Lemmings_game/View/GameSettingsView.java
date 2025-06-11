@@ -13,7 +13,7 @@ import Proyecto.games.Lemmings_game.Lemmings;
 public class GameSettingsView {
     private int width;
     private int height;
-    public boolean drawOnSoundEffect, drawOffSoundEffect, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,getKey;
+    private boolean drawOn=true,prevMousePressed,drawFullScreen=true;
     private final Lemmings game;
 
 
@@ -22,48 +22,7 @@ public class GameSettingsView {
         this.height = height;
         this.game = game;
     }
-        // public String getKeys(int option){
-        //     String res;
-        
-    //     switch (option) {
-    //         default -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
-    //         case 1 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[0]);
-    //         case 2 -> res =KeyEvent.getKeyText(game.getPlayersKeys(1)[1]);
-    //         case 3 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[0]);
-    //         case 4 -> res =KeyEvent.getKeyText(game.getPlayersKeys(2)[1]);
-    //     }
-    //     return res;
-    // }
 
-    // public String getTrack(){
-    //     String res="";
-        
-    //     switch (game.getTrack()) {
-    //         case TRACK1 -> res = "Track 1";
-    //         case TRACK2 -> res = "Track 2";
-    //         case TRACK3 -> res = "Track 3";
-    //     }
-    //     return res;
-    // }
-    // public String getPitchSkin(){
-    //     String res="";
-        
-    //     switch (game.getPitchSkin()) {
-    //         case BLACK -> res = "Black";
-    //         case BLUE -> res = "Blue";
-    //         case BASKET -> res = "Basket";
-    //     }
-    //     return res;
-    // }
-    //     public String getBallSkin(){
-    //     String res="";
-        
-    //     switch (game.getBallSkin()) {
-    //         case NORMAL -> res = "Normal";
-    //         case CRAZY -> res = "Crazy";
-    //     }
-    //     return res;
-    // }
 
     public void activeButtons(Graphics2D g, int xtext, int ytext, String text ,int xfill,int yfill, int width, int height, int arcx, int arcy){
             g.setColor(Color.WHITE);
