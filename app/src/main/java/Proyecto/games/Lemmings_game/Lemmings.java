@@ -18,7 +18,7 @@ import javax.swing.JFrame;
 
 import com.entropyinteractive.JGame;
 
-import Proyecto.games.Lemmings_game.Controller.ButtonController;
+//import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
 import Proyecto.games.Lemmings_game.Model.MapModel;
@@ -41,7 +41,7 @@ public class Lemmings extends JGame {
 
     GameMenuView gameMenu;
 
-    ButtonController buttonController;
+    //ButtonController buttonController;
 
     private int currentLevel = 0;
     private ScoreDatabase db;
@@ -53,11 +53,10 @@ public class Lemmings extends JGame {
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
     private final static boolean fullScreen = true;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,musicOFF;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
     private int pointsSum;
-    private final boolean scoreAlreadySaved = false;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
     public Lemmings(String title, int width, int height) {
@@ -83,7 +82,7 @@ public class Lemmings extends JGame {
         this.isInSettings = !this.isInSettings;
     }
 
-        public boolean getIsinMenu() {
+    public boolean getIsinMenu() {
         return this.isInMenu;
     }
     public void setIsinMenu(boolean option) {
@@ -158,7 +157,7 @@ public class Lemmings extends JGame {
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
         SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
-        buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
+        //buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         settingsView= new GameSettingsView(screenWidth, screenHeight, null);
     }
@@ -177,7 +176,7 @@ public class Lemmings extends JGame {
             }
         }
         else{
-            buttonController.update();
+            //buttonController.update();
             levelControllers.get(currentLevel).update(delta);
 
             // Chequeo si se completó el nivel
@@ -185,8 +184,6 @@ public class Lemmings extends JGame {
             if(levelModels.get(currentLevel).isLevelFinished()){
                 if (levelModels.get(currentLevel).isLevelWon()) {
                     nextLevel();
-                }else{
-                    repeatLevel();
                 }
             }
 
@@ -247,10 +244,6 @@ public class Lemmings extends JGame {
             // Podés reiniciar o mostrar un mensaje de fin de juego
             // gameMenuView.reset(); o lo que necesites
         }
-    }
-
-    private void repeatLevel(){
-        System.out.println("Se repetira el nivel");
     }
 
     private void createLevel(

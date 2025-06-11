@@ -44,7 +44,6 @@ public class CursorModel {
     private int camX;
     private boolean wasPressedLastFrame = false;
 
-    // --- Mapa de Habilidades (Patrón Factory) ---
     private static final Map<Ability, Supplier<AbilityClass>> ABILITY_FACTORY = Map.of(
         Ability.DIGGER, DigAbility::new,
         Ability.STOP, WallAbility::new,
@@ -52,7 +51,7 @@ public class CursorModel {
         Ability.CLIMB, ClimbAbility::new
     );
     
-    // Define el orden de los botones de habilidad en la UI.
+
     private static final Ability[] ABILITY_BUTTON_ORDER = {
         Ability.DIGGER, Ability.STOP, Ability.UMBRELLA, Ability.CLIMB
     };
@@ -64,9 +63,6 @@ public class CursorModel {
         this.screenHeight = screenHeight;
     }
 
-    /**
-     * Método principal de actualización, llamado en cada frame del juego.
-     */
     public void update() {
         boolean isPressed = mouse.isLeftButtonPressed();
         
