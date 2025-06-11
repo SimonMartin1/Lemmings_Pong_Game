@@ -29,16 +29,18 @@ public class LevelController {
     private final Keyboard keyboard;
     private int camX;
     private final int camY = 0;
-    
+    private boolean fullscreen;
+
     private final List<LemmingView> lemmingViews = new ArrayList<LemmingView>();
 
     private boolean isStarting;
 
 
-    public LevelController(LevelModel lvlModel, LevelView lvlView, Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight) {
+    public LevelController(LevelModel lvlModel, LevelView lvlView, Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight, boolean fullscreen) {
         this.levelModel = lvlModel;
         this.levelView = lvlView;
-        this.cursorModel = new CursorModel(lvlModel.getStock(), m, screenWidth, screenHeight);
+        this.cursorModel = new CursorModel(lvlModel.getStock(), m, screenWidth, screenHeight, fullscreen);
+        this.fullscreen = fullscreen;
 
         this.levelView.setCamX(camX);
         //this.levelView.setCamY(camY);
@@ -143,7 +145,7 @@ public class LevelController {
         levelModel.reset();
         levelView.reset();
 
-        this.cursorModel = new CursorModel(levelModel.getStock(), mouse, screenWidth, screenHeight);
+        this.cursorModel = new CursorModel(levelModel.getStock(), mouse, screenWidth, screenHeight, fullscreen);
         cursorModel.setCurrentLemmings(levelModel.getLemmings());
     }
 }

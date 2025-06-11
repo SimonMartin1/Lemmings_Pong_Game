@@ -430,7 +430,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             LevelModel levelModel = new LevelModel(mapModel, stock, lemmingsToGenerate, percentageToWin, levelNumber, levelName, mapModel.getExit(), spawnerX, spawnerY);
             LevelView levelView = new LevelView(levelModel, mapView, screenWidth, screenHeight);
             MinimapModel minimapModel = new MinimapModel(mapView, levelView, levelModel);
-            LevelController levelController = new LevelController(levelModel, levelView, getKeyboard(), getMouse(), camX, camY, minimapModel, screenWidth, screenHeight);
+            LevelController levelController = new LevelController(levelModel, levelView, getKeyboard(), getMouse(), camX, camY, minimapModel, screenWidth, screenHeight, fullScreen);
 
             mapModels.add(mapModel);
             mapViews.add(mapView);
