@@ -131,7 +131,6 @@ public class Pong extends JGame implements KeyListener{
         ballController = new BallController(ballModel, paddleLeftModel, paddleRightModel, scoreManagerModel,width,height);
         
         ballIAController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel, width,height);
-
         // Forzar foco
         
         getFrame().addKeyListener(keyboard);
