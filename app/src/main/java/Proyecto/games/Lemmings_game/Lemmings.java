@@ -199,7 +199,7 @@ public class Lemmings extends JGame {
         SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
         //buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
 
-        buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
+        //buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
 
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView= new GamePauseView(screenWidth, screenHeight);
@@ -275,15 +275,12 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             }
 
             if(!gamePause){
-                buttonController.update();
                 levelControllers.get(currentLevel).update(delta);
             
 
                 if(levelModels.get(currentLevel).isLevelFinished()){
                     if (levelModels.get(currentLevel).isLevelWon()) {
                         nextLevel();
-                    }else{
-                        repeatLevel();
                     }
                 }
             }

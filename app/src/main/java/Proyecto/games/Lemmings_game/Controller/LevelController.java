@@ -122,9 +122,6 @@ public class LevelController {
     }
 
 
-    public boolean wantsToStart(Keyboard k){
-        return k.isKeyPressed(KeyEvent.VK_I);
-    }
 
     private void syncLemmingViews() {
         java.util.List<LemmingModel> lemmingModels = levelModel.getLemmings();

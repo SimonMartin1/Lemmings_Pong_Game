@@ -30,7 +30,8 @@ public class CursorModel {
     private static final int UI_BUTTON_EXTRA_MARGIN = 10;
     
     // Offset vertical para botones, ajustable para diferentes modos de pantalla.
-    private static final int FULLSCREEN_VERTICAL_OFFSET = 50;
+    //private static final int FULLSCREEN_VERTICAL_OFFSET = 50;
+    private static final int FULLSCREEN_VERTICAL_OFFSET = 0;
     // private static final int WINDOWED_VERTICAL_OFFSET = 0;
 
     // --- Dependencias y Estado ---
