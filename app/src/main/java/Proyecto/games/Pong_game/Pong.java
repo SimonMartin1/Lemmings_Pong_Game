@@ -92,6 +92,13 @@ public class Pong extends JGame implements KeyListener{
         player2Keys=new int[2];
         initSettings();
         backUpSettings();
+
+        getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            SoundPlayer.stopSound();
+        }
+        });
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
 

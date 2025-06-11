@@ -42,7 +42,7 @@ public class GameMenuView {
             g.drawString("Settings", width-250 , height-60);
             g.drawString("Score", 250 , height-60);
 
-        if (game.getIsinMenu() && showPressText) {
+        if (game.getIsinMenu() && showPressText && !game.getIsinScore()) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.drawString("Click or Enter", width/2 - 71, 420);
@@ -57,25 +57,5 @@ public class GameMenuView {
         }
     }
 
-    public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
-        int mx = m.getX();
-        int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && m.isLeftButtonPressed() ;
-    }
-
-    public boolean detectPlay(Mouse m) {
-        return mouseTracker(width/2 - 100, 300,200,60, m);
-    }
-
-    public boolean detectPlay(Keyboard k){
-        return k.isKeyPressed(10);
-    }
-
-    public boolean detectSetting(Mouse m) {
-        return  mouseTracker(width - 250,height-110,150,80, m) && !game.getIsinsettings();
-    }
-        public boolean detectScore(Mouse m) {
-        return  mouseTracker(250,height-110,150,80, m) && !game.getIsinsettings();
-    }
 
 }

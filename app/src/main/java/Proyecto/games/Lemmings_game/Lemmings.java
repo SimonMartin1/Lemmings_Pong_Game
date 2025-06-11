@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
+import com.entropyinteractive.Mouse;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
@@ -31,6 +32,7 @@ import Proyecto.games.Lemmings_game.View.ExitView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GamePauseView;
+import Proyecto.games.Lemmings_game.View.GameScoreView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
@@ -52,12 +54,11 @@ public class Lemmings extends JGame {
     private final List<LevelModel> levelModels = new ArrayList<>();
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
-    private GameSettingsView settingsView;
-
+    private GameSettingsView gameSettingsView;
     private GamePauseView gamePauseView;
+    private GameScoreView gameScoreView;
     private final static boolean fullScreen = false;
-
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
     private int pointsSum;
@@ -81,6 +82,7 @@ public class Lemmings extends JGame {
         
     }
 
+
     public boolean getIsinsettings() {
         return this.isInSettings;
     }
@@ -88,6 +90,9 @@ public class Lemmings extends JGame {
         this.isInSettings = !this.isInSettings;
     }
 
+    public boolean getIsinScore() {
+    return this.isInScore;
+    }    
         public boolean getIsinMenu() {
         return this.isInMenu;
     }
@@ -97,10 +102,15 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameStartup() {
-        
+
+        getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            SoundPlayer.stopSound();
+        }
+    });
         db.createTable();
-        
-        
+
         if (fullScreen) {
             setFullScreen(); 
         }
@@ -161,7 +171,29 @@ public class Lemmings extends JGame {
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView= new GamePauseView(screenWidth, screenHeight);
-        settingsView= new GameSettingsView(screenWidth, screenHeight, null);
+        gameSettingsView= new GameSettingsView(screenWidth, screenHeight,this);
+        gameScoreView= new GameScoreView(screenWidth, screenHeight,this);
+    }
+
+public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
+        int mx = m.getX();
+        int my = m.getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && m.isLeftButtonPressed() ;
+    }
+
+    public boolean detectPlay(Mouse m) {
+        return mouseTracker(screenWidth/2 - 100, 300,200,60, m) && !isInSettings;
+    }
+
+    public boolean detectPlay(Keyboard k){
+        return k.isKeyPressed(10) && !isInSettings && !isInScore;
+    }
+
+    public boolean detectSetting(Mouse m) {
+        return  mouseTracker(screenWidth - 250,screenHeight-110,150,80, m) && !isInSettings && !isInScore;
+    }
+        public boolean detectScore(Mouse m) {
+        return  mouseTracker(250,screenHeight-110,150,80, m) && !isInSettings && !isInScore;
     }
 
     @Override
@@ -170,17 +202,25 @@ public class Lemmings extends JGame {
         if(isInMenu){
             gameMenu.update(delta);
 
-            if (gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())) {
+            if (detectPlay(getMouse()) || detectPlay(getKeyboard())) {
             isInMenu=false;
             }
-            if(gameMenu.detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
+            if(detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
                 isInSettings=!isInSettings;
+            }
+
+            if(detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)){
+                isInScore=!isInScore;
             }
         }
         else{
 
             if(pauseGame()){
                 gamePause=true;
+                if(wantsBackMenu(getKeyboard())){
+                    isInMenu=!isInMenu;
+                }
+                
             }
             
             if(!gamePause){
@@ -226,8 +266,11 @@ public class Lemmings extends JGame {
             gameMenu.drawmenu(g);
             
             if(isInSettings){
-            settingsView.drawmenu(g);
-        }
+            gameSettingsView.drawmenu(g);
+            }
+            if(isInScore){
+            gameScoreView.draw(g);
+            }
         }
         else {
             g.setColor(Color.BLACK);
