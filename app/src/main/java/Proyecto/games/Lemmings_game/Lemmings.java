@@ -134,7 +134,7 @@ public class Lemmings extends JGame {
                     0.25,
                     3,
                     "Just digging",
-                    600, 100
+                    600, 0
             );
 
             createLevel(
@@ -148,7 +148,7 @@ public class Lemmings extends JGame {
                     1.0,
                     3,
                     "Cap 2",
-                    400, 30
+                    400, 0
             );
 
             createLevel(
@@ -162,7 +162,7 @@ public class Lemmings extends JGame {
                     0.8,
                     5,
                     "Cap 3",
-                    410, 200
+                    410, 0
             );
 
         } catch (Exception e) {
