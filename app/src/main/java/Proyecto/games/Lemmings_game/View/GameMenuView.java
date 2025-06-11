@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
@@ -17,7 +16,7 @@ public class GameMenuView {
     private final int height;
     private boolean animation;
     private double blinkTime;
-    private boolean showPressText = true;
+    private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
     private final Lemmings game;
 
@@ -34,7 +33,7 @@ public class GameMenuView {
             g.drawImage(background, 0, 0, width, height,null);
             
             Image lemmings = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_title.png").getImage();
-            g.drawImage(lemmings,width/2-290 , 125, width/2+200, 160,null);
+            g.drawImage(lemmings,width/2-width/4-90 , 125, width/2+200, height/4,null);
 
             Image lemmings_button = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_button.png").getImage();
             g.drawImage(lemmings_button,width/2-50 , height/2-40, 120, 120,null);
@@ -42,6 +41,7 @@ public class GameMenuView {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 28));
             g.drawString("Settings", width-250 , height-60);
+            g.drawString("Score", 250 , height-60);
 
         if (!animation && showPressText) {
             g.setColor(Color.WHITE);

@@ -3,17 +3,16 @@ package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.Model.CursorModel;
 import Proyecto.games.Lemmings_game.Model.LemmingModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
-import java.util.ArrayList;
-import java.util.List;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
-import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
-import Proyecto.games.Lemmings_game.Utils.LemmingState;
-import Proyecto.games.Lemmings_game.View.*;
+import Proyecto.games.Lemmings_game.View.LemmingView;
+import Proyecto.games.Lemmings_game.View.LevelView;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LevelController {
     private final LevelModel levelModel;
@@ -24,20 +23,19 @@ public class LevelController {
     //private int panelHeight = 768;
     private final int screenWidth;
     private final int screenHeight;
-    
+
     private final MinimapModel minimapModel;
     private final Mouse mouse;
     private final Keyboard keyboard;
-
     private int camX;
     private final int camY;
 
-    private final List <LemmingView> lemmingViews = new ArrayList<LemmingView>();
+    private final List<LemmingView> lemmingViews = new ArrayList<LemmingView>();
 
     private boolean isStarting;
 
 
-    public LevelController(LevelModel lvlModel, LevelView lvlView,  Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight){
+    public LevelController(LevelModel lvlModel, LevelView lvlView, Keyboard k, Mouse m, int camX, int camY, MinimapModel minimapModel, int screenWidth, int screenHeight) {
         this.levelModel = lvlModel;
         this.levelView = lvlView;
         this.cursorModel = new CursorModel(lvlModel.getStock(), m, screenWidth, screenHeight);
@@ -58,39 +56,42 @@ public class LevelController {
     }
 
     public void setStarting(boolean value) {
-    this.isStarting = value;
+        this.isStarting = value;
     }
-    public void update(double delta){
-        //OJITO ACA LRPM
 
+    public void update(double delta) {
 
-        if(mouse.isLeftButtonPressed()){
-            if(mouse.getX() <= 730 && mouse.getX() >= 480 && mouse.getY() >= 480 && mouse.getY() <= 580){
+        if (mouse.isLeftButtonPressed()) {
+            if (mouse.getX() <= 770 && mouse.getX() >= 520 && mouse.getY() >= 480 && mouse.getY() <= 580) {
                 minimapModel.handleClick(mouse.getX(), mouse.getY());
+                System.out.println("MASTANTUONOOOO");
             }
         }
 
         levelModel.setCamX(this.camX);
 
-        if (isStarting) {
-            if (keyboard.isKeyPressed(KeyEvent.VK_I) || mouse.isLeftButtonPressed()) {
-                isStarting = false;
-            }
+
+        if (keyboard.isKeyPressed(KeyEvent.VK_I) || mouse.isLeftButtonPressed()) {
+            isStarting = false;
         }
 
-        if(levelModel.isLevelFinished()){
-            if (keyboard.isKeyPressed(KeyEvent.VK_ENTER)) {
-                reset();
-            }
+
+    if(levelModel.isLevelFinished())
+
+    {
+        if (keyboard.isKeyPressed(KeyEvent.VK_ENTER)) {
+            reset();
         }
+    }
 
         levelModel.update(delta);
         cursorModel.setCamX(levelView.getCamX());
         cursorModel.update();
-        syncLemmingViews();
+
+    syncLemmingViews();
+
+
     }
-
-
 
     public void draw(Graphics2D g){
 
@@ -145,5 +146,4 @@ public class LevelController {
         this.cursorModel = new CursorModel(levelModel.getStock(), mouse, screenWidth, screenHeight);
         cursorModel.setCurrentLemmings(levelModel.getLemmings());
     }
-
 }

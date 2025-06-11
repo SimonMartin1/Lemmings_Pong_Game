@@ -28,8 +28,10 @@ import Proyecto.games.Pong_game.View.GameOverMenuView;
 import Proyecto.games.Pong_game.View.GamePauseView;
 import Proyecto.games.Pong_game.View.GameSettingsView;
 import Proyecto.games.Pong_game.View.PaddleView;
+import Proyecto.games.Pong_game.View.PitchSkins;
+import Proyecto.games.Pong_game.View.PitchView;
 import Proyecto.games.Pong_game.View.ScoreManagerView;
-import Proyecto.games.Pong_game.utils.SoundPlayer;
+import Proyecto.utils.SoundPlayer;
 
 
 public class Pong extends JGame implements KeyListener{

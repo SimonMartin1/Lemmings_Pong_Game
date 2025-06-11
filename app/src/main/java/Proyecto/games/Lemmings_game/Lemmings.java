@@ -4,15 +4,17 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.awt.Dimension;
+import java.awt.Frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
-import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
@@ -22,12 +24,16 @@ import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
 import Proyecto.games.Lemmings_game.Model.Stock;
 import Proyecto.games.Lemmings_game.Utils.Ability;
+import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import Proyecto.games.Lemmings_game.View.ExitView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
+import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
+import Proyecto.utils.SoundPlayer;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
+
 
 
 public class Lemmings extends JGame {
@@ -47,8 +53,8 @@ public class Lemmings extends JGame {
     private GameSettingsView settingsView;
     private final static boolean fullScreen = false;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
-    private final int screenWidth = getWidth();
-    private final int screenHeight = getHeight();
+    private int screenWidth = getWidth();
+    private int screenHeight = getHeight();
     private final boolean scoreAlreadySaved = false;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
@@ -82,6 +88,29 @@ public class Lemmings extends JGame {
         this.isInMenu = option;
     }
 
+    public void setFullScreen(boolean enable) {
+    Frame frame = this.getFrame();
+        if (enable) {
+            frame.dispose();
+            frame.setUndecorated(true);
+            frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
+            frame.setVisible(true);
+            Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            this.screenWidth = screenSize.width;
+            this.screenHeight = screenSize.height;
+        } else {
+            frame.dispose();
+            frame.setUndecorated(false);
+            frame.setExtendedState(java.awt.Frame.NORMAL);
+            frame.setSize(800, 600);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            this.screenWidth = 800;
+            this.screenHeight = 600;
+        }
+        // Actualiza el tamaño de las vistas y modelos
+        }
+
     @Override
     public void gameStartup() {
         if (fullScreen) {
@@ -90,6 +119,9 @@ public class Lemmings extends JGame {
 
 
         try{
+            MapModel firstLevelMapModel = new MapModel(1,0, db , 690, 70);
+            MapModel secondLevelMapModel = new MapModel(2,0, db, 1100, 340);
+            MapModel thirdLevelMapModel = new MapModel(3,0, db, 1050, 260);
 
             createLevel(
                     1, 1, 1020, 300, 690, 70, 0, 0,
@@ -142,19 +174,29 @@ public class Lemmings extends JGame {
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
-
+        SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
-        gameMenu = new GameMenuView(getWidth(), getHeight(), this);
+        gameMenu = new GameMenuView(getWidth(), getHeight(),this);
+        settingsView= new GameSettingsView(screenWidth, screenHeight, null);
     }
 
     @Override
     public void gameUpdate(double delta) {
-        if (!gameMenu.detectPlay(getMouse()) && !gameMenu.detectPlay(getKeyboard())) {
+        
+        if(isInMenu){
             gameMenu.update(delta);
-        } else {
+          
+            if (gameMenu.detectPlay(getMouse()) || gameMenu.detectPlay(getKeyboard())) {
+            isInMenu=false;
+            }
+            if(gameMenu.detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
+                isInSettings=!isInSettings;
+            }
+        }
+        else{
             buttonController.update();
             levelControllers.get(currentLevel).update(delta);
-    
+
             // Chequeo si se completó el nivel
 
             if(levelModels.get(currentLevel).isLevelFinished()){
@@ -164,6 +206,7 @@ public class Lemmings extends JGame {
                     repeatLevel();
                 }
             }
+
         }
     }
 
@@ -173,18 +216,20 @@ public class Lemmings extends JGame {
     @Override
     public void gameDraw(Graphics2D g) {
 
-        if(!gameMenu.detectPlay(getMouse()) && !gameMenu.detectPlay(getKeyboard())){
+
+        if(isInMenu){
             gameMenu.drawmenu(g);
+            
+            if(isInSettings){
+            settingsView.drawmenu(g);
+        }
         }
         else {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
 
-            //Aca segundo lvl
             levelControllers.get(currentLevel).draw(g);
             mapModels.get(0).getExit().drawTest(g);
-
-
         }
 
     }

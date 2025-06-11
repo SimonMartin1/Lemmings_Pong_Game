@@ -33,6 +33,7 @@ public class MapModel {
         int tileRows = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;
         int tileCols = fullImage.getWidth() / LemmingConstants.TILE_WIDTH;
 
+
         mapTiles = new TileModel[tileRows][tileCols];
 
         for (int y = 0; y < tileRows; y++) {
