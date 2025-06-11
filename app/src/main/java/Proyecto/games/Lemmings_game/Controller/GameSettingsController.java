@@ -7,6 +7,14 @@ public class GameSettingsController {
             game.setMusicOFF(false);
         }else if(view.isMusicOffClicked(game.getMouse())){
             game.setMusicOFF(true);
+        }if(view.isFullScreenClicked(game.getMouse())){
+            Lemmings.setFullScreen(true);
+        }else if(view.isFullScreenOffClicked(game.getMouse())){
+            Lemmings.setFullScreen(false);
+        }if(view.isSaveClicked(game.getMouse())){
+            game.saveSettings();
+            game.setIsinsettings();
+            System.out.println("Funca");
         }
     }
 }

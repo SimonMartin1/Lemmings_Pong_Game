@@ -27,8 +27,8 @@ public class GameScoreView {
     int y = 120;
     int pos = 1;
     for (String[] entry : ranking) {
-        String line = pos + ". " + entry[0] + " - " + entry[1];
-        g.drawString(line, width/2-100, y);
+        String line = pos + ". " + " Fecha: "+entry[0] + " - "+"Puntaje: " + entry[1];
+        g.drawString(line, width/2-215, y);
         y += 35;
         pos++;
     }
