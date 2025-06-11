@@ -1,14 +1,11 @@
 package Proyecto.games.Lemmings_game;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
+import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -18,6 +15,7 @@ import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.GameSettingsController;
@@ -64,7 +62,8 @@ public class Lemmings extends JGame {
     private GameSettingsController gameSettingsController;
     private SettingsModel.Settings Settings,backUpSettings;
     private static boolean fullScreen = false;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false,musicOff=true;
+    private static boolean musicOff = true;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false;
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
     private int pointsSum;
@@ -76,11 +75,22 @@ public class Lemmings extends JGame {
     }
     
     public static void main(String[] args) {
+
+
+        configReader();
+
+        System.out.println(fullScreen);
+
         if(!fullScreen){
             Lemmings game = new Lemmings("Lemmings", 800, 600);
             game.run(1.0 / 60.0); // 60 FPS
         }else{
-            Lemmings game = new Lemmings("Lemmings", 1366, 768);
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+            int width = screenSize.width;
+            int height = screenSize.height;
+
+            Lemmings game = new Lemmings("Lemmings", width, height);
             game.run(1.0 / 60.0); // 60 FPS
         }    
     }
@@ -89,6 +99,28 @@ public class Lemmings extends JGame {
         Settings= SettingsModel.loadSettings();
         musicOff=Settings.musicOff;
         fullScreen=Settings.fullScreen;
+    }
+
+    public static void configReader(){
+        Properties config = new Properties();
+
+        try {
+            FileInputStream input = new FileInputStream("app/src/main/java/proyecto/games/Lemmings_game/utils/Lemmings_setting.txt");
+            config.load(input);
+            input.close();
+
+            config.list(System.out);
+            // Obtener el valor de fullScreen
+            String fullScreenValue = config.getProperty("fullScreen");
+            fullScreen = Boolean.parseBoolean(fullScreenValue.trim());
+
+            String musicOffValue = config.getProperty("musicOff");
+            musicOff = Boolean.parseBoolean(musicOffValue.trim());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void backUpSettings(){
@@ -141,11 +173,12 @@ public class Lemmings extends JGame {
     public void gameStartup() {
 
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
-        @Override
-        public void windowClosing(java.awt.event.WindowEvent e) {
-            SoundPlayer.stopSound();
-        }
-    });
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                SoundPlayer.stopSound();
+            }
+        });
+
         ScoreDatabase.createTable();
 
         playTrack();
@@ -239,7 +272,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
 
     @Override
     public void gameUpdate(double delta) {
-        
+
         if(isInSettings){
             gameSettingsController= new GameSettingsController(gameSettingsView, this);
         }
@@ -318,10 +351,10 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             gameMenu.drawmenu(g);
             
             if(isInSettings){
-            gameSettingsView.drawmenu(g);
+                gameSettingsView.drawmenu(g);
             }
             if(isInScore){
-            gameScoreView.draw(g);
+                gameScoreView.draw(g);
             }
         }
         else {
@@ -329,10 +362,11 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             g.fillRect(0, 0, getWidth(), getHeight());
 
             levelControllers.get(currentLevel).draw(g);
-            mapModels.get(0).getExit().drawTest(g);
+
             if(gamePause){
                 gamePauseView.draw(g);
             }
+
             if(gameWin){
                 gameWinView.draw(g);
             }
