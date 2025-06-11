@@ -13,7 +13,6 @@ public class ScoreDatabase {
         try {
             String url = "jdbc:sqlite:app\\src\\main\\java\\Proyecto\\games\\Lemmings_game\\utils\\Lemmings_Score.db";
             conn = DriverManager.getConnection(url);
-            System.out.println("Connected to SQLite");
         } catch (SQLException e) {
             System.err.println("Connection error: " + e.getMessage());
         }

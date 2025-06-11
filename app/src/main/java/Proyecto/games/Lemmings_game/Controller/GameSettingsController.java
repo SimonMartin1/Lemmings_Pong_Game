@@ -1,9 +1,10 @@
 package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
+import Proyecto.games.Lemmings_game.View.GameScoreView;
 import Proyecto.utils.SoundPlayer;
 import Proyecto.games.Lemmings_game.Lemmings;
 public class GameSettingsController {
-    public GameSettingsController(GameSettingsView view, Lemmings game){
+    public GameSettingsController(GameSettingsView view,GameScoreView scoreView, Lemmings game){
         if(view.isMusicOnClicked(game.getMouse())){
             view.setDraw("On");
             game.setMusicOFF(false);
@@ -40,6 +41,10 @@ public class GameSettingsController {
             }
             game.setMusicOFF(game.getbackUp().musicOff);
             Lemmings.setFullScreen(game.getbackUp().fullScreen);
+        }
+
+        if(scoreView.isBackClicked(game.getMouse())){
+            game.setIsinsettings();
         }
     }
 }

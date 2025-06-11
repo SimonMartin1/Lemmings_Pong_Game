@@ -11,7 +11,7 @@ import Proyecto.games.Lemmings_game.Lemmings;
 public class GameSettingsView {
     private int width;
     private int height;
-    public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
+    private boolean drawOn=true,prevMousePressed,drawFullScreen=true;
     private final Lemmings game;
 
 

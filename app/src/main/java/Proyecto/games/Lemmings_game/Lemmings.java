@@ -68,7 +68,7 @@ public class Lemmings extends JGame {
     private final int screenWidth = getWidth();
     private final int screenHeight = getHeight();
     private int pointsSum;
-    private Boolean prevPausePressed = null;
+    private boolean prevPausePressed = false;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
     public Lemmings(String title, int width, int height) {
@@ -212,7 +212,7 @@ public class Lemmings extends JGame {
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView= new GamePauseView(screenWidth, screenHeight);
         gameSettingsView= new GameSettingsView(screenWidth, screenHeight,this);
-        gameScoreView= new GameScoreView(screenWidth, screenHeight);
+        gameScoreView= new GameScoreView(screenWidth, screenHeight,this);
         gameWinView = new GameWinView(screenWidth, screenHeight);
     }
 
@@ -240,9 +240,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     @Override
     public void gameUpdate(double delta) {
         
-        if(isInSettings){
-            gameSettingsController= new GameSettingsController(gameSettingsView, this);
-        }
+        gameSettingsController= new GameSettingsController(gameSettingsView,gameScoreView, this);
 
         if(isInMenu){
             gameMenu.update(delta);
@@ -267,14 +265,13 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
                 }
             }
 
-            if(gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_P)){
+            if(gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
                 isInMenu=true;
             }
             
-            if(gamePause && pauseGame()){
-                gamePause=false;
+            if(gamePause && getKeyboard().isKeyPressed(KeyEvent.VK_M)){
+                gamePause=!gamePause;
             }
-
             if(!gamePause){
                 buttonController.update();
                 levelControllers.get(currentLevel).update(delta);
@@ -297,16 +294,10 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     }
 
     public boolean pauseGame() {
-        boolean currentPressed = getKeyboard().isKeyPressed(KeyEvent.VK_P);
-
-        if (prevPausePressed == null) {
-            prevPausePressed = currentPressed;
-            return false;
-        }
-
-        boolean justPressed = currentPressed && !prevPausePressed;
-        prevPausePressed = currentPressed;
-        return justPressed;
+        boolean isPressed = getKeyboard().isKeyPressed(KeyEvent.VK_P);
+    boolean justPressed = isPressed && !prevPausePressed;
+    prevPausePressed = isPressed;
+    return justPressed;
     }
 
 
