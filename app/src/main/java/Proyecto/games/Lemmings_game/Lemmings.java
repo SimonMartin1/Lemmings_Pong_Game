@@ -123,6 +123,9 @@ public class Lemmings extends JGame {
 
     public boolean getIsinScore() {
     return this.isInScore;
+    }
+    public void setIsinScore(boolean option){
+        this.isInScore=option;
     }    
         public boolean getIsinMenu() {
         return this.isInMenu;
@@ -214,7 +217,7 @@ public class Lemmings extends JGame {
         gameSettingsView= new GameSettingsView(screenWidth, screenHeight,this);
         gameScoreView= new GameScoreView(screenWidth, screenHeight,this);
         gameWinView = new GameWinView(screenWidth, screenHeight);
-        gameSettingsController= new GameSettingsController(gameSettingsView,gameScoreView, this);
+        
     }
 
 public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
@@ -241,7 +244,10 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     @Override
     public void gameUpdate(double delta) {
         
-        
+        if(isInSettings || isInScore){
+            gameSettingsController= new GameSettingsController(gameSettingsView,gameScoreView, this);
+        }
+
         if(isInMenu){
             gameMenu.update(delta);
 
@@ -252,7 +258,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
                 isInSettings=!isInSettings;
             }
 
-            if(detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)){
+            if(detectScore(getMouse())){
                 isInScore=!isInScore;
             }
         }

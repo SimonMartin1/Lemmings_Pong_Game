@@ -45,13 +45,13 @@ public class GameScoreView {
 private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed && game.getIsinMenu() && game.getIsinScore() ;
+    return  justPressed && game.getIsinScore() ;
 }
 
 
 public boolean isBackClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        return mx >= width-325 && mx <= width-325 + 300 && my >= height-110 && my <= height-110 + 300;
+        return mx >= width-325 && mx <= width-325 + 30 && my >= height-110 && my <= height-110 + 30 && isMouseJustPressed(m) ;
 }
 }

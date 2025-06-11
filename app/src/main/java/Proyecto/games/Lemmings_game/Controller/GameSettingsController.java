@@ -2,6 +2,9 @@ package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GameScoreView;
 import Proyecto.utils.SoundPlayer;
+
+import java.awt.event.KeyEvent;
+
 import Proyecto.games.Lemmings_game.Lemmings;
 public class GameSettingsController {
     public GameSettingsController(GameSettingsView view,GameScoreView scoreView, Lemmings game){
@@ -44,7 +47,7 @@ public class GameSettingsController {
         }
 
         if(scoreView.isBackClicked(game.getMouse())){
-            game.setIsinsettings();
+            game.setIsinScore(false);
         }
     }
 }
