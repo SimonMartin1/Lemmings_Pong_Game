@@ -13,7 +13,7 @@ public class CursorModel {
     private Stock stock;
     private Mouse mouse;
     int camX;
-    int camY;
+    //int camY;
     //private int panelWidth = 1366;
     //private int panelHeight = 768;
     private int screenWidth;
