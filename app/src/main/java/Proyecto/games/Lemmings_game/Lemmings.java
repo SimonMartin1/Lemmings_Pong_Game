@@ -109,7 +109,7 @@ public class Lemmings extends JGame {
             SoundPlayer.stopSound();
         }
     });
-
+        db.createTable();
 
         if (fullScreen) {
             setFullScreen(); 
