@@ -31,6 +31,9 @@ import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
+import Proyecto.utils.SoundPlayer;
+import Proyecto.games.Lemmings_game.View.GameSettingsView;
+
 
 
 public class Lemmings extends JGame {
@@ -48,7 +51,7 @@ public class Lemmings extends JGame {
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
-    private final static boolean fullScreen = true;
+    private final static boolean fullScreen = false;
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
@@ -201,7 +204,7 @@ public class Lemmings extends JGame {
 
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
-
+        SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         settingsView= new GameSettingsView(screenWidth, screenHeight, null);
@@ -223,7 +226,7 @@ public class Lemmings extends JGame {
         else{
             buttonController.update();
             levelControllers.get(currentLevel).update(delta);
-            
+
             if (levelModels.get(currentLevel).isLevelFinished()) {
                 nextLevel();
             } 
