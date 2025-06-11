@@ -14,7 +14,6 @@ import Proyecto.games.Lemmings_game.Lemmings;
 public class GameMenuView {
     private final int width;
     private final int height;
-    private boolean animation;
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
@@ -43,7 +42,7 @@ public class GameMenuView {
             g.drawString("Settings", width-250 , height-60);
             g.drawString("Score", 250 , height-60);
 
-        if (!animation && showPressText) {
+        if (game.getIsinMenu() && showPressText && !game.getIsinScore()) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.drawString("Click or Enter", width/2 - 71, 420);
@@ -58,33 +57,5 @@ public class GameMenuView {
         }
     }
 
-    public boolean detectPlay(Mouse m) {
-        if (m.isLeftButtonPressed()) {
-            int mx = m.getX();
-            int my = m.getY();
-            int bx = width/2 - 100, by = 300, bw = 200, bh = 60;
-            if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
-                animation = true;
-            }
-        }
-
-        return animation;
-    }
-
-    public boolean detectPlay(Keyboard k){
-        if (k.isKeyPressed(10)) {
-            animation = true;
-        }
-
-        return animation;
-    }
-
-
-    public boolean detectSetting(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width - 250, by = height-110, bw = 150, bh = 80;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
-    }
 
 }

@@ -2,7 +2,6 @@ package Proyecto.games.Pong_game;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowAdapter;
 
 import javax.swing.ImageIcon;
 
@@ -92,6 +91,13 @@ public class Pong extends JGame implements KeyListener{
         player2Keys=new int[2];
         initSettings();
         backUpSettings();
+
+        getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
+        @Override
+        public void windowClosing(java.awt.event.WindowEvent e) {
+            SoundPlayer.stopSound();
+        }
+        });
         //modelos
         scoreManagerModel = new ScoreManagerModel(maxPoints);
 
@@ -127,6 +133,7 @@ public class Pong extends JGame implements KeyListener{
         ballIAController = new BallController(ballModel, paddleIAModel, paddleRightModel, scoreManagerModel, width,height);
 
         // Forzar foco
+        
         getFrame().addKeyListener(keyboard);
         getFrame().addKeyListener(this);
         getFrame().setFocusable(true);
