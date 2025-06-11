@@ -12,12 +12,11 @@ import javax.swing.JPanel;
 
 import Proyecto.view.Menu.Buttons.game_Button;
 import Proyecto.view.Menu.Buttons.home_Button;
-import Proyecto.view.Menu.Buttons.settings_Button;
 
 
 public class Menu_screen extends JPanel {
     final private JPanel main_Panel,nav_Panel,title_Panel,about_Panel,home_Panel,game_Panel, settings_Panel;
-    final public JPanel home_Button,games_Button, settings_Button;
+    final public JPanel home_Button,games_Button;
     final private JLabel title,about;
     public Menu_screen() {
         main_Panel = new JPanel(new BorderLayout());
@@ -29,19 +28,16 @@ public class Menu_screen extends JPanel {
         settings_Panel = new JPanel();
         home_Button = new home_Button("app\\src\\main\\resources\\images\\home_white.png");
         games_Button = new game_Button("app\\src\\main\\resources\\images\\games_blue.png");
-        settings_Button = new settings_Button("app\\src\\main\\resources\\images\\settings_blue.png");
         title = new JLabel("<html><h2 style='color: white;'>About</h2></html>");
         about = new JLabel("<html><h2 style='color: white;'>This app is a project for the POO <br> subjetc of engineering unlpam &copy </h2></html>");
 
         home_Button.setPreferredSize(new Dimension(25, 25));
         games_Button.setPreferredSize(new Dimension(27, 25));
-        settings_Button.setPreferredSize(new Dimension(25, 25));
 
         home_Panel.add(home_Button);
         home_Panel.setOpaque(false);
         game_Panel.add(games_Button);
-        game_Panel.setOpaque(false);
-        settings_Panel.add(settings_Button);
+        game_Panel.setOpaque(false);        
         settings_Panel.setOpaque(false);
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -59,10 +55,6 @@ public class Menu_screen extends JPanel {
         nav_Panel.add(game_Panel, gbc);
 
         gbc.gridy = 2;
-        gbc.insets = new Insets(0, 10, 0, 10);
-        nav_Panel.add(settings_Panel, gbc);
-        
-        gbc.gridy = 3;
         gbc.weighty = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.VERTICAL;
@@ -75,7 +67,7 @@ public class Menu_screen extends JPanel {
         
         main_Panel.add(title_Panel, BorderLayout.NORTH);
         main_Panel.setOpaque(false);
-        main_Panel.add(about_Panel, BorderLayout.SOUTH);
+        main_Panel.add(about_Panel, BorderLayout.CENTER);
 
         about_Panel.add(about);
         about_Panel.setOpaque(false);

@@ -5,13 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.awt.Dimension;
-import java.awt.Frame;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -19,9 +16,12 @@ import javax.swing.JFrame;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
+import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
 import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
@@ -30,12 +30,14 @@ import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import Proyecto.games.Lemmings_game.View.ExitView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
-import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GamePauseView;
 import Proyecto.games.Lemmings_game.View.GameScoreView;
+import Proyecto.games.Lemmings_game.View.GameSettingsView;
+import Proyecto.games.Lemmings_game.View.GameWinView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
+import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.utils.SoundPlayer;
 
 
@@ -57,12 +59,13 @@ public class Lemmings extends JGame {
     private GameSettingsView gameSettingsView;
     private GamePauseView gamePauseView;
     private GameScoreView gameScoreView;
-    private final static boolean fullScreen = false;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false;
-    private int screenWidth = getWidth();
-    private int screenHeight = getHeight();
+    private GameWinView gameWinView;
+    private SettingsModel.Settings Settings;
+    private static boolean fullScreen = false;
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false,musicOff;
+    private final int screenWidth = getWidth();
+    private final int screenHeight = getHeight();
     private int pointsSum;
-    private final boolean scoreAlreadySaved = false;
     private Boolean prevPausePressed = null;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
@@ -77,11 +80,25 @@ public class Lemmings extends JGame {
         }else{
             Lemmings game = new Lemmings("Lemmings", 1366, 768);
             game.run(1.0 / 60.0); // 60 FPS
-        }
-
-        
+        }    
     }
 
+    public void initSettings(){
+        Settings= SettingsModel.loadSettings();
+        musicOff=Settings.musicOff;
+        fullScreen=Settings.fullScreen;
+    }
+    public void saveSettings(){
+        GameSettingsModel.saveSettings(musicOff,fullScreen);
+    }
+
+    public static boolean setFullScreen(boolean option){
+        return fullScreen=option;
+    }
+
+    public void setMusicOFF(boolean option){
+        this.musicOff=option;
+    }
 
     public boolean getIsinsettings() {
         return this.isInSettings;
@@ -100,6 +117,12 @@ public class Lemmings extends JGame {
         this.isInMenu = option;
     }
 
+    public void playTrack(){
+        if(!musicOff){
+            SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
+        }
+    }
+
     @Override
     public void gameStartup() {
 
@@ -109,7 +132,9 @@ public class Lemmings extends JGame {
             SoundPlayer.stopSound();
         }
     });
-        db.createTable();
+        ScoreDatabase.createTable();
+
+        playTrack();
 
         if (fullScreen) {
             setFullScreen(); 
@@ -149,9 +174,9 @@ public class Lemmings extends JGame {
                     3, 3, 1050, 260, 410, 200, 430, 0,
                     Map.of(
                             Ability.DIGGER, 0,
-                            Ability.CLIMB, 5,
+                            Ability.CLIMB, 10,
                             Ability.STOP, 2,
-                            Ability.UMBRELLA, 5
+                            Ability.UMBRELLA, 10
                     ),
                     0.8,
                     5,
@@ -167,12 +192,12 @@ public class Lemmings extends JGame {
         getFrame().addMouseListener(this.getMouse());
         ImageIcon icon = new ImageIcon("app/src/main/resources/images/Lemmings_icon.png");
         this.getFrame().setIconImage(icon.getImage());
-        SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
         buttonController = new ButtonController(this.getMouse(), screenWidth, screenHeight);
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView= new GamePauseView(screenWidth, screenHeight);
         gameSettingsView= new GameSettingsView(screenWidth, screenHeight,this);
-        gameScoreView= new GameScoreView(screenWidth, screenHeight,this);
+        gameScoreView= new GameScoreView(screenWidth, screenHeight);
+        gameWinView = new GameWinView(screenWidth, screenHeight);
     }
 
 public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
@@ -215,14 +240,21 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         }
         else{
 
-            if(pauseGame()){
+            if(getKeyboard().isKeyPressed(KeyEvent.VK_P)){
                 gamePause=true;
                 if(wantsBackMenu(getKeyboard())){
                     isInMenu=!isInMenu;
                 }
-                
+            }
+
+            if(gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_P)){
+                isInMenu=true;
             }
             
+            if(gamePause && pauseGame()){
+                gamePause=false;
+            }
+
             if(!gamePause){
                 buttonController.update();
                 levelControllers.get(currentLevel).update(delta);
@@ -281,6 +313,9 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             if(gamePause){
                 gamePauseView.draw(g);
             }
+            if(gameWin){
+                gameWinView.draw(g);
+            }
         }
 
     }
@@ -298,8 +333,6 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         gd.setFullScreenWindow(frame); // ¡Pantalla completa real!
-    
-        frame.setVisible(true);
     }
 
 
@@ -312,9 +345,11 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             for(LevelModel l : levelModels){
                 pointsSum += l.getPointsLevel();
             }
-            db.saveScore(getTitle(), pointsSum);
-            // Podés reiniciar o mostrar un mensaje de fin de juego
-            // gameMenuView.reset(); o lo que necesites
+            gameWin=true;
+            LocalDateTime dateHour = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String dateHourFormatter = dateHour.format(formatter);
+            ScoreDatabase.saveScore(dateHourFormatter, pointsSum);
         }
     }
 

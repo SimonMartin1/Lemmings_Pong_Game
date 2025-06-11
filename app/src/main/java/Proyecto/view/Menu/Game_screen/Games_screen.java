@@ -15,12 +15,11 @@ import javax.swing.JPanel;
 
 import Proyecto.view.Menu.Buttons.game_Button;
 import Proyecto.view.Menu.Buttons.home_Button;
-import Proyecto.view.Menu.Buttons.settings_Button;
 
 
 public class Games_screen extends JPanel {
-    final private JPanel games_Panel, main_Panel,title_Panel,home_Panel,game_Panel,setting_Panel,nav_Panel;
-    final private JPanel home_Button,game_Button,setting_Button;
+    final private JPanel games_Panel, main_Panel,title_Panel,home_Panel,game_Panel,nav_Panel;
+    final private JPanel home_Button,game_Button;
     final private JLabel title;
     final private ArrayList<Game> games_Set;
 
@@ -29,26 +28,23 @@ public class Games_screen extends JPanel {
         main_Panel = new JPanel();
         home_Panel = new JPanel();
         game_Panel = new JPanel();
-        setting_Panel = new JPanel();
         nav_Panel = new JPanel(new GridBagLayout());
         title_Panel = new JPanel();
         title = new JLabel("<html><h2 style='color: white;'>Library</h2></html>");
         
         home_Button = new home_Button("app\\src\\main\\resources\\images\\home_blue.png");
         game_Button = new game_Button("app\\src\\main\\resources\\images\\games_white.png");
-        setting_Button = new settings_Button("app\\src\\main\\resources\\images\\settings_blue.png");
 
         
         home_Button.setPreferredSize(new Dimension(25, 25));
         game_Button.setPreferredSize(new Dimension(27, 25));
-        setting_Button.setPreferredSize(new Dimension(25, 25));
+
 
         home_Panel.add(home_Button);
         home_Panel.setOpaque(false);
         game_Panel.add(game_Button);
         game_Panel.setOpaque(false);
-        setting_Panel.add(setting_Button);
-        setting_Panel.setOpaque(false);
+
 
         GridBagConstraints gbc = new GridBagConstraints();
         
@@ -63,12 +59,8 @@ public class Games_screen extends JPanel {
         gbc.gridy = 1;
         gbc.insets = new Insets(0, 10, 40, 10);
         nav_Panel.add(game_Panel, gbc);
-
-        gbc.gridy = 2;
-        gbc.insets = new Insets(0, 10, 0, 10);
-        nav_Panel.add(setting_Panel, gbc);
         
-        gbc.gridy = 3;
+        gbc.gridy = 2;
         gbc.weighty = 1.0;
         gbc.weighty = 1.0;
         gbc.fill = GridBagConstraints.VERTICAL;
@@ -108,7 +100,4 @@ public class Games_screen extends JPanel {
             return home_Panel;
         }
 
-        public JPanel getSettings_Button(){
-            return setting_Panel;
-        }
 }
