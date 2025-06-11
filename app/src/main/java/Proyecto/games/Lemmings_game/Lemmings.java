@@ -33,6 +33,7 @@ import Proyecto.games.Lemmings_game.View.GameMenuView;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GamePauseView;
 import Proyecto.games.Lemmings_game.View.GameScoreView;
+import Proyecto.games.Lemmings_game.View.GameWinView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
@@ -57,12 +58,12 @@ public class Lemmings extends JGame {
     private GameSettingsView gameSettingsView;
     private GamePauseView gamePauseView;
     private GameScoreView gameScoreView;
+    private GameWinView gameWinView;
     private final static boolean fullScreen = false;
-    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false;
-    private int screenWidth = getWidth();
-    private int screenHeight = getHeight();
+    private boolean isInMenu = true, isInSettings=false, gamePause = false, isInScore = false, gameWin=false,musicOff;
+    private final int screenWidth = getWidth();
+    private final int screenHeight = getHeight();
     private int pointsSum;
-    private final boolean scoreAlreadySaved = false;
     private Boolean prevPausePressed = null;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
@@ -82,6 +83,9 @@ public class Lemmings extends JGame {
         
     }
 
+    public void setMusicOFF(boolean option){
+        this.musicOff=option;
+    }
 
     public boolean getIsinsettings() {
         return this.isInSettings;
@@ -149,9 +153,9 @@ public class Lemmings extends JGame {
                     3, 3, 1050, 260, 410, 200, 430, 0,
                     Map.of(
                             Ability.DIGGER, 0,
-                            Ability.CLIMB, 5,
+                            Ability.CLIMB, 10,
                             Ability.STOP, 2,
-                            Ability.UMBRELLA, 5
+                            Ability.UMBRELLA, 10
                     ),
                     0.8,
                     5,
@@ -172,7 +176,8 @@ public class Lemmings extends JGame {
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView= new GamePauseView(screenWidth, screenHeight);
         gameSettingsView= new GameSettingsView(screenWidth, screenHeight,this);
-        gameScoreView= new GameScoreView(screenWidth, screenHeight,this);
+        gameScoreView= new GameScoreView(screenWidth, screenHeight);
+        gameWinView = new GameWinView(screenWidth, screenHeight);
     }
 
 public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
@@ -215,14 +220,17 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         }
         else{
 
-            if(pauseGame()){
+            if(getKeyboard().isKeyPressed(KeyEvent.VK_P)){
                 gamePause=true;
                 if(wantsBackMenu(getKeyboard())){
                     isInMenu=!isInMenu;
                 }
-                
             }
             
+            if(gamePause && pauseGame()){
+                gamePause=false;
+            }
+
             if(!gamePause){
                 buttonController.update();
                 levelControllers.get(currentLevel).update(delta);
@@ -281,6 +289,9 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             if(gamePause){
                 gamePauseView.draw(g);
             }
+            if(gameWin){
+                gameWinView.draw(g);
+            }
         }
 
     }
@@ -312,9 +323,8 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             for(LevelModel l : levelModels){
                 pointsSum += l.getPointsLevel();
             }
-            db.saveScore(getTitle(), pointsSum);
-            // Podés reiniciar o mostrar un mensaje de fin de juego
-            // gameMenuView.reset(); o lo que necesites
+            gameWin=true;
+            db.saveScore(gameWinView.getPlayerName(), pointsSum);
         }
     }
 
