@@ -6,7 +6,6 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 import Proyecto.games.Lemmings_game.Constants.LemmingConstants;
-import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 
 public class MapModel {
     TileModel[][] mapTiles;
@@ -17,7 +16,7 @@ public class MapModel {
 
 
 
-    public MapModel(int level, int cameraX, ScoreDatabase db, int exitX, int exitY) throws Exception {
+    public MapModel(int level,  int cameraX, int exitX, int exitY) throws Exception {
         BufferedImage fullImage = ImageIO.read(getClass().getResourceAsStream("/map" + (4 + level) + ".png"));
         this.cameraX = cameraX;
         int cantTilesY = fullImage.getHeight() / LemmingConstants.TILE_HEIGHT;

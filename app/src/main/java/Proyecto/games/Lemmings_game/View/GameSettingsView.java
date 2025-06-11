@@ -4,18 +4,16 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 
 import com.entropyinteractive.Mouse;
 
 import Proyecto.games.Lemmings_game.Lemmings;
-import Proyecto.games.Pong_game.Pong;
 
 
 public class GameSettingsView {
     private int width;
     private int height;
-    public boolean drawHard, drawMedium, drawEasy, drawTwoPlayers, drawWin5, drawWin10, drawWin15, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,getKey;
+    public boolean drawOnSoundEffect, drawOffSoundEffect, drawOff, drawTrack,prevMousePressed,drawFullScreen,setkeys=false,getKey;
     private final Lemmings game;
 
 
@@ -79,68 +77,33 @@ public class GameSettingsView {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
         g.setColor(Color.WHITE);
-        g.setStroke(new BasicStroke(3));
-        g.drawRoundRect(width/2 -140, 145, 400, 40, 20, 20); 
-        g.drawRoundRect(width/2-145, 325, 95, 35, 20, 20); 
-        g.drawRoundRect(width/2-145, 280, 95, 35, 20, 20); 
-        g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Settings", width/2-50 , 70);
         g.setFont(new Font("Arial", Font.BOLD, 18));
         g.drawString("Music", width/2-250 , 125);
         g.drawString("getTrack()", width/2-120 , 125);
         g.drawString("Off", width/2+20 , 125);
-        g.drawString("1 Player", width/2-265 , 170);
-        g.setColor(Color.WHITE);
-        g.drawString("Difficulty", width/2-120 , 170);
-        g.drawString("Hard", width/2 , 170);
-        g.drawString("Medium", width/2+90 , 170);
-        g.drawString("Easy", width/2+200 , 170);
-        g.drawString("2 Players", width/2-265 , 215);
+        g.drawString("Sound Effect", width/2-265 , 170);
+        g.drawString("On", width/2-120 , 170);
+        g.drawString("Off", width/2-40 , 170);
+        g.drawString("Full Screen", width/2-265 , 215);
         g.drawString("On", width/2-120 , 215);
-        g.drawString("WinPoints", width/2-265 , 260);
-        g.drawString("15", width/2-120 , 260);
-        g.drawString("10", width/2-60 , 260); 
-        g.drawString("5", width/2 , 260);
-        g.drawString("Pitch Skin", width/2-265 , 305);
-        g.drawString("getPitchSkin()", width/2-125 , 305);
-        g.drawString("Ball Skin", width/2-265 , 350);
-        g.drawString("getBallSkin()", width/2-125 , 350);
-        g.drawString("Full Screen", width/2-265 , 395);
-        g.drawString("On", width/2-120 , 395);
-        g.drawString("Off", width/2-40 , 395);
-        g.drawString("Keys", width/2-265 , 440);
-        g.drawString("Player1 Up: "+"  Down: ", width/2-200 , 440);
-        //g.drawString("Player1 Up: "+getKeys(1)+"  Down: "+getKeys(2), width/2-200 , 440);
-        g.drawString("Change Keys", width/2+100 , 440);
+        g.drawString("Off", width/2-40 , 215);
+        g.drawString("Keys", width/2-265 , 260);
+        g.drawString("Change Keys", width/2+100 , 260);
+        g.drawString("Pause: ", width/2-265 , 305);
+        g.drawString("Increase Speed: ", width/2-265 , 350);
+        g.drawString("SlefDestruction: ", width/2-265 , 395);
         g.drawString("Save", width-325 , height-65);
         g.drawString("Cancel", width-245 , height-65);
         g.drawString("Reset", width-145 , height-65);
     
 
-        if(drawHard){
+        if(drawOnSoundEffect){
             activeButtons(g, width/2, 170,"Hard", width/2-15, 145,70,40,20,20);
         }
-        if(drawMedium){
+        if(drawOffSoundEffect){
             activeButtons(g, width/2+90 , 170,"Medium", width/2+85, 145, 80, 40,20,20);
-        }
-        if(drawEasy){
-            activeButtons(g, width/2+200 , 170,"Easy" ,width/2+190, 145, 70, 40,20,20);
-        }
-        if(drawTwoPlayers){
-            activeButtons(g, width/2-120 , 215,"On", width/2-125, 195, 40, 30,20,20);
-            g.setColor(Color.WHITE);
-            g.drawString("Player2 Up: "+"  Down: ", width/2-200 , 485);
-            //g.drawString("Player2 Up: "+getKeys(3)+"  Down: "+getKeys(4), width/2-200 , 485);
-        }
-        if(drawWin5){
-        activeButtons(g, width/2, 260,"5", width/2-10, 240, 30, 30,10,10);
-        }
-        if(drawWin15){
-        activeButtons(g,width/2-120, 260,"15",width/2-125, 240, 30, 30, 10, 10);
-        }
-        if(drawWin10){
-        activeButtons(g,width/2-60, 260 ,"10",width/2-65, 240, 30, 30, 10, 10);
         }
         if(drawOff){
         activeButtons(g,width/2+25, 125,"Off", width/2+20, 105, 40, 30, 10, 10);
@@ -151,9 +114,9 @@ public class GameSettingsView {
         g.drawRoundRect(width/2-140, 100, 100, 40, 20, 20);
         }
         if(drawFullScreen){
-            activeButtons(g, width/2-120 , 395,"On", width/2-125, 375, 40, 30, 10, 10);
+            activeButtons(g, width/2-120 , 215,"On", width/2-125, 195, 40, 30, 10, 10);
         }else{
-            activeButtons(g, width/2-40 , 395,"Off", width/2-45, 375, 40, 30, 10, 10);
+            activeButtons(g, width/2-40 , 215,"Off", width/2-45, 195, 40, 30, 10, 10);
         }
         if(setkeys){
             g.setColor(Color.BLACK);
@@ -186,9 +149,6 @@ public class GameSettingsView {
         
     }
 
-    public boolean getDrawTrack(){
-        return this.drawTrack;
-    }
 
     public void setDraw(String name) {
         switch(name){
@@ -198,47 +158,6 @@ public class GameSettingsView {
                 drawOff = false;
                 
             }
-            case "Hard" -> {
-                drawHard = true;
-                drawMedium = false;
-                drawEasy = false;
-                drawTwoPlayers = false;
-            }
-            case "Medium" -> {
-                drawMedium = true;
-                drawHard = false;
-                drawEasy = false;
-                drawTwoPlayers = false;
-            }
-            case "Easy" -> {
-                drawEasy = true;
-                drawHard = false;
-                drawMedium = false;
-                drawTwoPlayers = false;
-            }
-            case "TwoPlayers" -> {
-                drawTwoPlayers = true;
-                drawHard = false;
-                drawMedium = false;
-                drawEasy = false;
-            }
-            
-            case "Win5" -> {
-            drawWin5 = true;
-            drawWin10 = false;
-            drawWin15 = false;
-            }
-
-            case "Win10" -> {
-            drawWin5 = false;
-            drawWin10 = true;
-            drawWin15 = false;
-            }
-            case "Win15" -> {
-            drawWin5 = false;
-            drawWin10 = false;
-            drawWin15 = true;
-            }
             case "Off" -> {
             drawOff = true;
             drawTrack = false;
@@ -247,13 +166,6 @@ public class GameSettingsView {
                 
             }
             case "Reset" -> {
-                drawHard = false;
-                drawMedium = false;
-                drawEasy = true;
-                drawTwoPlayers = false;
-                drawWin5 = true;
-                drawWin10 = false;
-                drawWin15 = false;
                 drawOff = false;
                 drawTrack = true;
                 drawFullScreen=false;
@@ -294,42 +206,6 @@ public class GameSettingsView {
     public boolean isOffClicked(Mouse m) {
         return mouseTracker(width/2-5, 40, 60, 60, m);
     }
-
-    // --- HARD ---
-    public boolean isHardClicked(Mouse m) {
-        return mouseTracker(width/2-15, 130, 80, 45, m);
-    }
-
-    // --- MEDIUM ---
-    public boolean isMediumClicked(Mouse m) {
-        return mouseTracker(width/2+85, 130, 80, 45, m);
-    }
-
-    // --- EASY ---
-    public boolean isEasyClicked(Mouse m) {
-        return mouseTracker(width/2+195, 130, 80, 45, m);
-    }
-
-    // --- ON ---
-    public boolean isOnClicked(Mouse m) {
-        return mouseTracker(width/2-160, 175, 60, 40, m);
-    }
-
-    // --- WINPOINTS 7 ---
-    public boolean isWinPoints15Clicked(Mouse m) {
-        return mouseTracker(width/2-140, 220, 40, 20, m);
-    }
-
-    // --- WINPOINTS 5 ---
-    public boolean isWinPoints10Clicked(Mouse m) {
-        return mouseTracker(width/2-80, 220, 40, 40, m);
-    }
-
-    // --- WINPOINTS 3 ---
-    public boolean isWinPoints5Clicked(Mouse m) {
-        return mouseTracker(width/2-40, 220, 40, 40, m);
-    }
-
     // --- SAVE ---
     public boolean isSaveClicked(Mouse m) {
     return mouseTracker(width-325, 500, 30, 30, m);
@@ -349,14 +225,6 @@ public class GameSettingsView {
     }
         public boolean isFullScreenOffClicked(Mouse m) {
         return mouseTracker(width/2-60, 375, 60, 30, m);
-    }
-
-        public boolean isPitchSkinClicked(Mouse m) {
-        return  mouseTracker(width/2-140, 260, 45, 35, m);
-    }
-
-        public boolean isBallSkinClicked(Mouse m) {
-        return mouseTracker(width/2-140, 290, 85, 35, m);
     }
         public boolean isChangeKeysClicked(Mouse m) {
         return mouseTracker(width/2+100,390,70,30, m);

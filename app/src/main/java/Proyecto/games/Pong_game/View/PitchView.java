@@ -1,4 +1,4 @@
-package Proyecto.games.Pong_game;
+package Proyecto.games.Pong_game.View;
 import java.awt.Graphics2D;
 import java.awt.Image;
 

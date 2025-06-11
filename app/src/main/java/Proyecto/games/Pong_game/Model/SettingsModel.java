@@ -7,8 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import Proyecto.games.Pong_game.PitchSkins;
 import Proyecto.games.Pong_game.View.BallSkins;
+import Proyecto.games.Pong_game.View.PitchSkins;
 
 
 public class SettingsModel {
