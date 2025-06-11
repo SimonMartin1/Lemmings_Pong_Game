@@ -119,7 +119,7 @@ public class Lemmings extends JGame {
 
 
         try{
-            MapModel firstLevelMapModel = new MapModel(1,0, 690, 70);
+            MapModel firstLevelMapModel = new MapModel(1,0, 1020, 300);
             MapModel secondLevelMapModel = new MapModel(2,0, 1100, 340);
             MapModel thirdLevelMapModel = new MapModel(3,0, 1050, 260);    
 
