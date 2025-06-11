@@ -74,10 +74,10 @@ public class CursorModel {
                                 }
                                 break;
                             case 2:
-                                if (stock.hasAbility(Ability.DIGGER)) {
-                                    currentSelectedAbility = new DigAbility();
-                                    currentAbility = Ability.DIGGER;
-                                    System.out.println("Habilidad Build guardada en el cursor");
+                                if (stock.hasAbility(Ability.UMBRELLA)) {
+                                    currentSelectedAbility = new UmbrellaAbility();
+                                    currentAbility = Ability.UMBRELLA;
+                                    System.out.println("Habilidad UMBRELLA guardada en el cursor");
                                 } else {
                                     System.out.println("No hay stock de Build");
                                 }
