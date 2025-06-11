@@ -160,8 +160,6 @@ public class LevelModel {
             }
         }
     }
-
-
     public boolean noMoreActiveLemmings() {
         boolean response = true;
 
@@ -174,7 +172,6 @@ public class LevelModel {
 
         return response;
     }
-
 
     // Getters básicos
 
