@@ -18,6 +18,7 @@ public class BallController {
     private static  int BOTTOM_BOUNDARY = 570;
     private static  int PADDLE_HEIGHT = 120;
     private int width,height;
+    private int offsetY = 50; 
 
     public BallController(BallModel ballModel, PaddleModel paddleLeftModel, PaddleModel paddleRightModel, ScoreManagerModel scoreManagerModel, int width, int height) {
         this.width=width;
@@ -33,11 +34,12 @@ public class BallController {
     public void updateSize(int width, int height){
         this.width=width;
         this.height=height;
-        TOP_BOUNDARY=height-60;
-        BOTTOM_BOUNDARY=60;
+        TOP_BOUNDARY=60;
+        BOTTOM_BOUNDARY=height- 60;
         LEFT_PADDLE_X_LIMIT=60;
         RIGHT_PADDLE_X_LIMIT=width-90;
-        RIGHT_GOAL_LIMIT=width-100;
+        RIGHT_GOAL_LIMIT=width-30;
+        PADDLE_HEIGHT = height/3; 
     }
     public void update() {
         ballModel.move();
@@ -70,13 +72,16 @@ public class BallController {
         if(ballModel.getPosX() > width-5){
             handleLeftGoal();
         }
-        else if (ballModel.getDirX() > 0 && ballModel.getPosX() + 15 >= RIGHT_PADDLE_X_LIMIT) {
-            double paddleY = paddleRightModel.getY();
 
+        else if (ballModel.getDirX() > 0 && ballModel.getPosX() + 15 >= RIGHT_PADDLE_X_LIMIT) {
+            double paddleY = paddleRightModel.getY() ;
+            System.out.println("Ball Y: " + ballModel.getPosY());
+            System.out.println("Paddle Right Y: " + paddleY);
             if (isCollidingWithPaddle(ballModel.getPosY(), paddleY)) {
                 ballModel.bounceOffPaddle(paddleY, PADDLE_HEIGHT);
                 ballModel.increaseSpeed();
                 ballModel.reproduceBounceBall();
+
             }
         }
     }

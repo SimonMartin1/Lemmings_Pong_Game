@@ -1,12 +1,12 @@
-musicOff=false
-track=TRACK1
+musicOff=true
+track=TRACK2
 difficult=EASY
 maxPoints=5
-twoPlayers=false
+twoPlayers=true
 ballSkin=CRAZY
-pitchSkin=BLUE
+pitchSkin=BASKET
 fullScreen=false
-Player1Keys1=79
+Player1Keys1=38
 Player1Keys2=40
 Player2Keys1=87
 Player2Keys2=83
