@@ -2,9 +2,6 @@ package Proyecto.games.Lemmings_game.View;
 
 import java.awt.*;
 
-import java.awt.event.KeyEvent;
-
-import com.entropyinteractive.Keyboard;
 public class GamePauseView {
     private int width;
     private int height;

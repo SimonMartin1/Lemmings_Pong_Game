@@ -12,9 +12,8 @@ import Proyecto.games.Lemmings_game.Lemmings;
 public class GameScoreView {
     private final int width;
     private final int height;
-    private ScoreDatabase db;
     private Lemmings game;
-    private boolean drawOn=true,prevMousePressed;
+    private boolean prevMousePressed;
     public GameScoreView(int width, int height, Lemmings game) {
         this.width = width;
         this.height = height;
@@ -46,13 +45,13 @@ public class GameScoreView {
 private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed && game.getIsinScore();
+    return  justPressed && game.getIsinMenu() && game.getIsinScore() ;
 }
 
 
 public boolean isBackClicked(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        return mx >= width-325 && mx <= width-325 + 30 && my >= height-110 && my <= height-110 + 30 && isMouseJustPressed(m) && game.getIsinScore();
+        return mx >= width-325 && mx <= width-325 + 300 && my >= height-110 && my <= height-110 + 300;
 }
 }
