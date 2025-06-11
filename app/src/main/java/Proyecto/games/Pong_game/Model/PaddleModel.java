@@ -13,7 +13,7 @@ public class PaddleModel {
         this.initialY = initialY;
     }
 
-        public void updateSize(int movement){
+    public void updateSize(int height, int movement){
         this.MOVE_AMOUNT=movement;
         
     }
