@@ -32,7 +32,7 @@ public class LevelModel {
     private List<LemmingModel> lemmings = new ArrayList<>();
     private int lemmingSpawnX;
     private int lemmingSpawnY;
-
+    private int pointsLevel; 
 
     public LevelModel(MapModel map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, ExitModel exit, int lemmingSpawnX, int lemmingSpawnY) {
         this.mapModel = map;
@@ -98,6 +98,7 @@ public class LevelModel {
                 long elapsed = System.currentTimeMillis() - cleanDeaths;
 
                 if (elapsed >= 3000) {
+                    pointsLevel = mapModel.getLemmingsSaved() * 10; 
                     result = true;
                 }
             }
@@ -105,7 +106,10 @@ public class LevelModel {
 
         return result;
     }
-
+    
+    public int getPointsLevel(){
+        return pointsLevel;
+    }
     // Logic
 
     private void updateLemmingSpawn(double delta, int lemmingSpawnX, int lemmingSpawnY) {

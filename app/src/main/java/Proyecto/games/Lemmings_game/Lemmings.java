@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,11 +53,14 @@ public class Lemmings extends JGame {
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
     private GameSettingsView settingsView;
+
     private GamePauseView gamePauseView;
     private final static boolean fullScreen = false;
+
     private boolean isInMenu = true, isInSettings=false, gamePause = false, gameOver = false,twoplayers,musicOFF;
     private int screenWidth = getWidth();
     private int screenHeight = getHeight();
+    private int pointsSum;
     private final boolean scoreAlreadySaved = false;
     private Boolean prevPausePressed = null;
     private final List<MinimapModel> minimapModels = new ArrayList<>();
@@ -91,35 +95,15 @@ public class Lemmings extends JGame {
         this.isInMenu = option;
     }
 
-    public void setFullScreen(boolean enable) {
-    Frame frame = this.getFrame();
-        if (enable) {
-            frame.dispose();
-            frame.setUndecorated(true);
-            frame.setExtendedState(java.awt.Frame.MAXIMIZED_BOTH);
-            frame.setVisible(true);
-            Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-            this.screenWidth = screenSize.width;
-            this.screenHeight = screenSize.height;
-        } else {
-            frame.dispose();
-            frame.setUndecorated(false);
-            frame.setExtendedState(java.awt.Frame.NORMAL);
-            frame.setSize(800, 600);
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            this.screenWidth = 800;
-            this.screenHeight = 600;
-        }
-        // Actualiza el tamaño de las vistas y modelos
-        }
-
     @Override
     public void gameStartup() {
+        
+        db.createTable();
+        
+        
         if (fullScreen) {
             setFullScreen(); 
         }
-
 
         try{
 
@@ -215,7 +199,7 @@ public class Lemmings extends JGame {
         }
     }
 
-    
+
     public boolean wantsBackMenu(Keyboard keyboard) {
         return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
     }
@@ -232,6 +216,7 @@ public class Lemmings extends JGame {
         prevPausePressed = currentPressed;
         return justPressed;
     }
+
 
     @Override
     public void gameDraw(Graphics2D g) {
@@ -259,7 +244,6 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameShutdown() {
-        // Guardar datos, cerrar recursos
     }
 
     private void setFullScreen() {
@@ -282,6 +266,10 @@ public class Lemmings extends JGame {
             System.out.println("¡Pasaste al nivel " + (currentLevel + 1) + "!");
         } else {
             System.out.println("¡Felicitaciones! Completaste todos los niveles.");
+            for(LevelModel l : levelModels){
+                pointsSum += l.getPointsLevel();
+            }
+            db.saveScore(getTitle(), pointsSum);
             // Podés reiniciar o mostrar un mensaje de fin de juego
             // gameMenuView.reset(); o lo que necesites
         }

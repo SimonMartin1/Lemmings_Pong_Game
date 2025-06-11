@@ -2,169 +2,236 @@ package Proyecto.games.Lemmings_game.Model;
 
 import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Utils.AbilityClass;
+import Proyecto.games.Lemmings_game.Utils.LemmingAnimationState;
+import Proyecto.games.Lemmings_game.Utils.LemmingState;
+
 import com.entropyinteractive.Mouse;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class CursorModel {
+
+    // --- Constantes de la Interfaz de Usuario (UI) ---
+    private static final float UI_START_Y_RATIO = 0.75f;
+    private static final float ABILITY_BUTTON_WIDTH_RATIO = 0.12f;
+    private static final float ABILITY_BUTTON_HEIGHT_RATIO = 0.25f;
+    private static final float ABILITY_BUTTON_SPACING_RATIO = 0.03f;
+    private static final float ABILITY_BUTTON_START_X_RATIO = 0.01f;
+
+    private static final float SPEED_BUTTON_OFFSET_X_RATIO = 0.59f;
+    private static final float SPEED_BUTTON_WIDTH_RATIO = 0.05f;  // 0.10f * 0.5f
+    private static final float SPEED_BUTTON_HEIGHT_RATIO = 0.052f; // 0.13f * 0.4f
+    private static final float ACCEL_BUTTON_Y_RATIO = 0.76f;
+    private static final float SLOW_BUTTON_Y_RATIO = 0.83f;
+    private static final float NASHE_BUTTON_Y_RATIO = 0.69f; 
+    
+    private static final int UI_BUTTON_EXTRA_MARGIN = 10;
+    
+    // Offset vertical para botones, ajustable para diferentes modos de pantalla.
+    private static final int FULLSCREEN_VERTICAL_OFFSET = 50;
+    // private static final int WINDOWED_VERTICAL_OFFSET = 0;
+
+    // --- Dependencias y Estado ---
     private List<LemmingModel> currentLemmings;
     private AbilityClass currentSelectedAbility;
-    private Ability currentAbility;
-    private Stock stock;
-    private Mouse mouse;
-    int camX;
-    //int camY;
-    //private int panelWidth = 1366;
-    //private int panelHeight = 768;
-    private int screenWidth;
-    private int screenHeight;
-    boolean wasPressedLastFrame = false;
+    private Ability currentAbility; // Mantenemos este campo para restar del stock sin modificar otras clases.
+    private final Stock stock;
+    private final Mouse mouse;
+    private final int screenWidth;
+    private final int screenHeight;
+    private int camX;
+    private boolean wasPressedLastFrame = false;
 
-    public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight){
+    // --- Mapa de Habilidades (Patrón Factory) ---
+    private static final Map<Ability, Supplier<AbilityClass>> ABILITY_FACTORY = Map.of(
+        Ability.DIGGER, DigAbility::new,
+        Ability.STOP, WallAbility::new,
+        Ability.UMBRELLA, UmbrellaAbility::new,
+        Ability.CLIMB, ClimbAbility::new
+    );
+    
+    // Define el orden de los botones de habilidad en la UI.
+    private static final Ability[] ABILITY_BUTTON_ORDER = {
+        Ability.DIGGER, Ability.STOP, Ability.UMBRELLA, Ability.CLIMB
+    };
+
+    public CursorModel(Stock stock, Mouse mouse, int screenWidth, int screenHeight) {
         this.stock = stock;
         this.mouse = mouse;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
     }
 
-    public void update(){
-        checkClick(mouse.getX(), mouse.getY());
+    /**
+     * Método principal de actualización, llamado en cada frame del juego.
+     */
+    public void update() {
+        boolean isPressed = mouse.isLeftButtonPressed();
+        
+        if (isPressed && !wasPressedLastFrame) {
+            handleMouseClick(mouse.getX(), mouse.getY());
+        }
+        
+        wasPressedLastFrame = isPressed;
     }
 
-    public void checkClick(int x, int y){
-        boolean isPressed = mouse.isLeftButtonPressed();
-    
-        int windowWidth = screenWidth;
-        int windowHeight = screenHeight;
-        int extraMargin = 10;
-        float startY = 0.75f;
-        float buttonHeight = 0.25f;
-        float buttonWidth = 0.12f;
-        float espacio = 0.03f;
-        float startX = 0.01f;
-    
-        if(isPressed && !wasPressedLastFrame){
-            int absY = (int)(startY * windowHeight);
-            int absH = (int)(buttonHeight * windowHeight);
-    
-            if(y >= absY && y <= absY + absH) {
-                for (int i = 0; i < 4; i++) {
-                    float relX = startX + i * (buttonWidth + espacio);
-                    int absX = (int)(relX * windowWidth);
-                    int absW = (int)(buttonWidth * windowWidth);
-    
-                    if(x >= absX && x <= absX + absW){
-                        switch (i) {
-                            case 0:
-                                if (stock.hasAbility(Ability.DIGGER)) {
-                                    currentSelectedAbility = new DigAbility();
-                                    currentAbility = Ability.DIGGER;
-                                    System.out.println("Habilidad Digger guardada en el cursor");
-                                } else {
-                                    System.out.println("No hay stock de Digger");
-                                }
-                                break;
-                            case 1:
-                                if (stock.hasAbility(Ability.STOP)) {
-                                    currentSelectedAbility = new WallAbility();
-                                    currentAbility = Ability.STOP;
-                                    System.out.println("Habilidad Wall guardada en el cursor");
-                                } else {
-                                    System.out.println("No hay stock de Wall");
-                                }
-                                break;
-                            case 2:
-                                if (stock.hasAbility(Ability.UMBRELLA)) {
-                                    currentSelectedAbility = new UmbrellaAbility();
-                                    currentAbility = Ability.UMBRELLA;
-                                    System.out.println("Habilidad UMBRELLA guardada en el cursor");
-                                } else {
-                                    System.out.println("No hay stock de Build");
-                                }
-                                break;
-                            case 3:
-                                if (stock.hasAbility(Ability.CLIMB)) {
-                                    currentSelectedAbility = new ClimbAbility();
-                                    currentAbility = Ability.CLIMB;
-                                    System.out.println("Habilidad Climb guardada en el cursor");
-                                } else {
-                                    System.out.println("No hay stock de Climb");
-                                }
-                                break;
-                        }
-                        break;
-                    }
-                    
-                    int offsetX = (int)(0.59f * windowWidth);
-            
-                    float extraRelWidth = 0.10f * 0.5f;
-                    float extraRelHeight = 0.13f * 0.4f;
+    /**
+     * Determina si el clic fue en la UI o en el mundo del juego y delega la acción.
+     */
+    private void handleMouseClick(int x, int y) {
+        int uiStartY = (int) (UI_START_Y_RATIO * screenHeight);
+        
+        if (y >= uiStartY) {
+            handleUiClick(x, y);
+        } else {
+            handleGameWorldClick(x, y);
+        }
+    }
 
-                    float acelRelX = startX;  
-                    float acelRelY = 0.76f;       
-                    int acelAbsX = (int)(acelRelX * windowWidth) + offsetX;
-                    int acelAbsY = (int)(acelRelY * windowHeight);
-                    int acelAbsW = (int)(extraRelWidth * windowWidth);
-                    int acelAbsH = (int)(extraRelHeight * windowHeight);
-            
-                    // --- BOTÓN ACELERAR ---
-                    if (x >= acelAbsX - extraMargin && x <= acelAbsX + acelAbsW + extraMargin &&
-                        y >= acelAbsY - extraMargin && y <= acelAbsY + acelAbsH + extraMargin ) {
-                        for(LemmingModel lemming : currentLemmings){
-                            if(lemming.getSpeed() < 4){
-                                lemming.setSpeed(lemming.getSpeed() +1 );
-                            }
-                        }
-                    }
-                    // buttonSlow
-                    float slowRelX = startX;         // 0.01f
-                    float slowRelY = 0.83f;          // según lo que pusiste antes para slow
-                    int slowAbsX = (int)(slowRelX * windowWidth) + offsetX;
-                    int slowAbsY = (int)(slowRelY * windowHeight);
-                    int slowAbsW = (int)(extraRelWidth * windowWidth);
-                    int slowAbsH = (int)(extraRelHeight * windowHeight);
-                    // --- BOTÓN RALENTIZAR ---
-                    if (x >= slowAbsX - extraMargin && x <= slowAbsX + slowAbsW + extraMargin &&
-                        y >= slowAbsY - extraMargin && y <= slowAbsY + slowAbsH + extraMargin) {
-                        for(LemmingModel lemming : currentLemmings){
-                            if(lemming.getSpeed() > 0){
-                                System.out.println("nashee burguer ");
-                                lemming.setSpeed(lemming.getSpeed() - 1 );
-                            }
-                        }
-                    }
-                }
-            } else {
-                // Click en un lemming
-                for(LemmingModel lemming : currentLemmings){
-                    //SI SE ROMPE BORRAR LA RESTA DE CAMX
-                    System.out.println("camX en cursorModel: " +  camX );
-                    if(lemming.isClicked(x, y, camX)){
-                        System.out.println("entre al click!!!!");
-                        if(currentSelectedAbility != null){
-                            System.out.println("Habilidad asignada al lemming!");
-                            lemming.assignAbility(currentSelectedAbility);
-                            stock.substractAbility(currentAbility);
+    /**
+     * Procesa los clics que ocurren dentro del área de la interfaz de usuario (botones).
+     */
+    private void handleUiClick(int x, int y) {
+        // --- Comprobación de Botones de Habilidad ---
+        int absButtonY = (int) (UI_START_Y_RATIO * screenHeight);
+        int absButtonH = (int) (ABILITY_BUTTON_HEIGHT_RATIO * screenHeight);
 
-                            currentAbility = null;
-                            currentSelectedAbility = null;
-                        } else {
-                            System.out.println("No hay habilidad seleccionada.");
-                        }
-                        break;
-                    }
+        if (y >= absButtonY && y <= absButtonY + absButtonH) {
+            for (int i = 0; i < ABILITY_BUTTON_ORDER.length; i++) {
+                float relX = ABILITY_BUTTON_START_X_RATIO + i * (ABILITY_BUTTON_WIDTH_RATIO + ABILITY_BUTTON_SPACING_RATIO);
+                int absX = (int) (relX * screenWidth);
+                int absW = (int) (ABILITY_BUTTON_WIDTH_RATIO * screenWidth);
+
+                if (isMouseInBounds(x, y, absX, absButtonY, absW, absButtonH)) {
+                    selectAbility(ABILITY_BUTTON_ORDER[i]);
+                    return; 
                 }
             }
         }
-    
-        wasPressedLastFrame = isPressed;
+        
+        // --- Comprobación de Botones de Velocidad ---
+        handleSpeedButtonsClick(x, y);
     }
     
-    public void setCurrentLemmings(List<LemmingModel> currentLemmings){
+    /**
+     * Maneja específicamente los clics en los botones de acelerar y ralentizar.
+     */
+    private void handleSpeedButtonsClick(int x, int y) {
+        int speedButtonOffsetX = (int) (SPEED_BUTTON_OFFSET_X_RATIO * screenWidth);
+        int speedButtonW = (int) (SPEED_BUTTON_WIDTH_RATIO * screenWidth);
+        int speedButtonH = (int) (SPEED_BUTTON_HEIGHT_RATIO * screenHeight);
+        int startX = (int) (ABILITY_BUTTON_START_X_RATIO * screenWidth);
+
+        // Botón Acelerar
+        int accelAbsX = startX + speedButtonOffsetX;
+        int accelAbsY = (int) (ACCEL_BUTTON_Y_RATIO * screenHeight);
+        if (isMouseInBounds(x, y, accelAbsX, accelAbsY + FULLSCREEN_VERTICAL_OFFSET, speedButtonW, speedButtonH, UI_BUTTON_EXTRA_MARGIN)) {
+            changeLemmingsSpeed(1);
+            return;
+        }
+
+        // Botón Ralentizar
+        int slowAbsX = startX + speedButtonOffsetX;
+        int slowAbsY = (int) (SLOW_BUTTON_Y_RATIO * screenHeight);
+        if (isMouseInBounds(x, y, slowAbsX, slowAbsY + FULLSCREEN_VERTICAL_OFFSET, speedButtonW, speedButtonH, UI_BUTTON_EXTRA_MARGIN)) {
+            changeLemmingsSpeed(-1);
+        }
+
+        //Botón nashe
+        int nasheAbsX = startX + speedButtonOffsetX;
+        int nasheAbsY = (int) (NASHE_BUTTON_Y_RATIO * screenHeight);
+        if (isMouseInBounds(x, y, nasheAbsX, nasheAbsY + FULLSCREEN_VERTICAL_OFFSET, speedButtonW, speedButtonH, UI_BUTTON_EXTRA_MARGIN)) {
+            assignNukeLemmings();
+        }
+    }
+
+    /**
+     * Procesa los clics que ocurren en el área de juego para asignar habilidades a los lemmings.
+     */
+    private void handleGameWorldClick(int x, int y) {
+        if (currentSelectedAbility == null) {
+            System.out.println("No hay habilidad seleccionada.");
+            return;
+        }
+
+        for (LemmingModel lemming : currentLemmings) {
+            if (lemming.isClicked(x, y, camX)) {
+                System.out.println("Habilidad asignada al lemming!");
+                lemming.assignAbility(currentSelectedAbility);
+                
+                // Usamos el campo 'currentAbility' que guardamos, tal como en el código original.
+                stock.substractAbility(currentAbility); 
+
+                // Limpiamos ambas variables
+                currentSelectedAbility = null;
+                currentAbility = null;
+                break; 
+            }
+        }
+    }
+    
+    /**
+     * Intenta seleccionar una habilidad, actualizando las dos variables de estado.
+     */
+    private void selectAbility(Ability ability) {
+        if (stock.hasAbility(ability)) {
+            this.currentSelectedAbility = ABILITY_FACTORY.get(ability).get();
+            this.currentAbility = ability; // Almacenamos el tipo de habilidad aquí
+            System.out.println("Habilidad " + ability.name() + " guardada en el cursor");
+        } else {
+            System.out.println("No hay stock de " + ability.name());
+        }
+    }
+    
+    /**
+     * Cambia la velocidad de todos los lemmings actuales.
+     */
+    private void changeLemmingsSpeed(int delta) {
+        for (LemmingModel lemming : currentLemmings) {
+            int currentSpeed = lemming.getSpeed();
+            int newSpeed = currentSpeed + delta;
+            if (newSpeed >= 0 && newSpeed <= 4) {
+                lemming.setSpeed(newSpeed);
+            }
+        }
+        System.out.println("Velocidad de lemmings cambiada.");
+    }
+
+    /**
+     * asigna nuke a los lemmings
+     */
+    private void assignNukeLemmings() {
+        for (LemmingModel lemming : currentLemmings) {
+            lemming.setAbility(new WallAbility());
+            lemming.setStateLemming(LemmingState.WAITING);
+            lemming.setCurrentLeemingState(LemmingAnimationState.NUKE);
+        }
+        System.out.println("NUKEEE");
+    }
+
+
+    /**
+     * Helper para verificar si el cursor está dentro de un rectángulo.
+     */
+    private boolean isMouseInBounds(int mouseX, int mouseY, int x, int y, int width, int height) {
+        return mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height;
+    }
+    
+    /**
+     * Sobrecarga de isMouseInBounds para incluir un margen adicional.
+     */
+    private boolean isMouseInBounds(int mouseX, int mouseY, int x, int y, int width, int height, int margin) {
+        return isMouseInBounds(mouseX, mouseY, x - margin, y - margin, width + (2 * margin), height + (2 * margin));
+    }
+
+    // --- Setters ---
+    public void setCurrentLemmings(List<LemmingModel> currentLemmings) {
         this.currentLemmings = currentLemmings;
     }
-    
-    public void setCamX(int camX){
+
+    public void setCamX(int camX) {
         this.camX = camX;
     }
 }
