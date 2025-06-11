@@ -1,9 +1,9 @@
-musicOff=false
-track=TRACK1
-difficult=MEDIUM
+musicOff=true
+track=TRACK2
+difficult=EASY
 maxPoints=5
-twoPlayers=false
-ballSkin=NORMAL
+twoPlayers=true
+ballSkin=CRAZY
 pitchSkin=BASKET
 fullScreen=false
 Player1Keys1=38
