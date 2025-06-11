@@ -11,7 +11,7 @@ import java.awt.Graphics;
 public class MapView {
     private MapModel model;
     private int camX;
-    private int camY;
+    private int camY= 0;
     private SpawnerView spawnerView;
     private ExitView exitView;
     //private int mapWidth = 1366;
@@ -21,7 +21,7 @@ public class MapView {
 
     public MapView(MapModel model, SpawnerView spawnerView, ExitView exitView, int camX, int camY, int screenWidth, int screenHeight) {
         this.camX = camX;
-        this.camY = camY;
+        //this.camY = camY;
         this.model = model;
         this.spawnerView = spawnerView;
         this.exitView = exitView;
