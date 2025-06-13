@@ -19,6 +19,21 @@ public class ScoreDatabase {
         }
         return conn;
     }
+
+    public static java.util.List<String[]> getRanking() {
+        String sql = "SELECT player, score FROM scores ORDER BY score DESC LIMIT 10";
+        java.util.List<String[]> ranking = new java.util.ArrayList<>();
+        try (Connection conn = ScoreDatabase.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                ranking.add(new String[]{rs.getString("player"), String.valueOf(rs.getInt("score"))});
+            }
+        } catch (Exception e) {
+            System.err.println("Error getting ranking: " + e.getMessage());
+        }
+        return ranking;
+    }
     
     public static void createTable() {
         String sql = "CREATE TABLE IF NOT EXISTS scores (" +
