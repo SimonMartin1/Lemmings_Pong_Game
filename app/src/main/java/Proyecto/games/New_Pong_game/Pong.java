@@ -131,7 +131,7 @@ public class Pong extends JGame implements KeyListener {
             case ON_MENU -> {
                 menu.update(delta, this);
 
-                if(getKeyboard().isKeyPressed(KeyEvent.VK_SPACE)){
+                if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
                     startGame();
                     setGameState(GameState.PLAYING);
                 }

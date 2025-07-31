@@ -3,7 +3,6 @@ package Proyecto.games.New_Pong_game.views;
 import Proyecto.games.New_Pong_game.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.GameState;
-import com.entropyinteractive.Keyboard;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,7 +13,6 @@ public class Menu implements Drawable {
     private int height;
     private double blinkTime;
     private boolean showPressText = true;
-    private Boolean prevPausePressed = null;
 
     public Menu(int width, int height) {
         this.width = width;
@@ -38,12 +36,12 @@ public class Menu implements Drawable {
         if (showPressText) {
             g2d.setColor(Color.WHITE);
             g2d.setFont(new Font("Arial", Font.BOLD, 24));
-            g2d.drawString("Click or Enter", width/2 - 70, height/2+140);
+            g2d.drawString("Press Enter", width/2 - 70, height/2+140);
         }
     }
 
     public void update(double delta, Pong game){
-        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_CONFIG);
         }
         blinkTime += delta;
@@ -54,7 +52,20 @@ public class Menu implements Drawable {
 
     }
 
-    /*
+//    public boolean detectPlay(Keyboard k){
+//        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_ENTER);
+//
+//        if (prevPausePressed == null) {
+//            prevPausePressed = currentPressed;
+//            return false;
+//        }
+//
+//        boolean justPressed = currentPressed && !prevPausePressed;
+//        prevPausePressed = currentPressed;
+//        return justPressed;
+//    }
+
+        /*
     public boolean detectPlay(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
@@ -62,20 +73,6 @@ public class Menu implements Drawable {
         return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
      */
-
-    public boolean detectPlay(Keyboard k){
-        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_ENTER);
-
-        if (prevPausePressed == null) {
-            prevPausePressed = currentPressed;
-            return false;
-        }
-
-        boolean justPressed = currentPressed && !prevPausePressed;
-        prevPausePressed = currentPressed;
-        return justPressed;
-    }
-
 
     /*public boolean detectSetting(Mouse m) {
         int mx = m.getX();
