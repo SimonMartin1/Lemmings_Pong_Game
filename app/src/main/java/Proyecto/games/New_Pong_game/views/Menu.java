@@ -46,6 +46,12 @@ public class Menu implements Drawable {
         if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             game.setGameState(GameState.ON_CONFIG);
         }
+        blinkTime += delta;
+        if (blinkTime >= 0.6) {
+            showPressText = !showPressText;
+            blinkTime = 0;
+        }
+
     }
 
     /*

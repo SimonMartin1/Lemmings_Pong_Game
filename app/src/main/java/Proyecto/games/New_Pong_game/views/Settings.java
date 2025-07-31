@@ -7,10 +7,8 @@ import com.entropyinteractive.Mouse;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -274,6 +272,16 @@ public class Settings implements Drawable {
                 };
                 game.getConfig().setTrack(nextTrack);
             }
+        });
+
+        actions.put(mouseTracker::isSaveClicked, () -> {
+        });
+
+        actions.put(mouseTracker::isResetClicked, () -> {
+        });
+
+        actions.put(mouseTracker::isCancelClicked, () -> {
+
         });
 
         for (Map.Entry<BooleanSupplier, Runnable> entry : actions.entrySet()) {

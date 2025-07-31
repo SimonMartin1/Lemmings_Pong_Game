@@ -77,10 +77,55 @@ public class MouseTracker {
         return mouseTracker(width/2-80, 220, 40, 40);
     }
 
-    // --- WINPOINTS 3 ---
+    // --- WINPOINTS 5 ---
     public boolean isWinPoints5Clicked() {
         return mouseTracker(width/2-40, 220, 40, 40);
     }
+
+
+    public boolean isFullScreenClicked() {
+        return mouseTracker(width/2-120, height/2+50, 30, 30);
+    }
+
+    public boolean isFullScreenOffClicked() {
+        return mouseTracker(width/2-60, 375, 60, 30);
+    }
+
+    public boolean isPitchSkinClicked() {
+        return  mouseTracker(width/2-140, 260, 45, 35);
+    }
+
+    public boolean isBallSkinClicked() {
+        return mouseTracker(width/2-140, 290, 85, 35);
+    }
+
+    public boolean isChangeKeysClicked() {
+        return mouseTracker(width/2+100,390,70,30);
+    }
+
+    public boolean isCancelSetKeysClicked() {
+        return mouseTrackerSetKeys(width/2+100, 381, 70,45);
+    }
+
+    // --- Change Keys Events --
+
+    public boolean isPlayer1UpClicked() {
+        return mouseTrackerSetKeys(width/2+20, 170, 65,40);
+    }
+
+    public boolean isPlayer1DownClicked() {
+        return mouseTrackerSetKeys(width/2-80, 170, 65,40);
+    }
+
+    public boolean isPlayer2UpClicked() {
+        return mouseTrackerSetKeys(width/2+20, 292, 65,40);
+    }
+
+    public boolean isPlayer2DownClicked() {
+        return mouseTrackerSetKeys(width/2-80, 292, 65,40);
+    }
+
+    // -----------------
 
     // --- SAVE ---
     public boolean isSaveClicked() {
@@ -95,38 +140,5 @@ public class MouseTracker {
     // --- RESET ---
     public boolean isResetClicked() {
         return mouseTracker(width-145, 500, 60, 30);
-    }
-    public boolean isFullScreenClicked() {
-        return mouseTracker(width/2-120, height/2+50, 30, 30);
-    }
-    public boolean isFullScreenOffClicked() {
-        return mouseTracker(width/2-60, 375, 60, 30);
-    }
-
-    public boolean isPitchSkinClicked() {
-        return  mouseTracker(width/2-140, 260, 45, 35);
-    }
-
-    public boolean isBallSkinClicked() {
-        return mouseTracker(width/2-140, 290, 85, 35, m);
-    }
-    public boolean isChangeKeysClicked() {
-        return mouseTracker(width/2+100,390,70,30, m);
-    }
-
-    public boolean isCancelSetKeysClicked() {
-        return mouseTrackerSetKeys(width/2+100, 381, 70,45);
-    }
-    public boolean isPlayer1UpClicked() {
-        return mouseTrackerSetKeys(width/2+20, 170, 65,40);
-    }
-    public boolean isPlayer1DownClicked() {
-        return mouseTrackerSetKeys(width/2-80, 170, 65,40);
-    }
-    public boolean isPlayer2UpClicked() {
-        return mouseTrackerSetKeys(width/2+20, 292, 65,40);
-    }
-    public boolean isPlayer2DownClicked() {
-        return mouseTrackerSetKeys(width/2-80, 292, 65,40);
     }
 }
