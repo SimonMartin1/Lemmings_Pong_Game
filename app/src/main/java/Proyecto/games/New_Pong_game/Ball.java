@@ -22,19 +22,26 @@ public class Ball implements Drawable {
     private final double initialSpeed;
     private int screenWidth;
 
-    private static double RESET_POS_X = 370;
-    private static double RESET_POS_Y = 330;
+    private double RESET_POS_X;
+    private double RESET_POS_Y;
     private final SkinBall skinBall;
     private final SoundManager soundManager;
     private final Paddle leftPaddle;
     private final Paddle rightPaddle;
     private final ScoreManager scoreManager;
 
+    private static  int LEFT_PADDLE_X_LIMIT = 10;
+    private static  int LEFT_GOAL_LIMIT;
+    private static  int RIGHT_PADDLE_X_LIMIT;
+    private static  int RIGHT_GOAL_LIMIT;
+    private static  int TOP_BOUNDARY;
+    private static  int BOTTOM_BOUNDARY;
+    private static  int PADDLE_HEIGHT;
 
     Random rand = new Random();
 
 
-    public Ball(int screenWidth, double startX, double startY, double speed, Paddle leftPaddle, Paddle rightPaddle, ScoreManager scoreManager, SkinBall skinBall, SoundManager soundManager) {
+    public Ball(int screenWidth, int screenHeight, double startX, double startY, double speed, Paddle leftPaddle, Paddle rightPaddle, ScoreManager scoreManager, SkinBall skinBall, SoundManager soundManager) {
         this.posX = startX;
         this.posY = startY;
         this.speed = speed;
@@ -46,6 +53,13 @@ public class Ball implements Drawable {
         this.rightPaddle = rightPaddle;
         this.scoreManager = scoreManager;
         this.screenWidth = screenWidth;
+        RIGHT_PADDLE_X_LIMIT = (int)(screenWidth - (screenWidth * 0.03));
+        TOP_BOUNDARY = (int)(screenWidth * 0.04);
+        BOTTOM_BOUNDARY = screenHeight - TOP_BOUNDARY;
+        PADDLE_HEIGHT = (int)(screenHeight * .25);
+        RESET_POS_X = (int)(screenHeight * .45);
+        RESET_POS_Y = (int)(screenHeight * .40);
+
 
         double angle = generateRandomAngle();
 
@@ -100,27 +114,6 @@ public class Ball implements Drawable {
 
     // !IMPORTANT - Funciones de trayectoria de la ball
 
-    private static  int LEFT_PADDLE_X_LIMIT = 10;
-    private static  int LEFT_GOAL_LIMIT;
-    private static  int RIGHT_PADDLE_X_LIMIT = 775;
-    private static  int RIGHT_GOAL_LIMIT;
-    private static  int TOP_BOUNDARY = 30;
-    private static  int BOTTOM_BOUNDARY = 570;
-    private static  int PADDLE_HEIGHT = 120;
-    private int width,height;
-    private int offsetY = 50;
-
-    public void updateSize(int width, int height){
-        this.width=width;
-        this.height=height;
-        TOP_BOUNDARY=60;
-        BOTTOM_BOUNDARY=height- 60;
-        LEFT_PADDLE_X_LIMIT=60;
-        RIGHT_PADDLE_X_LIMIT=width-90;
-        RIGHT_GOAL_LIMIT=width-30;
-        PADDLE_HEIGHT = height/3;
-    }
-
     public void update() {
         move();
 
@@ -135,7 +128,7 @@ public class Ball implements Drawable {
         if(getPosX() < 5){
             handleRightGoal();
         }
-        else if (getDirX() < 0 && getPosX() - 15 <= LEFT_PADDLE_X_LIMIT) {
+        else if (getDirX() < 0 && getPosX() - 50 <= LEFT_PADDLE_X_LIMIT) {
             double paddleY = leftPaddle.getY();
 
             if (isCollidingWithPaddle(getPosY(), paddleY)) {

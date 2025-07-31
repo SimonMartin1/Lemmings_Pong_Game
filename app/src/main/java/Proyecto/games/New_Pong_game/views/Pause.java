@@ -34,6 +34,10 @@ public class Pause implements Drawable {
         if (pong.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             pong.setGameState(GameState.PLAYING);
         }
+
+        if (pong.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+            pong.setGameState(GameState.ON_MENU);
+        }
     }
 
     public void pauseGame() {
@@ -47,13 +51,9 @@ public class Pause implements Drawable {
             prevPausePressed = currentPressed;
 
             if(justPressed){
-
+                pong.setGameState(GameState.ON_PAUSE);
             }
         }
 
-
-        if (pong.getKeyboard().isKeyPressed(KeyEvent.VK_P)){
-            pong.setGameState(GameState.ON_PAUSE);
-        }
     }
 }

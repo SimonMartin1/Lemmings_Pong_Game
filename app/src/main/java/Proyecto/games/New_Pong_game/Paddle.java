@@ -5,8 +5,8 @@ import java.awt.*;
 public class Paddle implements Drawable{
     private int MOVE_AMOUNT = 700;
 
-    private final int PADDLE_WIDTH = 10;
-    private final int PADDLE_HEIGHT = 150;
+    private final double PADDLE_WIDTH;
+    private final double PADDLE_HEIGHT;
     private final Color PADDLE_COLOR = Color.WHITE;
 
 
@@ -15,18 +15,20 @@ public class Paddle implements Drawable{
     private int y, x;
     private boolean paused = false;
     final private int initialY;
+    private final int width;
+    private final int height;
 
-    public Paddle(int initialY, int x) {
+    public Paddle(int width, int height, int initialY, int x) {
         this.y = initialY;
         this.initialY = initialY;
         this.x = x;
 
-        // TODO: LEER LAS PROPERTIES
-    }
+        this.width = width;
+        this.height = height;
 
-    // TODO: VER ESTA FUNCIÓN QUE ESTA RARA
-    public void updateSize(int height, int movement){
-        this.MOVE_AMOUNT=movement;
+        this.PADDLE_HEIGHT = height * .25;
+        this.PADDLE_WIDTH = width * 0.01;
+
     }
 
     public void setMoveDown(boolean isMoveDown){
@@ -39,17 +41,17 @@ public class Paddle implements Drawable{
 
     public void update(double delta){
         if(isMoveUp){
-            if(y>=40){
+            if(y>=(int) (height*.07)){
                 y-= MOVE_AMOUNT*delta;
             }else{
-                y = 35;
+                y = (int) (height*.07) + 5;
             }
         }
         if (isMoveDown) {
-            if(y<=450){
+            if(y<=(int) (height*.75)){
                 y+= MOVE_AMOUNT*delta;
             }else{
-                y = 451;
+                y = (int) (height*.75) + 1;
             }
         }
     }
@@ -70,6 +72,6 @@ public class Paddle implements Drawable{
     public void draw(Graphics2D g2d){
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setColor(PADDLE_COLOR);
-        g2d.fillRect(x, y, PADDLE_WIDTH, PADDLE_HEIGHT);
+        g2d.fillRect(x, y, (int) PADDLE_WIDTH, (int) PADDLE_HEIGHT);
     }
 }

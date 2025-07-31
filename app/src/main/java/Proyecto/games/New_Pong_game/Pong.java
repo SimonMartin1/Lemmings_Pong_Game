@@ -2,14 +2,17 @@ package Proyecto.games.New_Pong_game;
 
 import Proyecto.games.New_Pong_game.utils.*;
 import Proyecto.games.New_Pong_game.views.Menu;
+import Proyecto.games.New_Pong_game.views.Over;
 import Proyecto.games.New_Pong_game.views.Pause;
 import Proyecto.games.New_Pong_game.views.Settings;
 import com.entropyinteractive.JGame;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.Properties;
 
 public class Pong extends JGame {
@@ -27,6 +30,7 @@ public class Pong extends JGame {
     Settings settings;
     Pause pause;
     Pitch pitch;
+    Over over;
 
     // Elementos
     Ball ball;
@@ -83,8 +87,19 @@ public class Pong extends JGame {
         config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, skinPitch, skinBall);
         soundManager = new SoundManager(musicOff);
 
+
+        if(config.isFullscreen()){
+            setFullscreenMode();
+
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+            this.width = screenSize.width;
+            this.height = screenSize.height;
+        }
+
         this.menu = new Menu(width,height);
         this.settings = new Settings(width,height,this);
+        this.over = new Over(width, height);
     }
 
     @Override
@@ -105,6 +120,15 @@ public class Pong extends JGame {
 
 
             case PLAYING -> {
+
+                if (scoreManager.hasWinner()){
+                    gameState = GameState.FINISH;
+
+                    over.setTwoPlayers(!config.isVersusIA());
+                    over.setWinner(scoreManager.getWinner());
+                    return;
+                }
+
                 pause.pauseGame();
 
                 ball.update();
@@ -117,6 +141,17 @@ public class Pong extends JGame {
                 }
 
                 paddleRightController.update(delta);
+            }
+
+            case FINISH -> {
+                if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+                    gameState = GameState.PLAYING;
+                    startGame();
+                }
+
+                if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+                    gameState = GameState.ON_MENU;
+                }
             }
         }
 
@@ -145,6 +180,8 @@ public class Pong extends JGame {
                 paddleRight.draw(g);
                 scoreManager.draw(g);
             }
+
+            case FINISH -> over.draw(g);
         }
 
     }
@@ -162,19 +199,19 @@ public class Pong extends JGame {
         this.scoreManager = new ScoreManager(width, config.getMaxPoints());
         this.pause = new Pause(this);
 
-        this.paddleRight = new Paddle(height/2  - 75, width - 25);
+        this.paddleRight = new Paddle(width, height, height/2  - 75, (int)(width - width*0.03));
         this.paddleRightController = new PaddleController(paddleRight, getKeyboard(), config.getPlayerTwoUp(), config.getPlayerTwoDown());
 
         if(config.isVersusIA()){
-            this.paddleLeft = new Paddle(height/2 - 75, 15);
+            this.paddleLeft = new Paddle(width, height, height/2 - 75, (int) (width*0.03));
             this.paddleIAController = new PaddleIAController(paddleLeft, config.getDifficult());
         }
         else{
-            this.paddleLeft =  new Paddle(height/2 - 75, 15);
+            this.paddleLeft =  new Paddle(width, height, height/2 - 75, (int) (width*0.03));
             this.paddleLeftController = new PaddleController(paddleLeft, getKeyboard(), config.getPlayerOneUp(), config.getPlayerOneDown());
         }
 
-        this.ball = new Ball(width, width/2, height/2, 10, paddleLeft, paddleRight, scoreManager,config.getSkinBall(), soundManager);
+        this.ball = new Ball(width, height, width/2, height/2, 10, paddleLeft, paddleRight, scoreManager,config.getSkinBall(), soundManager);
     }
 
     // Getters
@@ -193,5 +230,32 @@ public class Pong extends JGame {
 
     public void setGameState(GameState gameState){
         this.gameState = gameState;
+    }
+
+    private void setFullscreenMode() {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        if (gd.isFullScreenSupported()) {
+            JFrame frame = getFrame(); // Ya lo tenés gracias a JGame
+            frame.dispose();
+            frame.setUndecorated(true);
+            frame.setResizable(false);
+            gd.setFullScreenWindow(frame);
+            frame.setVisible(true);
+
+            try {
+                Field canvasField = JGame.class.getDeclaredField("canvas");
+                canvasField.setAccessible(true);
+                JPanel canvas = (JPanel) canvasField.get(this); // ⚠️ "this" porque estás en Pong que hereda de JGame
+
+                canvas.setFocusable(true);
+                canvas.requestFocusInWindow();
+
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            System.out.println("Pantalla completa no soportada.");
+        }
     }
 }
