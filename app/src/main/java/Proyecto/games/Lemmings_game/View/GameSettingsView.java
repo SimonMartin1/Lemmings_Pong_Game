@@ -12,6 +12,7 @@ public class GameSettingsView {
     private int width;
     private int height;
     public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
+
     private final Lemmings game;
 
 

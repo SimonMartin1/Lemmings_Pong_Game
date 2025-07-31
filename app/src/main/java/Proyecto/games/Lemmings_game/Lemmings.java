@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+
 import Proyecto.games.Lemmings_game.Controller.ButtonController;
 import Proyecto.games.Lemmings_game.Controller.GameSettingsController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
@@ -25,6 +26,7 @@ import Proyecto.games.Lemmings_game.Model.LevelModel;
 import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
 import Proyecto.games.Lemmings_game.Model.Stock;
+import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
 import Proyecto.games.Lemmings_game.View.ExitView;
@@ -68,6 +70,7 @@ public class Lemmings extends JGame {
     private final int screenHeight = getHeight();
     private int pointsSum;
     private Boolean prevPausePressed = null;
+
     private final List<MinimapModel> minimapModels = new ArrayList<>();
 
     public Lemmings(String title, int width, int height) {
@@ -155,6 +158,10 @@ public class Lemmings extends JGame {
 
     public boolean getIsinScore() {
     return this.isInScore;
+
+    }
+    public void setIsinScore(boolean option){
+        this.isInScore=option;
     }    
         public boolean getIsinMenu() {
         return this.isInMenu;
@@ -245,8 +252,10 @@ public class Lemmings extends JGame {
         gameMenu = new GameMenuView(getWidth(), getHeight(),this);
         gamePauseView= new GamePauseView(screenWidth, screenHeight);
         gameSettingsView= new GameSettingsView(screenWidth, screenHeight,this);
-        gameScoreView= new GameScoreView(screenWidth, screenHeight);
+
+        gameScoreView= new GameScoreView(screenWidth, screenHeight,this);
         gameWinView = new GameWinView(screenWidth, screenHeight);
+
     }
 
 public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
@@ -256,7 +265,9 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     }
 
     public boolean detectPlay(Mouse m) {
-        return mouseTracker(screenWidth/2 - 100, 300,200,60, m) && !isInSettings;
+
+        return mouseTracker(screenWidth/2 - 100, 300,200,60, m) && !isInSettings && !isInScore;
+
     }
 
     public boolean detectPlay(Keyboard k){
@@ -273,8 +284,9 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     @Override
     public void gameUpdate(double delta) {
 
-        if(isInSettings){
-            gameSettingsController= new GameSettingsController(gameSettingsView, this);
+        
+        if(isInSettings || isInScore){
+            gameSettingsController= new GameSettingsController(gameSettingsView,gameScoreView, this);
         }
 
         if(isInMenu){
@@ -288,6 +300,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             }
 
             if(detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)){
+
                 isInScore=!isInScore;
             }
         }
@@ -335,13 +348,40 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         if (prevPausePressed == null) {
             prevPausePressed = currentPressed;
             return false;
+                gamePause=!gamePause;
+            }
+
+            if(gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+                isInMenu=true;
+            }
+            
+            if(gamePause){
+                if(getKeyboard().isKeyPressed(KeyEvent.VK_M)){
+                gamePause=!gamePause;
+                }
+                if(wantsBackMenu(getKeyboard())){
+                isInMenu=true;
+                }
+            }
+            if(!gamePause){
+                buttonController.update();
+                levelControllers.get(currentLevel).update(delta);
+            
+
+                if(levelModels.get(currentLevel).isLevelFinished()){
+                    if (levelModels.get(currentLevel).isLevelWon()) {
+                        nextLevel();
+                    }else{
+                        repeatLevel();
+                    }
+                }
+            }
         }
 
         boolean justPressed = currentPressed && !prevPausePressed;
         prevPausePressed = currentPressed;
         return justPressed;
     }
-
 
     @Override
     public void gameDraw(Graphics2D g) {
@@ -360,7 +400,6 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         else {
             g.setColor(Color.BLACK);
             g.fillRect(0, 0, getWidth(), getHeight());
-
             levelControllers.get(currentLevel).draw(g);
 
             if(gamePause){

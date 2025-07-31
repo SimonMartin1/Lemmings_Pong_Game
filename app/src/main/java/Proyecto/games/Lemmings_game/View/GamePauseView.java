@@ -2,9 +2,6 @@ package Proyecto.games.Lemmings_game.View;
 
 import java.awt.*;
 
-import java.awt.event.KeyEvent;
-
-import com.entropyinteractive.Keyboard;
 public class GamePauseView {
     private int width;
     private int height;
@@ -26,7 +23,7 @@ public class GamePauseView {
         g.drawString("Game Pause", width / 2 - 100, height / 2 - 160);
 
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Press P continue playing - ENTER back to Menu", width / 2 - 210, height / 2 - 120);
+        g.drawString("Press M continue playing - ENTER back to Menu", width / 2 - 210, height / 2 - 120);
     }
         public void updateSize(int width, int height){
         this.width=width;
