@@ -10,12 +10,13 @@ import com.entropyinteractive.JGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
-public class Pong extends JGame {
+public class Pong extends JGame implements KeyListener {
 
     private int width, height;
     private final Properties propertiesGameConfig;
@@ -66,11 +67,33 @@ public class Pong extends JGame {
         }
     }
 
+    //implementacion de keylistener para cambiar los controles en configuracion/opciones
+
+    @Override public void keyTyped(KeyEvent e) {}
+
+    @Override public void keyReleased(KeyEvent e) {}
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (settings.getListeningKey()) {
+            int lastKeyPressed = e.getKeyCode();
+            switch (settings.getKeyToChange()) {
+                case PLAYER1_UP -> config.setPlayerOneUp(lastKeyPressed);
+                case PLAYER2_DOWN -> config.setPlayerTwoDown(lastKeyPressed);
+                case PLAYER2_UP -> config.setPlayerTwoUp(lastKeyPressed);
+                default -> config.setPlayerOneDown(lastKeyPressed);
+            }
+            settings.setListeningKey(false);
+        }
+    }
+
+
 
     @Override
     public void gameStartup() {
 
         // Leemos las configs
+        Track track = Track.values()[Integer.parseInt(propertiesGameConfig.getProperty("track", "1"))];
         boolean musicOff = Boolean.parseBoolean(propertiesGameConfig.getProperty("musicOff", "false"));
         boolean isFullscreen = Boolean.parseBoolean(propertiesGameConfig.getProperty("isFullscreen", "false"));
         boolean isVersusIA = Boolean.parseBoolean(propertiesGameConfig.getProperty("isVersusIA", "true"));
@@ -80,11 +103,11 @@ public class Pong extends JGame {
         int player1DownKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player1.down", "S").charAt(0));
         int player2UpKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player2.up", "UP").charAt(0));
         int player2DownKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player2.down", "DOWN").charAt(0));
-        SkinBall skinBall = SkinBall.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.ball", "CRAZY"))];
-        SkinPitch skinPitch = SkinPitch.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.pitch", "BASKET"))];
+        BallSkin ballSkin = BallSkin.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.ball", "CRAZY"))];
+        PitchSkin pitchSkin = PitchSkin.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.pitch", "BASKET"))];
 
 
-        config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, skinPitch, skinBall);
+        config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, track, pitchSkin, ballSkin);
         soundManager = new SoundManager(musicOff);
 
 
@@ -98,7 +121,7 @@ public class Pong extends JGame {
         }
 
         this.menu = new Menu(width,height);
-        this.settings = new Settings(width,height,this);
+        this.settings = new Settings(width,height,this, getMouse());
         this.over = new Over(width, height);
     }
 
@@ -194,7 +217,7 @@ public class Pong extends JGame {
 
     public void startGame(){
 
-        this.pitch = new Pitch(width,height, config.getSkinPitch());
+        this.pitch = new Pitch(width,height, config.getPitchSkin());
 
         this.scoreManager = new ScoreManager(width, config.getMaxPoints());
         this.pause = new Pause(this);
@@ -211,7 +234,7 @@ public class Pong extends JGame {
             this.paddleLeftController = new PaddleController(paddleLeft, getKeyboard(), config.getPlayerOneUp(), config.getPlayerOneDown());
         }
 
-        this.ball = new Ball(width, height, width/2, height/2, 10, paddleLeft, paddleRight, scoreManager,config.getSkinBall(), soundManager);
+        this.ball = new Ball(width, height, width/2, height/2, 10, paddleLeft, paddleRight, scoreManager,config.getBallSkin(), soundManager);
     }
 
     // Getters

@@ -1,6 +1,6 @@
 package Proyecto.games.New_Pong_game;
 
-import Proyecto.games.New_Pong_game.utils.SkinBall;
+import Proyecto.games.New_Pong_game.utils.BallSkin;
 import Proyecto.games.New_Pong_game.utils.SoundManager;
 
 import java.awt.*;
@@ -24,7 +24,7 @@ public class Ball implements Drawable {
 
     private double RESET_POS_X;
     private double RESET_POS_Y;
-    private final SkinBall skinBall;
+    private final BallSkin ballSkin;
     private final SoundManager soundManager;
     private final Paddle leftPaddle;
     private final Paddle rightPaddle;
@@ -41,13 +41,13 @@ public class Ball implements Drawable {
     Random rand = new Random();
 
 
-    public Ball(int screenWidth, int screenHeight, double startX, double startY, double speed, Paddle leftPaddle, Paddle rightPaddle, ScoreManager scoreManager, SkinBall skinBall, SoundManager soundManager) {
+    public Ball(int screenWidth, int screenHeight, double startX, double startY, double speed, Paddle leftPaddle, Paddle rightPaddle, ScoreManager scoreManager, BallSkin ballSkin, SoundManager soundManager) {
         this.posX = startX;
         this.posY = startY;
         this.speed = speed;
         this.initialSpeed = speed;
 
-        this.skinBall = skinBall;
+        this.ballSkin = ballSkin;
         this.soundManager = soundManager;
         this.leftPaddle = leftPaddle;
         this.rightPaddle = rightPaddle;
@@ -99,7 +99,7 @@ public class Ball implements Drawable {
     @Override
     public void draw(Graphics2D g) {
 
-        switch (skinBall) {
+        switch (ballSkin) {
             case DEFAULT -> g.setColor(Color.ORANGE);
             case CRAZY -> g.setColor(new Color(randomNumber(), randomNumber(), randomNumber()));
         }
