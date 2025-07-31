@@ -62,7 +62,7 @@ public class Pong extends JGame implements KeyListener{
     private PitchSkins pitchSkin;
     private Track track;
     private int maxPoints=5;
-    private int[] player1Keys,player2Keys;
+    private int[] player1Keys, player2Keys = new int[2];
     private int width, height,lastKeyPressed;
 
 
@@ -87,8 +87,8 @@ public class Pong extends JGame implements KeyListener{
         settingsModel = new SettingsModel();
         settingsView = new GameSettingsView(width, this.height,this);
         settingController = new SettingController(settingsView,settingsModel , getMouse(),this);
-        player1Keys=new int[2];
-        player2Keys=new int[2];
+        //player1Keys=new int[2];
+        //player2Keys=new int[2];
         initSettings();
         backUpSettings();
 

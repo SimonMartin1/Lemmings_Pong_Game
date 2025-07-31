@@ -341,21 +341,21 @@ public class GameSettingsView {
     public boolean isResetClicked(Mouse m) {
     return mouseTracker(width-145, 500, 60, 30, m);
     }
-        public boolean isFullScreenClicked(Mouse m) {
-        return mouseTracker(width/2-120, height/2+50, 30, 30, m);
-    }
-        public boolean isFullScreenOffClicked(Mouse m) {
-        return mouseTracker(width/2-60, 375, 60, 30, m);
-    }
+    public boolean isFullScreenClicked(Mouse m) {
+    return mouseTracker(width/2-120, height/2+50, 30, 30, m);
+}
+    public boolean isFullScreenOffClicked(Mouse m) {
+    return mouseTracker(width/2-60, 375, 60, 30, m);
+}
 
-        public boolean isPitchSkinClicked(Mouse m) {
-        return  mouseTracker(width/2-140, 260, 45, 35, m);
-    }
+    public boolean isPitchSkinClicked(Mouse m) {
+    return  mouseTracker(width/2-140, 260, 45, 35, m);
+}
 
-        public boolean isBallSkinClicked(Mouse m) {
-        return mouseTracker(width/2-140, 290, 85, 35, m);
-    }
-        public boolean isChangeKeysClicked(Mouse m) {
+    public boolean isBallSkinClicked(Mouse m) {
+    return mouseTracker(width/2-140, 290, 85, 35, m);
+}
+    public boolean isChangeKeysClicked(Mouse m) {
         return mouseTracker(width/2+100,390,70,30, m);
     }
     
