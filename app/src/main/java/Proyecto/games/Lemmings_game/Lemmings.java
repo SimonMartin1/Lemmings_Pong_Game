@@ -3,8 +3,6 @@ package Proyecto.games.Lemmings_game;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 
 import javax.swing.ImageIcon;
@@ -13,8 +11,7 @@ import javax.swing.JFrame;
 import com.entropyinteractive.JGame;
 import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
 import java.util.List;
 
 
@@ -25,11 +22,8 @@ import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
 //import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
-import Proyecto.games.Lemmings_game.Model.Stock;
-import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Utils.Ability;
 import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
-import Proyecto.games.Lemmings_game.View.ExitView;
 import Proyecto.games.Lemmings_game.View.GameMenuView;
 import Proyecto.games.Lemmings_game.View.GamePauseView;
 import Proyecto.games.Lemmings_game.View.GameScoreView;
@@ -37,9 +31,8 @@ import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GameWinView;
 import Proyecto.games.Lemmings_game.View.LevelView;
 //import Proyecto.games.Lemmings_game.View.MapView;
-import Proyecto.games.Lemmings_game.View.SpawnerView;
 import Proyecto.games.Pong_game.Model.SettingsModel;
-import Proyecto.utils.SoundPlayer;
+import Proyecto.games.utils.SoundPlayer;
 
 
 

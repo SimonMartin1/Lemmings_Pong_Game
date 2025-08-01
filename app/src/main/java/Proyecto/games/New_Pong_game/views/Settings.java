@@ -3,7 +3,7 @@ package Proyecto.games.New_Pong_game.views;
 import Proyecto.games.New_Pong_game.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.*;
-import Proyecto.utils.GameState;
+import Proyecto.games.utils.GameState;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;

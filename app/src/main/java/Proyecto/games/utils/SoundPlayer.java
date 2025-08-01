@@ -1,4 +1,4 @@
-package Proyecto.utils;
+package Proyecto.games.utils;
 
 import java.io.File;
 import java.io.IOException;

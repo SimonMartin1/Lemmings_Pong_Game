@@ -1,9 +1,7 @@
 package Proyecto.games.Lemmings_game.Controller;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GameScoreView;
-import Proyecto.utils.SoundPlayer;
-
-import java.awt.event.KeyEvent;
+import Proyecto.games.utils.SoundPlayer;
 
 import Proyecto.games.Lemmings_game.Lemmings;
 public class GameSettingsController {
