@@ -1,4 +1,4 @@
-package Proyecto.games.New_Pong_game.utils;
+package Proyecto.utils;
 
 public enum GameState {
     ON_MENU,

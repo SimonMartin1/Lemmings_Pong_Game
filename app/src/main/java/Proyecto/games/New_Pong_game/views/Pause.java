@@ -2,7 +2,7 @@ package Proyecto.games.New_Pong_game.views;
 
 import Proyecto.games.New_Pong_game.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
-import Proyecto.games.New_Pong_game.utils.GameState;
+import Proyecto.utils.GameState;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

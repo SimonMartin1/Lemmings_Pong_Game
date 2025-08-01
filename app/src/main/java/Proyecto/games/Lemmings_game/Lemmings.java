@@ -23,7 +23,7 @@ import Proyecto.games.Lemmings_game.Controller.GameSettingsController;
 import Proyecto.games.Lemmings_game.Controller.LevelController;
 import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
 import Proyecto.games.Lemmings_game.Model.LevelModel;
-import Proyecto.games.Lemmings_game.Model.MapModel;
+//import Proyecto.games.Lemmings_game.Model.MapModel;
 import Proyecto.games.Lemmings_game.Model.MinimapModel;
 import Proyecto.games.Lemmings_game.Model.Stock;
 import Proyecto.games.Lemmings_game.Model.GameSettingsModel;
@@ -36,7 +36,7 @@ import Proyecto.games.Lemmings_game.View.GameScoreView;
 import Proyecto.games.Lemmings_game.View.GameSettingsView;
 import Proyecto.games.Lemmings_game.View.GameWinView;
 import Proyecto.games.Lemmings_game.View.LevelView;
-import Proyecto.games.Lemmings_game.View.MapView;
+//import Proyecto.games.Lemmings_game.View.MapView;
 import Proyecto.games.Lemmings_game.View.SpawnerView;
 import Proyecto.games.Pong_game.Model.SettingsModel;
 import Proyecto.utils.SoundPlayer;
@@ -52,8 +52,8 @@ public class Lemmings extends JGame {
     private int currentLevel = 0;
     private ScoreDatabase db;
 
-    private final List<MapModel> mapModels  = new ArrayList<>();
-    private final List<MapView> mapViews = new ArrayList<>();
+    //private final List<MapModel> mapModels  = new ArrayList<>();
+    //private final List<MapView> mapViews = new ArrayList<>();
     private final List<LevelModel> levelModels = new ArrayList<>();
     private final List<LevelView> levelViews = new ArrayList<>();
     private final List<LevelController> levelControllers = new ArrayList<>();
@@ -76,7 +76,7 @@ public class Lemmings extends JGame {
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
-    
+
     public static void main(String[] args) {
 
 
@@ -95,7 +95,7 @@ public class Lemmings extends JGame {
 
             Lemmings game = new Lemmings("Lemmings", width, height);
             game.run(1.0 / 60.0); // 60 FPS
-        }    
+        }
     }
 
     public void initSettings(){
@@ -162,7 +162,7 @@ public class Lemmings extends JGame {
     }
     public void setIsinScore(boolean option){
         this.isInScore=option;
-    }    
+    }
         public boolean getIsinMenu() {
         return this.isInMenu;
     }
@@ -193,7 +193,7 @@ public class Lemmings extends JGame {
         backUpSettings();
 
         if (fullScreen) {
-            setFullScreen(); 
+            //setFullScreen();
         }
 
         try{
@@ -284,7 +284,7 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     @Override
     public void gameUpdate(double delta) {
 
-        
+
         if(isInSettings || isInScore){
             gameSettingsController= new GameSettingsController(gameSettingsView,gameScoreView, this);
         }
@@ -316,15 +316,15 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             if(gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_P)){
                 isInMenu=true;
             }
-            
-            if(gamePause && pauseGame()){
-                gamePause=false;
-            }
+
+//            if(gamePause && pauseGame()){
+//                gamePause=false;
+//            }
 
             if(!gamePause){
                 buttonController.update();
                 levelControllers.get(currentLevel).update(delta);
-            
+
 
                 if(levelModels.get(currentLevel).isLevelFinished()){
                     if (levelModels.get(currentLevel).isLevelWon()) {
@@ -342,19 +342,19 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
     }
 
-    public boolean pauseGame() {
+    public void pauseGame() {
         boolean currentPressed = getKeyboard().isKeyPressed(KeyEvent.VK_P);
 
         if (prevPausePressed == null) {
             prevPausePressed = currentPressed;
-            return false;
+            //return false;
                 gamePause=!gamePause;
             }
 
             if(gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
                 isInMenu=true;
             }
-            
+
             if(gamePause){
                 if(getKeyboard().isKeyPressed(KeyEvent.VK_M)){
                 gamePause=!gamePause;
@@ -365,8 +365,8 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             }
             if(!gamePause){
                 buttonController.update();
-                levelControllers.get(currentLevel).update(delta);
-            
+               // levelControllers.get(currentLevel).update(delta);
+
 
                 if(levelModels.get(currentLevel).isLevelFinished()){
                     if (levelModels.get(currentLevel).isLevelWon()) {
@@ -378,38 +378,38 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             }
         }
 
-        boolean justPressed = currentPressed && !prevPausePressed;
-        prevPausePressed = currentPressed;
-        return justPressed;
-    }
+//        boolean justPressed = currentPressed && !prevPausePressed;
+//        prevPausePressed = currentPressed;
+//        return justPressed;
+
 
     @Override
     public void gameDraw(Graphics2D g) {
 
-
-        if(isInMenu){
-            gameMenu.drawmenu(g);
-            
-            if(isInSettings){
-                gameSettingsView.drawmenu(g);
-            }
-            if(isInScore){
-                gameScoreView.draw(g);
-            }
-        }
-        else {
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
-            levelControllers.get(currentLevel).draw(g);
-
-            if(gamePause){
-                gamePauseView.draw(g);
-            }
-
-            if(gameWin){
-                gameWinView.draw(g);
-            }
-        }
+//
+//        if(isInMenu){
+//            gameMenu.drawmenu(g);
+//
+//            if(isInSettings){
+//                gameSettingsView.drawmenu(g);
+//            }
+//            if(isInScore){
+//                gameScoreView.draw(g);
+//            }
+//        }
+//        else {
+//            g.setColor(Color.BLACK);
+//            g.fillRect(0, 0, getWidth(), getHeight());
+//            levelControllers.get(currentLevel).draw(g);
+//
+//            if(gamePause){
+//                gamePauseView.draw(g);
+//            }
+//
+//            if(gameWin){
+//                gameWinView.draw(g);
+//            }
+//        }
 
     }
 
@@ -420,30 +420,30 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
     private void setFullScreen() {
         JFrame frame = this.getFrame();
         frame.dispose(); // Necesario para cambiar el modo antes de que se muestre
-    
+
         frame.setUndecorated(true); // Sin bordes ni barra de título
         frame.setResizable(false);  // No redimensionable
-    
+
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         gd.setFullScreenWindow(frame); // ¡Pantalla completa real!
     }
 
 
     private void nextLevel() {
-        if (currentLevel < levelModels.size() - 1) {
-            currentLevel++;
-            System.out.println("¡Pasaste al nivel " + (currentLevel + 1) + "!");
-        } else {
-            System.out.println("¡Felicitaciones! Completaste todos los niveles.");
-            for(LevelModel l : levelModels){
-                pointsSum += l.getPointsLevel();
-            }
-            gameWin=true;
-            LocalDateTime dateHour = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            String dateHourFormatter = dateHour.format(formatter);
-            ScoreDatabase.saveScore(dateHourFormatter, pointsSum);
-        }
+//        if (currentLevel < levelModels.size() - 1) {
+//            currentLevel++;
+//            System.out.println("¡Pasaste al nivel " + (currentLevel + 1) + "!");
+//        } else {
+//            System.out.println("¡Felicitaciones! Completaste todos los niveles.");
+//            for(LevelModel l : levelModels){
+//                pointsSum += l.getPointsLevel();
+//            }
+//            gameWin=true;
+//            LocalDateTime dateHour = LocalDateTime.now();
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            String dateHourFormatter = dateHour.format(formatter);
+//            ScoreDatabase.saveScore(dateHourFormatter, pointsSum);
+//        }
     }
 
     private void repeatLevel(){
@@ -460,23 +460,23 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
             int camX, int camY
     ) {
         try {
-            MapModel mapModel = new MapModel(mapId, offsetY, db, exitX, exitY);
-            SpawnerView spawnerView = new SpawnerView(spawnerX, spawnerY);
-            ExitView exitView = new ExitView(exitX, exitY);
-            MapView mapView = new MapView(mapModel, spawnerView, exitView, camX, camY, screenWidth, screenHeight);
-
-            Stock stock = new Stock(new HashMap<>(stockAbilities));
-            LevelModel levelModel = new LevelModel(mapModel, stock, lemmingsToGenerate, percentageToWin, levelNumber, levelName, mapModel.getExit(), spawnerX, spawnerY);
-            LevelView levelView = new LevelView(levelModel, mapView, screenWidth, screenHeight);
-            MinimapModel minimapModel = new MinimapModel(mapView, levelView, levelModel);
-            LevelController levelController = new LevelController(levelModel, levelView, getKeyboard(), getMouse(), camX, camY, minimapModel, screenWidth, screenHeight, fullScreen);
-
-            mapModels.add(mapModel);
-            mapViews.add(mapView);
-            levelModels.add(levelModel);
-            levelViews.add(levelView);
-            minimapModels.add(minimapModel);
-            levelControllers.add(levelController);
+//            MapModel mapModel = new MapModel(mapId, offsetY, db, exitX, exitY);
+//            SpawnerView spawnerView = new SpawnerView(spawnerX, spawnerY);
+//            ExitView exitView = new ExitView(exitX, exitY);
+//            MapView mapView = new MapView(mapModel, spawnerView, exitView, camX, camY, screenWidth, screenHeight);
+//
+//            Stock stock = new Stock(new HashMap<>(stockAbilities));
+//            LevelModel levelModel = new LevelModel(mapModel, stock, lemmingsToGenerate, percentageToWin, levelNumber, levelName, mapModel.getExit(), spawnerX, spawnerY);
+//            LevelView levelView = new LevelView(levelModel, mapView, screenWidth, screenHeight);
+//            MinimapModel minimapModel = new MinimapModel(mapView, levelView, levelModel);
+//            LevelController levelController = new LevelController(levelModel, levelView, getKeyboard(), getMouse(), camX, camY, minimapModel, screenWidth, screenHeight, fullScreen);
+//
+//            mapModels.add(mapModel);
+//            mapViews.add(mapView);
+//            levelModels.add(levelModel);
+//            levelViews.add(levelView);
+//            minimapModels.add(minimapModel);
+//            levelControllers.add(levelController);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -485,4 +485,3 @@ public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
 }
 
 
-    
