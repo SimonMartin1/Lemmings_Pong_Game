@@ -10,17 +10,18 @@ import com.entropyinteractive.JGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
-public class Pong extends JGame {
+public class Pong extends JGame{
 
     private int width, height;
     private final Properties propertiesGameConfig;
     GameState gameState = GameState.ON_MENU;
-    ConfigPong config;
+    ConfigPong config,config_BackUp;
 
     SoundManager soundManager;
     ScoreManager scoreManager;
@@ -69,8 +70,8 @@ public class Pong extends JGame {
 
     @Override
     public void gameStartup() {
-
         // Leemos las configs
+        Track track = Track.values()[Integer.parseInt(propertiesGameConfig.getProperty("track", "1"))];
         boolean musicOff = Boolean.parseBoolean(propertiesGameConfig.getProperty("musicOff", "false"));
         boolean isFullscreen = Boolean.parseBoolean(propertiesGameConfig.getProperty("isFullscreen", "false"));
         boolean isVersusIA = Boolean.parseBoolean(propertiesGameConfig.getProperty("isVersusIA", "true"));
@@ -80,13 +81,12 @@ public class Pong extends JGame {
         int player1DownKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player1.down", "S").charAt(0));
         int player2UpKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player2.up", "UP").charAt(0));
         int player2DownKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player2.down", "DOWN").charAt(0));
-        SkinBall skinBall = SkinBall.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.ball", "CRAZY"))];
-        SkinPitch skinPitch = SkinPitch.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.pitch", "BASKET"))];
+        BallSkin ballSkin = BallSkin.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.ball", "CRAZY"))];
+        PitchSkin pitchSkin = PitchSkin.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.pitch", "BASKET"))];
 
 
-        config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, skinPitch, skinBall);
+        config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, track, pitchSkin, ballSkin);
         soundManager = new SoundManager(musicOff);
-
 
         if(config.isFullscreen()){
             setFullscreenMode();
@@ -108,10 +108,12 @@ public class Pong extends JGame {
             case ON_MENU -> {
                 menu.update(delta, this);
 
-                if(getKeyboard().isKeyPressed(KeyEvent.VK_SPACE)){
+                if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
                     startGame();
                     setGameState(GameState.PLAYING);
                 }
+                //guardo una copia de la config para el cancel
+                config_BackUp=config;
             }
 
             case ON_CONFIG -> settings.update(delta, this);
@@ -194,7 +196,7 @@ public class Pong extends JGame {
 
     public void startGame(){
 
-        this.pitch = new Pitch(width,height, config.getSkinPitch());
+        this.pitch = new Pitch(width,height, config.getPitchSkin());
 
         this.scoreManager = new ScoreManager(width, config.getMaxPoints());
         this.pause = new Pause(this);
@@ -211,7 +213,7 @@ public class Pong extends JGame {
             this.paddleLeftController = new PaddleController(paddleLeft, getKeyboard(), config.getPlayerOneUp(), config.getPlayerOneDown());
         }
 
-        this.ball = new Ball(width, height, width/2, height/2, 10, paddleLeft, paddleRight, scoreManager,config.getSkinBall(), soundManager);
+        this.ball = new Ball(width, height, width/2, height/2, 10, paddleLeft, paddleRight, scoreManager,config.getBallSkin(), soundManager);
     }
 
     // Getters
@@ -219,6 +221,12 @@ public class Pong extends JGame {
     public ConfigPong getConfig(){
         return config;
     }
+
+    public void cancelConfig(){
+        config=config_BackUp;
+    }
+
+    public void resetConfig(){config=new ConfigPong(Difficult.EASY,1,true,KeyEvent.VK_L,KeyEvent.VK_O,KeyEvent.VK_W,KeyEvent.VK_S,false,false,Track.TRACK1,PitchSkin.BASKET,BallSkin.CRAZY);}
 
     public boolean isFullscreen(){
         return config.isFullscreen();

@@ -16,12 +16,13 @@ public class ConfigPong {
     private boolean isVersusIA;
     private int maxPoints;
     private Difficult difficult;
-    private SkinBall skinBall;
-    private SkinPitch skinPitch;
+    private BallSkin ballSkin;
+    private PitchSkin pitchSkin;
+    private Track track;
 
     // Lo demás
 
-    public ConfigPong(Difficult difficult, int maxPoints, boolean isVersusIA, int playerTwoDown, int playerTwoUp, int playerOneDown, int playerOneUp, boolean isFullscreen, boolean musicOff, SkinPitch skinPitch, SkinBall skinBall) {
+    public ConfigPong(Difficult difficult, int maxPoints, boolean isVersusIA, int playerTwoDown, int playerTwoUp, int playerOneDown, int playerOneUp, boolean isFullscreen, boolean musicOff, Track track, PitchSkin pitchSkin, BallSkin ballSkin) {
         this.difficult = difficult;
         this.maxPoints = maxPoints;
         this.isVersusIA = isVersusIA;
@@ -31,12 +32,21 @@ public class ConfigPong {
         this.playerOneUp = playerOneUp;
         this.isFullscreen = isFullscreen;
         this.musicOff = musicOff;
-        this.skinPitch = skinPitch;
-        this.skinBall = skinBall;
+        this.track = track;
+        this.pitchSkin = pitchSkin;
+        this.ballSkin = ballSkin;
     }
 
     public boolean isMusicOff() {
         return musicOff;
+    }
+
+    public Track getTrack() {
+        return track;
+    }
+
+    public void setTrack(Track track) {
+        this.track = track;
     }
 
     public void setMusicOff(boolean musicOff) {
@@ -107,19 +117,19 @@ public class ConfigPong {
         this.difficult = difficult;
     }
 
-    public SkinBall getSkinBall() {
-        return skinBall;
+    public BallSkin getBallSkin() {
+        return ballSkin;
     }
 
-    public void setSkinBall(SkinBall skinBall) {
-        this.skinBall = skinBall;
+    public void setBallSkin(BallSkin ballSkin) {
+        this.ballSkin = ballSkin;
     }
 
-    public SkinPitch getSkinPitch() {
-        return skinPitch;
+    public PitchSkin getPitchSkin() {
+        return pitchSkin;
     }
 
-    public void setSkinPitch(SkinPitch skinPitch) {
-        this.skinPitch = skinPitch;
+    public void setPitchSkin(PitchSkin pitchSkin) {
+        this.pitchSkin = pitchSkin;
     }
 }

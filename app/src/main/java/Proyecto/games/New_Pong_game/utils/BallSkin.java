@@ -1,6 +1,6 @@
 package Proyecto.games.New_Pong_game.utils;
 
-public enum SkinPitch {
+public enum BallSkin {
     DEFAULT,
-    BASKET
+    CRAZY
 }

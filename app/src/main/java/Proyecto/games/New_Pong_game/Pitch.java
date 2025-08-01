@@ -1,6 +1,6 @@
 package Proyecto.games.New_Pong_game;
 
-import Proyecto.games.New_Pong_game.utils.SkinPitch;
+import Proyecto.games.New_Pong_game.utils.PitchSkin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,11 +11,11 @@ public class Pitch implements Drawable{
     private int width, height;
 
 
-    public Pitch(int width, int height, SkinPitch skinPitch){
+    public Pitch(int width, int height, PitchSkin pitchSkin){
         this.width = width;
         this.height = height;
 
-        switch (skinPitch){
+        switch (pitchSkin){
             case DEFAULT -> this.pitchImage = new ImageIcon("app\\src\\main\\resources\\cancha1.png").getImage();
             case BASKET -> this.pitchImage = new ImageIcon("app\\src\\main\\resources\\cancha2.png").getImage();
         }
