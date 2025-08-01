@@ -3,9 +3,9 @@ package Proyecto.games.New_Pong_game.views;
 import Proyecto.games.New_Pong_game.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.*;
-import com.entropyinteractive.Mouse;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.*;
 import java.util.List;
@@ -27,13 +27,29 @@ public class Settings implements Drawable {
     private PlayersKeys KeyToChange;
 
 
-    public Settings(int width, int height, Pong game, Mouse m) {
+    public Settings(int width, int height, Pong game) {
         this.width = width;
         this.height = height;
         this.game = game;
-        mouseTracker=new MouseTracker(width,height,m);
+        mouseTracker=new MouseTracker(width,height,game.getMouse());
         ListeningKey =false;
         WhantToChangeKeys =false;
+
+        //implementacion de adaptador keypressed para cambiar los controles en configuracion/opciones
+        game.getFrame().addKeyListener(new KeyAdapter() {
+            public void keyPressed(KeyEvent e) {
+                if (ListeningKey) {
+                    int lastKeyPressed = e.getKeyCode();
+                    switch (KeyToChange) {
+                        case PLAYER1_UP -> game.getConfig().setPlayerOneUp(lastKeyPressed);
+                        case PLAYER2_DOWN -> game.getConfig().setPlayerTwoDown(lastKeyPressed);
+                        case PLAYER2_UP -> game.getConfig().setPlayerTwoUp(lastKeyPressed);
+                        default -> game.getConfig().setPlayerOneDown(lastKeyPressed);
+                    }
+                    ListeningKey=false;
+                }
+            }
+        });
     }
 
     @Override
@@ -238,7 +254,7 @@ public class Settings implements Drawable {
         });
 
         //Cuando selecciona cambiar alguna tecla le muestra las opciones (Cambia al estado "WhantToChangeKeys"),
-        // cuando selecciona alguna opcion almacena ese valor y habilita al KeyPressed(Clase Principal) (Cambia al estado "ListeningKey")
+        // cuando selecciona alguna opcion almacena ese valor y habilita al KeyPressed (Cambia al estado "ListeningKey")
         // el keypressed mapea la tecla y en base a la opcion seleccionada la cambia
 
         actions.put(mouseTracker::isChangeKeysClicked, () -> WhantToChangeKeys = true);
@@ -287,9 +303,4 @@ public class Settings implements Drawable {
             }
         }
     }
-    //setters y getters para el KeyListener
-    public boolean getListeningKey(){return ListeningKey;}
-    public void setListeningKey(boolean listeningKey){this.ListeningKey = listeningKey; }
-    public PlayersKeys getKeyToChange(){return KeyToChange;}
-
 }

@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.Properties;
 
-public class Pong extends JGame implements KeyListener {
+public class Pong extends JGame{
 
     private int width, height;
     private final Properties propertiesGameConfig;
@@ -67,31 +67,9 @@ public class Pong extends JGame implements KeyListener {
         }
     }
 
-    //implementacion de keylistener para cambiar los controles en configuracion/opciones
-
-    @Override public void keyTyped(KeyEvent e) {}
-
-    @Override public void keyReleased(KeyEvent e) {}
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-        if (settings.getListeningKey()) {
-            int lastKeyPressed = e.getKeyCode();
-            switch (settings.getKeyToChange()) {
-                case PLAYER1_UP -> config.setPlayerOneUp(lastKeyPressed);
-                case PLAYER2_DOWN -> config.setPlayerTwoDown(lastKeyPressed);
-                case PLAYER2_UP -> config.setPlayerTwoUp(lastKeyPressed);
-                default -> config.setPlayerOneDown(lastKeyPressed);
-            }
-            settings.setListeningKey(false);
-        }
-    }
-
-
 
     @Override
     public void gameStartup() {
-
         // Leemos las configs
         Track track = Track.values()[Integer.parseInt(propertiesGameConfig.getProperty("track", "1"))];
         boolean musicOff = Boolean.parseBoolean(propertiesGameConfig.getProperty("musicOff", "false"));
@@ -120,7 +98,7 @@ public class Pong extends JGame implements KeyListener {
         }
 
         this.menu = new Menu(width,height);
-        this.settings = new Settings(width,height,this, getMouse());
+        this.settings = new Settings(width,height,this);
         this.over = new Over(width, height);
     }
 
