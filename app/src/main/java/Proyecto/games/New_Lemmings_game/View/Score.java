@@ -3,7 +3,7 @@ package Proyecto.games.New_Lemmings_game.View;
 
 import java.awt.*;
 import Proyecto.games.New_Lemmings_game.Lemmings;
-import Proyecto.games.Lemmings_game.Utils.ScoreDatabase;
+import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.Mouse;
 
 public class Score {

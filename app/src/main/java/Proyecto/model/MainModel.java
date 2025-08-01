@@ -2,7 +2,7 @@ package Proyecto.model;
 
 import javax.swing.SwingUtilities;
 
-import Proyecto.games.Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.Pong_game.Pong;
 
 public class MainModel {
