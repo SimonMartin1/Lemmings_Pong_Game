@@ -274,15 +274,11 @@ public class Settings implements Drawable {
             }
         });
 
-        actions.put(mouseTracker::isSaveClicked, () -> {
-        });
+        actions.put(mouseTracker::isSaveClicked, () -> game.setGameState(GameState.ON_MENU));
 
-        actions.put(mouseTracker::isResetClicked, () -> {
-        });
+        actions.put(mouseTracker::isResetClicked, game::resetConfig);
 
-        actions.put(mouseTracker::isCancelClicked, () -> {
-
-        });
+        actions.put(mouseTracker::isCancelClicked, game::cancelConfig);
 
         for (Map.Entry<BooleanSupplier, Runnable> entry : actions.entrySet()) {
             if (entry.getKey().getAsBoolean()) {

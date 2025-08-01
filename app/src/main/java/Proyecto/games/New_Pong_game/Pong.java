@@ -21,7 +21,7 @@ public class Pong extends JGame implements KeyListener {
     private int width, height;
     private final Properties propertiesGameConfig;
     GameState gameState = GameState.ON_MENU;
-    ConfigPong config;
+    ConfigPong config,config_BackUp;
 
     SoundManager soundManager;
     ScoreManager scoreManager;
@@ -110,7 +110,6 @@ public class Pong extends JGame implements KeyListener {
         config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, track, pitchSkin, ballSkin);
         soundManager = new SoundManager(musicOff);
 
-
         if(config.isFullscreen()){
             setFullscreenMode();
 
@@ -135,6 +134,8 @@ public class Pong extends JGame implements KeyListener {
                     startGame();
                     setGameState(GameState.PLAYING);
                 }
+                //guardo una copia de la config para el cancel
+                config_BackUp=config;
             }
 
             case ON_CONFIG -> settings.update(delta, this);
@@ -242,6 +243,12 @@ public class Pong extends JGame implements KeyListener {
     public ConfigPong getConfig(){
         return config;
     }
+
+    public void cancelConfig(){
+        config=config_BackUp;
+    }
+
+    public void resetConfig(){config=new ConfigPong(Difficult.EASY,1,true,KeyEvent.VK_L,KeyEvent.VK_O,KeyEvent.VK_W,KeyEvent.VK_S,false,false,Track.TRACK1,PitchSkin.BASKET,BallSkin.CRAZY);}
 
     public boolean isFullscreen(){
         return config.isFullscreen();
