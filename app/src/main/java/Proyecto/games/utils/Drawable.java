@@ -1,4 +1,4 @@
-package Proyecto.games.New_Pong_game;
+package Proyecto.games.utils;
 
 import java.awt.*;
 

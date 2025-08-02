@@ -1,16 +1,18 @@
 package Proyecto.games.New_Lemmings_game.View;
 
+import Proyecto.games.utils.Screen;
+
 import java.awt.*;
 
-public class Pause {
+public class Pause extends Screen {
     private int width;
     private int height;
 
     public Pause(int width, int height) {
-    this.width=width;
-        this.height=height;
+        super(width,height);
     }
 
+    @Override
     public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         g.setColor(Color.BLACK);
@@ -25,9 +27,9 @@ public class Pause {
         g.setFont(new Font("Arial", Font.PLAIN, 20));
         g.drawString("Press M continue playing - ENTER back to Menu", width / 2 - 210, height / 2 - 120);
     }
-        public void updateSize(int width, int height){
-        this.width=width;
-        this.height=height;
+    @Override
+    public void update(double delta){
+
     }
     
     

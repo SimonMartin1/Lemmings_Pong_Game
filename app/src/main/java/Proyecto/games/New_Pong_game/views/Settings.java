@@ -1,9 +1,10 @@
 package Proyecto.games.New_Pong_game.views;
 
-import Proyecto.games.New_Pong_game.Drawable;
+import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.*;
 import Proyecto.games.utils.GameState;
+import Proyecto.games.utils.Screen;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -17,10 +18,10 @@ import java.util.function.BooleanSupplier;
  * Esta versión está refactorizada para mejorar la mantenibilidad y legibilidad
  * utilizando Enums para el estado y Rectangles para el layout de la UI.
  */
-public class Settings implements Drawable {
+public class Settings extends Screen {
     private final Pong game;
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
     private final ArrayList skinsPitchNames = new ArrayList(List.of("DEFAULT", "BASKET"));
     private final ArrayList skinsBallNames = new ArrayList(List.of("DEFAULT", "CRAZY"));
     private final MouseTracker  mouseTracker;
@@ -29,8 +30,7 @@ public class Settings implements Drawable {
 
 
     public Settings(int width, int height, Pong game) {
-        this.width = width;
-        this.height = height;
+        super(width,height);
         this.game = game;
         mouseTracker=new MouseTracker(width,height,game.getMouse());
         ListeningKey =false;
@@ -184,8 +184,8 @@ public class Settings implements Drawable {
         g.drawString(text, xtext , ytext);
     }
 
-
-    public void update(double delta, Pong game){
+    @Override
+    public void update(double delta){
         // Detectar eventos y cambiar las config del game correspondientes...
         Map<BooleanSupplier, Runnable> actions = new LinkedHashMap<>();
 

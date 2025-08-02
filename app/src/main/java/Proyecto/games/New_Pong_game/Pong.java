@@ -64,14 +64,13 @@ public class Pong extends JGame{
 
         if(config.isFullscreen()) {
             setFullscreenMode();
-
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
             this.width = screenSize.width;
             this.height = screenSize.height;
         }
 
-        this.menu = new Menu(width,height);
+        this.menu = new Menu(width,height,this);
         this.settings = new Settings(width,height,this);
         this.over = new Over(width, height);
     }
@@ -90,7 +89,7 @@ public class Pong extends JGame{
                     this.width = screenSize.width;
                     this.height = screenSize.height;
 
-                    this.menu = new Menu(width,height);
+                    this.menu = new Menu(width,height,this);
                     this.settings = new Settings(width,height,this);
                     this.over = new Over(width, height);
                 }
@@ -99,7 +98,7 @@ public class Pong extends JGame{
                     this.width = 800;
                     this.height = 600;
 
-                    this.menu = new Menu(width,height);
+                    this.menu = new Menu(width,height,this);
                     this.settings = new Settings(width,height,this);
                     this.over = new Over(width, height);
                 }
@@ -109,7 +108,7 @@ public class Pong extends JGame{
 
 
             case ON_MENU -> {
-                menu.update(delta, this);
+                menu.update(delta);
 
                 if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
                     startGame();
@@ -119,7 +118,7 @@ public class Pong extends JGame{
                 config_BackUp=config;
             }
 
-            case ON_CONFIG -> settings.update(delta, this);
+            case ON_CONFIG -> settings.update(delta);
 
             case ON_PAUSE -> pause.wantsBackMenu();
 

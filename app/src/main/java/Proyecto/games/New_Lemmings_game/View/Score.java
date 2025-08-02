@@ -4,19 +4,19 @@ package Proyecto.games.New_Lemmings_game.View;
 import java.awt.*;
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
+import Proyecto.games.utils.Drawable;
+import Proyecto.games.utils.Screen;
 import com.entropyinteractive.Mouse;
 
-public class Score {
-    private final int width;
-    private final int height;
+public class Score extends Screen {
+    private int width;
+    private int height;
     private Lemmings game;
     private boolean prevMousePressed;
     public Score(int width, int height, Lemmings game) {
-        this.width = width;
-        this.height = height;
-        this.game=game;
+        super(width,height);
     }
-
+    @Override
     public void draw(Graphics2D g){
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, width, height);
@@ -39,7 +39,13 @@ public class Score {
         g.drawString("No scores yet.", width/2-80, y);
     }
 }
-private boolean isMouseJustPressed(Mouse m) {
+
+    @Override
+    public void update(double delta) {
+
+    }
+
+    private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
     return  justPressed;

@@ -3,12 +3,13 @@ package Proyecto.games.New_Lemmings_game.utils;
 import java.sql.*;
 
 public class ScoreDatabase {
+
     public static Connection connect() {
         Connection conn = null;
         try {
             // This creates the file if it doesn't exist
-            String url = "jdbc:sqlite:app\\src\\main\\java\\Proyecto\\games\\Lemmings_game\\utils\\Lemmings_Score.db";
-            conn = DriverManager.getConnection(url);
+            String dbPath = "jdbc:sqlite:app\\src\\main\\java\\Proyecto\\games\\New_Lemmings_game\\utils\\Lemmings_Score.db";
+            conn = DriverManager.getConnection(dbPath);
         } catch (SQLException e) {
             System.err.println("Connection error: " + e.getMessage());
         }
@@ -67,7 +68,7 @@ public class ScoreDatabase {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql)) {
 
-            System.out.println("🏆 Ranking:");
+            System.out.println("Ranking:");
             while (rs.next()) {
                 System.out.println(rs.getString("player") + " - " + rs.getInt("score"));
             }

@@ -2,6 +2,7 @@ package Proyecto.games.New_Pong_game;
 
 import Proyecto.games.New_Pong_game.utils.BallSkin;
 import Proyecto.games.New_Pong_game.utils.SoundManager;
+import Proyecto.games.utils.Drawable;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

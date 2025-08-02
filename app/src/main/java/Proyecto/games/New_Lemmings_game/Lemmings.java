@@ -32,6 +32,7 @@ public class Lemmings extends JGame {
     private Level_Won level_won;
     private Level_Fail level_fail;
     private Stock stock;
+    private LevelManager levelManager;
     private List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
     private Spawn spawn;
@@ -65,6 +66,7 @@ public class Lemmings extends JGame {
         });
 
         ScoreDatabase.createTable();
+        ScoreDatabase.showRanking();
 
         if (fullScreen) setFullScreen();
 
@@ -94,6 +96,7 @@ public class Lemmings extends JGame {
         win = new Win(screenWidth, screenHeight);
         level_fail = new Level_Fail(screenWidth,screenHeight);
         level_won = new Level_Won(screenWidth,screenHeight);
+        levelManager = new LevelManager();
     }
 
     @Override
@@ -112,6 +115,8 @@ public class Lemmings extends JGame {
                     setGameState(GameState.ON_SCORE);
                 }
             }
+
+            case ON_EDITOR -> {}
 
             case ON_CONFIG -> {
                 if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
@@ -187,7 +192,7 @@ public class Lemmings extends JGame {
     public void gameDraw(Graphics2D g) {
 
         switch (gameState){
-            case ON_MENU -> menu.drawmenu(g);
+            case ON_MENU -> menu.draw(g);
 
             case ON_SCORE -> score.draw(g);
 
@@ -279,12 +284,8 @@ public class Lemmings extends JGame {
     public void gameShutdown() {
     }
 
-
-    public boolean getIsinMenu() {
-        return  true;
+    public GameState getGameState() {
+        return  gameState;
     }
 
-    public boolean getIsinScore(){
-        return true;
-    }
 }

@@ -5,19 +5,24 @@ import Proyecto.games.utils.Screen;
 
 import java.awt.*;
 
-public class Level_Fail extends Screen {
+public class LevelAdder extends Screen {
     private int width;
     private int height;
 
-    // Botón "Volver al menú"
-
-
-    public Level_Fail(int width, int height) {
+    public LevelAdder(int width, int height) {
         super(width, height);
     }
+
+
     @Override
-    public void draw(Graphics2D g){}
+    public void draw(Graphics2D g){
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, width, height);
+    }
 
     @Override
     public void update(double delta) {}
+
+
+
 }

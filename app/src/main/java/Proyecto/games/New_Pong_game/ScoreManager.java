@@ -1,10 +1,11 @@
 package Proyecto.games.New_Pong_game;
 
 import Proyecto.games.New_Pong_game.utils.Player;
+import Proyecto.games.utils.Drawable;
 
 import java.awt.*;
 
-public class ScoreManager implements Drawable{
+public class ScoreManager implements Drawable {
     private int screenWidth;
     private int pointsLeft = 0;
     private int pointsRight =0;

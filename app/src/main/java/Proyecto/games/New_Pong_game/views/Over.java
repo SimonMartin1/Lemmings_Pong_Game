@@ -1,6 +1,6 @@
 package Proyecto.games.New_Pong_game.views;
 
-import Proyecto.games.New_Pong_game.Drawable;
+import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.utils.Player;
 import com.entropyinteractive.Keyboard;
 
