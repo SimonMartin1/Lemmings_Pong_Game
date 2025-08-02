@@ -3,27 +3,29 @@ package Proyecto.games.New_Pong_game.views;
 import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.utils.GameState;
+import Proyecto.games.utils.Screen;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Menu implements Drawable {
+public class Menu extends Screen {
     private int width;
     private int height;
     private double blinkTime;
     private boolean showPressText = true;
+    private Pong game;
 
-    public Menu(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public Menu(int width, int height, Pong game) {
+        super(width,height);
+        this.game=game;
     }
 
     public void updateSize(int width, int height){
         this.width=width;
         this.height=height;
     }
-
+    @Override
     public void draw(Graphics2D g2d) {
 
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Pong_back.jpg").getImage();
@@ -39,8 +41,8 @@ public class Menu implements Drawable {
             g2d.drawString("Press Enter", width/2 - 70, height/2+140);
         }
     }
-
-    public void update(double delta, Pong game){
+    @Override
+    public void update(double delta){
         if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_CONFIG);
         }
