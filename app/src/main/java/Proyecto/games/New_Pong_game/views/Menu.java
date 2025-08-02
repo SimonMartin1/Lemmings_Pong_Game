@@ -1,5 +1,7 @@
 package Proyecto.games.New_Pong_game.views;
 
+import Proyecto.games.New_Pong_game.utils.Pong_InputEventsTracker;
+import Proyecto.games.New_Pong_game.utils.Pong_Screens;
 import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.utils.GameState;
@@ -9,15 +11,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Menu extends Screen {
-    private int width;
-    private int height;
+public class Menu extends Pong_Screens {
     private double blinkTime;
     private boolean showPressText = true;
     private Pong game;
-
     public Menu(int width, int height, Pong game) {
-        super(width,height);
+        super(width,height,game.getMouse(),game.getKeyboard());
         this.game=game;
     }
 
@@ -43,9 +42,14 @@ public class Menu extends Screen {
     }
     @Override
     public void update(double delta){
-        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+        if((pong_inputEvents.detecSettings(width - 250, height - 110, 150, 80) && game.getGameState().equals(GameState.ON_MENU)) || pong_inputEvents.detectSettingsKeyboard()){
             game.setGameState(GameState.ON_CONFIG);
         }
+
+        if((pong_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60) && game.getGameState().equals(GameState.ON_MENU)) || pong_inputEvents.detectPlayKeyboard()){
+            game.setGameState(GameState.PLAYING);
+        }
+
         blinkTime += delta;
         if (blinkTime >= 0.6) {
             showPressText = !showPressText;

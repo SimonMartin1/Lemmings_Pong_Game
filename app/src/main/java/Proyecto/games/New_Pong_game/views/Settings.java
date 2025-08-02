@@ -17,21 +17,20 @@ import java.util.function.BooleanSupplier;
  * Esta versión está refactorizada para mejorar la mantenibilidad y legibilidad
  * utilizando Enums para el estado y Rectangles para el layout de la UI.
  */
-public class Settings extends Screen {
+public class Settings extends Pong_Screens {
     private final Pong game;
-    private int width;
-    private int height;
+
     private final ArrayList skinsPitchNames = new ArrayList(List.of("DEFAULT", "BASKET"));
     private final ArrayList skinsBallNames = new ArrayList(List.of("DEFAULT", "CRAZY"));
-    private final Pong_MouseTracker pongMouseTracker;
+    private final Pong_InputEventsTracker pongMouseTracker;
     private boolean ListeningKey, WhantToChangeKeys;
     private PlayersKeys KeyToChange;
 
 
     public Settings(int width, int height, Pong game) {
-        super(width,height);
+        super(width,height,game.getMouse(),game.getKeyboard());
         this.game = game;
-        pongMouseTracker =new Pong_MouseTracker(width,height,game.getMouse());
+        pongMouseTracker =new Pong_InputEventsTracker(width,height,game.getMouse(),game.getKeyboard());
         ListeningKey =false;
         WhantToChangeKeys =false;
 
@@ -290,7 +289,9 @@ public class Settings extends Screen {
             }
         });
 
-        actions.put(pongMouseTracker::isSaveClicked, () -> game.setGameState(GameState.PRE_MENU));
+        actions.put(() -> (pong_inputEvents.isSaveClicked() && game.getGameState().equals(GameState.ON_CONFIG)), () -> {
+            game.setGameState(GameState.ON_MENU);
+        });
 
         actions.put(pongMouseTracker::isResetClicked, game::resetConfig);
 

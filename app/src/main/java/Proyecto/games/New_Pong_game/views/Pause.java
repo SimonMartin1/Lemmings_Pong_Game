@@ -9,39 +9,39 @@ import java.awt.event.KeyEvent;
 
 public class Pause implements Drawable {
     private Boolean prevPausePressed = null;
-    private final Pong pong;
+    private final Pong game;
 
-    public Pause(Pong pong) {
-        this.pong = pong;
+    public Pause(Pong game) {
+        this.game = game;
     }
 
     public void draw(Graphics2D g) {
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
         g.setColor(Color.BLACK);
-        g.fillRect(0, 0, pong.getWidth(), pong.getHeight());
+        g.fillRect(0, 0, game.getWidth(), game.getHeight());
 
         // Volver a opaco para dibujar el texto
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 36));
-        g.drawString("Game Pause", pong.getWidth() / 2 - 100, pong.getHeight() / 2 - 160);
+        g.drawString("Game Pause", game.getWidth() / 2 - 100, game.getHeight() / 2 - 160);
 
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Press P continue playing - ENTER back to Menu", pong.getWidth() / 2 - 210, pong.getHeight() / 2 - 120);
+        g.drawString("Press P continue playing - ENTER back to Menu", game.getWidth() / 2 - 210, game.getHeight() / 2 - 120);
     }
 
     public void wantsBackMenu() {
-        if (pong.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
-            pong.setGameState(GameState.PLAYING);
+        if (game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+            game.setGameState(GameState.PLAYING);
         }
 
-        if (pong.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
-            pong.setGameState(GameState.ON_MENU);
+        if (game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+            game.setGameState(GameState.ON_MENU);
         }
     }
 
     public void pauseGame() {
-        boolean currentPressed = pong.getKeyboard().isKeyPressed(KeyEvent.VK_P);
+        boolean currentPressed = game.getKeyboard().isKeyPressed(KeyEvent.VK_P);
 
         if (prevPausePressed == null) {
             prevPausePressed = currentPressed;
@@ -51,7 +51,7 @@ public class Pause implements Drawable {
             prevPausePressed = currentPressed;
 
             if(justPressed){
-                pong.setGameState(GameState.ON_PAUSE);
+                game.setGameState(GameState.ON_PAUSE);
             }
         }
 
