@@ -129,16 +129,16 @@ public class MouseTracker {
 
     // --- SAVE ---
     public boolean isSaveClicked() {
-        return mouseTracker(width-325, 500, 30, 30);
+        return mouseTracker(width-325, (int) (height * .85), 30, 30);
     }
 
     // --- CANCEL ---
     public boolean isCancelClicked() {
-        return mouseTracker(width-245, 500, 60, 30);
+        return mouseTracker(width-245, (int) (height * .85), 60, 30);
     }
 
     // --- RESET ---
     public boolean isResetClicked() {
-        return mouseTracker(width-145, 500, 60, 30);
+        return mouseTracker(width-145, (int) (height * .85), 60, 30);
     }
 }

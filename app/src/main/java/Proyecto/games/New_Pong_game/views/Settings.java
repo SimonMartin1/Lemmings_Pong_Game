@@ -97,9 +97,9 @@ public class Settings implements Drawable {
         g.drawString("Change Keys", width/2+100 , 440);
 
         // OPTIONS
-        g.drawString("Save", width-325 , height-65);
-        g.drawString("Cancel", width-245 , height-65);
-        g.drawString("Reset", width-145 , height-65);
+        g.drawString("Save", width-325 , (int) (height * .85) + 10);
+        g.drawString("Cancel", width-245 , (int) (height * .85) + 10);
+        g.drawString("Reset", width-145 , (int) (height * .85) + 10);
 
         //dibujar estado actual de la confguracion
 
