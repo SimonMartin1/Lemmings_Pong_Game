@@ -5,30 +5,32 @@ package Proyecto.games.New_Lemmings_game;
 
 import Proyecto.games.New_Lemmings_game.View.*;
 import Proyecto.games.New_Lemmings_game.View.Menu;
-import Proyecto.games.New_Lemmings_game.utils.ConfigLemmings;
 import Proyecto.games.New_Lemmings_game.utils.*;
 import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundPlayer;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
-import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Lemmings extends JGame {
-    private Menu gameMenu;
-    private Pause gamePauseView;
-    private Settings gameSettingsView;
-    private Score gameScoreView;
-    private Win gameWinView;
+    private Menu menu;
+    private Pause pause;
+    private Settings settings;
+    private Score score;
+    private Win win;
+    private Level_Won level_won;
+    private Level_Fail level_fail;
     private Stock stock;
     private List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
@@ -36,7 +38,6 @@ public class Lemmings extends JGame {
     private Exit exit;
     private Cursor cursor;
 
-    private ConfigLemmings.Settings settings, backupSettings;
     private static boolean fullScreen = false;
     private GameState gameState = GameState.ON_MENU;
 
@@ -86,11 +87,13 @@ public class Lemmings extends JGame {
             e1.printStackTrace();
         }
 
-        gameMenu = new Menu(getWidth(), getHeight(), this);
-        gamePauseView = new Pause(screenWidth, screenHeight);
-        gameSettingsView = new Settings(screenWidth, screenHeight, this);
-        gameScoreView = new Score(screenWidth, screenHeight, this);
-        gameWinView = new Win(screenWidth, screenHeight);
+        menu = new Menu(getWidth(), getHeight(), this);
+        pause = new Pause(screenWidth, screenHeight);
+        settings = new Settings(screenWidth, screenHeight, this);
+        score = new Score(screenWidth, screenHeight, this);
+        win = new Win(screenWidth, screenHeight);
+        level_fail = new Level_Fail(screenWidth,screenHeight);
+        level_won = new Level_Won(screenWidth,screenHeight);
     }
 
     @Override
@@ -98,7 +101,7 @@ public class Lemmings extends JGame {
 
         switch (gameState){
             case ON_MENU -> {
-                gameMenu.update(delta);
+                menu.update(delta);
                 if (detectPlay(getMouse())) {
                     setGameState(GameState.PLAYING);
                 }
@@ -164,6 +167,13 @@ public class Lemmings extends JGame {
                 }
             }
             case FINISH -> {
+
+                    //Si termino el juego guardo el puntaje
+                    for (Level l : levels) pointsSum += l.getLevelScore();
+                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                    ScoreDatabase.saveScore(timestamp, pointsSum);
+
+
                 if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
                     setGameState(GameState.ON_MENU);
                 }
@@ -177,11 +187,11 @@ public class Lemmings extends JGame {
     public void gameDraw(Graphics2D g) {
 
         switch (gameState){
-            case ON_MENU -> gameMenu.drawmenu(g);
+            case ON_MENU -> menu.drawmenu(g);
 
-            case ON_SCORE -> gameScoreView.draw(g);
+            case ON_SCORE -> score.draw(g);
 
-            case ON_CONFIG -> gameSettingsView.draw(g);
+            case ON_CONFIG -> settings.draw(g);
 
             case PLAYING -> {
                 g.setColor(Color.BLACK);
@@ -190,7 +200,13 @@ public class Lemmings extends JGame {
                 levels.get(currentLevel).drawLevel(g,800,600);
             }
 
-            case ON_PAUSE -> gamePauseView.draw(g);
+            case ON_PAUSE -> pause.draw(g);
+
+            case LEVEL_WON -> level_won.draw(g);
+
+            case LEVEL_FAIL -> level_fail.draw(g);
+
+            case FINISH -> win.draw(g);
 
         }
     }
@@ -198,12 +214,9 @@ public class Lemmings extends JGame {
     private void nextLevel() {
         if (currentLevel < levels.size() - 1) {
             currentLevel++;
-        } else {
-            /* //Aca va la BD
-            for (Level l : levels) pointsSum += l.getPoints();
-            gameWin = true;
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            ScoreDatabase.saveScore(timestamp, pointsSum);*/
+        }
+        else{
+            setGameState(GameState.FINISH);
         }
     }
 

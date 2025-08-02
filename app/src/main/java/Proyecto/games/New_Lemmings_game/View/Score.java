@@ -42,7 +42,7 @@ public class Score {
 private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed && game.getIsinScore() ;
+    return  justPressed;
 }
 
 

@@ -44,7 +44,7 @@ public class Level {
     private List<Lemming_Entity> lemmingEntities = new ArrayList<>();
     private int lemmingSpawnX;
     private int lemmingSpawnY;
-    private int pointsLevel; 
+    private int LevelScore;
     private Minimap minimap; 
     private int savedLemmings;
 
@@ -125,7 +125,7 @@ public class Level {
                 long elapsed = System.currentTimeMillis() - cleanDeaths;
 
                 if (elapsed >= 3000) {
-                    pointsLevel = getSavedLemmings() * 10; 
+                    LevelScore = getSavedLemmings() * 10;
                     result = true;
                 }
             }
@@ -134,8 +134,8 @@ public class Level {
         return result;
     }
     
-    public int getPointsLevel(){
-        return pointsLevel;
+    public int getLevelScore(){
+        return LevelScore;
     }
     // Logic
 
