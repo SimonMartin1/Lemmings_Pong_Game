@@ -1,26 +1,26 @@
 package Proyecto.games.New_Lemmings_game.View;
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.utils.Screen;
+
 import javax.swing.*;
 import java.awt.*;
 
 
-public class Menu {
-    private final int width;
-    private final int height;
+public class Menu extends Screen {
+    private int width;
+    private int height;
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
-    private final Lemmings game;
 
 
-    public Menu(int width, int height, Lemmings game) {
-        this.width = width;
-        this.height = height;
-        this.game=game;
+    public Menu(int width, int height) {
+        super(width,height);
     }
 
-    public void drawmenu(Graphics2D g) {
+    @Override
+    public void draw(Graphics2D g) {
 
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
             g.drawImage(background, 0, 0, width, height,null);
@@ -36,13 +36,13 @@ public class Menu {
             g.drawString("Settings", width-250 , height-60);
             g.drawString("Score", 250 , height-60);
 
-        if (game.getIsinMenu() && showPressText && !game.getIsinScore()) {
-            g.setColor(Color.WHITE);
-            g.setFont(new Font("Arial", Font.BOLD, 24));
-            g.drawString("Click or Enter", width/2 - 71, 420);
-        }
+//        if (game.getIsinMenu() && showPressText && !game.getIsinScore()) {
+//            g.setColor(Color.WHITE);
+//            g.setFont(new Font("Arial", Font.BOLD, 24));
+//            g.drawString("Click or Enter", width/2 - 71, 420);
+//        }
     }
-
+    @Override
     public void update(double delta){
         blinkTime += delta;
         if (blinkTime >= 0.6) {

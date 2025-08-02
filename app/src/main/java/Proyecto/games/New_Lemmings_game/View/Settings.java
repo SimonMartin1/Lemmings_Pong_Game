@@ -4,23 +4,23 @@ package Proyecto.games.New_Lemmings_game.View;
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.utils.Drawable;
 import Proyecto.games.utils.GameState;
+import Proyecto.games.utils.Screen;
 import com.entropyinteractive.Mouse;
 
 import java.awt.*;
 
 
 
-public class Settings implements Drawable {
-    private final int width;
-    private final int height;
+public class Settings extends Screen {
+    private int width;
+    private int height;
     public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
 
     private final Lemmings game;
 
 
     public Settings(int width, int height, Lemmings game) {
-        this.width = width;
-        this.height = height;
+        super(width, height);
         this.game = game;
     }
 
