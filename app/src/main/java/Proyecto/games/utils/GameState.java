@@ -6,6 +6,7 @@ public enum GameState {
     ON_PAUSE,
     ON_CONFIG,
     ON_SCORE,
+    ON_EDITOR,
     LEVEL_WON,
     LEVEL_FAIL,
     PLAYING,

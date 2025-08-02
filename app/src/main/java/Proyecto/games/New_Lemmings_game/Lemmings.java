@@ -116,6 +116,8 @@ public class Lemmings extends JGame {
                 }
             }
 
+            case ON_EDITOR -> {}
+
             case ON_CONFIG -> {
                 if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
                     setGameState(GameState.ON_MENU);
