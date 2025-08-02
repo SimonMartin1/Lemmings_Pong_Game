@@ -10,10 +10,7 @@ import com.entropyinteractive.JGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.lang.reflect.Field;
-import java.util.Properties;
 
 public class Pong extends JGame{
 
@@ -63,6 +60,19 @@ public class Pong extends JGame{
     public void gameStartup() {
         config = new ConfigPong();
         soundManager = new SoundManager(config.isMusicOff());
+
+        if(config.isFullscreen()) {
+            setFullscreenMode();
+
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+            this.width = screenSize.width;
+            this.height = screenSize.height;
+        }
+
+        this.menu = new Menu(width,height);
+        this.settings = new Settings(width,height,this);
+        this.over = new Over(width, height);
     }
 
     @Override
@@ -71,23 +81,27 @@ public class Pong extends JGame{
 
             case PRE_MENU -> {
 
-                if(config.isFullscreen()){
+                if(config.isFullscreen() && width <= 800){
                     setFullscreenMode();
 
                     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
                     this.width = screenSize.width;
                     this.height = screenSize.height;
+
+                    this.menu = new Menu(width,height);
+                    this.settings = new Settings(width,height,this);
+                    this.over = new Over(width, height);
                 }
-                else{
+                else if(!config.isFullscreen() && width > 800){
                     exitFullscreenAndSetWindowedMode();
                     this.width = 800;
                     this.height = 600;
-                }
 
-                this.menu = new Menu(width,height);
-                this.settings = new Settings(width,height,this);
-                this.over = new Over(width, height);
+                    this.menu = new Menu(width,height);
+                    this.settings = new Settings(width,height,this);
+                    this.over = new Over(width, height);
+                }
 
                 this.gameState = GameState.ON_MENU;
             }
