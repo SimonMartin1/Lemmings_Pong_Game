@@ -222,9 +222,6 @@ public class Lemmings extends JGame {
     private void loadLevels() throws IOException {
         loadFromFiles = new LoadFromFiles();
         File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
-        //File folder = new File("C:/Users/Laureano/Lemmings_Pong_Game/src/Proyecto/games/New_Lemmings_game/Levels");
-
-
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
 
         if (files != null) {

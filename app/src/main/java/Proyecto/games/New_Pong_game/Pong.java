@@ -110,10 +110,6 @@ public class Pong extends JGame{
             case ON_MENU -> {
                 menu.update(delta);
 
-                if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
-                    startGame();
-                    setGameState(GameState.PLAYING);
-                }
                 //guardo una copia de la config para el cancel
                 config_BackUp=config;
             }
@@ -236,6 +232,10 @@ public class Pong extends JGame{
 
     public void setGameState(GameState gameState){
         this.gameState = gameState;
+    }
+
+    public GameState getGameState(){
+        return this.gameState;
     }
 
     private void setFullscreenMode() {
