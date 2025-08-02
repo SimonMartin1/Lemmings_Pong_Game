@@ -1,22 +1,22 @@
 package Proyecto.games.New_Lemmings_game.View;
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
-import Proyecto.games.New_Lemmings_game.utils.Lemmings_MouseTracker;
+import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
+import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.Screen;
-import com.entropyinteractive.Mouse;
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class Menu extends Screen{
+public class Menu extends Lemmings_Screens{
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
     private Lemmings game;
 
     public Menu(int width, int height, Lemmings game) {
-        super(width,height);
+        super(width,height,game.getMouse(),game.getKeyboard());
         this.game = game;
     }
 
@@ -49,11 +49,16 @@ public class Menu extends Screen{
             showPressText = !showPressText;
             blinkTime = 0;
         }
-    }
 
-//    public boolean detectPlay(Mouse m) {
-//        Lemmings_MouseTracker mouseTracker= new Lemmings_MouseTracker(width,height,m);
-//    }
+        if((lemmings_inputEvents.detecSettings(width - 250, height - 110, 150, 80) && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectSettingsKeyboard()){
+            game.setGameState(GameState.ON_CONFIG);
+        }
+
+        if((lemmings_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60) && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectPlayKeyboard()){
+            game.setGameState(GameState.PLAYING);
+        }
+
+    }
 
 
 }
