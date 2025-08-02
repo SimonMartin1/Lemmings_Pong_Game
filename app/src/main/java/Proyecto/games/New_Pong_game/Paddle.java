@@ -1,8 +1,10 @@
 package Proyecto.games.New_Pong_game;
 
+import Proyecto.games.utils.Drawable;
+
 import java.awt.*;
 
-public class Paddle implements Drawable{
+public class Paddle implements Drawable {
     private int MOVE_AMOUNT = 700;
 
     private final double PADDLE_WIDTH;

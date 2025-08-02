@@ -2,15 +2,17 @@ package Proyecto.games.New_Lemmings_game.View;
 
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.utils.Drawable;
+import Proyecto.games.utils.GameState;
 import com.entropyinteractive.Mouse;
 
 import java.awt.*;
 
 
 
-public class Settings {
-    private int width;
-    private int height;
+public class Settings implements Drawable {
+    private final int width;
+    private final int height;
     public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
 
     private final Lemmings game;
@@ -30,7 +32,7 @@ public class Settings {
             g.setFont(new Font("Arial", Font.BOLD, 18));
             g.drawString(text, xtext , ytext);
     }
-
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
@@ -64,6 +66,8 @@ public class Settings {
         }        
     }
 
+    public void update(double delta) {}
+
 
     public void setDraw(String name) {
         switch(name){
@@ -84,37 +88,37 @@ public class Settings {
     }
 
 
-    private boolean isMouseJustPressed(Mouse m) {
-    boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-    prevMousePressed = m.isLeftButtonPressed();
+    private boolean isMouseJustPressed() {
+    boolean justPressed = game.getMouse().isLeftButtonPressed() && !prevMousePressed;
+    prevMousePressed = game.getMouse().isLeftButtonPressed() && game.getGameState().equals(GameState.ON_CONFIG);
     return  justPressed;
 }
 
-    public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
-        int mx = m.getX();
-        int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m);
+    public boolean mouseTracker(int x, int y, int width,int height){
+        int mx = game.getMouse().getX();
+        int my = game.getMouse().getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed();
     }
 
-    public boolean isMusicOnClicked(Mouse m) {
-    return mouseTracker(width/2-125, 85, 40, 30, m);
+    public boolean isMusicOnClicked() {
+    return mouseTracker(width/2-125, 85, 40, 30);
 }
-public boolean isMusicOffClicked(Mouse m) {
-    return mouseTracker(width/2-45, 85, 40, 30, m);
+public boolean isMusicOffClicked() {
+    return mouseTracker(width/2-45, 85, 40, 30);
 }
-public boolean isFullScreenClicked(Mouse m) {
-    return mouseTracker(width/2-125, 107, 40, 40, m);
+public boolean isFullScreenClicked() {
+    return mouseTracker(width/2-125, 107, 40, 40);
 }
-public boolean isFullScreenOffClicked(Mouse m) {
-    return mouseTracker(width/2-45, 107, 40, 30, m);
+public boolean isFullScreenOffClicked() {
+    return mouseTracker(width/2-45, 107, 40, 30);
 }
-public boolean isSaveClicked(Mouse m) {
-    return mouseTracker(width-325, height-110, 30, 30, m);
+public boolean isSaveClicked() {
+    return mouseTracker(width-325, height-110, 30, 30);
 }
-public boolean isCancelClicked(Mouse m) {
-    return mouseTracker(width-245, height-110, 30, 30, m);
+public boolean isCancelClicked() {
+    return mouseTracker(width-245, height-110, 30, 30);
 }
-public boolean isResetClicked(Mouse m) {
-    return mouseTracker(width-145, height-110, 30, 30, m);
+public boolean isResetClicked() {
+    return mouseTracker(width-145, height-110, 30, 30);
 }
 }

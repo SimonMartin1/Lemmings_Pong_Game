@@ -1,11 +1,12 @@
 package Proyecto.games.New_Pong_game;
 
 import Proyecto.games.New_Pong_game.utils.PitchSkin;
+import Proyecto.games.utils.Drawable;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class Pitch implements Drawable{
+public class Pitch implements Drawable {
 
     private Image pitchImage;
     private int width, height;
