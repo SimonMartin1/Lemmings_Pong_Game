@@ -1,2 +1,0 @@
-musicOff=true
-fullScreen=true

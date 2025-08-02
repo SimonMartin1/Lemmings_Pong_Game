@@ -5,12 +5,12 @@ import Proyecto.games.New_Pong_game.views.Menu;
 import Proyecto.games.New_Pong_game.views.Over;
 import Proyecto.games.New_Pong_game.views.Pause;
 import Proyecto.games.New_Pong_game.views.Settings;
+import Proyecto.games.utils.GameState;
 import com.entropyinteractive.JGame;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
