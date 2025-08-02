@@ -4,9 +4,10 @@ package Proyecto.games.New_Lemmings_game.View;
 import java.awt.*;
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
+import Proyecto.games.utils.Drawable;
 import com.entropyinteractive.Mouse;
 
-public class Score {
+public class Score implements Drawable {
     private final int width;
     private final int height;
     private Lemmings game;
@@ -16,7 +17,7 @@ public class Score {
         this.height = height;
         this.game=game;
     }
-
+    @Override
     public void draw(Graphics2D g){
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, width, height);

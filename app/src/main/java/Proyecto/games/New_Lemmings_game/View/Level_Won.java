@@ -1,8 +1,10 @@
 package Proyecto.games.New_Lemmings_game.View;
 
+import Proyecto.games.utils.Drawable;
+
 import java.awt.*;
 
-public class Level_Won {
+public class Level_Won implements Drawable {
     private final int width;
     private final int height;
 

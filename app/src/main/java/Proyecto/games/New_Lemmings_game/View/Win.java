@@ -1,8 +1,10 @@
 package Proyecto.games.New_Lemmings_game.View;
 
+import Proyecto.games.utils.Drawable;
+
 import java.awt.*;
 
-public class Win {
+public class Win implements Drawable {
     private final int width;
     private final int height;
 
@@ -13,7 +15,7 @@ public class Win {
         this.width = width;
         this.height = height;
     }
-
+    @Override
     public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
