@@ -1,13 +1,15 @@
 package Proyecto.games.New_Lemmings_game.View;
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.utils.Lemmings_MouseTracker;
 import Proyecto.games.utils.Screen;
+import com.entropyinteractive.Mouse;
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class Menu extends  Screen{
+public class Menu extends Screen{
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
@@ -48,6 +50,10 @@ public class Menu extends  Screen{
             blinkTime = 0;
         }
     }
+
+//    public boolean detectPlay(Mouse m) {
+//        Lemmings_MouseTracker mouseTracker= new Lemmings_MouseTracker(width,height,m);
+//    }
 
 
 }
