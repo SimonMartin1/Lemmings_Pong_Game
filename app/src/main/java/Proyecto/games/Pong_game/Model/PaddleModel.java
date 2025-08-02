@@ -1,16 +1,21 @@
 package Proyecto.games.Pong_game.Model;
 
 public class PaddleModel {
-    private final int MOVE_AMOUNT = 700;
+    private int MOVE_AMOUNT = 700;
     private boolean isMoveDown = false;
     private boolean isMoveUp = false;
     private int y;
     private boolean paused = false;
-    private int initialY;
+    final private int initialY;
 
     public PaddleModel(int initialY) {
         this.y = initialY;
         this.initialY = initialY;
+    }
+
+    public void updateSize(int height, int movement){
+        this.MOVE_AMOUNT=movement;
+        
     }
 
     public void setMoveDown(boolean isMoveDown){

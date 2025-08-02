@@ -1,9 +1,7 @@
 package Proyecto.controller;
 import java.awt.Color;
-
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
 
 import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
@@ -33,14 +31,6 @@ public class MainController {
             public void mouseClicked(MouseEvent evt) {
                 view.showScreen("Games");
             }
-            // @Override
-            // public void mouseEntered(java.awt.event.MouseEvent evt) {
-                
-            // }
-            // @Override
-            // public void mouseExited(java.awt.event.MouseEvent evt) {
-            
-            //     }
         });
 
         view.getMenuScreen().getSettings_Button().addMouseListener(new MouseAdapter() {
@@ -48,14 +38,6 @@ public class MainController {
             public void mouseClicked(MouseEvent evt) {
                 view.showScreen("Settings");
             }
-            // @Override
-            // public void mouseEntered(java.awt.event.MouseEvent evt) {
-                
-            // }
-            // @Override
-            // public void mouseExited(java.awt.event.MouseEvent evt) {
-            
-            //     }
         });
 
 
@@ -68,12 +50,6 @@ public class MainController {
             }
         });
 
-        view.getGamesScreen().getSettings_Button().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-            view.showScreen("Settings");
-            }
-        });
 
         view.getGamesScreen().getgame(0).addMouseListener(new MouseAdapter() {
             @Override
@@ -110,29 +86,6 @@ public class MainController {
         });
 
 
-        //Settinngs screen
-        view.getSettingsScreen().getHome_Button().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                view.showScreen("Home");
-            }
-        });
-
-        view.getSettingsScreen().getGames_Button().addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent evt) {
-                view.showScreen("Games");
-            }
-            // @Override
-            // public void mouseEntered(java.awt.event.MouseEvent evt) {
-                
-            // }
-            // @Override
-            // public void mouseExited(java.awt.event.MouseEvent evt) {
-            
-            //     }
-        });
-        
     }
 
 }

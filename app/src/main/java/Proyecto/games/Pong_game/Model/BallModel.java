@@ -1,12 +1,12 @@
 package Proyecto.games.Pong_game.Model;
-import Proyecto.games.Pong_game.utils.SoundPlayer;
-
 import java.util.Random;
+
+import Proyecto.utils.SoundPlayer;
 
 public class BallModel {
 
-    private static final double RESET_POS_X = 370;
-    private static final double RESET_POS_Y = 330;
+    private static double RESET_POS_X = 370;
+    private static double RESET_POS_Y = 330;
 
     private double posX;
     private double posY;
@@ -24,6 +24,11 @@ public class BallModel {
         } else {
             return Math.toRadians(135 + rand.nextDouble() * 90); // de 135 a 225
         }
+    }
+    
+    public void updateSize(int width, int height){
+        RESET_POS_X=width/2;
+        RESET_POS_Y=height/2;
     }
 
     public BallModel(double startX, double startY, double speed) {
@@ -44,6 +49,14 @@ public class BallModel {
 
     public double getPosX(){
         return posX;
+    }
+
+    public double getDirX(){ return dirX; }
+
+    public double getDirY(){ return dirY; }
+
+    public void setPosY(double newPosY){
+        this.posY = newPosY;
     }
 
     public void move() {

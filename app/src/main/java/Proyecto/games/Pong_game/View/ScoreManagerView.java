@@ -5,23 +5,25 @@ import Proyecto.games.Pong_game.Model.ScoreManagerModel;
 import java.awt.*;
 
 public class ScoreManagerView {
-    private ScoreManagerModel scoreManagerModel;
-    private int posXLeftScore = 300;
-    private int posYLeftScore = 60;
-    private int posXRightScore = 500;
-    private int posYRightScore = 60;
+    private final ScoreManagerModel scoreManagerModel;
+    private int width;
 
 
-    public ScoreManagerView(ScoreManagerModel scoreManagerModel){
+    public ScoreManagerView(ScoreManagerModel scoreManagerModel,int width, int height){
         this.scoreManagerModel = scoreManagerModel;
+        this.width=width;
     }
 
     public void draw(Graphics g){
-        g.setColor(Color.BLUE);
+        g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString(Integer.toString(scoreManagerModel.getPointsLeft()),posXLeftScore,posYLeftScore);
-        g.drawString(Integer.toString(scoreManagerModel.getPointsRight()),posXRightScore,posYRightScore);
-        g.setColor(Color.GREEN);
-        g.drawString(Integer.toString(scoreManagerModel.getMaxPoints()),400,posYRightScore);
+        g.drawString(Integer.toString(scoreManagerModel.getPointsLeft()),width/2-60,60);
+        g.drawString(Integer.toString(scoreManagerModel.getPointsRight()),width/2+60,60);
+        g.setColor(Color.ORANGE);
+        g.drawString(Integer.toString(scoreManagerModel.getMaxPoints()),width/2,60);
+    }
+
+        public void updateSize(int width){
+        this.width=width;
     }
 }

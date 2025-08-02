@@ -1,8 +1,5 @@
 package Proyecto.games.Pong_game.View;
 
-import com.entropyinteractive.Keyboard;
-import com.entropyinteractive.Mouse;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -11,33 +8,42 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.ImageIcon;
 
+import com.entropyinteractive.Keyboard;
+import com.entropyinteractive.Mouse;
+
+import Proyecto.games.Pong_game.Pong;
+
 public class GameMenuView {
-    private final int width;
-    private final int height;
+    private int width;
+    private int height;
     private double blinkTime;
     private boolean showPressText = true;
     private Boolean prevPausePressed = null;
+    private final Pong game;
 
 
-    public GameMenuView(int width, int height) {
+    public GameMenuView(int width, int height, Pong game) {
         this.width = width;
         this.height = height;
+        this.game=game;
+    }
+        public void updateSize(int width, int height){
+        this.width=width;
+        this.height=height;
     }
 
     public void drawmenu(Graphics2D g) {
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Pong_back.jpg").getImage();
-        g.drawImage(background, 215, 15, width/2-20, height/2,null);
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.drawString("Play Game!", width/2 - 60, 370);
+        g.drawImage(background, width/2-width/4, 15, width/2, height/2,null);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
-        g.drawString("Settings", width-250 , 500);
+        g.drawString("Play Game!", width/2-70, height/2+50);
+        g.drawString("Settings", width-250 , height-60);
 
         if (showPressText) {
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 24));
-            g.drawString("Click or Enter", width/2 - 71, 450);
+            g.drawString("Click or Enter", width/2 - 70, height/2+140);
         }
     }
 
@@ -50,20 +56,11 @@ public class GameMenuView {
         }
     }
 
-    public boolean detectPlay(Mouse m){
-        boolean isClicked = false;
-
-
+    public boolean detectPlay(Mouse m) {
         int mx = m.getX();
         int my = m.getY();
-        int bx = width/2 - 100, by = 300, bw = 200, bh = 60;
-
-        if (mx >= bx && mx <= bx + bw && my >= by && my <= by + bh) {
-            isClicked = true;
-        }
-
-
-        return isClicked;
+        int bx = width/2, by = height/2, bw = 150, bh = 60;
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
 
     public boolean detectPlay(Keyboard k){
@@ -77,6 +74,14 @@ public class GameMenuView {
         boolean justPressed = currentPressed && !prevPausePressed;
         prevPausePressed = currentPressed;
         return justPressed;
+    }
+
+
+    public boolean detectSetting(Mouse m) {
+        int mx = m.getX();
+        int my = m.getY();
+        int bx = width - 250, by = height-110, bw = 150, bh = 80;
+        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
     }
 
 }
