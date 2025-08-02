@@ -51,35 +51,6 @@ public class Menu implements Drawable {
         }
 
     }
-
-//    public boolean detectPlay(Keyboard k){
-//        boolean currentPressed = k.isKeyPressed(KeyEvent.VK_ENTER);
-//
-//        if (prevPausePressed == null) {
-//            prevPausePressed = currentPressed;
-//            return false;
-//        }
-//
-//        boolean justPressed = currentPressed && !prevPausePressed;
-//        prevPausePressed = currentPressed;
-//        return justPressed;
-//    }
-
-        /*
-    public boolean detectPlay(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width/2, by = height/2, bw = 150, bh = 60;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
-    }
-     */
-
-    /*public boolean detectSetting(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        int bx = width - 250, by = height-110, bw = 150, bh = 80;
-        return mx >= bx && mx <= bx + bw && my >= by && my <= by + bh && m.isLeftButtonPressed() && !game.getIsinsettings();
-    }*/
 }
 
 

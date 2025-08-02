@@ -2,7 +2,6 @@ package Proyecto.model;
 
 import javax.swing.SwingUtilities;
 
-import Proyecto.games.Lemmings_game.Lemmings;
 import Proyecto.games.Pong_game.Pong;
 
 public class MainModel {
@@ -13,21 +12,7 @@ private Object runtimegame;
     public void runGame(int i){
     switch (i) {
         case 0:
-        Lemmings game = new Lemmings("Lemmings game", 800, 600);
-            if(runtimegame==null){
-                SwingUtilities.invokeLater(() -> {
-                        new Thread(() -> game.run(1.0/60.0)).start();
-                        runtimegame = game;
-                });
-                
-            }
-            game.getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-            game.stop(); 
-            runtimegame = null; 
-        }
-});
+            runtimegame = null;
             break;
     case 1:
         Pong game2 = new Pong("Pong game", 800, 600);

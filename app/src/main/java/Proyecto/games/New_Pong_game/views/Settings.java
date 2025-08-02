@@ -290,7 +290,7 @@ public class Settings implements Drawable {
             }
         });
 
-        actions.put(mouseTracker::isSaveClicked, () -> game.setGameState(GameState.ON_MENU));
+        actions.put(mouseTracker::isSaveClicked, () -> game.setGameState(GameState.PRE_MENU));
 
         actions.put(mouseTracker::isResetClicked, game::resetConfig);
 

@@ -10,7 +10,6 @@ import com.entropyinteractive.JGame;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -19,8 +18,7 @@ import java.util.Properties;
 public class Pong extends JGame{
 
     private int width, height;
-    private final Properties propertiesGameConfig;
-    GameState gameState = GameState.ON_MENU;
+    GameState gameState = GameState.PRE_MENU;
     ConfigPong config,config_BackUp;
 
     SoundManager soundManager;
@@ -44,67 +42,57 @@ public class Pong extends JGame{
     Paddle paddleRight;
 
 
-    public Pong(String title, int width, int height) throws IOException {
+    public Pong(String title, int width, int height) {
         super(title, width, height);
 
         this.width = getWidth();
         this.height = getHeight();
 
-        //Inicializamos properties
-        propertiesGameConfig = new Properties();
-        propertiesGameConfig.load(new FileInputStream("app/src/main/java/Proyecto/games/New_Pong_game/config.properties"));
     }
 
     public static void main(String[] args) {
-        try{
 
-            Pong game = new Pong("Mi Pong", 800, 600);
-            game.run(1.0 / 60.0); // 60 FPS
-            System.exit(0);
+        Pong game = new Pong("Mi Pong", 800, 600);
+        game.run(1.0 / 60.0); // 60 FPS
+        System.exit(0);
 
-        }catch (IOException err){
-            System.out.println("No se pudo leer el archivo config");
-        }
     }
 
 
     @Override
     public void gameStartup() {
-        // Leemos las configs
-        Track track = Track.values()[Integer.parseInt(propertiesGameConfig.getProperty("track", "1"))];
-        boolean musicOff = Boolean.parseBoolean(propertiesGameConfig.getProperty("musicOff", "false"));
-        boolean isFullscreen = Boolean.parseBoolean(propertiesGameConfig.getProperty("isFullscreen", "false"));
-        boolean isVersusIA = Boolean.parseBoolean(propertiesGameConfig.getProperty("isVersusIA", "true"));
-        int maxPoints = Integer.parseInt(propertiesGameConfig.getProperty("maxPoints", "10"));
-        Difficult difficult = Difficult.values()[Integer.parseInt(propertiesGameConfig.getProperty("difficult", "EASY"))];
-        int player1UpKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player1.up", "W").charAt(0));
-        int player1DownKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player1.down", "S").charAt(0));
-        int player2UpKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player2.up", "UP").charAt(0));
-        int player2DownKey = KeyEvent.getExtendedKeyCodeForChar(propertiesGameConfig.getProperty("player2.down", "DOWN").charAt(0));
-        BallSkin ballSkin = BallSkin.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.ball", "CRAZY"))];
-        PitchSkin pitchSkin = PitchSkin.values()[Integer.parseInt(propertiesGameConfig.getProperty("skin.pitch", "BASKET"))];
-
-
-        config = new ConfigPong(difficult,maxPoints,isVersusIA,player2DownKey,player2UpKey ,player1DownKey, player1UpKey,isFullscreen,musicOff, track, pitchSkin, ballSkin);
-        soundManager = new SoundManager(musicOff);
-
-        if(config.isFullscreen()){
-            setFullscreenMode();
-
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-            this.width = screenSize.width;
-            this.height = screenSize.height;
-        }
-
-        this.menu = new Menu(width,height);
-        this.settings = new Settings(width,height,this);
-        this.over = new Over(width, height);
+        config = new ConfigPong();
+        soundManager = new SoundManager(config.isMusicOff());
     }
 
     @Override
     public void gameUpdate(double delta) {
         switch (gameState){
+
+            case PRE_MENU -> {
+
+                if(config.isFullscreen()){
+                    setFullscreenMode();
+
+                    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
+                    this.width = screenSize.width;
+                    this.height = screenSize.height;
+                }
+                else{
+                    exitFullscreenAndSetWindowedMode();
+                    this.width = 800;
+                    this.height = 600;
+                }
+
+                this.menu = new Menu(width,height);
+                this.settings = new Settings(width,height,this);
+                this.over = new Over(width, height);
+
+                this.gameState = GameState.ON_MENU;
+            }
+
+
             case ON_MENU -> {
                 menu.update(delta, this);
 
@@ -163,7 +151,7 @@ public class Pong extends JGame{
     public void gameDraw(Graphics2D g) {
 
         switch (gameState){
-            case ON_MENU -> menu.draw(g);
+            case PRE_MENU, ON_MENU -> menu.draw(g);
             case ON_CONFIG -> settings.draw(g);
 
             case ON_PAUSE -> {
@@ -226,14 +214,10 @@ public class Pong extends JGame{
         config=config_BackUp;
     }
 
-    public void resetConfig(){config=new ConfigPong(Difficult.EASY,1,true,KeyEvent.VK_L,KeyEvent.VK_O,KeyEvent.VK_W,KeyEvent.VK_S,false,false,Track.TRACK1,PitchSkin.BASKET,BallSkin.CRAZY);}
+    public void resetConfig(){config=new ConfigPong();}
 
     public boolean isFullscreen(){
         return config.isFullscreen();
-    }
-
-    public boolean isOnSettings(){
-        return gameState == GameState.ON_CONFIG;
     }
 
     public void setGameState(GameState gameState){
@@ -264,6 +248,34 @@ public class Pong extends JGame{
 
         } else {
             System.out.println("Pantalla completa no soportada.");
+        }
+    }
+
+    private void exitFullscreenAndSetWindowedMode() {
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        JFrame frame = getFrame(); // Método de JGame
+
+        // Salir del modo pantalla completa
+        gd.setFullScreenWindow(null);
+
+        // Restaurar el JFrame
+        frame.dispose();
+        frame.setUndecorated(false);
+        frame.setResizable(true);
+        frame.setSize(800, 600);
+        frame.setLocationRelativeTo(null); // Centrar en pantalla
+        frame.setVisible(true);
+
+        try {
+            Field canvasField = JGame.class.getDeclaredField("canvas");
+            canvasField.setAccessible(true);
+            JPanel canvas = (JPanel) canvasField.get(this);
+
+            canvas.setFocusable(true);
+            canvas.requestFocusInWindow();
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
         }
     }
 }
