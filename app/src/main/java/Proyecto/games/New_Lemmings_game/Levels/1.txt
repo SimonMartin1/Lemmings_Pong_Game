@@ -1,0 +1,13 @@
+name=Just digging
+lemmings=4
+time=100
+spawnX=600
+spawnY=110
+spawnRate=300
+exitX=1000
+exitY=300
+exitWidth=300
+mapId=1
+mapWidth=700
+mapHeight=100
+stock=DIGGER:5,CLIMB:0,STOP:3,UMBRELLA:0

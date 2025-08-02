@@ -25,13 +25,13 @@ public class Lemming_Entity {
     private boolean isWalkingToRight = true;
     private boolean saved = false;
     private boolean isOnExit = false;
-
+    private boolean isActive;
     private LemmingAnimationState currentStateAnimation;
     private AbilityClass currentAbility;
     private final Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
     private final Map<LemmingAnimationState, Integer> frameLengths = new HashMap<>();
-    private LemmingState currentState;  
-    private Level level; 
+    private LemmingState currentState;
+    private Level level;
 
     // Constructor
     public Lemming_Entity(int id, int x, int y, int speed, Level level) {
@@ -65,18 +65,18 @@ public class Lemming_Entity {
 
     public boolean isClicked(double clickX, double clickY, int camX){
         double margenExtra = 10; // pixeles de margen que se suman a los bordes
-    
+
         double minClickableX = this.x - margenExtra;
         double maxClickableX = this.x + LemmingConstants.LEMMING_WIDTH + margenExtra;
-    
+
         double minClickableY = this.y - LemmingConstants.LEMMING_HEIGHT - 20;
         double maxClickableY = this.y + LemmingConstants.LEMMING_HEIGHT + margenExtra;
-    
+
         double clickXCam = clickX + camX;
-    
+
         boolean clickedX = clickXCam >= minClickableX && clickXCam <= maxClickableX;
         boolean clickedY = clickY >= minClickableY  && clickY <= maxClickableY ;
-    
+
         return clickedX && clickedY;
     }
 
@@ -219,28 +219,28 @@ public class Lemming_Entity {
         return !(currentState instanceof DeadState || currentState instanceof SavedState);
     }*/
 
-    
+
     public void startFalling() {
         fallingStartTileY = getTileY();
     }
-    
+
     public void stopFalling() {
         fallingStartTileY = -1;
     }
-    
+
     public boolean isFalling() {
         return fallingStartTileY != -1;
     }
-    
+
     public int getTilesFallen() {
         if (!isFalling()) return 0;
         return getTileY() - fallingStartTileY;
     }
-    
+
     public boolean isGoingToDieFromFall() {
         return getTilesFallen() > 20 && !hasUmbrella();
     }
-    
+
     // Getters & setters
 
     public LemmingState getState(){ return currentState;}
@@ -252,7 +252,7 @@ public class Lemming_Entity {
     public void setY(int y) { this.y = y; }
 
     public boolean hasUmbrella(){
-        return true;  
+        return true;
     }
 
     public boolean isWalkingToRight() { return isWalkingToRight; }
@@ -276,8 +276,8 @@ public class Lemming_Entity {
     public boolean isOnExit() { return isOnExit; }
     public void setOnExit(boolean o) { this.isOnExit = o; }
     public void setAbility(AbilityClass abilityClass){ this.currentAbility = abilityClass;  }
-    
 
+    public void setActivite(boolean isActive){this.isActive = isActive; }
     public int getSpeed() { return speed; }
     public void setSpeed(int s) { this.speed = s; }
 

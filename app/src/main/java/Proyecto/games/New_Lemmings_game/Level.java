@@ -86,8 +86,8 @@ public class Level {
         confirmNuke();
         handleNukeConfirmed();
 
-        lemmingEntities.removeIf(l -> l.getState() == new DeadState());
-        lemmingEntities.removeIf(l -> l.getState() == new SavedState());
+        lemmingEntities.removeIf(l -> l.getState() instanceof DeadState);
+        lemmingEntities.removeIf(l -> l.getState() instanceof SavedState);
 
         handleNukeTime();
 
@@ -108,7 +108,7 @@ public class Level {
     }*/
 
     public boolean isLevelWon(){
-        return map.getLemmingsSaved() >= lemmingsToGenerate * percentajeToWin;
+        return savedLemmings * 10 >= percentajeToWin;
     }
 
     public boolean isLevelFinished() {
