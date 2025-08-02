@@ -6,8 +6,6 @@ import Proyecto.games.utils.Screen;
 import java.awt.*;
 
 public class Level_Won extends Screen {
-    private int width;
-    private int height;
 
     // Botón "Volver al menú"
 

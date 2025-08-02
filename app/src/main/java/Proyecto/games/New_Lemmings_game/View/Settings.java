@@ -12,8 +12,6 @@ import java.awt.*;
 
 
 public class Settings extends Screen {
-    private int width;
-    private int height;
     public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
 
     private final Lemmings game;

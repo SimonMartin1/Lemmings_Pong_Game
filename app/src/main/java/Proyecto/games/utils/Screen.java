@@ -3,8 +3,8 @@ package Proyecto.games.utils;
 import java.awt.*;
 
 public abstract class Screen implements Drawable {
-    int width;
-    int height;
+    protected int width;
+    protected int height;
 
     public Screen(int width, int height) {
         this.width = width;

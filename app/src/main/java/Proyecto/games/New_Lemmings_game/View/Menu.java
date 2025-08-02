@@ -1,15 +1,15 @@
 package Proyecto.games.New_Lemmings_game.View;
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.utils.Lemmings_MouseTracker;
 import Proyecto.games.utils.Screen;
+import com.entropyinteractive.Mouse;
 
 import javax.swing.*;
 import java.awt.*;
 
 
-public class Menu extends Screen {
-    private int width;
-    private int height;
+public class Menu extends Screen{
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
@@ -20,7 +20,6 @@ public class Menu extends Screen {
         this.game = game;
     }
 
-    @Override
     public void draw(Graphics2D g) {
 
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
@@ -43,7 +42,7 @@ public class Menu extends Screen {
 //            g.drawString("Click or Enter", width/2 - 71, 420);
 //        }
     }
-    @Override
+
     public void update(double delta){
         blinkTime += delta;
         if (blinkTime >= 0.6) {
@@ -51,6 +50,10 @@ public class Menu extends Screen {
             blinkTime = 0;
         }
     }
+
+//    public boolean detectPlay(Mouse m) {
+//        Lemmings_MouseTracker mouseTracker= new Lemmings_MouseTracker(width,height,m);
+//    }
 
 
 }

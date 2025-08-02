@@ -1,34 +1,16 @@
 package Proyecto.games.New_Pong_game.utils;
 
+import Proyecto.games.utils.MouseTracker;
 import com.entropyinteractive.Mouse;
 
 
 //Clase para mapear los botones dibujados en la configuraciones/opciones
 
 
-public class MouseTracker {
+public class Pong_MouseTracker extends MouseTracker {
 
-    int width,height;
-    boolean prevMousePressed;
-    Mouse m;
-
-
-    public MouseTracker(int width, int height,Mouse mouse){
-        this.width = width;
-        this.height = height;
-        this.m = mouse;
-    }
-
-    private boolean isMouseJustPressed() {
-        boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-        prevMousePressed = m.isLeftButtonPressed();
-        return  justPressed;
-    }
-
-    public boolean mouseTracker(int x, int y, int width,int height){
-        int mx = m.getX();
-        int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed();
+    public Pong_MouseTracker(int width, int height, Mouse m){
+        super(width,height,m);
     }
 
     public boolean mouseTrackerSetKeys(int x, int y, int width,int height){

@@ -3,6 +3,7 @@
 
 package Proyecto.games.New_Lemmings_game;
 
+import Proyecto.games.New_Lemmings_game.Levels.LoadFromFiles;
 import Proyecto.games.New_Lemmings_game.View.*;
 import Proyecto.games.New_Lemmings_game.View.Menu;
 import Proyecto.games.New_Lemmings_game.utils.*;
@@ -15,6 +16,7 @@ import com.entropyinteractive.Mouse;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,6 +35,7 @@ public class Lemmings extends JGame {
     private Level_Fail level_fail;
     private Stock stock;
     private LevelManager levelManager;
+    private LoadFromFiles loadFromFiles;
     private List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
     private Spawn spawn;
@@ -40,10 +43,10 @@ public class Lemmings extends JGame {
     private Cursor cursor;
 
     private static boolean fullScreen = false;
-    private GameState gameState = GameState.ON_MENU;
+    private GameState gameState;
 
-    private int screenWidth = getWidth();
-    private int screenHeight = getHeight();
+    private int screenWidth;
+    private int screenHeight;
     private boolean prevPausePressed = false;
 
     private int pointsSum = 0;
@@ -88,8 +91,10 @@ public class Lemmings extends JGame {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-
-        menu = new Menu(getWidth(), getHeight(), this);
+        screenWidth = getWidth();
+        screenHeight = getHeight();
+        gameState = GameState.ON_MENU;
+        menu = new Menu(screenWidth, screenHeight, this);
         pause = new Pause(screenWidth, screenHeight);
         settings = new Settings(screenWidth, screenHeight, this);
         score = new Score(screenWidth, screenHeight, this);
@@ -105,29 +110,16 @@ public class Lemmings extends JGame {
         switch (gameState){
             case ON_MENU -> {
                 menu.update(delta);
-                if (detectPlay(getMouse())) {
-                    setGameState(GameState.PLAYING);
-                }
-                if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)) {
-                    setGameState(GameState.ON_CONFIG);
-                }
-                if (detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)) {
-                    setGameState(GameState.ON_SCORE);
-                }
             }
 
             case ON_EDITOR -> {}
 
             case ON_CONFIG -> {
-                if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
-                    setGameState(GameState.ON_MENU);
-                }
+               settings.update(delta);
             }
 
             case ON_SCORE -> {
-                if (detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)){
-                    setGameState(GameState.ON_MENU);
-                }
+                score.update(delta);
             }
 
             case PLAYING -> {
@@ -135,20 +127,13 @@ public class Lemmings extends JGame {
                     setGameState(GameState.ON_PAUSE);
                 }
 
-            }
-
-            case ON_PAUSE -> {
-                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
-                    setGameState(GameState.ON_MENU);
-                }
-
                 Level current = levels.get(currentLevel);
-                //current.update(delta);
 
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+
                 if (current.isLevelFinished()) {
                     if (current.isLevelWon()){
                         setGameState(GameState.LEVEL_WON);
@@ -158,30 +143,26 @@ public class Lemmings extends JGame {
                     }
 
                 }
+
+            }
+
+            case ON_PAUSE -> {
+                pause.update(delta);
             }
 
             case LEVEL_WON -> {
-                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-                    nextLevel();
-                }
+                level_won.update(delta);
             }
 
             case LEVEL_FAIL -> {
-                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-                    restartLevel();
-                }
+                level_fail.update(delta);
             }
             case FINISH -> {
-
-                    //Si termino el juego guardo el puntaje
-                    for (Level l : levels) pointsSum += l.getLevelScore();
-                    String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                    ScoreDatabase.saveScore(timestamp, pointsSum);
-
-
-                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-                    setGameState(GameState.ON_MENU);
-                }
+                win.update(delta);
+//                //Si termino el juego guardo el puntaje
+//                for (Level l : levels) pointsSum += l.getLevelScore();
+//                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//                ScoreDatabase.saveScore(timestamp, pointsSum);
             }
         }
 
@@ -237,32 +218,26 @@ public class Lemmings extends JGame {
         GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
         gd.setFullScreenWindow(frame);
     }
-    
+
     private void loadLevels() throws IOException {
-        // Crear spawn y salida
-        spawn = new Spawn(600, 100,300); // Coordenadas X, Y
-        exit = new Exit(1000, 300,300);   // Coordenadas X, Y
+        loadFromFiles = new LoadFromFiles();
+        File folder = new File("src/Proyecto/games/Lemmings_game/Levels");
+        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
 
-
-        // Crear el mapa (dependiendo de tu clase)
-
-        // Borrar los atributos exitX y exitY NO OLVIDARRR
-
-        Game_Map map = new Game_Map(1, 300, null, 700, 100, spawn ,exit); // o lo que corresponda
-        levels.add(new Level(map, stock, 4, 10, currentLevel, "Just digging", exit, 600, 110));
-        //levels.add(new Level(map, stock, screenWidth, screenHeight, currentLevel, getTitle(), exit, pointsSum, currentLevel));
-        //levels.add(new Level(1, "Just digging", 0.25, 3, screenWidth, screenHeight));
-        //levels.add(new Level(2, "Cap 2", 1.0, 3, screenWidth, screenHeight));
-        //levels.add(new Level(3, "Cap 3", 0.8, 5, screenWidth, screenHeight));
+        if (files != null) {
+            for (File file : files) {
+                Level level = loadFromFiles.loadLevelFromFile(file.getPath());
+                levels.add(level);
+            }
+        } else {
+            System.out.println("No se encontraron archivos en la carpeta de niveles.");
+        }
     }
 
     public void setGameState(GameState gameState){
         this.gameState = gameState;
     }
 
-    public boolean detectPlay(Mouse m) {
-        return mouseTracker(screenWidth / 2 - 100, 300, 200, 60, m);
-    }
 
 
 

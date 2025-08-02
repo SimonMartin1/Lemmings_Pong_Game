@@ -5,8 +5,6 @@ import Proyecto.games.utils.Screen;
 import java.awt.*;
 
 public class Pause extends Screen {
-    private int width;
-    private int height;
 
     public Pause(int width, int height) {
         super(width,height);

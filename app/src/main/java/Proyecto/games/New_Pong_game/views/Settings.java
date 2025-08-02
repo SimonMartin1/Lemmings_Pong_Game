@@ -1,6 +1,5 @@
 package Proyecto.games.New_Pong_game.views;
 
-import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.*;
 import Proyecto.games.utils.GameState;
@@ -24,7 +23,7 @@ public class Settings extends Screen {
     private int height;
     private final ArrayList skinsPitchNames = new ArrayList(List.of("DEFAULT", "BASKET"));
     private final ArrayList skinsBallNames = new ArrayList(List.of("DEFAULT", "CRAZY"));
-    private final MouseTracker  mouseTracker;
+    private final Pong_MouseTracker pongMouseTracker;
     private boolean ListeningKey, WhantToChangeKeys;
     private PlayersKeys KeyToChange;
 
@@ -32,7 +31,7 @@ public class Settings extends Screen {
     public Settings(int width, int height, Pong game) {
         super(width,height);
         this.game = game;
-        mouseTracker=new MouseTracker(width,height,game.getMouse());
+        pongMouseTracker =new Pong_MouseTracker(width,height,game.getMouse());
         ListeningKey =false;
         WhantToChangeKeys =false;
 
@@ -189,50 +188,50 @@ public class Settings extends Screen {
         // Detectar eventos y cambiar las config del game correspondientes...
         Map<BooleanSupplier, Runnable> actions = new LinkedHashMap<>();
 
-        actions.put(mouseTracker::isHardClicked, () -> {
+        actions.put(pongMouseTracker::isHardClicked, () -> {
             game.getConfig().setDifficult(Difficult.HARD);
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(mouseTracker::isMediumClicked, () -> {
+        actions.put(pongMouseTracker::isMediumClicked, () -> {
             game.getConfig().setDifficult(Difficult.MEDIUM);
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(mouseTracker::isEasyClicked, () -> {
+        actions.put(pongMouseTracker::isEasyClicked, () -> {
             game.getConfig().setDifficult(Difficult.EASY);
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(mouseTracker::isOnClicked, () -> {
+        actions.put(pongMouseTracker::isOnClicked, () -> {
             game.getConfig().setVersusIA(false);
         });
 
-        actions.put(mouseTracker::isWinPoints15Clicked, () -> {
+        actions.put(pongMouseTracker::isWinPoints15Clicked, () -> {
             game.getConfig().setMaxPoints(3);
         });
 
-        actions.put(mouseTracker::isWinPoints10Clicked, () -> {
+        actions.put(pongMouseTracker::isWinPoints10Clicked, () -> {
             game.getConfig().setMaxPoints(2);
         });
 
-        actions.put(mouseTracker::isWinPoints5Clicked, () -> {
+        actions.put(pongMouseTracker::isWinPoints5Clicked, () -> {
             game.getConfig().setMaxPoints(1);
         });
 
-        actions.put(mouseTracker::isOffClicked, () -> {
+        actions.put(pongMouseTracker::isOffClicked, () -> {
             game.getConfig().setMusicOff(true);
         });
 
-        actions.put(mouseTracker::isFullScreenClicked, () -> {
+        actions.put(pongMouseTracker::isFullScreenClicked, () -> {
             game.getConfig().setFullscreen(true);
         });
 
-        actions.put(mouseTracker::isFullScreenOffClicked, () -> {
+        actions.put(pongMouseTracker::isFullScreenOffClicked, () -> {
             game.getConfig().setFullscreen(false);
         });
 
-        actions.put(mouseTracker::isPitchSkinClicked, () -> {
+        actions.put(pongMouseTracker::isPitchSkinClicked, () -> {
             PitchSkin nextPitchSkin;
             if(game.getConfig().getPitchSkin().equals(PitchSkin.DEFAULT)) {
                 nextPitchSkin=PitchSkin.BASKET;
@@ -243,7 +242,7 @@ public class Settings extends Screen {
             game.getConfig().setPitchSkin(nextPitchSkin);
         });
 
-        actions.put(mouseTracker::isBallSkinClicked, () -> {
+        actions.put(pongMouseTracker::isBallSkinClicked, () -> {
             BallSkin nextBallSkin;
             if(game.getConfig().getBallSkin().equals(BallSkin.DEFAULT)) {
                 nextBallSkin=BallSkin.CRAZY;
@@ -258,27 +257,27 @@ public class Settings extends Screen {
         // cuando selecciona alguna opcion almacena ese valor y habilita al KeyPressed (Cambia al estado "ListeningKey")
         // el keypressed mapea la tecla y en base a la opcion seleccionada la cambia
 
-        actions.put(mouseTracker::isChangeKeysClicked, () -> WhantToChangeKeys = true);
-        actions.put(mouseTracker::isCancelSetKeysClicked, () -> WhantToChangeKeys = false);
+        actions.put(pongMouseTracker::isChangeKeysClicked, () -> WhantToChangeKeys = true);
+        actions.put(pongMouseTracker::isCancelSetKeysClicked, () -> WhantToChangeKeys = false);
 
-        actions.put(mouseTracker::isPlayer1UpClicked, () -> {
+        actions.put(pongMouseTracker::isPlayer1UpClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER1_UP;
         });
-        actions.put(mouseTracker::isPlayer1DownClicked, () -> {
+        actions.put(pongMouseTracker::isPlayer1DownClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER1_DOWN;
         });
-        actions.put(mouseTracker::isPlayer2UpClicked, () -> {
+        actions.put(pongMouseTracker::isPlayer2UpClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER2_UP;
         });
-        actions.put(mouseTracker::isPlayer2DownClicked, () -> {
+        actions.put(pongMouseTracker::isPlayer2DownClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER2_DOWN;
         });
 
-        actions.put(mouseTracker::isTrackNameClicked, () -> {
+        actions.put(pongMouseTracker::isTrackNameClicked, () -> {
             if (game.getConfig().isMusicOff()) {
                 game.getConfig().setMusicOff(false);
             } else {
@@ -291,11 +290,11 @@ public class Settings extends Screen {
             }
         });
 
-        actions.put(mouseTracker::isSaveClicked, () -> game.setGameState(GameState.PRE_MENU));
+        actions.put(pongMouseTracker::isSaveClicked, () -> game.setGameState(GameState.PRE_MENU));
 
-        actions.put(mouseTracker::isResetClicked, game::resetConfig);
+        actions.put(pongMouseTracker::isResetClicked, game::resetConfig);
 
-        actions.put(mouseTracker::isCancelClicked, game::cancelConfig);
+        actions.put(pongMouseTracker::isCancelClicked, game::cancelConfig);
 
         for (Map.Entry<BooleanSupplier, Runnable> entry : actions.entrySet()) {
             if (entry.getKey().getAsBoolean()) {
