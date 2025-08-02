@@ -192,7 +192,7 @@ public class Lemmings extends JGame {
     public void gameDraw(Graphics2D g) {
 
         switch (gameState){
-            case ON_MENU -> menu.drawmenu(g);
+            case ON_MENU -> menu.draw(g);
 
             case ON_SCORE -> score.draw(g);
 

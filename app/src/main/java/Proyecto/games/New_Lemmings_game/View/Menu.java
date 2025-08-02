@@ -13,10 +13,11 @@ public class Menu extends Screen {
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
+    private Lemmings game;
 
-
-    public Menu(int width, int height) {
+    public Menu(int width, int height, Lemmings game) {
         super(width,height);
+        this.game = game;
     }
 
     @Override
