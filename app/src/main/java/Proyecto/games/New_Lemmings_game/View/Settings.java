@@ -31,7 +31,7 @@ public class Settings {
             g.drawString(text, xtext , ytext);
     }
 
-    public void drawmenu(Graphics2D g) {
+    public void draw(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, width, height);
         g.setColor(Color.WHITE);
@@ -87,13 +87,13 @@ public class Settings {
     private boolean isMouseJustPressed(Mouse m) {
     boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
     prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed && game.getIsinsettings() ;
+    return  justPressed;
 }
 
     public boolean mouseTracker(int x, int y, int width,int height, Mouse m){
         int mx = m.getX();
         int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m) && game.getIsinsettings() ;
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed(m);
     }
 
     public boolean isMusicOnClicked(Mouse m) {

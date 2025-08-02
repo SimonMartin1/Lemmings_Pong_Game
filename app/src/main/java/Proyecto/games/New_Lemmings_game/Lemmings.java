@@ -38,7 +38,6 @@ public class Lemmings extends JGame {
 
     private ConfigLemmings.Settings settings, backupSettings;
     private static boolean fullScreen = false;
-    private boolean isInMenu = true, isInSettings = false, isInScore = false, gamePaused = false, gameWin = false, musicOff = true;
     private GameState gameState = GameState.ON_MENU;
 
     private int screenWidth = getWidth();
@@ -65,9 +64,6 @@ public class Lemmings extends JGame {
         });
 
         ScoreDatabase.createTable();
-        initSettings();
-        backupSettings();
-        playTrack();
 
         if (fullScreen) setFullScreen();
 
@@ -97,41 +93,47 @@ public class Lemmings extends JGame {
         gameWinView = new Win(screenWidth, screenHeight);
     }
 
-    private void initSettings() {
-        settings = ConfigLemmings.loadSettings();
-        musicOff = settings.musicOff;
-        fullScreen = settings.fullScreen;
-    }
-
-    private void backupSettings() {
-        backupSettings = new ConfigLemmings.Settings();
-        backupSettings.fullScreen = fullScreen;
-        backupSettings.musicOff = musicOff;
-    }
-
-    private void playTrack() {
-        if (!musicOff) SoundPlayer.playSound("app/src/main/resources/cantinadelpela.wav");
-    }
-
     @Override
     public void gameUpdate(double delta) {
-        if (isInSettings || isInScore) return;
 
-        if (isInMenu) {
-            //System.out.println("entre al menu");
-            gameMenu.update(delta);
-            if (detectPlay(getMouse()) || detectPlay(getKeyboard())) isInMenu = false;
-            if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)) isInSettings = !isInSettings;
-            if (detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)) isInScore = !isInScore;
-        } else {
-            if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
-                gamePaused = true;
-                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) isInMenu = true;
+        switch (gameState){
+            case ON_MENU -> {
+                gameMenu.update(delta);
+                if (detectPlay(getMouse())) {
+                    setGameState(GameState.PLAYING);
+                }
+                if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)) {
+                    setGameState(GameState.ON_CONFIG);
+                }
+                if (detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)) {
+                    setGameState(GameState.ON_SCORE);
+                }
             }
-            if (gameWin && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) isInMenu = true;
-            if (gamePaused && getKeyboard().isKeyPressed(KeyEvent.VK_M)) gamePaused = false;
 
-            if (!gamePaused) {
+            case ON_CONFIG -> {
+                if (detectSetting(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_C)){
+                    setGameState(GameState.ON_MENU);
+                }
+            }
+
+            case ON_SCORE -> {
+                if (detectScore(getMouse()) || getKeyboard().isKeyPressed(KeyEvent.VK_S)){
+                    setGameState(GameState.ON_MENU);
+                }
+            }
+
+            case PLAYING -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
+                    setGameState(GameState.ON_PAUSE);
+                }
+
+            }
+
+            case ON_PAUSE -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+                    setGameState(GameState.ON_MENU);
+                }
+
                 Level current = levels.get(currentLevel);
                 //current.update(delta);
 
@@ -140,26 +142,56 @@ public class Lemmings extends JGame {
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
                 if (current.isLevelFinished()) {
-                    if (current.isLevelWon()) nextLevel();
-                    //else restartLevel();
+                    if (current.isLevelWon()){
+                        setGameState(GameState.LEVEL_WON);
+                    }
+                    else{
+                        setGameState(GameState.LEVEL_FAIL);
+                    }
+
+                }
+            }
+
+            case LEVEL_WON -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+                    nextLevel();
+                }
+            }
+
+            case LEVEL_FAIL -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+                    restartLevel();
+                }
+            }
+            case FINISH -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+                    setGameState(GameState.ON_MENU);
                 }
             }
         }
+
+
     }
 
     @Override
     public void gameDraw(Graphics2D g) {
-        if (isInMenu) {
-            gameMenu.drawmenu(g);
-            if (isInSettings) gameSettingsView.drawmenu(g);
-            if (isInScore) gameScoreView.draw(g);
-        } else {
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, getWidth(), getHeight());
-            levels.get(currentLevel).drawPreLevelScreen(g);
-            levels.get(currentLevel).drawLevel(g,800,600);
-            if (gamePaused) gamePauseView.draw(g);
-            if (gameWin) gameWinView.draw(g);
+
+        switch (gameState){
+            case ON_MENU -> gameMenu.drawmenu(g);
+
+            case ON_SCORE -> gameScoreView.draw(g);
+
+            case ON_CONFIG -> gameSettingsView.draw(g);
+
+            case PLAYING -> {
+                g.setColor(Color.BLACK);
+                g.fillRect(0, 0, getWidth(), getHeight());
+                levels.get(currentLevel).drawPreLevelScreen(g);
+                levels.get(currentLevel).drawLevel(g,800,600);
+            }
+
+            case ON_PAUSE -> gamePauseView.draw(g);
+
         }
     }
 
@@ -175,12 +207,9 @@ public class Lemmings extends JGame {
         }
     }
 
-    /*
-    
     private void restartLevel() {
-        System.out.println("Reiniciando nivel actual");
-        levels.set(currentLevel, levels.get(currentLevel).clone());
-    }*/
+        //levels.set(currentLevel, levels.get(currentLevel).clone());
+    }
 
     private void setFullScreen() {
         JFrame frame = getFrame();
@@ -209,13 +238,15 @@ public class Lemmings extends JGame {
         //levels.add(new Level(3, "Cap 3", 0.8, 5, screenWidth, screenHeight));
     }
 
-    public boolean detectPlay(Mouse m) {
-        return mouseTracker(screenWidth / 2 - 100, 300, 200, 60, m) && !isInSettings;
+    public void setGameState(GameState gameState){
+        this.gameState = gameState;
     }
 
-    public boolean detectPlay(Keyboard k) {
-        return k.isKeyPressed(10) && !isInSettings && !isInScore;
+    public boolean detectPlay(Mouse m) {
+        return mouseTracker(screenWidth / 2 - 100, 300, 200, 60, m);
     }
+
+
 
     public boolean detectSetting(Mouse m) {
         return mouseTracker(screenWidth - 250, screenHeight - 110, 150, 80, m);
@@ -233,18 +264,8 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameShutdown() {
-        ConfigLemmings.saveSettings(musicOff, fullScreen);
     }
 
-    public boolean getIsinMenu() {
-        return isInMenu; 
-    }
 
-    public boolean getIsinScore() {
-        return isInScore; 
-    }
 
-    public boolean getIsinsettings() {
-        return isInSettings;
-    }
 }
