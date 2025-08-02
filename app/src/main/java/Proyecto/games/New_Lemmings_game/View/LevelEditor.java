@@ -7,8 +7,6 @@ import java.awt.*;
 
 public class LevelEditor extends Screen {
 
-    private int width;
-    private int height;
 
     LevelEditor(int width, int height) {
         super(width, height);

@@ -1,19 +1,17 @@
 package Proyecto.games.New_Lemmings_game.View;
 
 import Proyecto.games.utils.Drawable;
+import Proyecto.games.utils.Screen;
 
 import java.awt.*;
 
-public class Win implements Drawable {
-    private final int width;
-    private final int height;
+public class Win extends Screen {
 
     // Botón "Volver al menú"
     
 
     public Win(int width, int height) {
-        this.width = width;
-        this.height = height;
+        super(width,height);
     }
     @Override
     public void draw(Graphics2D g) {
@@ -23,6 +21,11 @@ public class Win implements Drawable {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 36));
         g.drawString("You Win!", width / 2 - 90, height / 2 - 60);
+
+    }
+
+    @Override
+    public void update(double delta) {
 
     }
 }

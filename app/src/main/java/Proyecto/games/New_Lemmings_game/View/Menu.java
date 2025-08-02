@@ -7,9 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 
 
-public class Menu extends Screen {
-    private int width;
-    private int height;
+public class Menu extends  Screen{
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
     private Boolean prevPausePressed = null;
@@ -20,7 +18,6 @@ public class Menu extends Screen {
         this.game = game;
     }
 
-    @Override
     public void draw(Graphics2D g) {
 
         Image background = new ImageIcon("app\\src\\main\\resources\\images\\Lemmings_back.png").getImage();
@@ -43,7 +40,7 @@ public class Menu extends Screen {
 //            g.drawString("Click or Enter", width/2 - 71, 420);
 //        }
     }
-    @Override
+
     public void update(double delta){
         blinkTime += delta;
         if (blinkTime >= 0.6) {

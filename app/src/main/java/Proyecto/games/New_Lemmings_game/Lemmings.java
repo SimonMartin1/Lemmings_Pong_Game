@@ -40,10 +40,10 @@ public class Lemmings extends JGame {
     private Cursor cursor;
 
     private static boolean fullScreen = false;
-    private GameState gameState = GameState.ON_MENU;
+    private GameState gameState;
 
-    private int screenWidth = getWidth();
-    private int screenHeight = getHeight();
+    private int screenWidth;
+    private int screenHeight;
     private boolean prevPausePressed = false;
 
     private int pointsSum = 0;
@@ -88,8 +88,10 @@ public class Lemmings extends JGame {
             // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-
-        menu = new Menu(getWidth(), getHeight(), this);
+        screenWidth = getWidth();
+        screenHeight = getHeight();
+        gameState = GameState.ON_MENU;
+        menu = new Menu(screenWidth, screenHeight, this);
         pause = new Pause(screenWidth, screenHeight);
         settings = new Settings(screenWidth, screenHeight, this);
         score = new Score(screenWidth, screenHeight, this);
@@ -143,12 +145,12 @@ public class Lemmings extends JGame {
                 }
 
                 Level current = levels.get(currentLevel);
-                //current.update(delta);
 
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+
                 if (current.isLevelFinished()) {
                     if (current.isLevelWon()){
                         setGameState(GameState.LEVEL_WON);

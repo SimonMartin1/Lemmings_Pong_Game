@@ -6,8 +6,6 @@ import Proyecto.games.utils.Screen;
 import java.awt.*;
 
 public class LevelAdder extends Screen {
-    private int width;
-    private int height;
 
     public LevelAdder(int width, int height) {
         super(width, height);

@@ -9,8 +9,6 @@ import Proyecto.games.utils.Screen;
 import com.entropyinteractive.Mouse;
 
 public class Score extends Screen {
-    private int width;
-    private int height;
     private Lemmings game;
     private boolean prevMousePressed;
     public Score(int width, int height, Lemmings game) {
