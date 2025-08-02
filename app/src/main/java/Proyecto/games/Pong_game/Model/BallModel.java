@@ -1,7 +1,7 @@
 package Proyecto.games.Pong_game.Model;
 import java.util.Random;
 
-import Proyecto.utils.SoundPlayer;
+import Proyecto.games.utils.SoundPlayer;
 
 public class BallModel {
 
