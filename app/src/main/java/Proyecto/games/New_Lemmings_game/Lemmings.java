@@ -280,5 +280,11 @@ public class Lemmings extends JGame {
     }
 
 
+    public boolean getIsinMenu() {
+        return  true;
+    }
 
+    public boolean getIsinScore(){
+        return true;
+    }
 }
