@@ -20,8 +20,6 @@ import java.util.function.BooleanSupplier;
  */
 public class Settings extends Screen {
     private final Pong game;
-    private int width;
-    private int height;
     private final ArrayList skinsPitchNames = new ArrayList(List.of("DEFAULT", "BASKET"));
     private final ArrayList skinsBallNames = new ArrayList(List.of("DEFAULT", "CRAZY"));
     private final MouseTracker  mouseTracker;

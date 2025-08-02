@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 public class Pong extends JGame{
 
     private int width, height;
-    GameState gameState = GameState.PRE_MENU;
+    GameState gameState = GameState.ON_MENU;
     ConfigPong config,config_BackUp;
 
     SoundManager soundManager;

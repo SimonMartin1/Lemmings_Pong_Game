@@ -3,8 +3,8 @@ package Proyecto.games.utils;
 import java.awt.*;
 
 public abstract class Screen implements Drawable {
-    int width;
-    int height;
+    protected int width;
+    protected int height;
 
     public Screen(int width, int height) {
         this.width = width;
@@ -13,4 +13,12 @@ public abstract class Screen implements Drawable {
 
     public abstract void draw(Graphics2D g);
     public abstract void update(double delta);
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 }
