@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import org.checkerframework.checker.units.qual.min;
+
 public class Cursor {
 
     // --- Constantes de la Interfaz de Usuario (UI) ---
@@ -35,6 +37,7 @@ public class Cursor {
     // --- Dependencias y Estado ---
     private List<Lemming_Entity> currentLemmingEntities;
     private AbilityClass currentSelectedAbility;
+    private Minimap minimap; 
     private Ability currentAbility; // Mantenemos este campo para restar del stock sin modificar otras clases.
     private final Stock stock;
     private final Mouse mouse;
@@ -42,6 +45,7 @@ public class Cursor {
     private final int screenHeight;
     private int camX;
     private boolean wasPressedLastFrame = false;
+    private Level level; 
 
     private static final Map<Ability, Supplier<AbilityClass>> ABILITY_FACTORY = Map.of(
             Ability.DIGGER, DigAbility::new,
@@ -60,6 +64,7 @@ public class Cursor {
         this.mouse = mouse;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
+        //this.level = level; 
         if(fullscreen){
             FULLSCREEN_VERTICAL_OFFSET = 0;
         }else{
@@ -71,6 +76,7 @@ public class Cursor {
         boolean isPressed = mouse.isLeftButtonPressed();
 
         if (isPressed && !wasPressedLastFrame) {
+            //level.getMinimap().handleClick(mouse.getX(), mouse.getY());
             handleMouseClick(mouse.getX(), mouse.getY());
         }
 

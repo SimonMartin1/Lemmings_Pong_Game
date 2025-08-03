@@ -146,4 +146,12 @@ public class Game_Map {
     public int getLevel(){
         return level;
     }
+
+    public float getViewportWidth() {
+        return 800;
+    }
+
+    public float getViewportHeight() {
+        return 600;
+    }
 }
