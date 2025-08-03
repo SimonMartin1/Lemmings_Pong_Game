@@ -66,7 +66,7 @@ public class Settings extends Lemmings_Screens {
     }
 
     public void update(double delta) {
-        if(isSaveClicked() || game.getKeyboard().isKeyPressed(KeyEvent.VK_E)){
+        if(isSaveClicked() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_MENU);
         }
     }
