@@ -117,6 +117,7 @@ public class Lemming_Entity {
             lastFrameChangeTime = now;
         }
     }
+    
     private void loadAnimations() throws IOException {
         BufferedImage walkSprites = load("/lemming_walk_v2.png");
         BufferedImage fallSprites = load("/lemming_fall_v2.png");

@@ -23,7 +23,7 @@ public class Level {
     private double spawnTimer = 0;
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
-    private int camX = 300;
+    private int camX = 600;
 
     private boolean nukeConfirmed = false;
     private long nukeStartTime = -1;
@@ -90,6 +90,8 @@ public class Level {
         lemmingEntities.removeIf(l -> l.getState() instanceof SavedState);
 
         handleNukeTime();
+
+        //minimap.handleClick();
 
         for (Lemming_Entity l : lemmingEntities) {
             l.update(delta);
@@ -342,8 +344,11 @@ public class Level {
 
     }
 
-    public void setCamX(int worldX) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setCamX'");
+    public void setCamX(int camX) {
+        this.camX = camX; 
     }
+    /*
+    public Minimap getMinimap() {
+        return minimap;
+    }*/
 }
