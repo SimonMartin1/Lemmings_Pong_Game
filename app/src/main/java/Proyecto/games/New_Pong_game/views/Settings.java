@@ -16,14 +16,12 @@ import java.util.function.BooleanSupplier;
  * utilizando Enums para el estado y Rectangles para el layout de la UI.
  */
 public class Settings extends Pong_Screens {
-    private final Pong_InputEventsTracker pongMouseTracker;
     private boolean ListeningKey, WhantToChangeKeys;
     private PlayersKeys KeyToChange;
 
 
     public Settings(int width, int height, Pong game) {
         super(width,height,game);
-        pongMouseTracker =new Pong_InputEventsTracker(width,height,game);
         ListeningKey =false;
         WhantToChangeKeys =false;
 
@@ -215,36 +213,36 @@ public class Settings extends Pong_Screens {
         // Detectar eventos y cambiar las config del game correspondientes...
         Map<BooleanSupplier, Runnable> actions = new LinkedHashMap<>();
 
-        actions.put(pongMouseTracker::isHardClicked, () -> {
+        actions.put(this::isHardClicked, () -> {
             game.getConfig().setDifficult(Difficult.HARD);
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(pongMouseTracker::isMediumClicked, () -> {
+        actions.put(this::isMediumClicked, () -> {
             game.getConfig().setDifficult(Difficult.MEDIUM);
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(pongMouseTracker::isEasyClicked, () -> {
+        actions.put(this::isEasyClicked, () -> {
             game.getConfig().setDifficult(Difficult.EASY);
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(pongMouseTracker::isOnClicked, () -> game.getConfig().setVersusIA(false));
+        actions.put(this::isOnClicked, () -> game.getConfig().setVersusIA(false));
 
-        actions.put(pongMouseTracker::isWinPoints15Clicked, () -> game.getConfig().setMaxPoints(3));
+        actions.put(this::isWinPoints15Clicked, () -> game.getConfig().setMaxPoints(3));
 
-        actions.put(pongMouseTracker::isWinPoints10Clicked, () -> game.getConfig().setMaxPoints(2));
+        actions.put(this::isWinPoints10Clicked, () -> game.getConfig().setMaxPoints(2));
 
-        actions.put(pongMouseTracker::isWinPoints5Clicked, () -> game.getConfig().setMaxPoints(1));
+        actions.put(this::isWinPoints5Clicked, () -> game.getConfig().setMaxPoints(1));
 
-        actions.put(pongMouseTracker::isOffClicked, () -> game.getConfig().setMusicOff(true));
+        actions.put(this::isOffClicked, () -> game.getConfig().setMusicOff(true));
 
-        actions.put(pongMouseTracker::isFullScreenClicked, () -> game.getConfig().setFullscreen(true));
+        actions.put(this::isFullScreenClicked, () -> game.getConfig().setFullscreen(true));
 
-        actions.put(pongMouseTracker::isFullScreenOffClicked, () -> game.getConfig().setFullscreen(false));
+        actions.put(this::isFullScreenOffClicked, () -> game.getConfig().setFullscreen(false));
 
-        actions.put(pongMouseTracker::isPitchSkinClicked, () -> {
+        actions.put(this::isPitchSkinClicked, () -> {
             PitchSkin nextPitchSkin;
             if(game.getConfig().getPitchSkin().equals(PitchSkin.DEFAULT)) {
                 nextPitchSkin=PitchSkin.BASKET;
@@ -255,7 +253,7 @@ public class Settings extends Pong_Screens {
             game.getConfig().setPitchSkin(nextPitchSkin);
         });
 
-        actions.put(pongMouseTracker::isBallSkinClicked, () -> {
+        actions.put(this::isBallSkinClicked, () -> {
             BallSkin nextBallSkin;
             if(game.getConfig().getBallSkin().equals(BallSkin.DEFAULT)) {
                 nextBallSkin=BallSkin.CRAZY;
@@ -270,27 +268,27 @@ public class Settings extends Pong_Screens {
         // cuando selecciona alguna opcion almacena ese valor y habilita al KeyPressed (Cambia al estado "ListeningKey")
         // el keypressed mapea la tecla y en base a la opcion seleccionada la cambia
 
-        actions.put(pongMouseTracker::isChangeKeysClicked, () -> WhantToChangeKeys = true);
-        actions.put(pongMouseTracker::isCancelSetKeysClicked, () -> WhantToChangeKeys = false);
+        actions.put(this::isChangeKeysClicked, () -> WhantToChangeKeys = true);
+        actions.put(this::isCancelSetKeysClicked, () -> WhantToChangeKeys = false);
 
-        actions.put(pongMouseTracker::isPlayer1UpClicked, () -> {
+        actions.put(this::isPlayer1UpClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER1_UP;
         });
-        actions.put(pongMouseTracker::isPlayer1DownClicked, () -> {
+        actions.put(this::isPlayer1DownClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER1_DOWN;
         });
-        actions.put(pongMouseTracker::isPlayer2UpClicked, () -> {
+        actions.put(this::isPlayer2UpClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER2_UP;
         });
-        actions.put(pongMouseTracker::isPlayer2DownClicked, () -> {
+        actions.put(this::isPlayer2DownClicked, () -> {
             ListeningKey = true;
             KeyToChange=PlayersKeys.PLAYER2_DOWN;
         });
 
-        actions.put(pongMouseTracker::isTrackNameClicked, () -> {
+        actions.put(this::isTrackNameClicked, () -> {
             if (game.getConfig().isMusicOff()) {
                 game.getConfig().setMusicOff(false);
             } else {
@@ -303,11 +301,11 @@ public class Settings extends Pong_Screens {
             }
         });
 
-        actions.put(() -> (pong_inputEvents.isSaveClicked() && game.getGameState().equals(GameState.ON_CONFIG)), () -> game.setGameState(GameState.ON_MENU));
+        actions.put(this::isSaveClicked, () -> game.setGameState(GameState.ON_MENU));
 
-        actions.put(pongMouseTracker::isResetClicked, game::resetConfig);
+        actions.put(this::isResetClicked, () -> game.resetConfig());
 
-        actions.put(pongMouseTracker::isCancelClicked, game::cancelConfig);
+        actions.put(this::isCancelClicked, game::cancelConfig);
 
         for (Map.Entry<BooleanSupplier, Runnable> entry : actions.entrySet()) {
             if (entry.getKey().getAsBoolean()) {
@@ -316,4 +314,125 @@ public class Settings extends Pong_Screens {
             }
         }
     }
+
+    private boolean isMouseOverClickArea(int x, int y, int width, int height){
+        int mx = game.getMouse().getX();
+        int my = game.getMouse().getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
+    }
+
+    public boolean isTrackNameClicked() {
+        return isMouseOverClickArea(width/2-120, 85, 105, 25);
+    }
+
+    // --- OFF ---
+    public boolean isOffClicked() {
+        return isMouseOverClickArea(width/2-5, 40, 60, 60);
+    }
+
+    // --- HARD ---
+    public boolean isHardClicked() {
+        return isMouseOverClickArea(width/2-15, 130, 80, 45);
+    }
+
+    // --- MEDIUM ---
+    public boolean isMediumClicked() {
+        return isMouseOverClickArea(width/2+85, 130, 80, 45);
+    }
+
+    // --- EASY ---
+    public boolean isEasyClicked() {
+        return isMouseOverClickArea(width/2+195, 130, 80, 45);
+    }
+
+    // --- ON ---
+    public boolean isOnClicked() {
+        return isMouseOverClickArea(width/2-160, 175, 60, 40);
+    }
+
+    // --- WINPOINTS 15 ---
+    public boolean isWinPoints15Clicked() {
+        return isMouseOverClickArea(width/2-140, 220, 40, 20);
+    }
+
+    // --- WINPOINTS 10 ---
+    public boolean isWinPoints10Clicked() {
+        return isMouseOverClickArea(width/2-80, 220, 40, 40);
+    }
+
+    // --- WINPOINTS 5 ---
+    public boolean isWinPoints5Clicked() {
+        return isMouseOverClickArea(width/2-40, 220, 40, 40);
+    }
+
+
+    public boolean isFullScreenClicked() {
+        return isMouseOverClickArea(width/2-120, height/2+50, 30, 30);
+    }
+
+    public boolean isFullScreenOffClicked() {
+        return isMouseOverClickArea(width/2-60, 375, 60, 30);
+    }
+
+    public boolean isPitchSkinClicked() {
+        return  isMouseOverClickArea(width/2-140, 260, 45, 35);
+    }
+
+    public boolean isBallSkinClicked() {
+        return isMouseOverClickArea(width/2-140, 290, 85, 35);
+    }
+
+    public boolean isChangeKeysClicked() {
+        return isMouseOverClickArea(width/2+100,390,70,30);
+    }
+
+    public boolean mouseTrackerSetKeys(int x, int y, int width,int height){
+        int mx = game.getMouse().getX();
+        int my = game.getMouse().getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
+    }
+
+    public boolean isCancelSetKeysClicked() {
+        return mouseTrackerSetKeys(width/2+100, 381, 70,45);
+    }
+
+    // --- Change Keys Events --
+
+    public boolean isPlayer1UpClicked() {
+        return mouseTrackerSetKeys(width/2+20, 170, 65,40);
+    }
+
+    public boolean isPlayer1DownClicked() {
+        return mouseTrackerSetKeys(width/2-80, 170, 65,40);
+    }
+
+    public boolean isPlayer2UpClicked() {
+        return mouseTrackerSetKeys(width/2+20, 292, 65,40);
+    }
+
+    public boolean isPlayer2DownClicked() {
+        return mouseTrackerSetKeys(width/2-80, 292, 65,40);
+    }
+
+    // -----------------
+
+    // --- SAVE ---
+    public boolean isSaveClicked() {
+        return isMouseOverClickArea(width-325, (int) (height * .85), 30, 30);
+    }
+
+    // --- CANCEL ---
+    public boolean isCancelClicked() {
+        return isMouseOverClickArea(width-245, (int) (height * .85), 60, 30);
+    }
+
+    // --- RESET ---
+    public boolean isResetClicked() {
+        return isMouseOverClickArea(width-145, (int) (height * .85), 60, 30);
+    }
+
+
+
+
+
 }
