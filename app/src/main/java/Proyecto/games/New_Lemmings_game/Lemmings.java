@@ -101,7 +101,7 @@ public class Lemmings extends JGame {
                 score.update(delta);
             }
 
-            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> update(delta);
+            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> updateLevelScreen(delta);
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
@@ -199,7 +199,7 @@ public class Lemmings extends JGame {
         return  gameState;
     }
 
-    public void update(double delta){
+    public void updateLevelScreen(double delta){
         if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
