@@ -60,21 +60,5 @@ public class ScoreDatabase {
             System.err.println("Error saving score: " + e.getMessage());
         }
     }
-    
-    public static void showRanking() {
-        String sql = "SELECT player, score FROM scores ORDER BY score DESC LIMIT 10";
 
-        try (Connection conn = ScoreDatabase.connect();
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery(sql)) {
-
-            System.out.println("Ranking:");
-            while (rs.next()) {
-                System.out.println(rs.getString("player") + " - " + rs.getInt("score"));
-            }
-
-        } catch (Exception e) {
-            System.err.println("Error showing ranking: " + e.getMessage());
-        }
-    }
 }
