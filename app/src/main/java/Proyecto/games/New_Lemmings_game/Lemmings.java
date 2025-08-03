@@ -17,6 +17,8 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,8 +33,7 @@ public class Lemmings extends JGame {
     private final List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
     private Cursor cursor;
-    private static boolean fullScreen = false;
-    private GameState gameState= GameState.ON_MENU;;
+    private GameState gameState= GameState.ON_MENU;
 
     private int screenWidth;
     private int screenHeight;
@@ -70,6 +71,7 @@ public class Lemmings extends JGame {
 
         try {
             loadLevels();
+            boolean fullScreen = false;
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
 
         } catch (IOException e1) {
@@ -89,19 +91,13 @@ public class Lemmings extends JGame {
     public void gameUpdate(double delta) {
 
         switch (gameState){
-            case ON_MENU -> {
-                menu.update(delta);
-            }
+            case ON_MENU -> menu.update(delta);
 
-            case ON_CONFIG -> {
-               settings.update(delta);
-            }
+            case ON_CONFIG -> settings.update(delta);
 
-            case ON_SCORE -> {
-                score.update(delta);
-            }
+            case ON_SCORE -> score.update(delta);
 
-            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> updateLevelScreen(delta);
+            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> updateLevelScreen();
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
@@ -109,19 +105,18 @@ public class Lemmings extends JGame {
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
-                updateLevelScreen(delta);
+                updateLevelScreen();
             }
 
-            case ON_PAUSE -> {
-                pause.update(delta);
-            }
+            case ON_PAUSE -> pause.update(delta);
 
             case ENDGAME -> {
                 win.update(delta);
-//                //Si termino el juego guardo el puntaje
-//                for (Level l : levels) pointsSum += l.getLevelScore();
-//                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//                ScoreDatabase.saveScore(timestamp, pointsSum);
+                //Si termino el juego guardo el puntaje
+                int pointsSum=0;
+                for (Level l : levels) pointsSum += l.getLevelScore();
+                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                ScoreDatabase.saveScore(timestamp, pointsSum);
             }
         }
 
@@ -194,9 +189,6 @@ public class Lemmings extends JGame {
         this.gameState = gameState;
     }
 
-    public GameState getGameState() {
-        return  gameState;
-    }
 
     public int getCurrentLevel() {
         return currentLevel;
@@ -211,7 +203,7 @@ public class Lemmings extends JGame {
     }
 
 
-    public void updateLevelScreen(double delta){
+    public void updateLevelScreen(){
         if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_S)) {
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
