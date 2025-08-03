@@ -1,23 +1,25 @@
 package Proyecto.games.New_Pong_game.views;
 
+import Proyecto.games.New_Pong_game.Pong;
+import Proyecto.games.New_Pong_game.utils.Pong_Screens;
 import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.utils.Player;
+import Proyecto.games.utils.GameState;
+import Proyecto.games.utils.Screen;
 import com.entropyinteractive.Keyboard;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
-public class Over implements Drawable {
-    private int width;
-    private int height;
+public class Over extends Pong_Screens {
     private Player winner;
     private boolean isTwoPlayers;
 
-    public Over(int width, int height) {
-        this.width=width;
-        this.height=height;
+    public Over(int width, int height, Pong game) {
+        super(width,height,game);
     }
 
+    @Override
     public void draw(Graphics2D g) {
 
         g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.6f));
@@ -44,16 +46,16 @@ public class Over implements Drawable {
         g.drawString("Press ENTER play again - ESC back to Menu", width / 2 - 180, height / 2 - 120);
     }
 
-    public boolean wantsRestart(Keyboard keyboard) {
-        return keyboard.isKeyPressed(KeyEvent.VK_ENTER);
-    }
-    public boolean wantsBackMenu(Keyboard keyboard) {
-        return keyboard.isKeyPressed(KeyEvent.VK_ESCAPE);
-    }
+    @Override
+    public void update(double delta){
+        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+            game.setGameState(GameState.PLAYING);
+            game.startGame();
+        }
 
-    public void updateSize(int width, int height){
-        this.width=width;
-        this.height=height;
+        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+            game.setGameState(GameState.ON_MENU);
+        }
     }
 
     public void setWinner(Player winner) {

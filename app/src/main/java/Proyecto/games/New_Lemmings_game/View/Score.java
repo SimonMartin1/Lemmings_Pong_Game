@@ -3,16 +3,19 @@ package Proyecto.games.New_Lemmings_game.View;
 
 import java.awt.*;
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import Proyecto.games.utils.Drawable;
+import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.Screen;
 import com.entropyinteractive.Mouse;
 
-public class Score extends Screen {
+public class Score extends Lemmings_Screens {
     private Lemmings game;
     private boolean prevMousePressed;
     public Score(int width, int height, Lemmings game) {
-        super(width,height);
+        super(width,height,game);
+        this.game = game;
     }
     @Override
     public void draw(Graphics2D g){
@@ -40,19 +43,8 @@ public class Score extends Screen {
 
     @Override
     public void update(double delta) {
-
+        if((lemmings_inputEvents.detectScore() && game.getGameState().equals(GameState.ON_SCORE)) || lemmings_inputEvents.detectScoreKeyboard()){
+            game.setGameState(GameState.ON_MENU);
+        }
     }
-
-    private boolean isMouseJustPressed(Mouse m) {
-    boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-    prevMousePressed = m.isLeftButtonPressed();
-    return  justPressed;
-}
-
-
-public boolean isBackClicked(Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        return mx >= width-325 && mx <= width-325 + 30 && my >= height-110 && my <= height-110 + 30 && isMouseJustPressed(m) ;
-}
 }

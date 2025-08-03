@@ -12,7 +12,6 @@ public abstract class InputEventsTracker {
         protected boolean prevMousePressed;
         protected Mouse m;
         protected Keyboard k;
-        protected GameState gs;
 
 
         protected InputEventsTracker(int width, int height, Mouse mouse, Keyboard k){
@@ -20,18 +19,14 @@ public abstract class InputEventsTracker {
             this.height = height;
             this.m = mouse;
             this.k = k;
+            prevMousePressed = false;
         }
 
-        protected boolean isMouseJustPressed() {
-            boolean justPressed = m.isLeftButtonPressed() && !prevMousePressed;
-            prevMousePressed = m.isLeftButtonPressed();
-            return  justPressed;
-        }
 
         protected boolean isMouseOverClickArea(int x, int y, int width, int height){
             int mx = m.getX();
             int my = m.getY();
-            return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed();
+            return mx >= x && mx <= x + width && my >= y && my <= y + height && m.isLeftButtonPressed();
         }
 
         protected boolean detecPlay(int x, int y, int width,int height){
@@ -47,7 +42,7 @@ public abstract class InputEventsTracker {
         }
 
         protected boolean detectSettingsKeyboard(){
-        return k.isKeyPressed(KeyEvent.VK_ESCAPE);
+        return k.isKeyPressed(KeyEvent.VK_C);
         }
 
         protected boolean detectPauseKeyboard(){

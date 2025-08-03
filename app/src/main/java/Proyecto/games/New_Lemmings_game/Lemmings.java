@@ -11,15 +11,12 @@ import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundPlayer;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
-import com.entropyinteractive.Mouse;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,25 +28,15 @@ public class Lemmings extends JGame {
     private Settings settings;
     private Score score;
     private Win win;
-    private Level_Won level_won;
-    private Level_Fail level_fail;
-    private Stock stock;
-    private LevelManager levelManager;
-    private LoadFromFiles loadFromFiles;
-    private List<Level> levels = new ArrayList<>();
+    private final List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
-    private Spawn spawn;
-    private Exit exit;
     private Cursor cursor;
-
     private static boolean fullScreen = false;
-    private GameState gameState;
+    private GameState gameState= GameState.ON_MENU;;
 
     private int screenWidth;
     private int screenHeight;
-    private boolean prevPausePressed = false;
 
-    private int pointsSum = 0;
 
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
@@ -69,20 +56,18 @@ public class Lemmings extends JGame {
         });
 
         ScoreDatabase.createTable();
-        ScoreDatabase.showRanking();
 
-        if (fullScreen) setFullScreen();
 
-        
-        stock = new Stock(
-            new HashMap<>(Map.of(
-                Ability.DIGGER, 5,
-                Ability.CLIMB, 0,
-                Ability.STOP, 3,
-                Ability.UMBRELLA, 0
-            ))
+
+        Stock stock = new Stock(
+                new HashMap<>(Map.of(
+                        Ability.DIGGER, 5,
+                        Ability.CLIMB, 0,
+                        Ability.STOP, 3,
+                        Ability.UMBRELLA, 0
+                ))
         );
-        
+
         try {
             loadLevels();
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
@@ -93,15 +78,11 @@ public class Lemmings extends JGame {
         }
         screenWidth = getWidth();
         screenHeight = getHeight();
-        gameState = GameState.ON_MENU;
-        menu = new Menu(screenWidth, screenHeight, this);
-        pause = new Pause(screenWidth, screenHeight);
-        settings = new Settings(screenWidth, screenHeight, this);
-        score = new Score(screenWidth, screenHeight, this);
-        win = new Win(screenWidth, screenHeight);
-        level_fail = new Level_Fail(screenWidth,screenHeight);
-        level_won = new Level_Won(screenWidth,screenHeight);
-        levelManager = new LevelManager();
+        this.menu = new Menu(screenWidth, screenHeight, this);
+        this.pause = new Pause(screenWidth, screenHeight,this);
+        this.settings = new Settings(screenWidth, screenHeight, this);
+        this.score = new Score(screenWidth, screenHeight, this);
+        this.win = new Win(screenWidth, screenHeight,this);
     }
 
     @Override
@@ -112,8 +93,6 @@ public class Lemmings extends JGame {
                 menu.update(delta);
             }
 
-            case ON_EDITOR -> {}
-
             case ON_CONFIG -> {
                settings.update(delta);
             }
@@ -122,42 +101,23 @@ public class Lemmings extends JGame {
                 score.update(delta);
             }
 
-            case PLAYING -> {
-                if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
-                    setGameState(GameState.ON_PAUSE);
-                }
+            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> update(delta);
 
+            case PLAYING -> {
                 Level current = levels.get(currentLevel);
 
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
-
-                if (current.isLevelFinished()) {
-                    if (current.isLevelWon()){
-                        setGameState(GameState.LEVEL_WON);
-                    }
-                    else{
-                        setGameState(GameState.LEVEL_FAIL);
-                    }
-
-                }
-
+                update(delta);
             }
 
             case ON_PAUSE -> {
                 pause.update(delta);
             }
 
-            case LEVEL_WON -> {
-                level_won.update(delta);
-            }
-
-            case LEVEL_FAIL -> {
-                level_fail.update(delta);
-            }
-            case FINISH -> {
+            case ENDGAME -> {
                 win.update(delta);
 //                //Si termino el juego guardo el puntaje
 //                for (Level l : levels) pointsSum += l.getLevelScore();
@@ -179,20 +139,21 @@ public class Lemmings extends JGame {
 
             case ON_CONFIG -> settings.draw(g);
 
+            case PRE_LEVEL ->  levels.get(currentLevel).drawPreLevelScreen(g);
+
             case PLAYING -> {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
-                levels.get(currentLevel).drawPreLevelScreen(g);
                 levels.get(currentLevel).drawLevel(g,800,600);
             }
 
             case ON_PAUSE -> pause.draw(g);
 
-            case LEVEL_WON -> level_won.draw(g);
+            case LEVEL_WIN -> levels.get(currentLevel).drawWonScreen(g);
 
-            case LEVEL_FAIL -> level_fail.draw(g);
+            case LEVEL_FAIL -> levels.get(currentLevel).drawFailedScreen(g);
 
-            case FINISH -> win.draw(g);
+            case ENDGAME -> win.draw(g);
 
         }
     }
@@ -202,12 +163,8 @@ public class Lemmings extends JGame {
             currentLevel++;
         }
         else{
-            setGameState(GameState.FINISH);
+            setGameState(GameState.ENDGAME);
         }
-    }
-
-    private void restartLevel() {
-        //levels.set(currentLevel, levels.get(currentLevel).clone());
     }
 
     private void setFullScreen() {
@@ -220,7 +177,7 @@ public class Lemmings extends JGame {
     }
 
     private void loadLevels() throws IOException {
-        loadFromFiles = new LoadFromFiles();
+        LoadFromFiles loadFromFiles = new LoadFromFiles();
         File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
 
@@ -238,29 +195,34 @@ public class Lemmings extends JGame {
         this.gameState = gameState;
     }
 
-
-
-
-    public boolean detectSetting(Mouse m) {
-        return mouseTracker(screenWidth - 250, screenHeight - 110, 150, 80, m);
+    public GameState getGameState() {
+        return  gameState;
     }
 
-    public boolean detectScore(Mouse m) {
-        return mouseTracker(250, screenHeight - 110, 150, 80, m);
-    }
-
-    public boolean mouseTracker(int x, int y, int width, int height, Mouse m) {
-        int mx = m.getX();
-        int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && m.isLeftButtonPressed();
+    public void update(double delta){
+        if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+            setGameState(GameState.PLAYING);
+        } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
+                setGameState(GameState.LEVEL_END);
+        } else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
+            setGameState(GameState.ON_PAUSE);
+        } else if (gameState.equals(GameState.LEVEL_END) && levels.get(currentLevel).isLevelWon()) {
+            setGameState(GameState.LEVEL_WIN);
+        } else if (gameState.equals(GameState.LEVEL_END) && !levels.get(currentLevel).isLevelWon()) {
+            setGameState(GameState.LEVEL_FAIL);
+        } else if (gameState.equals(GameState.LEVEL_WIN) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+            nextLevel();
+            setGameState(GameState.PLAYING);
+        } else if (gameState.equals(GameState.LEVEL_FAIL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+            levels.get(currentLevel).reset();
+            setGameState(GameState.PLAYING);
+        }
     }
 
     @Override
     public void gameShutdown() {
     }
 
-    public GameState getGameState() {
-        return  gameState;
-    }
+
 
 }
