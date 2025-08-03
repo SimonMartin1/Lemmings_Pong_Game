@@ -2,6 +2,8 @@ package Proyecto.games.New_Lemmings_game.View;
 
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
+
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
@@ -43,8 +45,18 @@ public class Score extends Lemmings_Screens {
 
     @Override
     public void update(double delta) {
-        if((lemmings_inputEvents.detectScore() && game.getGameState().equals(GameState.ON_SCORE)) || lemmings_inputEvents.detectScoreKeyboard()){
+        if(detectScore() && game.getGameState().equals(GameState.ON_SCORE) || game.getKeyboard().isKeyPressed(KeyEvent.VK_S)){
             game.setGameState(GameState.ON_MENU);
         }
+    }
+
+    protected boolean isMouseOverClickArea(int x, int y, int width, int height){
+        int mx = game.getMouse().getX();
+        int my = game.getMouse().getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
+    }
+
+    public boolean detectScore(){
+        return isMouseOverClickArea(width - 250, height - 110, 150, 80);
     }
 }

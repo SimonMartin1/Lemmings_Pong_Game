@@ -9,7 +9,7 @@ import Proyecto.games.utils.Screen;
 import com.entropyinteractive.Mouse;
 
 import java.awt.*;
-
+import java.awt.event.KeyEvent;
 
 
 public class Settings extends Lemmings_Screens {
@@ -66,7 +66,7 @@ public class Settings extends Lemmings_Screens {
     }
 
     public void update(double delta) {
-        if(lemmings_inputEvents.detecSettings(width - 250, height - 110, 150, 80) || lemmings_inputEvents.detectSettingsKeyboard()){
+        if(isSaveClicked() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_MENU);
         }
     }
@@ -88,5 +88,33 @@ public class Settings extends Lemmings_Screens {
             case "fullscreen" ->{drawFullScreen=true;}
             case "fullscreenOff" ->{drawFullScreen=false;}
         }
+    }
+
+    public boolean isMusicOnClicked() {
+        return isMouseOverClickArea(width/2-125, 85, 40, 30);
+    }
+    public boolean isMusicOffClicked() {
+        return isMouseOverClickArea(width/2-45, 85, 40, 30);
+    }
+    public boolean isFullScreenClicked() {
+        return isMouseOverClickArea(width/2-125, 107, 40, 40);
+    }
+    public boolean isFullScreenOffClicked() {
+        return isMouseOverClickArea(width/2-45, 107, 40, 30);
+    }
+    public boolean isSaveClicked() {
+        return isMouseOverClickArea(width-325, height-110, 30, 30);
+    }
+    public boolean isCancelClicked() {
+        return isMouseOverClickArea(width-245, height-110, 30, 30);
+    }
+    public boolean isResetClicked() {
+        return isMouseOverClickArea(width-145, height-110, 30, 30);
+    }
+
+    protected boolean isMouseOverClickArea(int x, int y, int width, int height){
+        int mx = game.getMouse().getX();
+        int my = game.getMouse().getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
     }
 }
