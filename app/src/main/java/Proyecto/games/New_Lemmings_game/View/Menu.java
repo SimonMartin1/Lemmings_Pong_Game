@@ -11,7 +11,7 @@ import java.awt.event.KeyEvent;
 
 public class Menu extends Lemmings_Screens{
     private double blinkTime;
-    private boolean showPressText = true,prevMousePressed;
+    private boolean showPressText = true,prevKeyPressed=false;
 
     public Menu(int width, int height, Lemmings game) {
         super(width,height,game);
@@ -31,12 +31,26 @@ public class Menu extends Lemmings_Screens{
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 28));
             g.drawString("Settings", width-250 , height-60);
-            g.drawString("Score", 250 , height-60);
+            g.drawString("Score", 140 , height-60);
+            g.setFont(new Font("Arial", Font.BOLD, 24));
+            g.drawString("Level " +chooseLevel(), width/2 - 25, 420);
+            g.setStroke(new BasicStroke(10));
+//            g.drawLine(width/2-85, height/2+105, width/2-85, height/2+105);
+//            g.drawLine(width/2-65, height/2+95, width/2-65, height/2+95);
+//            g.drawLine(width/2-65, height/2+115, width/2-65, height/2+115);
+//
+             // g.drawLine(width/2+110, height/2+102, width/2+110, height/2+102);
+          //  g.drawLine(width/2+90, height/2+112, width/2+90, height/2+112);
+        //g.drawLine(width/2+90, height/2+92, width/2+90, height/2+92);
+        //g.fillRect(width/2+110,height/2+89 , 30, 30);
+        g.fillPolygon(new int[]{width/2-85, width/2-65, width/2-65}, new int[] {height/2+105,height/2+95,height/2+115}, 3);
+            g.fillPolygon(new int[]{width/2+110, width/2+90, width/2+90}, new int[] {height/2+102,height/2+92,height/2+112}, 3);
+
+
 
         if (showPressText) {
-            g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", Font.BOLD, 24));
-            g.drawString("Click or Enter", width/2 - 71, 420);
+            g.drawString("Click or Enter", width/2 - 71, 480);
         }
     }
 
@@ -47,11 +61,20 @@ public class Menu extends Lemmings_Screens{
             blinkTime = 0;
         }
 
-        if(detecSettings(width - 250, height - 110, 150, 80)  || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+        if(detectDecrease() && game.getCurrentLevel()!=0){
+                game.setCurrentLevel(game.getCurrentLevel()-1);
+        }
+
+
+        if(detectIncrease() && game.getCurrentLevel()!=game.getLevelSize()-1){
+                game.setCurrentLevel(game.getCurrentLevel()+1);
+        }
+
+        if(detecSettings()  || game.getKeyboard().isKeyPressed(KeyEvent.VK_C)){
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if(detecPlay(width / 2 - 100, 300, 200, 60) || game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+        if(detecPlay() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             game.setGameState(GameState.PRE_LEVEL);
         }
 
@@ -59,57 +82,53 @@ public class Menu extends Lemmings_Screens{
             game.setGameState(GameState.ON_SCORE);
         }
 
-        if(detectLevelEditor() || game.getKeyboard().isKeyPressed(KeyEvent.VK_E)){
-            game.setGameState(GameState.ON_EDITOR);
+
+    }
+
+    public int chooseLevel(){
+        int res=0;
+        for(int i=0; i<game.getLevelSize(); i++){
+            if(i==game.getCurrentLevel()){
+                res=i+1;
+            }
         }
-
+         return res;
     }
 
-    protected boolean detecPlay(int x, int y, int width,int height){
-        return isMouseOverClickArea(width / 2 - 100, 300, 200, 60);
+
+    public boolean detectDecrease(){
+        return isMouseOverClickArea(width/2-90,height/2+60 , 30, 30);
     }
 
-    protected boolean detecSettings(int x, int y, int width,int height){
+    public boolean detectIncrease(){
+        return isMouseOverClickArea(width/2+80,height/2+60 , 30, 30);
+    }
+
+    protected boolean detecPlay(){
+        return isMouseOverClickArea(width / 2-50, height-230, 100, 60);
+    }
+
+    protected boolean detecSettings(){
         return isMouseOverClickArea(width - 250, height - 110, 150, 80);
     }
 
 
     public boolean detectScore(){
-        return isMouseOverClickArea(width - 250, height - 110, 150, 80);
+        return isMouseOverClickArea(120, height-100, 150, 80);
     }
 
-    public boolean detectLevelEditor(){
-        return isMouseOverClickArea(width - 250, height - 110, 150, 80);
-    }
-
-    public boolean isMusicOnClicked() {
-        return isMouseOverClickArea(width/2-125, 85, 40, 30);
-    }
-    public boolean isMusicOffClicked() {
-        return isMouseOverClickArea(width/2-45, 85, 40, 30);
-    }
-    public boolean isFullScreenClicked() {
-        return isMouseOverClickArea(width/2-125, 107, 40, 40);
-    }
-    public boolean isFullScreenOffClicked() {
-        return isMouseOverClickArea(width/2-45, 107, 40, 30);
-    }
-    public boolean isSaveClicked() {
-        return isMouseOverClickArea(width-325, height-110, 30, 30);
-    }
-    public boolean isCancelClicked() {
-        return isMouseOverClickArea(width-245, height-110, 30, 30);
-    }
-    public boolean isResetClicked() {
-        return isMouseOverClickArea(width-145, height-110, 30, 30);
-    }
 
     protected boolean isMouseOverClickArea(int x, int y, int width, int height){
         int mx = game.getMouse().getX();
         int my = game.getMouse().getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && unBounceClick() ;
     }
 
-
+    public boolean unBounceClick(){
+        boolean m = game.getMouse().isLeftButtonPressed();
+        boolean justClicked = m && !prevKeyPressed;
+        prevKeyPressed = m;
+        return justClicked;
+    }
 
 }

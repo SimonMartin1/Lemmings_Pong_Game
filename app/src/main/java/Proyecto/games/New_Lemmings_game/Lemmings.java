@@ -198,9 +198,24 @@ public class Lemmings extends JGame {
         return  gameState;
     }
 
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public int getLevelSize(){
+        return levels.size();
+    }
+
+
     public void updateLevelScreen(double delta){
-        if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+        if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_S)) {
             setGameState(GameState.PLAYING);
+        } else if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
+            setGameState(GameState.ON_MENU);
         } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
                 setGameState(GameState.LEVEL_END);
         } else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
