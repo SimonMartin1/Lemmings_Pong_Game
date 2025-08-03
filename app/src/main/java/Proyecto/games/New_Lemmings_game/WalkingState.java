@@ -14,7 +14,7 @@ public class WalkingState implements LemmingState {
             l.setCurrentStateAnimation(LemmingAnimationState.WALKING_RIGHT);
             
             // Verificar obstáculo al frente y arriba (pared)
-            Color frontUpper = l.getLevel().getMap().getTileColor(tileY - 2, tileX + 1);
+            Color frontUpper = l.getLevel().getMap().getTileColor(tileY - 3, tileX + 1);
             // Verificar suelo al frente (para subir escalones)
             Color frontGround = l.getLevel().getMap().getTileColor(tileY, tileX + 1);
             
@@ -32,7 +32,7 @@ public class WalkingState implements LemmingState {
             l.setCurrentStateAnimation(LemmingAnimationState.WALKING_LEFT);
             
             // Verificar obstáculo al frente y arriba (pared)
-            Color frontUpper = l.getLevel().getMap().getTileColor(tileY - 2, tileX - 1);
+            Color frontUpper = l.getLevel().getMap().getTileColor(tileY - 3, tileX - 1);
             // Verificar suelo al frente (para subir escalones)
             Color frontGround = l.getLevel().getMap().getTileColor(tileY, tileX - 1);
             

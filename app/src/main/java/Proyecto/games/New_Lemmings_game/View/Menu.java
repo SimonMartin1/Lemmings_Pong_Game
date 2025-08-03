@@ -51,7 +51,7 @@ public class Menu extends Lemmings_Screens{
         }
 
         if(lemmings_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60) || lemmings_inputEvents.detectPlayKeyboard()){
-            game.setGameState(GameState.PRE_LEVEL);
+            game.setGameState(GameState.PLAYING);
         }
 
         if((lemmings_inputEvents.detectScore() && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectScoreKeyboard()){
