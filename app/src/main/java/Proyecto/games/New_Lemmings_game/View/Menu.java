@@ -3,7 +3,6 @@ package Proyecto.games.New_Lemmings_game.View;
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.utils.GameState;
-import Proyecto.games.utils.Screen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,11 +32,11 @@ public class Menu extends Lemmings_Screens{
             g.drawString("Settings", width-250 , height-60);
             g.drawString("Score", 250 , height-60);
 
-//        if (game.getIsinMenu() && showPressText && !game.getIsinScore()) {
-//            g.setColor(Color.WHITE);
-//            g.setFont(new Font("Arial", Font.BOLD, 24));
-//            g.drawString("Click or Enter", width/2 - 71, 420);
-//        }
+        if (showPressText) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", Font.BOLD, 24));
+            g.drawString("Click or Enter", width/2 - 71, 420);
+        }
     }
 
     public void update(double delta){

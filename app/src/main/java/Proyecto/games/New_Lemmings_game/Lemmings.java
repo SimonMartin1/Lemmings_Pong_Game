@@ -31,9 +31,8 @@ public class Lemmings extends JGame {
     private final List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
     private Cursor cursor;
-
     private static boolean fullScreen = false;
-    private GameState gameState;
+    private GameState gameState= GameState.ON_MENU;;
 
     private int screenWidth;
     private int screenHeight;
@@ -56,10 +55,8 @@ public class Lemmings extends JGame {
             }
         });
 
-        //ScoreDatabase.createTable();
-        //ScoreDatabase.showRanking();
+        ScoreDatabase.createTable();
 
-        if (fullScreen) setFullScreen();
 
 
         Stock stock = new Stock(
@@ -70,7 +67,7 @@ public class Lemmings extends JGame {
                         Ability.UMBRELLA, 0
                 ))
         );
-        
+
         try {
             loadLevels();
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
@@ -81,12 +78,11 @@ public class Lemmings extends JGame {
         }
         screenWidth = getWidth();
         screenHeight = getHeight();
-        gameState = GameState.ON_MENU;
-        menu = new Menu(screenWidth, screenHeight, this);
-        pause = new Pause(screenWidth, screenHeight,this);
-        settings = new Settings(screenWidth, screenHeight, this);
-        score = new Score(screenWidth, screenHeight, this);
-        win = new Win(screenWidth, screenHeight,this);
+        this.menu = new Menu(screenWidth, screenHeight, this);
+        this.pause = new Pause(screenWidth, screenHeight,this);
+        this.settings = new Settings(screenWidth, screenHeight, this);
+        this.score = new Score(screenWidth, screenHeight, this);
+        this.win = new Win(screenWidth, screenHeight,this);
     }
 
     @Override
@@ -96,8 +92,6 @@ public class Lemmings extends JGame {
             case ON_MENU -> {
                 menu.update(delta);
             }
-
-            case ON_EDITOR -> {}
 
             case ON_CONFIG -> {
                settings.update(delta);
