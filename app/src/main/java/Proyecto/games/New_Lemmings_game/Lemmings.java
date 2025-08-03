@@ -49,6 +49,8 @@ public class Lemmings extends JGame {
     
     @Override
     public void gameStartup() {
+        //System.out.println("Estado actual: " + gameState);
+
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 SoundPlayer.stopSound();
@@ -62,34 +64,35 @@ public class Lemmings extends JGame {
         Stock stock = new Stock(
                 new HashMap<>(Map.of(
                         Ability.DIGGER, 5,
-                        Ability.CLIMB, 0,
+                        Ability.CLIMB, 2,
                         Ability.STOP, 3,
-                        Ability.UMBRELLA, 0
+                        Ability.UMBRELLA, 2
                 ))
         );
 
+        screenWidth = getWidth();
+        screenHeight = getHeight();
+        
         try {
             loadLevels();
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
-
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        screenWidth = getWidth();
-        screenHeight = getHeight();
+        
         this.menu = new Menu(screenWidth, screenHeight, this);
         this.pause = new Pause(screenWidth, screenHeight,this);
         this.settings = new Settings(screenWidth, screenHeight, this);
         this.score = new Score(screenWidth, screenHeight, this);
         this.win = new Win(screenWidth, screenHeight,this);
     }
-
     @Override
     public void gameUpdate(double delta) {
+        //System.out.println("Estado actual: " + gameState);
 
         switch (gameState){
             case ON_MENU -> {
+                System.out.println("Estoy en el menu");
                 menu.update(delta);
             }
 
@@ -109,6 +112,7 @@ public class Lemmings extends JGame {
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+
                 updateLevelScreen(delta);
             }
 
@@ -130,6 +134,7 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameDraw(Graphics2D g) {
+        //System.out.println("Estado actual: " + gameState);
 
         switch (gameState){
             case ON_MENU -> menu.draw(g);
@@ -198,7 +203,9 @@ public class Lemmings extends JGame {
         return  gameState;
     }
 
+
     public void updateLevelScreen(double delta){
+
         if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
@@ -216,7 +223,7 @@ public class Lemmings extends JGame {
             levels.get(currentLevel).reset();
             setGameState(GameState.PLAYING);
         }
-    }
+    }*/
 
     @Override
     public void gameShutdown() {

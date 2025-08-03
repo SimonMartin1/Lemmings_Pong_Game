@@ -1,6 +1,9 @@
 package Proyecto.games.New_Lemmings_game;
 
 import javax.imageio.ImageIO;
+
+import com.entropyinteractive.Mouse;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -9,7 +12,7 @@ public class Minimap {
     private final Game_Map map;
     private Level level;
     private Cursor cursor;
-
+    private Mouse mouse; 
     private int x = 540;
     private int y = 480;
     private int width = 250;
