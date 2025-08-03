@@ -1,22 +1,21 @@
 package Proyecto.games.New_Pong_game.utils;
 
+import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.utils.InputEventsTracker;
-import com.entropyinteractive.Keyboard;
-import com.entropyinteractive.Mouse;
 
 
 //Clase para mapear los botones dibujados y teclado en Pong
 
 public class Pong_InputEventsTracker extends InputEventsTracker {
-
-    public Pong_InputEventsTracker(int width, int height, Mouse m, Keyboard k){
-        super(width,height,m,k);
+    public Pong_InputEventsTracker(int width, int height, Pong game){
+        super(width,height,game.getMouse(),game.getKeyboard());
     }
+
 
     public boolean mouseTrackerSetKeys(int x, int y, int width,int height){
         int mx = m.getX();
         int my = m.getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && m.isLeftButtonPressed();
     }
 
     @Override

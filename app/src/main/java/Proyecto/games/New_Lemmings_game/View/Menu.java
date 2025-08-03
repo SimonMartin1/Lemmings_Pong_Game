@@ -16,7 +16,7 @@ public class Menu extends Lemmings_Screens{
     private Lemmings game;
 
     public Menu(int width, int height, Lemmings game) {
-        super(width,height,game.getMouse(),game.getKeyboard());
+        super(width,height,game);
         this.game = game;
     }
 
@@ -50,12 +50,20 @@ public class Menu extends Lemmings_Screens{
             blinkTime = 0;
         }
 
-        if((lemmings_inputEvents.detecSettings(width - 250, height - 110, 150, 80) && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectSettingsKeyboard()){
+        if(lemmings_inputEvents.detecSettings(width - 250, height - 110, 150, 80)  || lemmings_inputEvents.detectSettingsKeyboard()){
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if((lemmings_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60) && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectPlayKeyboard()){
+        if(lemmings_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60) || lemmings_inputEvents.detectPlayKeyboard()){
             game.setGameState(GameState.PLAYING);
+        }
+
+        if((lemmings_inputEvents.detectScore() && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectScoreKeyboard()){
+            game.setGameState(GameState.ON_SCORE);
+        }
+
+        if((lemmings_inputEvents.detectLevelEditor() && game.getGameState().equals(GameState.ON_MENU)) || lemmings_inputEvents.detectLevelEditorKeyboard()){
+            game.setGameState(GameState.ON_EDITOR);
         }
 
     }

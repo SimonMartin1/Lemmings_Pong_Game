@@ -14,10 +14,8 @@ import java.awt.event.KeyEvent;
 public class Menu extends Pong_Screens {
     private double blinkTime;
     private boolean showPressText = true;
-    private Pong game;
     public Menu(int width, int height, Pong game) {
-        super(width,height,game.getMouse(),game.getKeyboard());
-        this.game=game;
+        super(width,height,game);
     }
 
     public void updateSize(int width, int height){
@@ -42,12 +40,13 @@ public class Menu extends Pong_Screens {
     }
     @Override
     public void update(double delta){
-        if((pong_inputEvents.detecSettings(width - 250, height - 110, 150, 80) && game.getGameState().equals(GameState.ON_MENU)) || pong_inputEvents.detectSettingsKeyboard()){
+        if((pong_inputEvents.detecSettings(width - 250, height - 110, 150, 80)) || pong_inputEvents.detectSettingsKeyboard()){
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if((pong_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60) && game.getGameState().equals(GameState.ON_MENU)) || pong_inputEvents.detectPlayKeyboard()){
+        if(pong_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60)|| pong_inputEvents.detectPlayKeyboard()){
             game.setGameState(GameState.PLAYING);
+            game.startGame();
         }
 
         blinkTime += delta;

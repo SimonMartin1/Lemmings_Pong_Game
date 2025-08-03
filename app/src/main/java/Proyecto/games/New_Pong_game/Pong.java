@@ -10,7 +10,6 @@ import com.entropyinteractive.JGame;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.lang.reflect.Field;
 
 public class Pong extends JGame{
@@ -72,7 +71,7 @@ public class Pong extends JGame{
 
         this.menu = new Menu(width,height,this);
         this.settings = new Settings(width,height,this);
-        this.over = new Over(width, height);
+        this.over = new Over(width, height,this);
     }
 
     @Override
@@ -91,7 +90,7 @@ public class Pong extends JGame{
 
                     this.menu = new Menu(width,height,this);
                     this.settings = new Settings(width,height,this);
-                    this.over = new Over(width, height);
+                    this.over = new Over(width, height,this);
                 }
                 else if(!config.isFullscreen() && width > 800){
                     exitFullscreenAndSetWindowedMode();
@@ -100,7 +99,7 @@ public class Pong extends JGame{
 
                     this.menu = new Menu(width,height,this);
                     this.settings = new Settings(width,height,this);
-                    this.over = new Over(width, height);
+                    this.over = new Over(width, height,this);
                 }
 
                 this.gameState = GameState.ON_MENU;
@@ -116,13 +115,13 @@ public class Pong extends JGame{
 
             case ON_CONFIG -> settings.update(delta);
 
-            case ON_PAUSE -> pause.wantsBackMenu();
+            case ON_PAUSE -> pause.update(delta);
 
 
             case PLAYING -> {
 
                 if (scoreManager.hasWinner()){
-                    gameState = GameState.FINISH;
+                    gameState = GameState.ENDGAME;
 
                     over.setTwoPlayers(!config.isVersusIA());
                     over.setWinner(scoreManager.getWinner());
@@ -143,15 +142,8 @@ public class Pong extends JGame{
                 paddleRightController.update(delta);
             }
 
-            case FINISH -> {
-                if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
-                    gameState = GameState.PLAYING;
-                    startGame();
-                }
-
-                if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
-                    gameState = GameState.ON_MENU;
-                }
+            case ENDGAME -> {
+               over.update(delta);
             }
         }
 
@@ -181,7 +173,7 @@ public class Pong extends JGame{
                 scoreManager.draw(g);
             }
 
-            case FINISH -> over.draw(g);
+            case ENDGAME -> over.draw(g);
         }
 
     }
@@ -197,7 +189,7 @@ public class Pong extends JGame{
         this.pitch = new Pitch(width,height, config.getPitchSkin());
 
         this.scoreManager = new ScoreManager(width, config.getMaxPoints());
-        this.pause = new Pause(this);
+        this.pause = new Pause(width,height,this);
 
         this.paddleRight = new Paddle(width, height, height/2  - 75, (int)(width - width*0.03));
         this.paddleRightController = new PaddleController(paddleRight, getKeyboard(), config.getPlayerTwoUp(), config.getPlayerTwoDown());

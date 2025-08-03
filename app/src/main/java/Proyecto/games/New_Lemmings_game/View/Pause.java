@@ -1,13 +1,15 @@
 package Proyecto.games.New_Lemmings_game.View;
 
+import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.utils.Screen;
 
 import java.awt.*;
 
-public class Pause extends Screen {
+public class Pause extends Lemmings_Screens {
 
-    public Pause(int width, int height) {
-        super(width,height);
+    public Pause(int width, int height,  Lemmings game) {
+        super(width,height,game);
     }
 
     @Override

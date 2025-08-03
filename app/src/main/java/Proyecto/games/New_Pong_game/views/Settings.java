@@ -3,13 +3,11 @@ package Proyecto.games.New_Pong_game.views;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.*;
 import Proyecto.games.utils.GameState;
-import Proyecto.games.utils.Screen;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.*;
-import java.util.List;
 import java.util.function.BooleanSupplier;
 
 /**
@@ -18,19 +16,14 @@ import java.util.function.BooleanSupplier;
  * utilizando Enums para el estado y Rectangles para el layout de la UI.
  */
 public class Settings extends Pong_Screens {
-    private final Pong game;
-
-    private final ArrayList skinsPitchNames = new ArrayList(List.of("DEFAULT", "BASKET"));
-    private final ArrayList skinsBallNames = new ArrayList(List.of("DEFAULT", "CRAZY"));
     private final Pong_InputEventsTracker pongMouseTracker;
     private boolean ListeningKey, WhantToChangeKeys;
     private PlayersKeys KeyToChange;
 
 
     public Settings(int width, int height, Pong game) {
-        super(width,height,game.getMouse(),game.getKeyboard());
-        this.game = game;
-        pongMouseTracker =new Pong_InputEventsTracker(width,height,game.getMouse(),game.getKeyboard());
+        super(width,height,game);
+        pongMouseTracker =new Pong_InputEventsTracker(width,height,game);
         ListeningKey =false;
         WhantToChangeKeys =false;
 
@@ -58,12 +51,16 @@ public class Settings extends Pong_Screens {
         g.setColor(Color.WHITE);
         g.setStroke(new BasicStroke(3));
         g.drawRoundRect(width/2 -140, 145, 400, 40, 20, 20);
-        g.drawRoundRect(width/2-145, 325, 95, 35, 20, 20);
-        g.drawRoundRect(width/2-145, 280, 95, 35, 20, 20);
+        g.drawRoundRect(width/2-140, 325, 95, 35, 20, 20);
+        g.drawRoundRect(width/2-140, 280, 95, 35, 20, 20);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Settings", width/2-50 , 70);
         g.setFont(new Font("Arial", Font.BOLD, 18));
+
+        g.drawString("Music", width/2-250 , 125);
+        g.drawString(track(), width/2-120 , 125);
+        g.drawString("Off", width/2+20 , 125);
 
         g.drawString("1 Player", width/2-265 , 170);
         g.setColor(Color.WHITE);
@@ -75,6 +72,7 @@ public class Settings extends Pong_Screens {
 
         g.drawString("2 Players", width/2-265 , 215);
         g.drawString("On", width/2-120 , 215);
+        g.drawString("Off", width/2-40 , 215);
 
         g.drawString("WinPoints", width/2-265 , 260);
         g.drawString("15", width/2-120 , 260);
@@ -82,10 +80,10 @@ public class Settings extends Pong_Screens {
         g.drawString("5", width/2 , 260);
 
         g.drawString("Pitch Skin", width/2-265 , 305);
-        g.drawString((String) skinsPitchNames.get(game.getConfig().getPitchSkin().ordinal()), width/2-125 , 305);
+        g.drawString(pitchSkin(), width/2-125 , 305);
 
         g.drawString("Ball Skin", width/2-265 , 350);
-        g.drawString((String) skinsBallNames.get(game.getConfig().getBallSkin().ordinal()), width/2-125 , 350);
+        g.drawString(ballSkin(), width/2-125 , 350);
 
         g.drawString("Full Screen", width/2-265 , 395);
         g.drawString("On", width/2-120 , 395);
@@ -105,20 +103,49 @@ public class Settings extends Pong_Screens {
         drawCurrentSettings(g);
     }
 
+    private String track(){
+        String res = "";
+        switch (game.getConfig().getTrack()) {
+            case TRACK1 -> res="Track 1";
+            case TRACK2 -> res="Track 2";
+            case TRACK3 -> res="Track 3";
+        }
+        return res;
+    }
 
+    private String pitchSkin(){
+        String res="";
+        switch (game.getConfig().getPitchSkin()){
+            case DEFAULT -> res="Default";
+            case BASKET -> res="Basket";
+        }
+        return res;
+    }
+
+    private String ballSkin(){
+        String res="";
+        switch (game.getConfig().getBallSkin()){
+            case DEFAULT -> res="Default";
+            case CRAZY -> res="Crazy";
+        }
+        return res;
+    }
     public void drawCurrentSettings(Graphics2D g){
 
-        switch(game.getConfig().getDifficult()){
-            case HARD -> activeButtonEffect(g, width/2, 170,"Hard", width/2-15, 145,70,40,20,20);
-            case MEDIUM -> activeButtonEffect(g, width/2+90 , 170,"Medium", width/2+85, 145, 80, 40,20,20);
-            default -> activeButtonEffect(g, width/2+200 , 170,"Easy" ,width/2+190, 145, 70, 40,20,20);
+        if(game.getConfig().isVersusIA()){
+            switch(game.getConfig().getDifficult()){
+                case HARD -> activeButtonEffect(g, width/2, 170,"Hard", width/2-15, 145,70,40,20,20);
+                case MEDIUM -> activeButtonEffect(g, width/2+90 , 170,"Medium", width/2+85, 145, 80, 40,20,20);
+                default -> activeButtonEffect(g, width/2+200 , 170,"Easy" ,width/2+190, 145, 70, 40,20,20);
+            }
         }
 
         if(!game.getConfig().isVersusIA()){
             activeButtonEffect(g, width/2-120 , 215,"On", width/2-125, 195, 40, 30,20,20);
             g.setColor(Color.WHITE);
-            g.drawString("Player2 Up: "+game.getConfig().getPlayerTwoUp()+"  Down: "+game.getConfig().getPlayerTwoDown(), width/2-200 , 485);
+            g.drawString("Player2 Up: "+KeyEvent.getKeyText(game.getConfig().getPlayerTwoUp())+"  Down: "+ KeyEvent.getKeyText(game.getConfig().getPlayerTwoDown()), width/2-200 , 485);
         }
+
 
         switch (game.getConfig().getMaxPoints()){
             case 3 ->  activeButtonEffect(g,width/2-120, 260,"15",width/2-125, 240, 30, 30, 10, 10);
@@ -127,13 +154,14 @@ public class Settings extends Pong_Screens {
         }
 
 
-        if(!game.getConfig().isMusicOff()){
+        if(game.getConfig().isMusicOff()){
             activeButtonEffect(g,width/2+25, 125,"Off", width/2+20, 105, 40, 30, 10, 10);
         }
         else{
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(3));
             g.drawRoundRect(width/2-140, 100, 100, 40, 20, 20);
+
         }
 
 
@@ -202,33 +230,19 @@ public class Settings extends Pong_Screens {
             game.getConfig().setVersusIA(true);
         });
 
-        actions.put(pongMouseTracker::isOnClicked, () -> {
-            game.getConfig().setVersusIA(false);
-        });
+        actions.put(pongMouseTracker::isOnClicked, () -> game.getConfig().setVersusIA(false));
 
-        actions.put(pongMouseTracker::isWinPoints15Clicked, () -> {
-            game.getConfig().setMaxPoints(3);
-        });
+        actions.put(pongMouseTracker::isWinPoints15Clicked, () -> game.getConfig().setMaxPoints(3));
 
-        actions.put(pongMouseTracker::isWinPoints10Clicked, () -> {
-            game.getConfig().setMaxPoints(2);
-        });
+        actions.put(pongMouseTracker::isWinPoints10Clicked, () -> game.getConfig().setMaxPoints(2));
 
-        actions.put(pongMouseTracker::isWinPoints5Clicked, () -> {
-            game.getConfig().setMaxPoints(1);
-        });
+        actions.put(pongMouseTracker::isWinPoints5Clicked, () -> game.getConfig().setMaxPoints(1));
 
-        actions.put(pongMouseTracker::isOffClicked, () -> {
-            game.getConfig().setMusicOff(true);
-        });
+        actions.put(pongMouseTracker::isOffClicked, () -> game.getConfig().setMusicOff(true));
 
-        actions.put(pongMouseTracker::isFullScreenClicked, () -> {
-            game.getConfig().setFullscreen(true);
-        });
+        actions.put(pongMouseTracker::isFullScreenClicked, () -> game.getConfig().setFullscreen(true));
 
-        actions.put(pongMouseTracker::isFullScreenOffClicked, () -> {
-            game.getConfig().setFullscreen(false);
-        });
+        actions.put(pongMouseTracker::isFullScreenOffClicked, () -> game.getConfig().setFullscreen(false));
 
         actions.put(pongMouseTracker::isPitchSkinClicked, () -> {
             PitchSkin nextPitchSkin;
@@ -289,9 +303,7 @@ public class Settings extends Pong_Screens {
             }
         });
 
-        actions.put(() -> (pong_inputEvents.isSaveClicked() && game.getGameState().equals(GameState.ON_CONFIG)), () -> {
-            game.setGameState(GameState.ON_MENU);
-        });
+        actions.put(() -> (pong_inputEvents.isSaveClicked() && game.getGameState().equals(GameState.ON_CONFIG)), () -> game.setGameState(GameState.ON_MENU));
 
         actions.put(pongMouseTracker::isResetClicked, game::resetConfig);
 
