@@ -101,16 +101,15 @@ public class Lemmings extends JGame {
                 score.update(delta);
             }
 
-            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> update(delta);
+            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> updateLevelScreen(delta);
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
-                update(delta);
+                updateLevelScreen(delta);
             }
 
             case ON_PAUSE -> {
@@ -199,7 +198,7 @@ public class Lemmings extends JGame {
         return  gameState;
     }
 
-    public void update(double delta){
+    public void updateLevelScreen(double delta){
         if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
