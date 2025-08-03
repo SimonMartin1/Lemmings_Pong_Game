@@ -26,7 +26,7 @@ public class Score extends Lemmings_Screens {
     g.setColor(Color.WHITE);
     g.setFont(new Font("Arial", Font.BOLD, 28));
     g.drawString("Game Score - Ranking", width/2-140 , 70);
-    g.drawString("Back", width-325 , height-65);
+    g.drawString("Back", width-250 , height-60);
 
     java.util.List<String[]> ranking = ScoreDatabase.getRanking();
     g.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -45,7 +45,7 @@ public class Score extends Lemmings_Screens {
 
     @Override
     public void update(double delta) {
-        if(detectScore() && game.getGameState().equals(GameState.ON_SCORE) || game.getKeyboard().isKeyPressed(KeyEvent.VK_S)){
+        if(detectScore() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_MENU);
         }
     }
