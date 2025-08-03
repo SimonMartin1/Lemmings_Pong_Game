@@ -13,7 +13,7 @@ import java.awt.*;
 
 
 public class Settings extends Lemmings_Screens {
-    public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
+    public boolean drawOn=true,drawFullScreen=true;
 
     private final Lemmings game;
 

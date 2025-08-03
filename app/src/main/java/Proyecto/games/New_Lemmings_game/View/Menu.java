@@ -12,12 +12,9 @@ import java.awt.*;
 public class Menu extends Lemmings_Screens{
     private double blinkTime;
     private boolean showPressText = true,prevMousePressed;
-    private Boolean prevPausePressed = null;
-    private Lemmings game;
 
     public Menu(int width, int height, Lemmings game) {
         super(width,height,game);
-        this.game = game;
     }
 
     public void draw(Graphics2D g) {

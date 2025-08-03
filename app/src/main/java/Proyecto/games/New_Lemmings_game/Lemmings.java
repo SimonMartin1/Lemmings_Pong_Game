@@ -56,7 +56,7 @@ public class Lemmings extends JGame {
             }
         });
 
-        ScoreDatabase.createTable();
+        //ScoreDatabase.createTable();
         //ScoreDatabase.showRanking();
 
         if (fullScreen) setFullScreen();
@@ -87,7 +87,6 @@ public class Lemmings extends JGame {
         settings = new Settings(screenWidth, screenHeight, this);
         score = new Score(screenWidth, screenHeight, this);
         win = new Win(screenWidth, screenHeight,this);
-        LevelManager levelManager = new LevelManager();
     }
 
     @Override
