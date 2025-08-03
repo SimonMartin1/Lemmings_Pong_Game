@@ -35,14 +35,6 @@ public class Menu extends Lemmings_Screens{
             g.setFont(new Font("Arial", Font.BOLD, 24));
             g.drawString("Level " +chooseLevel(), width/2 - 25, 420);
             g.setStroke(new BasicStroke(10));
-//            g.drawLine(width/2-85, height/2+105, width/2-85, height/2+105);
-//            g.drawLine(width/2-65, height/2+95, width/2-65, height/2+95);
-//            g.drawLine(width/2-65, height/2+115, width/2-65, height/2+115);
-//
-             // g.drawLine(width/2+110, height/2+102, width/2+110, height/2+102);
-          //  g.drawLine(width/2+90, height/2+112, width/2+90, height/2+112);
-        //g.drawLine(width/2+90, height/2+92, width/2+90, height/2+92);
-        //g.fillRect(width/2+110,height/2+89 , 30, 30);
         g.fillPolygon(new int[]{width/2-85, width/2-65, width/2-65}, new int[] {height/2+105,height/2+95,height/2+115}, 3);
             g.fillPolygon(new int[]{width/2+110, width/2+90, width/2+90}, new int[] {height/2+102,height/2+92,height/2+112}, 3);
 

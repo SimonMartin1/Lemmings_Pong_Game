@@ -2,9 +2,7 @@ package Proyecto.games.New_Lemmings_game.View;
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
-import Proyecto.games.utils.Drawable;
 import Proyecto.games.utils.GameState;
-import Proyecto.games.utils.Screen;
 
 import javax.swing.*;
 import java.awt.*;
