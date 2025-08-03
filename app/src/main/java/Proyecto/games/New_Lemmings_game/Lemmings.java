@@ -89,22 +89,47 @@ public class Lemmings extends JGame {
     @Override
     public void gameUpdate(double delta) {
         //System.out.println("Estado actual: " + gameState);
-        switch (gameState) {
-            case ON_MENU -> menu.update(delta);
-            case ON_CONFIG -> settings.update(delta);
-            case ON_SCORE -> score.update(delta);
-            case PRE_LEVEL, LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> update(delta);
+
+        switch (gameState){
+            case ON_MENU -> {
+                System.out.println("Estoy en el menu");
+                menu.update(delta);
+            }
+
+            case ON_CONFIG -> {
+               settings.update(delta);
+            }
+
+            case ON_SCORE -> {
+                score.update(delta);
+            }
+
+            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> updateLevelScreen(delta);
+
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-                cursor.setCurrentLemmings(current.getLemmings());
-                cursor.setCamX(current.getCamX());
+                cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
+                cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
-                cursor.update();
-                updateGame(delta); // <--- ahora sí llamás a tu método
+                cursor.update(); // <-- actualizás el cursor con el mouse
+
+                updateLevelScreen(delta);
             }
-            case ON_PAUSE -> pause.update(delta);
-            case ENDGAME -> win.update(delta);
+
+            case ON_PAUSE -> {
+                pause.update(delta);
+            }
+
+            case ENDGAME -> {
+                win.update(delta);
+//                //Si termino el juego guardo el puntaje
+//                for (Level l : levels) pointsSum += l.getLevelScore();
+//                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//                ScoreDatabase.saveScore(timestamp, pointsSum);
+            }
         }
+
+
     }
 
     @Override
@@ -177,33 +202,29 @@ public class Lemmings extends JGame {
     public GameState getGameState() {
         return  gameState;
     }
-    public void updateGame(double delta) {
+
+
+    public void updateLevelScreen(double delta){
+
         if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
             setGameState(GameState.PLAYING);
-        } 
-        else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
-            setGameState(GameState.LEVEL_END);
-        } 
-        else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
+        } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
+                setGameState(GameState.LEVEL_END);
+        } else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
             setGameState(GameState.ON_PAUSE);
-        } 
-        else if (gameState.equals(GameState.LEVEL_END)) {
-            if (levels.get(currentLevel).isLevelWon()) {
-                setGameState(GameState.LEVEL_WIN);
-            } else {
-                setGameState(GameState.LEVEL_FAIL);
-            }
-        } 
-        else if (gameState.equals(GameState.LEVEL_WIN) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+        } else if (gameState.equals(GameState.LEVEL_END) && levels.get(currentLevel).isLevelWon()) {
+            setGameState(GameState.LEVEL_WIN);
+        } else if (gameState.equals(GameState.LEVEL_END) && !levels.get(currentLevel).isLevelWon()) {
+            setGameState(GameState.LEVEL_FAIL);
+        } else if (gameState.equals(GameState.LEVEL_WIN) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
             nextLevel();
-            setGameState(GameState.PLAYING);  // o directamente PLAYING, como prefieras
-        } 
-        else if (gameState.equals(GameState.LEVEL_FAIL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+            setGameState(GameState.PLAYING);
+        } else if (gameState.equals(GameState.LEVEL_FAIL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
             levels.get(currentLevel).reset();
-            setGameState(GameState.PRE_LEVEL);  // o PLAYING
+            setGameState(GameState.PLAYING);
         }
-    }
-    
+    }*/
+
     @Override
     public void gameShutdown() {
     }

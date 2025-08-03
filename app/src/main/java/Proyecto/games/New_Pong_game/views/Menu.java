@@ -1,11 +1,9 @@
 package Proyecto.games.New_Pong_game.views;
 
-import Proyecto.games.New_Pong_game.utils.Pong_InputEventsTracker;
+
 import Proyecto.games.New_Pong_game.utils.Pong_Screens;
-import Proyecto.games.utils.Drawable;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.utils.GameState;
-import Proyecto.games.utils.Screen;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,11 +38,11 @@ public class Menu extends Pong_Screens {
     }
     @Override
     public void update(double delta){
-        if((pong_inputEvents.detecSettings(width - 250, height - 110, 150, 80)) || pong_inputEvents.detectSettingsKeyboard()){
+        if((detecSettings(width - 250, height - 110, 150, 80)) || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if(pong_inputEvents.detecPlay(width / 2 - 100, 300, 200, 60)|| pong_inputEvents.detectPlayKeyboard()){
+        if(detecPlay(width / 2 - 100, 300, 200, 60)|| game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             game.setGameState(GameState.PLAYING);
             game.startGame();
         }
@@ -55,6 +53,19 @@ public class Menu extends Pong_Screens {
             blinkTime = 0;
         }
 
+    }
+    public boolean isMouseOverClickArea(int x, int y, int width, int height){
+        int mx = game.getMouse().getX();
+        int my = game.getMouse().getY();
+        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
+    }
+
+    protected boolean detecPlay(int x, int y, int width,int height){
+        return isMouseOverClickArea(width / 2 - 100, 300, 200, 60);
+    }
+
+    protected boolean detecSettings(int x, int y, int width,int height){
+        return isMouseOverClickArea(width - 250, height - 110, 150, 80);
     }
 }
 

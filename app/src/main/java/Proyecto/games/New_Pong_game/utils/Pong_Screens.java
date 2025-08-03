@@ -6,11 +6,9 @@ import com.entropyinteractive.Keyboard;
 import com.entropyinteractive.Mouse;
 
 public abstract class Pong_Screens extends Screen {
-    protected Pong_InputEventsTracker pong_inputEvents;
     protected Pong game;
     public Pong_Screens(int width, int height, Pong game) {
         super(width, height);
-        pong_inputEvents= new Pong_InputEventsTracker(width,height,game);
         this.game=game;
     }
 
