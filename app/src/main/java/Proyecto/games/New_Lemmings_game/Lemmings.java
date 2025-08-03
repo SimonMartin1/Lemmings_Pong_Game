@@ -156,9 +156,9 @@ public class Lemmings extends JGame {
 
             case ON_PAUSE -> pause.draw(g);
 
-            case LEVEL_WIN -> levels.get(currentLevel).drawEndScreen(g);
+            case LEVEL_WIN -> levels.get(currentLevel).drawWonScreen(g);
 
-            case LEVEL_FAIL -> {}
+            case LEVEL_FAIL -> levels.get(currentLevel).drawFailedScreen(g);
 
             case ENDGAME -> win.draw(g);
 
