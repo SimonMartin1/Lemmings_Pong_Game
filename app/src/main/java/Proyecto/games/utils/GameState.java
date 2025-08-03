@@ -7,8 +7,10 @@ public enum GameState {
     ON_CONFIG,
     ON_SCORE,
     ON_EDITOR,
-    LEVEL_WON,
+    PRE_LEVEL,
+    LEVEL_END,
+    LEVEL_WIN,
     LEVEL_FAIL,
     PLAYING,
-    FINISH
+    ENDGAME
 }

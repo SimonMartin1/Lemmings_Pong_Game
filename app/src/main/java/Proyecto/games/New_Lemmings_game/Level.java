@@ -245,7 +245,7 @@ public class Level {
         g.drawString("Lemmings salvados: " + getSavedLemmings(), 80, 80);
     }
     
-    public void drawEndScreen(Graphics2D g) {
+    public void drawWonScreen(Graphics2D g) {
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 32));
@@ -253,6 +253,21 @@ public class Level {
         if (isLevelWon()) {
             g.drawString("Nivel completado!", 200, 200);
             g.drawString("Enter para avanzar al siguiente nivel", 200, 300);
+        } else {
+            g.drawString("Perdiste", 200, 200);
+            g.drawString("Enter para repetir el nivel", 200, 300);
+            g.drawString("Escape para volver al menu", 200, 400);
+        }
+    }
+
+    public void drawFailedScreen(Graphics2D g) {
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 32));
+
+        if (isLevelWon()) {
+            g.drawString("Nivel Perdido!", 200, 200);
+            g.drawString("Enter para reintentar el nivel", 200, 300);
         } else {
             g.drawString("Perdiste", 200, 200);
             g.drawString("Enter para repetir el nivel", 200, 300);

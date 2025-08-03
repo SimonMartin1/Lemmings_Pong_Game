@@ -2,6 +2,7 @@ package Proyecto.games.New_Lemmings_game.View;
 
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.utils.Drawable;
 import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.Screen;
@@ -11,14 +12,14 @@ import java.awt.*;
 
 
 
-public class Settings extends Screen {
-    public boolean drawOn=true,prevMousePressed,drawFullScreen=true;
+public class Settings extends Lemmings_Screens {
+    public boolean drawOn=true,drawFullScreen=true;
 
     private final Lemmings game;
 
 
     public Settings(int width, int height, Lemmings game) {
-        super(width, height);
+        super(width, height,game);
         this.game = game;
     }
 
@@ -64,7 +65,11 @@ public class Settings extends Screen {
         }        
     }
 
-    public void update(double delta) {}
+    public void update(double delta) {
+        if(lemmings_inputEvents.detecSettings(width - 250, height - 110, 150, 80) || lemmings_inputEvents.detectSettingsKeyboard()){
+            game.setGameState(GameState.ON_MENU);
+        }
+    }
 
 
     public void setDraw(String name) {
@@ -84,39 +89,4 @@ public class Settings extends Screen {
             case "fullscreenOff" ->{drawFullScreen=false;}
         }
     }
-
-
-    private boolean isMouseJustPressed() {
-    boolean justPressed = game.getMouse().isLeftButtonPressed() && !prevMousePressed;
-    prevMousePressed = game.getMouse().isLeftButtonPressed() && game.getGameState().equals(GameState.ON_CONFIG);
-    return  justPressed;
-}
-
-    public boolean mouseTracker(int x, int y, int width,int height){
-        int mx = game.getMouse().getX();
-        int my = game.getMouse().getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && isMouseJustPressed();
-    }
-
-    public boolean isMusicOnClicked() {
-    return mouseTracker(width/2-125, 85, 40, 30);
-}
-public boolean isMusicOffClicked() {
-    return mouseTracker(width/2-45, 85, 40, 30);
-}
-public boolean isFullScreenClicked() {
-    return mouseTracker(width/2-125, 107, 40, 40);
-}
-public boolean isFullScreenOffClicked() {
-    return mouseTracker(width/2-45, 107, 40, 30);
-}
-public boolean isSaveClicked() {
-    return mouseTracker(width-325, height-110, 30, 30);
-}
-public boolean isCancelClicked() {
-    return mouseTracker(width-245, height-110, 30, 30);
-}
-public boolean isResetClicked() {
-    return mouseTracker(width-145, height-110, 30, 30);
-}
 }

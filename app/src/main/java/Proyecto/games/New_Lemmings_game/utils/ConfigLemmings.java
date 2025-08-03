@@ -1,40 +1,27 @@
 package Proyecto.games.New_Lemmings_game.utils;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
 
 public class ConfigLemmings {
-    private static final String setting_FILE = "app\\src\\main\\java\\Proyecto\\games\\Lemmings_game\\utils\\Lemmings_setting.txt";
+    private Properties properties;
 
-    public static void saveSettings(boolean musicOff, boolean fullScreen) {
-        try (PrintWriter writer = new PrintWriter(new FileWriter(setting_FILE))) {
-            writer.println("musicOff=" + musicOff);
-            writer.println("fullScreen=" + fullScreen);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void ConfigLemmings(){
+        try {
+            properties = new Properties();
+            properties.load(new FileInputStream("app/src/main/java/Proyecto/games/New_Pong_game/config.properties"));
+        } catch (IOException err) {
+            System.out.println("No se pudo leer el archivo config");
+            properties = new Properties(); // Para evitar nulls
         }
     }
-
-    public static Settings loadSettings() {
-        Settings setting = new Settings();
-        try (BufferedReader reader = new BufferedReader(new FileReader(setting_FILE))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] kv = line.split("=");
-                if (kv.length != 2) continue;
-                switch (kv[0]) {
-                    case "musicOff" -> setting.musicOff = Boolean.parseBoolean(kv[1]);
-                    case "fullScreen" -> setting.fullScreen = Boolean.parseBoolean(kv[1]);
-                }
-            }
+    public void saveToFile() {
+        try (var out = new java.io.FileOutputStream("app/src/main/java/Proyecto/games/New_Pong_game/config.properties")) {
+            properties.store(out, "Configuraciones actualizadas");
         } catch (IOException e) {
-            saveSettings(setting.musicOff,setting.fullScreen);
+            System.out.println("No se pudo guardar el archivo de configuración");
         }
-        return setting;
-    }
-
-    public static class Settings {
-        public boolean musicOff = true;
-        public boolean fullScreen=false;
     }
 }
