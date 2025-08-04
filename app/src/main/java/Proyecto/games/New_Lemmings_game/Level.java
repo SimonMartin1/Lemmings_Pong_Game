@@ -155,7 +155,7 @@ public class Level {
     }
 
     public String getFailCondition(){
-        String res="";
+        String res;
         if(timeOver){
             res="Time's Up";
         }else{
@@ -343,7 +343,7 @@ public class Level {
         try{
             map.reset();
         }catch (IOException e){
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }
