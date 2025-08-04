@@ -90,8 +90,11 @@ public class Lemmings extends JGame {
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-                cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
+
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
+                cursor.setStock(levels.get(currentLevel).getStock());
+
+
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
@@ -133,6 +136,13 @@ public class Lemmings extends JGame {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 levels.get(currentLevel).drawLevel(g,800,600);
+
+                //System.out.println("----------------------------------------------------------------------");
+                //System.out.println("Digger: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.DIGGER));
+                //System.out.println("Stop: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.STOP));
+                //System.out.println("Umbrella: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.UMBRELLA));
+                //System.out.println("Climb: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.CLIMB));
+
             }
 
             case ON_PAUSE -> pause.draw(g);
@@ -147,6 +157,8 @@ public class Lemmings extends JGame {
     private void nextLevel() {
         if (currentLevel < levels.size() - 1) {
             currentLevel++;
+
+            System.out.println("CURSOR NUEVO HA SIDO CREADO");
         }
         else{
             setGameState(GameState.ENDGAME);
