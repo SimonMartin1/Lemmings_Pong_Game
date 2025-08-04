@@ -11,6 +11,7 @@ import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundPlayer;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
+import org.checkerframework.checker.units.qual.K;
 
 import javax.swing.*;
 import java.awt.*;
@@ -35,8 +36,8 @@ public class Lemmings extends JGame {
     private Cursor cursor;
     private GameState gameState= GameState.ON_MENU;
 
-    private int screenWidth;
-    private int screenHeight;
+    private int screenWidth =800;
+    private int screenHeight = 600;
 
 
     public Lemmings(String title, int width, int height) {
@@ -106,6 +107,7 @@ public class Lemmings extends JGame {
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+                levels.get(currentLevel).getMinimap().handleClick(getMouse().getX(),getMouse().getY());
                 updateLevelScreen();
             }
 
@@ -219,8 +221,13 @@ public class Lemmings extends JGame {
             nextLevel();
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.LEVEL_FAIL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-            levels.get(currentLevel).reset();
-            setGameState(GameState.PLAYING);
+            if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+                levels.get(currentLevel).reset();
+                setGameState(GameState.PLAYING);
+            }else if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+                setGameState(GameState.ON_MENU);
+            }
+
         }
     }
 
