@@ -23,7 +23,7 @@ public class Level {
     private double spawnTimer = 0;
     private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
-    private int camX = 600;
+    private int camX = 300;
 
     private boolean nukeConfirmed = false;
     private long nukeStartTime = -1;
