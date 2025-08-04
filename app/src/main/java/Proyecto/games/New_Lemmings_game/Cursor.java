@@ -221,8 +221,10 @@ public class Cursor {
      */
     private void assignNukeLemmings() {
         for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
-            lemmingEntity.setAbility(new WallAbility());
-            lemmingEntity.setState(new WaitingState());
+            lemmingEntity.setState(new ExplodingState());
+            //lemmingEntity.setAbility(new WallAbility());
+            //lemmingEntity.setState(new WaitingState());
+
             lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.NUKE);
         }
         System.out.println("NUKEEE");

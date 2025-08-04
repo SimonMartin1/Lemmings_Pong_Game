@@ -18,7 +18,7 @@ public class UmbrellaAbility extends AbilityClass {
     public void apply(Lemming_Entity lemmingEntity, double delta) {
         System.out.println("Umbrella activada: " + isUsingUmbrella);
 
-        int tileX = (lemmingEntity.getX() + lemmingEntity.getLevel().getCamX()) / 8;
+        int tileX = (lemmingEntity.getX()) / 8;
         int tileY = (lemmingEntity.getY()) / 8;
         boolean goingRight = lemmingEntity.isWalkingToRight();
 
