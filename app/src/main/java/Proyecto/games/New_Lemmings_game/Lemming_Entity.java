@@ -119,14 +119,14 @@ public class Lemming_Entity {
     }
     
     private void loadAnimations() throws IOException {
-        BufferedImage walkSprites = load("/lemming_walk_v2.png");
-        BufferedImage fallSprites = load("/lemming_fall_v2.png");
-        BufferedImage digSprites = load("/lemming_dig.png");
-        BufferedImage stopSprites = load("/lemming_stop_v2.png");
-        BufferedImage climbSprites = load("/lemming_climb.png");
-        BufferedImage explFallSprites = load("/lemming_explanting_fall.png");
-        BufferedImage umbrellaSprites = load("/lemming_umbrella.png");
-        BufferedImage nukeSprites = load("/lemming_nuke.png");
+        BufferedImage walkSprites = load("/lemmingsAnimation/lemming_walk_v2.png");
+        BufferedImage fallSprites = load("/lemmingsAnimation/lemming_fall_v2.png");
+        BufferedImage digSprites = load("/lemmingsAnimation/lemming_dig.png");
+        BufferedImage stopSprites = load("/lemmingsAnimation/lemming_stop_v2.png");
+        BufferedImage climbSprites = load("/lemmingsAnimation/lemming_climb.png");
+        BufferedImage explFallSprites = load("/lemmingsAnimation/lemming_explanting_fall.png");
+        BufferedImage umbrellaSprites = load("/lemmingsAnimation/lemming_umbrella.png");
+        BufferedImage nukeSprites = load("/lemmingsAnimation/lemming_nuke.png");
 
 
         // Animations

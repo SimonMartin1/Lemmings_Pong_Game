@@ -15,7 +15,7 @@ public class Exit extends Gate {
     
     public Exit(int x, int y, int camX) {
 
-        super(x,y,33, 25, 1, "/lemming_exit.png", camX);
+        super(x,y,33, 25, 1, "/lemmingsAnimation/lemming_exit.png", camX);
 
         try {
             this.loadAnimations();

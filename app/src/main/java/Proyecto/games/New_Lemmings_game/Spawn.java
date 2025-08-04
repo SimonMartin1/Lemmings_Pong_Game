@@ -13,7 +13,7 @@ public class Spawn extends Gate {
 
     public Spawn(int x, int y,int camX){
 
-        super(x, y, 39, 25,10, "/lemming_spawner.png",camX);
+        super(x, y, 39, 25,10, "/lemmingsAnimation/lemming_spawner.png",camX);
 
         try {
             loadAnimations();
