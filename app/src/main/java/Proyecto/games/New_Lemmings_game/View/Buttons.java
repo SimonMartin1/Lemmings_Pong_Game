@@ -6,18 +6,20 @@ import java.awt.geom.RoundRectangle2D;
 
 public class Buttons {
     private String text;
+    private int hability;
     private float relX, relY, relWidth, relHeight; // proporciones relativas
     private Color baseColor = new Color(101, 67, 33); // marrón tierra oscuro
 
-    public Buttons(String text, float relX, float relY, float relWidth, float relHeight) {
+    public Buttons(String text,int hability,float relX, float relY, float relWidth, float relHeight) {
         this.text = text;
+        this.hability = hability;
         this.relX = relX;
         this.relY = relY;
         this.relWidth = relWidth;
         this.relHeight = relHeight;
     }
 
-    public void draw(Graphics2D g,String text, int screenWidth, int screenHeight) {
+    public void draw(Graphics2D g,int screenWidth, int screenHeight) {
         // Convertimos proporciones a píxeles reales
         int x = (int)(relX * screenWidth);
         int y = (int)(relY * screenHeight);
@@ -50,7 +52,7 @@ public class Buttons {
         int textHeight = fm.getAscent();
 
         int textX = x + (width - textWidth) / 2;
-        int textY = y + (height + textHeight) / 2 - 3;
+        int textY = y-25 + (height + textHeight) / 2 ;
 
         // Sombra
         g.setColor(new Color(0, 0, 0, 200));
@@ -59,8 +61,9 @@ public class Buttons {
         // Texto
         g.setColor(new Color(245, 245, 220));
         g.drawString(text, textX, textY);
+        g.drawString(String.valueOf(hability), textX + (float) textWidth /2-5.5f, textY + 40);
     }
-    public void drawExtraButton(Graphics2D g, String text, int screenWidth, int screenHeight) {
+    public void drawExtraButton(Graphics2D g, int screenWidth, int screenHeight) {
         int offsetX = (int)(0.59 * screenWidth); // 2% del ancho de pantalla, por ejemplo
         int x = (int)(relX * screenWidth) + offsetX;        
         int y = (int)(relY * screenHeight);

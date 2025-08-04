@@ -19,33 +19,31 @@ public class Level {
 
     private final int lemmingsToGenerate;
     private final double percentajeToWin;
-    private int numLevel;
+    private double levelTime;
+    private final int numLevel;
     private double spawnTimer = 0;
-    private final double spawnInterval = 2;
     private int spawnedLemmings = 0;
     private int camX = 300;
 
-    private boolean nukeConfirmed = false;
+
     private long nukeStartTime = -1;
     private long cleanDeaths = -1;
+    private boolean timeOver=false,isNukeTime = false,nukeConfirmed = false;
+    private final Exit exit;
 
-    private boolean isNukeTime = false;
-    private Exit exit;
+    private final Buttons buttonDig;
+    private final Buttons buttonBuild;
+    private final Buttons buttonStop;
+    private final Buttons buttonFly;
+    private final Buttons buttonAcelerate;
+    private final Buttons buttonSlow;
+    private final Buttons buttonNuke;
 
-    private Buttons buttonDig;
-    private Buttons buttonBuild;
-    private Buttons buttonStop;
-    private Buttons buttonFly;
-    private Buttons buttonAcelerate; 
-    private Buttons buttonSlow;
-    private Buttons buttonNuke;
-
-    //private List<LemmingModel> lemmings = new ArrayList<>();
-    private List<Lemming_Entity> lemmingEntities = new ArrayList<>();
-    private int lemmingSpawnX;
-    private int lemmingSpawnY;
+    private final List<Lemming_Entity> lemmingEntities = new ArrayList<>();
+    private final int lemmingSpawnX;
+    private final int lemmingSpawnY;
     private int LevelScore;
-    private Minimap minimap; 
+    private final Minimap minimap;
     private int savedLemmings;
 
     public Level(Game_Map map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, Exit exit, int lemmingSpawnX, int lemmingSpawnY) {
@@ -56,6 +54,7 @@ public class Level {
         this.exit = exit;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
+        levelTime = percentajeToWin;
         this.lemmingSpawnX = lemmingSpawnX;
         this.lemmingSpawnY = lemmingSpawnY;
         this.minimap = new Minimap(map, this, null);
@@ -64,14 +63,13 @@ public class Level {
         float buttonWidth = 0.13f;
         float buttonHeight = 0.25f;
         float startY = 0.75f; // 450/600
-        buttonAcelerate = new Buttons(":D", 0.01f, startY, 0.1f, 0.1f);
-        buttonSlow = new Buttons("+", 0.01f, 0.82f, 0.1f, 0.1f);
-        buttonNuke = new Buttons("-", 0.01f, 0.89f, 0.1f, 0.1f);
-        buttonDig = new Buttons("Cavar | " + stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
-        buttonBuild = new Buttons("Parar | " + stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
-        buttonStop = new Buttons("Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), 0.31f, startY, buttonWidth, buttonHeight);
-        buttonFly = new Buttons("Escalar | " + stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
-
+        buttonAcelerate = new Buttons("NASHE", 0,0.01f, startY, 0.1f, 0.1f);
+        buttonSlow = new Buttons("+", 0,0.01f, 0.82f, 0.1f, 0.1f);
+        buttonNuke = new Buttons("-", 0,0.01f, 0.89f, 0.1f, 0.1f);
+        buttonDig = new Buttons("Cavar" ,stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
+        buttonBuild = new Buttons("Parar" , stock.getQuantityAbility(Ability.STOP), 0.16f, startY, buttonWidth, buttonHeight);
+        buttonStop = new Buttons("Umbrella" , stock.getQuantityAbility(Ability.UMBRELLA), 0.31f, startY, buttonWidth, buttonHeight);
+        buttonFly = new Buttons("Escalar" , stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
     }
 
     public Exit getExitModel(){
@@ -85,7 +83,9 @@ public class Level {
         // Contar 3s luego de que isNukeTime es true
         confirmNuke();
         handleNukeConfirmed();
-
+        if(spawnedLemmings >= lemmingsToGenerate) {
+            decreaseTime();
+        }
         lemmingEntities.removeIf(l -> l.getState() instanceof DeadState);
         lemmingEntities.removeIf(l -> l.getState() instanceof SavedState);
 
@@ -99,13 +99,6 @@ public class Level {
 
     }
 
-    /*
-    public void setCamX(int camX){
-        //this.camX= camX; 
-        for (Lemming l : lemmings) {
-            l.setCamX(camX);
-        }
-    }*/
 
     public boolean isLevelWon(){
         return savedLemmings * 10 >= percentajeToWin;
@@ -114,9 +107,7 @@ public class Level {
     public boolean isLevelFinished() {
         boolean result = false;
 
-        if (spawnedLemmings < lemmingsToGenerate) {
-            result = false;
-        } else {
+        if (!(spawnedLemmings < lemmingsToGenerate)) {
             if (lemmingEntities.isEmpty()) {
                 if (cleanDeaths == -1) {
                     cleanDeaths = System.currentTimeMillis();
@@ -124,11 +115,16 @@ public class Level {
 
                 long elapsed = System.currentTimeMillis() - cleanDeaths;
 
-                if (elapsed >= 3000) {
+                if (elapsed >= 300) {
                     LevelScore = getSavedLemmings() * 10;
                     result = true;
                 }
             }
+        }
+
+        if (levelTime <= 0) {
+            result = true;
+            timeOver=true;
         }
 
         return result;
@@ -137,9 +133,10 @@ public class Level {
     public int getLevelScore(){
         return LevelScore;
     }
-    // Logic
+
 
     private void updateLemmingSpawn(double delta, int lemmingSpawnX, int lemmingSpawnY) {
+        double spawnInterval = 2;
         if (spawnedLemmings < lemmingsToGenerate) {
             spawnTimer += delta;
             if (spawnTimer >= spawnInterval) {
@@ -149,6 +146,22 @@ public class Level {
                 lemmingEntities.add(nuevo);
             }
         }
+    }
+
+    public void decreaseTime(){
+        if(levelTime!=0){
+            levelTime-=0.02;
+        }
+    }
+
+    public String getFailCondition(){
+        String res="";
+        if(timeOver){
+            res="Time's Up";
+        }else{
+            res="You didn't save enough lemmings";
+        }
+        return res;
     }
 
     private void confirmNuke(){
@@ -187,9 +200,7 @@ public class Level {
         if (nukeConfirmed) {
             for (Lemming_Entity l : lemmingEntities){
                 //arreglar
-                if(!LemmingState.DEAD.equals(l.getState())){
-                    l.setState(new ExplodingState());
-                }
+                l.setState(new ExplodingState());
             }
         }
     }
@@ -210,14 +221,15 @@ public class Level {
 
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
-        g.drawString("Nivel: " + getLevelName(), 100, 100);
-        g.drawString("Salvá al menos: " + getLemmingsToGenerate() + "% de lemmings", 100, 140);
+        g.drawString("Level: " + getLevelName(), 100, 100);
+        g.drawString("Save at Least: " + getLemmingsToGenerate() + "% de lemmings", 100, 140);
+        g.drawString("Time: " + getPercentajeToWin(), 100, 180);
         g.fillRoundRect(325, 310, 180, 40, 20, 20);
         g.setColor(Color.BLACK);
         g.drawString("Play Level", 350, 340);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Pres S to Start", 340, 400);
+        g.drawString("Click to Start", 350, 400);
 
         // Podés agregar botón o esperar input para comenzar
     }
@@ -225,14 +237,13 @@ public class Level {
     public void drawLevel(Graphics2D g, int panelWidth, int panelHeight) {
 
         map.draw(g);
-        buttonAcelerate.drawExtraButton(g, "NASHE", panelWidth, panelHeight);
-        buttonSlow.drawExtraButton(g, "+", panelWidth, panelHeight);
-        buttonNuke.drawExtraButton(g, "-", panelWidth, panelHeight);
-        buttonDig.draw(g,"Cavar | " + stock.getQuantityAbility(Ability.DIGGER), panelWidth, panelHeight);
-        buttonStop.draw(g,"Umbrella | " + stock.getQuantityAbility(Ability.UMBRELLA), panelWidth, panelHeight);
-        buttonBuild.draw(g, "parar | " + stock.getQuantityAbility(Ability.STOP) , panelWidth,panelHeight);
-        buttonFly.draw(g, "Escalar | " + stock.getQuantityAbility(Ability.CLIMB), panelWidth, panelHeight);
-
+        buttonAcelerate.drawExtraButton(g, panelWidth, panelHeight);
+        buttonSlow.drawExtraButton(g, panelWidth, panelHeight);
+        buttonNuke.drawExtraButton(g, panelWidth, panelHeight);
+        buttonDig.draw(g,panelWidth, panelHeight);
+        buttonStop.draw(g, panelWidth, panelHeight);
+        buttonBuild.draw(g,panelWidth,panelHeight);
+        buttonFly.draw(g,panelWidth, panelHeight);
         minimap.drawMinimap(g);
 
         for (Lemming_Entity view : lemmingEntities) {
@@ -244,8 +255,9 @@ public class Level {
         }
 
         g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 12));
-        g.drawString("Lemmings salvados: " + getSavedLemmings(), 80, 80);
+        g.setFont(new Font("SansSerif", Font.BOLD, 15));
+        g.drawString("Saved Lemmings: " + getSavedLemmings(), panelWidth-minimap.getWidth()+50, panelHeight-2.5f);
+        g.drawString( String.format("Remaining Time: %.1f", levelTime), panelWidth-minimap.getWidth()+50, panelHeight-minimap.getHeight()-30);
     }
     
     public void drawWonScreen(Graphics2D g) {
@@ -254,44 +266,17 @@ public class Level {
         g.setFont(new Font("Arial", Font.BOLD, 32));
 
         if (isLevelWon()) {
-            g.drawString("Nivel completado!", 200, 200);
-            g.drawString("Enter para avanzar al siguiente nivel", 200, 300);
+            g.drawString("Level Completed!", 200, 200);
+            g.setFont(new Font("Arial", Font.BOLD, 26));
+            g.drawString("Enter to go next level", 200, 300);
         } else {
-            g.drawString("Perdiste", 200, 200);
-            g.drawString("Enter para repetir el nivel", 200, 300);
-            g.drawString("Escape para volver al menu", 200, 400);
+            g.drawString("You Lose", 200, 200);
+            g.drawString(getFailCondition(), 200, 270);
+            g.setFont(new Font("Arial", Font.BOLD, 26));
+            g.drawString("Enter to repeat level", 200, 340);
+            g.drawString("Escape to go back menu", 200, 420);
         }
     }
-
-    public void drawFailedScreen(Graphics2D g) {
-
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 32));
-
-        if (isLevelWon()) {
-            g.drawString("Nivel Perdido!", 200, 200);
-            g.drawString("Enter para reintentar el nivel", 200, 300);
-        } else {
-            g.drawString("Perdiste", 200, 200);
-            g.drawString("Enter para repetir el nivel", 200, 300);
-            g.drawString("Escape para volver al menu", 200, 400);
-        }
-    }
-    public void drawEndScreen(Graphics2D g) {
-
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 32));
-
-        if (isLevelWon()) {
-            g.drawString("Nivel completado!", 200, 200);
-            g.drawString("Enter para avanzar al siguiente nivel", 200, 300);
-        } else {
-            g.drawString("Perdiste", 200, 200);
-            g.drawString("Enter para repetir el nivel", 200, 300);
-            g.drawString("Escape para volver al menu", 200, 400);
-        }
-    }
-
 
 
     // Getters básicos

@@ -54,6 +54,7 @@ public class Lemmings extends JGame {
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 SoundPlayer.stopSound();
+                gameShutdown();
             }
         });
 
@@ -145,9 +146,7 @@ public class Lemmings extends JGame {
 
             case ON_PAUSE -> pause.draw(g);
 
-            case LEVEL_WIN -> levels.get(currentLevel).drawWonScreen(g);
-
-            case LEVEL_FAIL -> levels.get(currentLevel).drawFailedScreen(g);
+            case LEVEL_WIN,LEVEL_FAIL -> levels.get(currentLevel).drawWonScreen(g);
 
             case ENDGAME -> win.draw(g);
 
@@ -206,7 +205,7 @@ public class Lemmings extends JGame {
 
 
     public void updateLevelScreen(){
-        if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_S)) {
+        if (gameState.equals(GameState.PRE_LEVEL) && getMouse().isLeftButtonPressed()) {
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
             setGameState(GameState.ON_MENU);
