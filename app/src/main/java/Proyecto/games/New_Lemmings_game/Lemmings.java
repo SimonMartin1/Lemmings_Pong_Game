@@ -34,7 +34,7 @@ public class Lemmings extends JGame {
     private final List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
     private Cursor cursor;
-    private GameState gameState= GameState.ENDGAME;
+    private GameState gameState= GameState.ON_MENU;
     private int screenWidth =800;
     private int screenHeight = 600;
     private int pointsSum=0;
