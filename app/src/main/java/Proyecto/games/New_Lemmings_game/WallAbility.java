@@ -23,11 +23,21 @@ public class WallAbility extends AbilityClass {
         //System.out.println(lemming.currentStateAnimation);
         //System.out.println(lemming.state);
 
+        lemmingEntity.setState(new WaitingState()); // cambia la lógica
+        lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.STOPING); // cambia cómo se ve;
+
+        //aca le seteo para que no pasen jajaja
+        lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX].setTileColor(Color.GREEN);
+        lemmingEntity.getLevel().getMap().getMapTiles()[tileY - 1][tileX].setTileColor(Color.GREEN);
+        lemmingEntity.getLevel().getMap().getMapTiles()[tileY - 2][tileX].setTileColor(Color.GREEN);
+        lemmingEntity.getLevel().getMap().getMapTiles()[tileY - 3][tileX].setTileColor(Color.GREEN);
+        lemmingEntity.getLevel().getMap().getMapTiles()[tileY - 4][tileX].setTileColor(Color.GREEN); //aca chusmear pq no me acuerdo que estado de animacion iba
+
+        /*
         if(!lemmingEntity.getState().equals(new ExplodingState()) && !LemmingAnimationState.NUKE.equals(lemmingEntity.getCurrentStateAnimation())){
 
             lemmingEntity.setState(new WaitingState()); // cambia la lógica
-            lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.STOPING); // cambia cómo se ve
-            ;
+            lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.STOPING); // cambia cómo se ve;
 
             //aca le seteo para que no pasen jajaja
             lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX].setTileColor(Color.GREEN);
@@ -42,7 +52,7 @@ public class WallAbility extends AbilityClass {
             createExplosion(lemmingEntity.getLevel().getMap().getMapTiles(), tileX,tileY, 7);
             lemmingEntity.setState(new DeadState());
             lemmingEntity.clearAbility();
-        }
+        }*/
 
 
     }
