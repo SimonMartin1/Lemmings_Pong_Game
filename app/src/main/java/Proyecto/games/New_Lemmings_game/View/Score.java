@@ -24,6 +24,7 @@ public class Score extends Lemmings_Screens {
     g.setFont(new Font("Arial", Font.BOLD, 28));
     g.drawString("Game Score - Ranking", width/2-140 , 70);
     g.drawString("Back", width-250 , height-60);
+    g.drawString("Reset", 250 , height-60);
 
     java.util.List<String[]> ranking = ScoreDatabase.getRanking();
     g.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -45,6 +46,10 @@ public class Score extends Lemmings_Screens {
         if(detectScore() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_MENU);
         }
+
+        if(detectReset()){
+            ScoreDatabase.clearScores();
+        }
     }
 
     protected boolean isMouseOverClickArea(int x, int y){
@@ -55,5 +60,9 @@ public class Score extends Lemmings_Screens {
 
     public boolean detectScore(){
         return isMouseOverClickArea(width - 250, height - 110);
+    }
+
+    public boolean detectReset(){
+        return isMouseOverClickArea(250, height - 110);
     }
 }
