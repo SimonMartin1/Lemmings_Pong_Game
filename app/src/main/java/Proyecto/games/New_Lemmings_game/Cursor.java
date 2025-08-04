@@ -1,5 +1,6 @@
 package Proyecto.games.New_Lemmings_game;
 
+import Proyecto.games.New_Lemmings_game.AbilitiesandStates.*;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
 import Proyecto.games.New_Lemmings_game.utils.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
@@ -8,8 +9,6 @@ import com.entropyinteractive.Mouse;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import org.checkerframework.checker.units.qual.min;
 
 public class Cursor {
 

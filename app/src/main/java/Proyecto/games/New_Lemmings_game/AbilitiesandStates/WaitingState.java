@@ -1,5 +1,7 @@
-package Proyecto.games.New_Lemmings_game;
+package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
 
+import Proyecto.games.New_Lemmings_game.LemmingState;
+import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 
 public class WaitingState implements LemmingState {

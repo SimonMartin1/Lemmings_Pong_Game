@@ -1,6 +1,9 @@
-package Proyecto.games.New_Lemmings_game;
+package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
 
-public class SavedState implements LemmingState{
+import Proyecto.games.New_Lemmings_game.LemmingState;
+import Proyecto.games.New_Lemmings_game.Lemming_Entity;
+
+public class SavedState implements LemmingState {
 
 
         @Override

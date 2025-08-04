@@ -1,5 +1,9 @@
 package Proyecto.games.New_Lemmings_game;
 
+import Proyecto.games.New_Lemmings_game.AbilitiesandStates.DeadState;
+import Proyecto.games.New_Lemmings_game.AbilitiesandStates.ExplodingState;
+import Proyecto.games.New_Lemmings_game.AbilitiesandStates.SavedState;
+import Proyecto.games.New_Lemmings_game.AbilitiesandStates.WaitingState;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 import Proyecto.games.New_Lemmings_game.utils.LemmingState;
