@@ -1,8 +1,8 @@
 name= Umbrella School
 lemmings=4
 time=100
-spawnX=600
-spawnY=110
+spawnX=450
+spawnY=180
 spawnRate=300
 exitX=1000
 exitY=300

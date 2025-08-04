@@ -91,8 +91,6 @@ public class Level {
 
         handleNukeTime();
 
-        //minimap.handleClick();
-
         for (Lemming_Entity l : lemmingEntities) {
             l.update(delta);
         }
@@ -297,6 +295,10 @@ public class Level {
 
 
     // Getters básicos
+
+    public Minimap getMinimap(){
+        return minimap;
+    }
     public Game_Map getMap(){ return map;}
 
     public Stock getStock(){ return stock; }

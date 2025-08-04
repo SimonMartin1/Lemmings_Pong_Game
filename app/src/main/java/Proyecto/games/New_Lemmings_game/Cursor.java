@@ -73,10 +73,13 @@ public class Cursor {
     }
 
     public void update() {
+
+        //System.out.println("Entre al update del cursor");
         boolean isPressed = mouse.isLeftButtonPressed();
 
         if (isPressed && !wasPressedLastFrame) {
             //level.getMinimap().handleClick(mouse.getX(), mouse.getY());
+            System.out.println("Clickee el mouse");
             handleMouseClick(mouse.getX(), mouse.getY());
         }
 
@@ -91,8 +94,10 @@ public class Cursor {
 
         if (y >= uiStartY) {
             handleUiClick(x, y);
+            System.out.println("En la ui click");
         } else {
             handleGameWorldClick(x, y);
+            System.out.println("CLICK EN MAPA");
         }
     }
 
@@ -216,8 +221,10 @@ public class Cursor {
      */
     private void assignNukeLemmings() {
         for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
-            lemmingEntity.setAbility(new WallAbility());
-            lemmingEntity.setState(new WaitingState());
+            lemmingEntity.setState(new ExplodingState());
+            //lemmingEntity.setAbility(new WallAbility());
+            //lemmingEntity.setState(new WaitingState());
+
             lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.NUKE);
         }
         System.out.println("NUKEEE");
