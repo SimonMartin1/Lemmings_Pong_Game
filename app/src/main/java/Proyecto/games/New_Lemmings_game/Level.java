@@ -119,7 +119,8 @@ public class Level {
                     result = true;
                 }
             }
-        }else if (levelTime == 0) {
+        }
+        if (levelTime <= 0) {
             result = true;
             timeOver=true;
         }
@@ -154,7 +155,7 @@ public class Level {
     public int calcLevelTime() {
         int lemmingsToSave = (int) Math.ceil(lemmingsToGenerate * (percentajeToWin / 100.0));
         int spawnTime = lemmingsToGenerate * 2 / 60;
-        int extraTime = lemmingsToSave * 10; // por ejemplo 5 segundos por lemming
+        int extraTime = lemmingsToSave * 7; // por ejemplo 5 segundos por lemming
         return spawnTime + extraTime;
     }
     public String getFailCondition(){
