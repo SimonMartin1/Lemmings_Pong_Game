@@ -75,7 +75,6 @@ public class Cursor {
 
         //System.out.println("Entre al update del cursor");
         boolean isPressed = mouse.isLeftButtonPressed();
-
         if (isPressed && !wasPressedLastFrame) {
             //level.getMinimap().handleClick(mouse.getX(), mouse.getY());
             System.out.println("Clickee el mouse");

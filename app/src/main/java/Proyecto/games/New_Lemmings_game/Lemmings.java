@@ -91,7 +91,7 @@ public class Lemmings extends JGame {
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-
+       
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setStock(levels.get(currentLevel).getStock());
 
