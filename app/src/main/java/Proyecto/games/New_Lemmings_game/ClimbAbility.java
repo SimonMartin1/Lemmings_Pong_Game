@@ -37,11 +37,12 @@ public class ClimbAbility extends AbilityClass {
         } else {
             boolean climb1 = isClimbeable(lemming.getLevel().getMap().getMapTiles()[tileY][tileX + dx].getColor());
             boolean climb2 = isClimbeable(lemming.getLevel().getMap().getMapTiles()[tileY - 1][tileX + dx].getColor());
-
-            if (climb1 && climb2) {
+            
+            if (climb1 && climb2 ) {
                 lemming.setCurrentStateAnimation(climbingState);
                 isClimbing = true;
-            } else {
+            }
+            else {
                 lemming.clearAbility();
             }
         }
@@ -50,6 +51,7 @@ public class ClimbAbility extends AbilityClass {
 
 
     public boolean isClimbeable(Color c){
-        return !Color.BLACK.equals(c) && !Color.GREEN.equals(c);
+        return !Color.BLACK.equals(c) && !Color.GREEN.equals(c);    }
+
+
     }
-}
