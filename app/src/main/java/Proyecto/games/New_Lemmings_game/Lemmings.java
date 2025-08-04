@@ -90,7 +90,7 @@ public class Lemmings extends JGame {
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-                cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
+                //cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
