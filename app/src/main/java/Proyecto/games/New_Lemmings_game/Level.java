@@ -80,7 +80,7 @@ public class Level {
         // Contar 3s luego de que isNukeTime es true
         confirmNuke();
         handleNukeConfirmed();
-        if(spawnedLemmings >= lemmingsToGenerate) {
+        if(spawnedLemmings >= lemmingsToGenerate && !isLevelFinished()) {
             decreaseTime();
         }
         lemmingEntities.removeIf(l -> l.getState() instanceof DeadState);
@@ -115,7 +115,7 @@ public class Level {
                 long elapsed = System.currentTimeMillis() - cleanDeaths;
 
                 if (elapsed >= 300) {
-                    LevelScore = getSavedLemmings() * 10;
+                    LevelScore = (getSavedLemmings() * 10) + (int)(levelTime * 2);
                     result = true;
                 }
             }
@@ -271,6 +271,7 @@ public class Level {
 
         if (isLevelWon()) {
             g.drawString("Level Completed!", 200, 200);
+            g.drawString("Level Score: " + LevelScore + "Points" , 200, 250);
             g.setFont(new Font("Arial", Font.BOLD, 26));
             g.drawString("Enter to go next level", 200, 300);
         } else {
@@ -345,6 +346,7 @@ public class Level {
         this.cleanDeaths = -1;
 
         stock.reset();
+        levelTime=calcLevelTime();
 
         try{
             map.reset();
