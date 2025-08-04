@@ -27,6 +27,8 @@ public class Win extends Lemmings_Screens {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 36));
         g.drawString("Congratulations!", width / 2 - 140, 160);
+        g.setFont(new Font("Arial", Font.BOLD, 25));
+        g.drawString("Your Total Score: "+ game.getScore()+" Points", width / 2 - 140, 220);
 
 
     }
