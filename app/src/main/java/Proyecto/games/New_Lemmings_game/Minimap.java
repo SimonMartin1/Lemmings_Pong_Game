@@ -17,7 +17,7 @@ public class Minimap {
     private int y = 480;
     private int width = 250;
     private int height = 100;
-
+    private int minimapX =480;
     private int mapWidth = 450;
     private int mapHeight = 1536;
 
@@ -34,9 +34,7 @@ public class Minimap {
         if (!isClickInsideMinimap(clickX, clickY)) {
             return;
         }
-
-        Point worldPosition = convertMinimapToWorld(clickX, clickY);
-        moveCameraTo(worldPosition.x, worldPosition.y);
+        moveCameraTo(clickX);
     }
 
     private boolean isClickInsideMinimap(int clickX, int clickY) {
@@ -44,26 +42,18 @@ public class Minimap {
                clickY >= y && clickY <= y + height;
     }
 
-    private Point convertMinimapToWorld(int clickX, int clickY) {
-        // Normaliza las coordenadas (0-1)
-        float normalizedX = (float)(clickX - x) / width;
-        float normalizedY = (float)(clickY - y) / height;
-        
-        // Convierte a coordenadas del mundo
-        int worldX = (int)(normalizedX * mapWidth);
-        int worldY = (int)(normalizedY * mapHeight);
-        
-        return new Point(worldX, worldY);
-    }
 
-    private void moveCameraTo(int worldX, int worldY) {
+    private void moveCameraTo(int clickX) {
         // Asegúrate de que la cámara no se salga de los límites
-        worldX = (int) Math.max(0, Math.min(worldX, mapWidth - map.getViewportWidth()));
-        worldY = (int) Math.max(0, Math.min(worldY, mapHeight - map.getViewportHeight()));
-        
-        map.setCameraPosition(worldX, worldY);
+        //worldX = (int) Math.max(0, Math.min(worldX, mapWidth - map.getViewportWidth()));
+        //worldY = (int) Math.max(0, Math.min(worldY, mapHeight - map.getViewportHeight()));
+        float scaleX = (float) mapWidth / width;
+
+        int worldX = (int) ((clickX - minimapX) * scaleX);
+
+        map.setCameraPosition(worldX, 0);
         level.setCamX(worldX);
-        cursor.setCamX(worldX); // Si es necesario
+        //cursor.setCamX(worldX); // Si es necesario
     }
 
     private void loadMinimapImage() {

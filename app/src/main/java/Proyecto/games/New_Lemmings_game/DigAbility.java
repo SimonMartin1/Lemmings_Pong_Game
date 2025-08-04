@@ -17,8 +17,8 @@ public class DigAbility extends AbilityClass {
     public void apply(Lemming_Entity lemmingEntity, double delta) {
 
         lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.DIGGING);
-
-        int tileX = ((lemmingEntity.getX() + lemmingEntity.getLevel().getCamX()) / 8) - 37;
+        //int tileX = (lemmingEntity.getX() / 8) + lemmingEntity.getLevel().getCamX();
+        int tileX = ((lemmingEntity.getX() + lemmingEntity.getLevel().getCamX()) / 8);
         int tileY = (lemmingEntity.getY()) / 8;
 
         if(!Color.BLACK.equals(lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 3][tileX].getColor())){

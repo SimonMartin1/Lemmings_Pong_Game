@@ -36,8 +36,8 @@ public class Lemmings extends JGame {
     private Cursor cursor;
     private GameState gameState= GameState.ON_MENU;
 
-    private int screenWidth;
-    private int screenHeight;
+    private int screenWidth =800;
+    private int screenHeight = 600;
 
 
     public Lemmings(String title, int width, int height) {
@@ -106,6 +106,7 @@ public class Lemmings extends JGame {
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+                levels.get(currentLevel).getMinimap().handleClick(getMouse().getX(),getMouse().getY());
                 updateLevelScreen();
             }
 
