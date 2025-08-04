@@ -221,6 +221,7 @@ public class Lemmings extends JGame {
             }
         } else if (gameState.equals(GameState.LEVEL_END)  && !levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             setGameState(GameState.ON_MENU);
+            levels.get(currentLevel).reset();
         }
     }
 
