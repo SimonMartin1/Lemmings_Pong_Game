@@ -1,6 +1,6 @@
 name=Just digging
 lemmings=4
-time=100
+percentajeToWin=80
 spawnX=600
 spawnY=110
 spawnRate=300
