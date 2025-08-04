@@ -136,13 +136,6 @@ public class Lemmings extends JGame {
                 g.setColor(Color.BLACK);
                 g.fillRect(0, 0, getWidth(), getHeight());
                 levels.get(currentLevel).drawLevel(g,800,600);
-
-                //System.out.println("----------------------------------------------------------------------");
-                //System.out.println("Digger: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.DIGGER));
-                //System.out.println("Stop: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.STOP));
-                //System.out.println("Umbrella: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.UMBRELLA));
-                //System.out.println("Climb: " + this.levels.get(currentLevel).getStock().getQuantityAbility(Ability.CLIMB));
-
             }
 
             case ON_PAUSE -> pause.draw(g);
