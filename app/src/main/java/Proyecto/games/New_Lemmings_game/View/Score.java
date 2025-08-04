@@ -7,14 +7,10 @@ import java.awt.event.KeyEvent;
 import Proyecto.games.New_Lemmings_game.Lemmings;
 import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
-import Proyecto.games.utils.Drawable;
 import Proyecto.games.utils.GameState;
-import Proyecto.games.utils.Screen;
-import com.entropyinteractive.Mouse;
 
 public class Score extends Lemmings_Screens {
-    private Lemmings game;
-    private boolean prevMousePressed;
+    private final Lemmings game;
     public Score(int width, int height, Lemmings game) {
         super(width,height,game);
         this.game = game;
@@ -26,7 +22,7 @@ public class Score extends Lemmings_Screens {
     g.setColor(Color.WHITE);
     g.setFont(new Font("Arial", Font.BOLD, 28));
     g.drawString("Game Score - Ranking", width/2-140 , 70);
-    g.drawString("Back", width-325 , height-65);
+    g.drawString("Back", width-250 , height-60);
 
     java.util.List<String[]> ranking = ScoreDatabase.getRanking();
     g.setFont(new Font("Arial", Font.PLAIN, 22));
@@ -45,18 +41,18 @@ public class Score extends Lemmings_Screens {
 
     @Override
     public void update(double delta) {
-        if(detectScore() && game.getGameState().equals(GameState.ON_SCORE) || game.getKeyboard().isKeyPressed(KeyEvent.VK_S)){
+        if(detectScore() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_MENU);
         }
     }
 
-    protected boolean isMouseOverClickArea(int x, int y, int width, int height){
+    protected boolean isMouseOverClickArea(int x, int y){
         int mx = game.getMouse().getX();
         int my = game.getMouse().getY();
-        return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
+        return mx >= x && mx <= x + 150 && my >= y && my <= y + 80 && game.getMouse().isLeftButtonPressed();
     }
 
     public boolean detectScore(){
-        return isMouseOverClickArea(width - 250, height - 110, 150, 80);
+        return isMouseOverClickArea(width - 250, height - 110);
     }
 }

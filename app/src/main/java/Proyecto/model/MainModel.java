@@ -3,7 +3,7 @@ package Proyecto.model;
 import javax.swing.SwingUtilities;
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
-import Proyecto.games.Pong_game.Pong;
+import Proyecto.games.New_Pong_game.Pong;
 
 public class MainModel {
 private Object runtimegame;
@@ -13,7 +13,21 @@ private Object runtimegame;
     public void runGame(int i){
     switch (i) {
         case 0:
-            runtimegame = null;
+            Lemmings game1 = new Lemmings("Lemmings game", 800, 600);
+            if(runtimegame==null){
+                SwingUtilities.invokeLater(() -> {
+                    new Thread(() -> game1.run(1.0/60.0)).start();
+                    runtimegame = game1;
+                });
+
+            }
+            game1.getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    game1.stop();
+                    runtimegame = null;
+                }
+            });
             break;
     case 1:
         Pong game2 = new Pong("Pong game", 800, 600);
