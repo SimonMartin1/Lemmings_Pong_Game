@@ -14,17 +14,6 @@ import java.util.Properties;
 public class LoadFromFiles {
 
     // Assuming 'levels' and 'stock' are defined elsewhere in this class
-//
-//    public LevelManager() {
-//        try {
-//            levelsConfig = new Properties();
-//            levelsConfig.load(new FileInputStream("app/src/main/java/Proyecto/games/New_Lemmings_game/utils/Levels.properties"));
-//        } catch (IOException err) {
-//            System.out.println("No se pudo leer el archivo config");
-//            levelsConfig = new Properties();
-//        }
-//    }
-
 
     public Level loadLevelFromFile(String path) throws IOException {
         Properties props = new Properties();
