@@ -10,16 +10,13 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Menu extends Pong_Screens {
+
     private double blinkTime;
     private boolean showPressText = true;
     public Menu(int width, int height, Pong game) {
         super(width,height,game);
     }
 
-    public void updateSize(int width, int height){
-        this.width=width;
-        this.height=height;
-    }
     @Override
     public void draw(Graphics2D g2d) {
 

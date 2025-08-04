@@ -61,4 +61,24 @@ public class ScoreDatabase {
         }
     }
 
+    public static void clearScores() {
+        String deleteSql = "DELETE FROM scores";
+        String resetSql = "DELETE FROM sqlite_sequence WHERE name='scores'";
+
+        try (Connection conn = ScoreDatabase.connect();
+             Statement stmt = conn.createStatement()) {
+
+            // Borrar los puntajes
+            stmt.executeUpdate(deleteSql);
+
+            // Resetear el contador de AUTOINCREMENT
+            stmt.executeUpdate(resetSql);
+
+            System.out.println("Todos los puntajes fueron eliminados y el ID fue reseteado.");
+        } catch (Exception e) {
+            System.err.println("Error al limpiar la base de datos: " + e.getMessage());
+        }
+    }
+
+
 }

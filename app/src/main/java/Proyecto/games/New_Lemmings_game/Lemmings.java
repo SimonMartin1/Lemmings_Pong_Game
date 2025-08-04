@@ -37,6 +37,7 @@ public class Lemmings extends JGame {
     private GameState gameState= GameState.ON_MENU;
     private int screenWidth =800;
     private int screenHeight = 600;
+    private int pointsSum=0;
 
 
     public Lemmings(String title, int width, int height) {
@@ -90,8 +91,11 @@ public class Lemmings extends JGame {
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-                //cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
+       
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
+                cursor.setStock(levels.get(currentLevel).getStock());
+
+
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
@@ -106,11 +110,6 @@ public class Lemmings extends JGame {
             
             case ENDGAME -> {
                 win.update(delta);
-                //Si termino el juego guardo el puntaje
-                int pointsSum=0;
-                for (Level l : levels) pointsSum += l.getLevelScore();
-                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                ScoreDatabase.saveScore(timestamp, pointsSum);
             }
         }
 
@@ -147,8 +146,14 @@ public class Lemmings extends JGame {
     private void nextLevel() {
         if (currentLevel < levels.size() - 1) {
             currentLevel++;
+
+            System.out.println("CURSOR NUEVO HA SIDO CREADO");
         }
         else{
+            //Si termino el juego guardo el puntaje
+            for (Level l : levels) pointsSum += l.getLevelScore();
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            ScoreDatabase.saveScore(timestamp, pointsSum);
             setGameState(GameState.ENDGAME);
         }
     }
@@ -194,6 +199,8 @@ public class Lemmings extends JGame {
         return levels.size();
     }
 
+    public int getScore(){return pointsSum;}
+
 
     public void updateLevelScreen(){
         if (gameState.equals(GameState.PRE_LEVEL) && getMouse().isLeftButtonPressed()) {
@@ -213,6 +220,7 @@ public class Lemmings extends JGame {
             }
         } else if (gameState.equals(GameState.LEVEL_END)  && !levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             setGameState(GameState.ON_MENU);
+            levels.get(currentLevel).reset();
         }
     }
 
