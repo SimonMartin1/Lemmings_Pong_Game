@@ -35,7 +35,6 @@ public class Lemmings extends JGame {
     private int currentLevel = 0;
     private Cursor cursor;
     private GameState gameState= GameState.ON_MENU;
-
     private int screenWidth =800;
     private int screenHeight = 600;
 
@@ -89,8 +88,6 @@ public class Lemmings extends JGame {
 
             case ON_SCORE -> score.update(delta);
 
-            case PRE_LEVEL,LEVEL_END, LEVEL_FAIL, LEVEL_WIN -> updateLevelScreen();
-
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
                 cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
@@ -105,6 +102,8 @@ public class Lemmings extends JGame {
 
             case ON_PAUSE -> pause.update(delta);
 
+            case PRE_LEVEL,LEVEL_END -> updateLevelScreen();
+            
             case ENDGAME -> {
                 win.update(delta);
                 //Si termino el juego guardo el puntaje
@@ -138,7 +137,7 @@ public class Lemmings extends JGame {
 
             case ON_PAUSE -> pause.draw(g);
 
-            case LEVEL_WIN,LEVEL_FAIL -> levels.get(currentLevel).drawWonScreen(g);
+            case LEVEL_END -> levels.get(currentLevel).drawWonScreen(g);
 
             case ENDGAME -> win.draw(g);
 
@@ -205,21 +204,15 @@ public class Lemmings extends JGame {
                 setGameState(GameState.LEVEL_END);
         } else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
             setGameState(GameState.ON_PAUSE);
-        } else if (gameState.equals(GameState.LEVEL_END) && levels.get(currentLevel).isLevelWon()) {
-            setGameState(GameState.LEVEL_WIN);
-        } else if (gameState.equals(GameState.LEVEL_END) && !levels.get(currentLevel).isLevelWon()) {
-            setGameState(GameState.LEVEL_FAIL);
-        } else if (gameState.equals(GameState.LEVEL_WIN) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-            nextLevel();
-            setGameState(GameState.PLAYING);
-        } else if (gameState.equals(GameState.LEVEL_FAIL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-            if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
-                levels.get(currentLevel).reset();
+        } else if (gameState.equals(GameState.LEVEL_END)  && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+            if(levels.get(currentLevel).isLevelWon()){
+                nextLevel();
                 setGameState(GameState.PLAYING);
-            }else if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
-                setGameState(GameState.ON_MENU);
+            } else{
+                levels.get(currentLevel).reset();
             }
-
+        } else if (gameState.equals(GameState.LEVEL_END)  && !levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+            setGameState(GameState.ON_MENU);
         }
     }
 

@@ -51,10 +51,9 @@ public class LoadFromFiles {
         // Otros datos
         String name = props.getProperty("name");
         int lemmings = Integer.parseInt(props.getProperty("lemmings"));
-        int percentajeToWin = Integer.parseInt(props.getProperty("time"));
-        double percentaje = (double) percentajeToWin; 
+        int percentajeToWin = Integer.parseInt(props.getProperty("percentajeToWin"));
 
-        return new Level(map, stock, lemmings, percentaje, 0, name, exit, spawnX, spawnY);
+        return new Level(map, stock, lemmings, (double) percentajeToWin, 0, name, exit, spawnX, spawnY);
 
     }
 }

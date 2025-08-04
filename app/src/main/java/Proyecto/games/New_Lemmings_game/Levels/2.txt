@@ -1,11 +1,11 @@
 name= Fly to Greece
 lemmings=4
-time=100
 spawnX=400
 spawnY=60
+percentajeToWin=100
 spawnRate=300
-exitX=1000
-exitY=300
+exitX=1150
+exitY=350
 exitWidth=300
 mapId=2
 mapWidth=700

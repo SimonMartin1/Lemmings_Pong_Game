@@ -28,7 +28,7 @@ public class Level {
 
     private long nukeStartTime = -1;
     private long cleanDeaths = -1;
-    private boolean timeOver=false,isNukeTime = false,nukeConfirmed = false;
+    private boolean timeOver=false,isNukeTime = false,nukeConfirmed = false,levelOutcomeEvaluated = false;;
     private final Exit exit;
 
     private final Buttons buttonDig;
@@ -54,7 +54,7 @@ public class Level {
         this.exit = exit;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
-        levelTime = percentajeToWin;
+        levelTime = calcLevelTime();
         this.lemmingSpawnX = lemmingSpawnX;
         this.lemmingSpawnY = lemmingSpawnY;
         this.minimap = new Minimap(map, this, null);
@@ -72,9 +72,6 @@ public class Level {
         buttonFly = new Buttons("Escalar" , stock.getQuantityAbility(Ability.CLIMB), 0.46f, startY, buttonWidth, buttonHeight);
     }
 
-    public Exit getExitModel(){
-        return exit;
-    }
 
     public void update(double delta) {
 
@@ -100,9 +97,11 @@ public class Level {
     }
 
 
-    public boolean isLevelWon(){
-        return savedLemmings * 10 >= percentajeToWin;
+    public boolean isLevelWon() {
+        double savedPercentage = (savedLemmings * 100.0) / lemmingsToGenerate;
+        return savedPercentage >= percentajeToWin && levelTime > 0;
     }
+
 
     public boolean isLevelFinished() {
         boolean result = false;
@@ -121,7 +120,6 @@ public class Level {
                 }
             }
         }
-
         if (levelTime <= 0) {
             result = true;
             timeOver=true;
@@ -150,12 +148,18 @@ public class Level {
 
     public void decreaseTime(){
         if(levelTime!=0){
-            levelTime-=0.02;
+            levelTime-=0.01;
         }
     }
 
+    public int calcLevelTime() {
+        int lemmingsToSave = (int) Math.ceil(lemmingsToGenerate * (percentajeToWin / 100.0));
+        int spawnTime = lemmingsToGenerate * 2 / 60;
+        int extraTime = lemmingsToSave * 7; // por ejemplo 5 segundos por lemming
+        return spawnTime + extraTime;
+    }
     public String getFailCondition(){
-        String res="";
+        String res;
         if(timeOver){
             res="Time's Up";
         }else{
@@ -222,8 +226,8 @@ public class Level {
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 28));
         g.drawString("Level: " + getLevelName(), 100, 100);
-        g.drawString("Save at Least: " + getLemmingsToGenerate() + "% de lemmings", 100, 140);
-        g.drawString("Time: " + getPercentajeToWin(), 100, 180);
+        g.drawString(String.format("Save at Least: %.0f", percentajeToWin)+" % of the Lemmings", 100, 140);
+        g.drawString(String.format("Time: %.0f", levelTime)+ " S", 100, 180);
         g.fillRoundRect(325, 310, 180, 40, 20, 20);
         g.setColor(Color.BLACK);
         g.drawString("Play Level", 350, 340);
@@ -257,7 +261,7 @@ public class Level {
         g.setColor(Color.WHITE);
         g.setFont(new Font("SansSerif", Font.BOLD, 15));
         g.drawString("Saved Lemmings: " + getSavedLemmings(), panelWidth-minimap.getWidth()+50, panelHeight-2.5f);
-        g.drawString( String.format("Remaining Time: %.1f", levelTime), panelWidth-minimap.getWidth()+50, panelHeight-minimap.getHeight()-30);
+        g.drawString( String.format("Remaining Time: %.1f", levelTime)+ " S", panelWidth-minimap.getWidth()+50, panelHeight-minimap.getHeight()-30);
     }
     
     public void drawWonScreen(Graphics2D g) {
@@ -327,7 +331,9 @@ public class Level {
         return percentajeToWin;
     }
 
-    public boolean getNukeConfirmed(){ return nukeConfirmed; }
+    public boolean getlevelOutcomed(){ return levelOutcomeEvaluated; }
+
+    public void setLevelOutcomed(boolean option){ this.levelOutcomeEvaluated = option; }
 
 
     public void reset(){
@@ -343,7 +349,7 @@ public class Level {
         try{
             map.reset();
         }catch (IOException e){
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
 
     }
