@@ -1,4 +1,4 @@
-name=Level2
+name= Fly to Greece
 lemmings=4
 time=100
 spawnX=600
