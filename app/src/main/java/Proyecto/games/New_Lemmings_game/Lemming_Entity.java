@@ -215,6 +215,10 @@ public class Lemming_Entity {
     public void applyAbility(double delta) {
         currentAbility.apply(this, delta);
     }
+
+    public AbilityClass getAbilityClass(){
+        return currentAbility; 
+    }
     /*
     public boolean isActive() {
         return !(currentState instanceof DeadState || currentState instanceof SavedState);
@@ -253,7 +257,7 @@ public class Lemming_Entity {
     public void setY(int y) { this.y = y; }
 
     public boolean hasUmbrella(){
-        return true;
+        return false;
     }
 
     public boolean isWalkingToRight() { return isWalkingToRight; }

@@ -39,13 +39,12 @@ public class Cursor {
     private AbilityClass currentSelectedAbility;
     private Minimap minimap; 
     private Ability currentAbility; // Mantenemos este campo para restar del stock sin modificar otras clases.
-    private final Stock stock;
+    private Stock stock;
     private final Mouse mouse;
     private final int screenWidth;
     private final int screenHeight;
     private int camX;
     private boolean wasPressedLastFrame = false;
-    private Level level; 
 
     private static final Map<Ability, Supplier<AbilityClass>> ABILITY_FACTORY = Map.of(
             Ability.DIGGER, DigAbility::new,
@@ -64,7 +63,7 @@ public class Cursor {
         this.mouse = mouse;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        //this.level = level; 
+
         if(fullscreen){
             FULLSCREEN_VERTICAL_OFFSET = 0;
         }else{
@@ -76,7 +75,6 @@ public class Cursor {
 
         //System.out.println("Entre al update del cursor");
         boolean isPressed = mouse.isLeftButtonPressed();
-
         if (isPressed && !wasPressedLastFrame) {
             //level.getMinimap().handleClick(mouse.getX(), mouse.getY());
             System.out.println("Clickee el mouse");
@@ -252,5 +250,9 @@ public class Cursor {
 
     public void setCamX(int camX) {
         this.camX = camX;
+    }
+
+    public void setStock(Stock stock){
+        this.stock = stock;
     }
 }

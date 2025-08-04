@@ -91,8 +91,11 @@ public class Lemmings extends JGame {
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
-                cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
+       
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
+                cursor.setStock(levels.get(currentLevel).getStock());
+
+
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
@@ -143,6 +146,8 @@ public class Lemmings extends JGame {
     private void nextLevel() {
         if (currentLevel < levels.size() - 1) {
             currentLevel++;
+
+            System.out.println("CURSOR NUEVO HA SIDO CREADO");
         }
         else{
             //Si termino el juego guardo el puntaje
