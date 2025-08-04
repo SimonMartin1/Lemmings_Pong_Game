@@ -60,19 +60,9 @@ public class Lemmings extends JGame {
 
         ScoreDatabase.createTable();
 
-
-
-        Stock stock = new Stock(
-                new HashMap<>(Map.of(
-                        Ability.DIGGER, 5,
-                        Ability.CLIMB, 0,
-                        Ability.STOP, 3,
-                        Ability.UMBRELLA, 0
-                ))
-        );
-
         try {
             loadLevels();
+            Stock stock = levels.get(currentLevel).getStock();
             boolean fullScreen = false;
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
 
