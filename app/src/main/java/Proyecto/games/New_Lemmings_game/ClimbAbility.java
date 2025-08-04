@@ -43,7 +43,61 @@ public class ClimbAbility extends AbilityClass {
                 isClimbing = true;
             }
             else {
-                lemming.clearAbility();
+                System.out.println("no climbeo nada");
+                //lemming.clearAbility();
+
+                tileX = lemming.getX() / LemmingConstants.TILE_WIDTH;
+                tileY = (lemming.getY() + LemmingConstants.TILE_HEIGHT - 1) / LemmingConstants.TILE_HEIGHT; // Posición de los pies
+
+                if (lemming.isWalkingToRight()) {
+                    lemming.setCurrentStateAnimation(LemmingAnimationState.WALKING_RIGHT);
+
+                    // Verificar obstáculo al frente y arriba (pared)
+                    Color frontUpper = lemming.getLevel().getMap().getTileColor(tileY - 3, tileX + 1);
+                    // Verificar suelo al frente (para subir escalones)
+                    Color frontGround = lemming.getLevel().getMap().getTileColor(tileY, tileX + 1);
+
+                    if (!Color.BLACK.equals(frontUpper)) { // Hay pared
+                        lemming.setWalkingToRight(false);
+                        return;
+                    }
+
+                    if (!Color.BLACK.equals(frontGround)) { // Hay escalón para subir
+                        lemming.setY(lemming.getY() - lemming.getSpeed());
+                    }
+
+                    lemming.setX(lemming.getX() + lemming.getSpeed());
+                } else {
+                    lemming.setCurrentStateAnimation(LemmingAnimationState.WALKING_LEFT);
+
+                    // Verificar obstáculo al frente y arriba (pared)
+                    Color frontUpper = lemming.getLevel().getMap().getTileColor(tileY - 3, tileX - 1);
+                    // Verificar suelo al frente (para subir escalones)
+                    Color frontGround = lemming.getLevel().getMap().getTileColor(tileY, tileX - 1);
+
+                    if (!Color.BLACK.equals(frontUpper)) { // Hay pared
+                        lemming.setWalkingToRight(true);
+                        return;
+                    }
+
+                    if (!Color.BLACK.equals(frontGround)) { // Hay escalón para subir
+                        lemming.setY(lemming.getY() - lemming.getSpeed());
+                    }
+
+                    lemming.setX(lemming.getX() - lemming.getSpeed());
+                }
+
+                // Lógica de caída
+                if (shouldFall(lemming)) {
+                    //l.setState(new FallingState());
+                    //return;
+                }
+
+                // Lógica de detección de salida
+                if (lemming.getLevel().getExit().checkLemming(lemming)) {
+                    lemming.setState(new SavedState());
+                    System.out.println("Entre a la salida!!");
+                }
             }
         }
 
@@ -51,7 +105,13 @@ public class ClimbAbility extends AbilityClass {
 
 
     public boolean isClimbeable(Color c){
-        return !Color.BLACK.equals(c) && !Color.GREEN.equals(c);    }
-
-
+        return !Color.BLACK.equals(c) && !Color.GREEN.equals(c);
     }
+
+    private boolean shouldFall(Lemming_Entity l) {
+        int tileX = l.getX() / LemmingConstants.TILE_WIDTH;
+        int tileY = (l.getY() + LemmingConstants.TILE_HEIGHT) / LemmingConstants.TILE_HEIGHT; // Posición de los pies
+        Color below = l.getLevel().getMap().getTileColor(tileY + 1, tileX);
+        return Color.BLACK.equals(below); // Si no hay suelo, caer
+    }
+}
