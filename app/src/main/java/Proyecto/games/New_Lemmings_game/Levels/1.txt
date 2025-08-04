@@ -10,4 +10,4 @@ exitWidth=300
 mapId=1
 mapWidth=700
 mapHeight=100
-stock=DIGGER:5,CLIMB:2,STOP:3,UMBRELLA:2
+stock=DIGGER:5,CLIMB:0,STOP:3,UMBRELLA:0

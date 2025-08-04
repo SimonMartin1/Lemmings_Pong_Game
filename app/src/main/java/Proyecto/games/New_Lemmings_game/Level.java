@@ -217,6 +217,9 @@ public class Level {
         g.fillRoundRect(325, 310, 180, 40, 20, 20);
         g.setColor(Color.BLACK);
         g.drawString("Play Level", 350, 340);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("Pres S to Start", 340, 400);
 
         // Podés agregar botón o esperar input para comenzar
     }
@@ -247,7 +250,6 @@ public class Level {
         g.drawString("Lemmings salvados: " + getSavedLemmings(), 80, 80);
     }
     
-
     public void drawWonScreen(Graphics2D g) {
 
         g.setColor(Color.WHITE);
@@ -262,7 +264,7 @@ public class Level {
             g.drawString("Escape para volver al menu", 200, 400);
         }
     }
-    
+
     public void drawFailedScreen(Graphics2D g) {
 
         g.setColor(Color.WHITE);

@@ -27,14 +27,14 @@ public class Pause extends Lemmings_Screens {
         g.drawString("Game Pause", width / 2 - 100, height / 2 - 160);
 
         g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("Press ENTER continue playing - ESCAPE back to Menu", width / 2 - 210, height / 2 - 120);
+        g.drawString("Press ESCAPE continue playing - ENTER back to Menu", width / 2 - 210, height / 2 - 120);
     }
     @Override
     public void update(double delta){
-        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.PLAYING);
         }
-        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+        if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             game.setGameState(GameState.ON_MENU);
         }
     }
