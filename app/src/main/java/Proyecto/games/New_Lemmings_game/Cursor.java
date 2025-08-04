@@ -68,7 +68,7 @@ public class Cursor {
         if(fullscreen){
             FULLSCREEN_VERTICAL_OFFSET = 0;
         }else{
-            FULLSCREEN_VERTICAL_OFFSET = 50;
+            FULLSCREEN_VERTICAL_OFFSET = 0;
         }
     }
 
@@ -92,7 +92,7 @@ public class Cursor {
     private void handleMouseClick(int x, int y) {
         int uiStartY = (int) (UI_START_Y_RATIO * screenHeight);
 
-        if (y >= uiStartY) {
+        if (y >= uiStartY - 40 ) {
             handleUiClick(x, y);
             System.out.println("En la ui click");
         } else {
@@ -157,7 +157,7 @@ public class Cursor {
         //Botón nashe
         int nasheAbsX = startX + speedButtonOffsetX;
         int nasheAbsY = (int) (NASHE_BUTTON_Y_RATIO * screenHeight);
-        if (isMouseInBounds(x, y, nasheAbsX, nasheAbsY + FULLSCREEN_VERTICAL_OFFSET, speedButtonW, speedButtonH, UI_BUTTON_EXTRA_MARGIN)) {
+        if (isMouseInBounds(x, y, nasheAbsX, nasheAbsY + FULLSCREEN_VERTICAL_OFFSET  , speedButtonW, speedButtonH, UI_BUTTON_EXTRA_MARGIN)) {
             assignNukeLemmings();
             System.out.println("CLICKEE ");
         }

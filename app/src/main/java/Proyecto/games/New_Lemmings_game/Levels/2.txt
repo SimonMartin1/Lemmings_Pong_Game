@@ -1,8 +1,8 @@
 name= Fly to Greece
 lemmings=4
+spawnX=400
+spawnY=60
 percentajeToWin=100
-spawnX=390
-spawnY=50
 spawnRate=300
 exitX=1150
 exitY=350

@@ -59,19 +59,9 @@ public class Lemmings extends JGame {
 
         ScoreDatabase.createTable();
 
-
-
-        Stock stock = new Stock(
-                new HashMap<>(Map.of(
-                        Ability.DIGGER, 5,
-                        Ability.CLIMB, 0,
-                        Ability.STOP, 3,
-                        Ability.UMBRELLA, 0
-                ))
-        );
-
         try {
             loadLevels();
+            Stock stock = levels.get(currentLevel).getStock();
             boolean fullScreen = false;
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
 
@@ -100,11 +90,13 @@ public class Lemmings extends JGame {
 
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
+                cursor = new Cursor(levels.get(currentLevel).getStock(), getMouse(), screenWidth, screenHeight, false);
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
                 levels.get(currentLevel).getMinimap().handleClick(getMouse().getX(),getMouse().getY());
+
                 updateLevelScreen();
             }
 

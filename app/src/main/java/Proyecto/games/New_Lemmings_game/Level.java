@@ -63,7 +63,7 @@ public class Level {
         float buttonWidth = 0.13f;
         float buttonHeight = 0.25f;
         float startY = 0.75f; // 450/600
-        buttonAcelerate = new Buttons("NASHE", 0,0.01f, startY, 0.1f, 0.1f);
+        buttonAcelerate = new Buttons("Nuke", 0,0.01f, startY, 0.1f, 0.1f);
         buttonSlow = new Buttons("+", 0,0.01f, 0.82f, 0.1f, 0.1f);
         buttonNuke = new Buttons("-", 0,0.01f, 0.89f, 0.1f, 0.1f);
         buttonDig = new Buttons("Cavar" ,stock.getQuantityAbility(Ability.DIGGER), 0.01f, startY, buttonWidth, buttonHeight);
