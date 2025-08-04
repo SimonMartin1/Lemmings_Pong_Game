@@ -34,9 +34,10 @@ public class Lemmings extends JGame {
     private final List<Level> levels = new ArrayList<>();
     private int currentLevel = 0;
     private Cursor cursor;
-    private GameState gameState= GameState.ON_MENU;
+    private GameState gameState= GameState.ENDGAME;
     private int screenWidth =800;
     private int screenHeight = 600;
+    private int pointsSum=0;
 
 
     public Lemmings(String title, int width, int height) {
@@ -114,11 +115,6 @@ public class Lemmings extends JGame {
             
             case ENDGAME -> {
                 win.update(delta);
-                //Si termino el juego guardo el puntaje
-                int pointsSum=0;
-                for (Level l : levels) pointsSum += l.getLevelScore();
-                String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-                ScoreDatabase.saveScore(timestamp, pointsSum);
             }
         }
 
@@ -157,6 +153,10 @@ public class Lemmings extends JGame {
             currentLevel++;
         }
         else{
+            //Si termino el juego guardo el puntaje
+            for (Level l : levels) pointsSum += l.getLevelScore();
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            ScoreDatabase.saveScore(timestamp, pointsSum);
             setGameState(GameState.ENDGAME);
         }
     }
@@ -201,6 +201,8 @@ public class Lemmings extends JGame {
     public int getLevelSize(){
         return levels.size();
     }
+
+    public int getScore(){return pointsSum;}
 
 
     public void updateLevelScreen(){
