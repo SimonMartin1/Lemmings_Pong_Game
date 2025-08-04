@@ -15,7 +15,7 @@ public class WallAbility extends AbilityClass {
 
     @Override
     public void apply(Lemming_Entity lemmingEntity, double delta) {
-        int tileX = (lemmingEntity.getX() + lemmingEntity.getLevel().getCamX()) / 8;
+        int tileX = (lemmingEntity.getX()) / 8;
         int tileY = (lemmingEntity.getY()) / 8;
 
         lemmingEntity.setSpeed(0);

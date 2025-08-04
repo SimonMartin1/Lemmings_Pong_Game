@@ -17,7 +17,7 @@ public class ClimbAbility extends AbilityClass {
     @Override
     public void apply(Lemming_Entity lemming, double delta) {
 
-        int tileX = (lemming.getX() + lemming.getLevel().getCamX()) / 8;
+        int tileX = (lemming.getX()) / 8;
         int tileY = (lemming.getY()) / 8;
 
         boolean goingRight = lemming.isWalkingToRight();
