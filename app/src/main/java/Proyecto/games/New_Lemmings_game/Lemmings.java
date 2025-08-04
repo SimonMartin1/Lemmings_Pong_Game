@@ -11,6 +11,7 @@ import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundPlayer;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
+import org.checkerframework.checker.units.qual.K;
 
 import javax.swing.*;
 import java.awt.*;
@@ -220,10 +221,15 @@ public class Lemmings extends JGame {
             nextLevel();
             setGameState(GameState.PLAYING);
         } else if (gameState.equals(GameState.LEVEL_FAIL) && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-            levels.get(currentLevel).reset();
-            setGameState(GameState.PLAYING);
+            if(getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+                levels.get(currentLevel).reset();
+                setGameState(GameState.PLAYING);
+            }else if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+                setGameState(GameState.ON_MENU);
+            }
+
         }
-    }*/
+    }
 
     @Override
     public void gameShutdown() {
