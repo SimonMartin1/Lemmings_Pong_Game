@@ -24,34 +24,40 @@ public class DigAbility extends AbilityClass {
         int tileY = (lemmingEntity.getY()) / 8;
 
 
+
         System.out.println(lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX]);
 
 
-        if(!Color.BLACK.equals(lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 3][tileX].getColor())){
+        try {
 
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX].setTileColor(Color.BLACK);
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
+            if (!Color.BLACK.equals(lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 3][tileX].getColor())) {
 
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX + 1].setTileColor(Color.BLACK);
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
 
-            lemmingEntity.setY(lemmingEntity.getY() + 1); // baja el lemming un poco
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX + 1].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
+
+                lemmingEntity.setY(lemmingEntity.getY() + 1); // baja el lemming un poco
+            } else {
+
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
+
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX + 1].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
+
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
+
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 2][tileX].setTileColor(Color.BLACK);
+                lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 2][tileX + 1].setTileColor(Color.BLACK);
+
+                lemmingEntity.setAbility(null);
+            }
         }
-        else{
-
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX].setTileColor(Color.BLACK);
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
-
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX +1].setTileColor(Color.BLACK);
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
-
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX].setTileColor(Color.BLACK);
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 1][tileX + 1].setTileColor(Color.BLACK);
-
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 2][tileX].setTileColor(Color.BLACK);
-            lemmingEntity.getLevel().getMap().getMapTiles()[tileY + 2][tileX + 1].setTileColor(Color.BLACK);
-
-            lemmingEntity.setAbility(null);
+        catch (Exception e) {
+            lemmingEntity.setState(new DeadState());
         }
     }
 

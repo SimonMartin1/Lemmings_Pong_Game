@@ -1,11 +1,11 @@
 name= Umbrella School
 lemmings=4
-time=100
+percentajeToWin=100
 spawnX=450
 spawnY=180
 spawnRate=300
 exitX=1000
-exitY=300
+exitY=250
 exitWidth=300
 mapId=3
 mapWidth=700
