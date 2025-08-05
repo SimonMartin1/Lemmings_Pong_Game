@@ -131,11 +131,6 @@ public class Settings extends Pong_Screens {
     }
     public void drawCurrentSettings(Graphics2D g){
 
-        //width/2-80, 220, 40, 40
-        g.fillRect(width/2-80, 220, 40, 40);
-        g.fillRect(width/2-140, 220, 40, 40);
-        g.fillRect(width/2-20, 220, 40, 40);
-
         if(game.getConfig().isVersusIA()){
             switch(game.getConfig().getDifficult()){
                 case HARD -> activeButtonEffect(g, width/2, 170,"Hard", width/2-15, 145,70,40,20,20);
@@ -202,8 +197,6 @@ public class Settings extends Pong_Screens {
             g.setColor(Color.WHITE);
             g.drawString("Select the new key", width/2-70, 150);
         }
-
-        
     }
 
     //Dibuja la animacion de boton activo dado un componete grafico, dimensiones y coordenadas en la pantalla
@@ -360,7 +353,7 @@ public class Settings extends Pong_Screens {
 
     // --- WINPOINTS 15 ---
     public boolean isWinPoints15Clicked() {
-        return isMouseOverClickArea(width/2-140, 220, 40, 40);
+        return isMouseOverClickArea(width/2-140, 220, 40, 20);
     }
 
     // --- WINPOINTS 10 ---
@@ -370,7 +363,7 @@ public class Settings extends Pong_Screens {
 
     // --- WINPOINTS 5 ---
     public boolean isWinPoints5Clicked() {
-        return isMouseOverClickArea(width/2-20, 220, 40, 40);
+        return isMouseOverClickArea(width/2-40, 220, 40, 40);
     }
 
 
@@ -426,7 +419,7 @@ public class Settings extends Pong_Screens {
 
     // --- SAVE ---
     public boolean isSaveClicked() {
-        return isMouseOverClickArea(width-325, (int) (height * .85) - 20, 30, 30);
+        return isMouseOverClickArea(width-325, (int) (height * .85), 30, 30);
     }
 
     // --- CANCEL ---

@@ -35,11 +35,11 @@ public class Menu extends Pong_Screens {
     }
     @Override
     public void update(double delta){
-        if((detecSettings()) || game.getKeyboard().isKeyPressed(KeyEvent.VK_F1)){
+        if((detecSettings(width - 250, height - 110, 150, 80)) || game.getKeyboard().isKeyPressed(KeyEvent.VK_F1)){
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if(detecPlay()|| game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+        if(detecPlay(width / 2, height/2+50, 200, 60)|| game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             game.setGameState(GameState.PLAYING);
             game.startGame();
         }
@@ -57,13 +57,12 @@ public class Menu extends Pong_Screens {
         return mx >= x && mx <= x + width && my >= y && my <= y + height && game.getMouse().isLeftButtonPressed();
     }
 
-    protected boolean detecPlay(){
+    protected boolean detecPlay(int x, int y, int width,int height){
         return isMouseOverClickArea(width / 2 - 100, 300, 200, 60);
     }
 
-    protected boolean detecSettings(){
+    protected boolean detecSettings(int x, int y, int width,int height){
         return isMouseOverClickArea(width - 250, height - 110, 150, 80);
-        
     }
 }
 
