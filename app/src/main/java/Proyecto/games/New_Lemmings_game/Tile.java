@@ -44,7 +44,7 @@ public class Tile {
 
     public void setTileColor(Color color) {
         try{
-            image = ImageIO.read(getClass().getResourceAsStream("/black.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/images/black.png"));
         }catch (Exception err){
             err.printStackTrace();
         }
