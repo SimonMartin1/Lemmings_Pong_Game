@@ -8,6 +8,7 @@ import Proyecto.games.New_Lemmings_game.View.*;
 import Proyecto.games.New_Lemmings_game.View.Menu;
 import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundPlayer;
+import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
 
@@ -34,8 +35,8 @@ public class Lemmings extends JGame {
     private int screenWidth =800;
     private int screenHeight = 600;
     private int pointsSum=0;
-
-
+    private LemmingSkin selectedSkin;
+    private boolean music;
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -55,7 +56,7 @@ public class Lemmings extends JGame {
         });
 
         ScoreDatabase.createTable();
-
+        selectedSkin = LemmingSkin.SPRITE;
         try {
             loadLevels();
             Stock stock = levels.get(currentLevel).getStock();
@@ -163,11 +164,13 @@ public class Lemmings extends JGame {
         LoadFromFiles loadFromFiles = new LoadFromFiles();
         File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-
+        int currentLvl = 0;
         if (files != null) {
             for (File file : files) {
                 Level level = loadFromFiles.loadLevelFromFile(file.getPath());
+                level.setLemmingSkin(selectedSkin);
                 levels.add(level);
+                currentLvl ++ ; 
             }
         } else {
             System.out.println("No se encontraron archivos en la carpeta de niveles.");
@@ -192,7 +195,17 @@ public class Lemmings extends JGame {
     }
 
     public int getScore(){return pointsSum;}
-
+    
+    public void setSelectedSkin(LemmingSkin skin) {
+        this.selectedSkin = skin;
+        for (Level l : levels) {
+            l.setLemmingSkin(skin);
+        }
+    }
+    
+    public LemmingSkin getSelectedSkin() {
+        return selectedSkin;
+    }
 
     public void updateLevelScreen(){
         if (gameState.equals(GameState.PRE_LEVEL) && getMouse().isLeftButtonPressed()) {

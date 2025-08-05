@@ -6,6 +6,7 @@ import Proyecto.games.New_Lemmings_game.States.SavedState;
 import Proyecto.games.New_Lemmings_game.States.WaitingState;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 import Proyecto.games.New_Lemmings_game.utils.LemmingState;
 import Proyecto.games.New_Lemmings_game.View.Buttons;
 
@@ -43,6 +44,7 @@ public class Level {
     private final Buttons buttonSlow;
     private final Buttons buttonNuke;
 
+    private LemmingSkin lemmingSkin;
     private final List<Lemming_Entity> lemmingEntities = new ArrayList<>();
     private final int lemmingSpawnX;
     private final int lemmingSpawnY;
@@ -149,7 +151,7 @@ public class Level {
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                Lemming_Entity nuevo = new Lemming_Entity(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, this);
+                Lemming_Entity nuevo = new Lemming_Entity(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, this,lemmingSkin);
                 lemmingEntities.add(nuevo);
             }
         }
@@ -367,6 +369,9 @@ public class Level {
 
     public void setCamX(int camX) {
         this.camX = camX; 
+    }
+    public void setLemmingSkin(LemmingSkin lemmingSkin){
+        this.lemmingSkin = lemmingSkin;
     }
     /*
     public Minimap getMinimap() {
