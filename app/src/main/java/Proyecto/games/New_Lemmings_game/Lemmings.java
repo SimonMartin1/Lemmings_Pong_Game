@@ -6,12 +6,10 @@ package Proyecto.games.New_Lemmings_game;
 import Proyecto.games.New_Lemmings_game.Levels.LoadFromFiles;
 import Proyecto.games.New_Lemmings_game.View.*;
 import Proyecto.games.New_Lemmings_game.View.Menu;
-import Proyecto.games.New_Lemmings_game.utils.*;
 import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundPlayer;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
-import org.checkerframework.checker.units.qual.K;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,9 +19,7 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Lemmings extends JGame {
     private Menu menu;
@@ -108,9 +104,7 @@ public class Lemmings extends JGame {
 
             case PRE_LEVEL,LEVEL_END -> updateLevelScreen();
             
-            case ENDGAME -> {
-                win.update(delta);
-            }
+            case ENDGAME -> win.update(delta);
         }
 
 
@@ -216,6 +210,7 @@ public class Lemmings extends JGame {
                 nextLevel();
                 setGameState(GameState.PLAYING);
             } else{
+                setGameState(GameState.PLAYING);
                 levels.get(currentLevel).reset();
             }
         } else if (gameState.equals(GameState.LEVEL_END)  && !levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
