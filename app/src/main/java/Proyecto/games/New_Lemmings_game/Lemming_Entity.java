@@ -5,6 +5,7 @@ import Proyecto.games.New_Lemmings_game.States.*;
 import Proyecto.games.New_Lemmings_game.Constants.LemmingConstants;
 import Proyecto.games.New_Lemmings_game.Abilities.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -33,7 +34,7 @@ public class Lemming_Entity {
     private final Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
     private final Map<LemmingAnimationState, Integer> frameLengths = new HashMap<>();
     private Level level;
-
+    private LemmingSkin skinType; 
 
     private LemmingState currentState; // Estado del lemming actual
     private Proyecto.games.New_Lemmings_game.utils.LemmingState currentStateLemming;
@@ -42,7 +43,7 @@ public class Lemming_Entity {
     private LemmingAnimationState currentStateAnimation; // Estado actual de animación
 
     // Constructor
-    public Lemming_Entity(int id, int x, int y, int speed, Level level) {
+    public Lemming_Entity(int id, int x, int y, int speed, Level level, LemmingSkin skinType) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -51,12 +52,17 @@ public class Lemming_Entity {
         this.currentState = new FallingState();  // Estado inicial
         this.currentState.onEnter(this);
         this.currentStateAnimation = LemmingAnimationState.FALLING;
+        this.skinType = skinType; 
 
-        try {
-            loadAnimations();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (skinType == LemmingSkin.SPRITE) {
+            try {
+                loadAnimations();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        
+
     }
 
     // Lógica principal (llamada cada frame)
@@ -112,6 +118,15 @@ public class Lemming_Entity {
         int drawX = getX() - camX;
         int drawY = getY();
 
+        
+        if (skinType == LemmingSkin.CUADRADO) {
+            // Dibujar un cuadrado rojo fijo
+            g.setColor(Color.RED);
+            g.fillRect(drawX, drawY, 20, 30);
+            return;
+        }
+        
+        /*Si es sprite hace esto */
         updateAnimation();
 
         LemmingAnimationState state = getCurrentStateAnimation();

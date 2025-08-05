@@ -2,6 +2,7 @@ package Proyecto.games.New_Lemmings_game.View;
 
 
 import Proyecto.games.New_Lemmings_game.Lemmings;
+import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 import Proyecto.games.New_Lemmings_game.utils.Lemmings_Screens;
 import Proyecto.games.utils.Drawable;
 import Proyecto.games.utils.GameState;
@@ -13,7 +14,7 @@ import java.awt.event.KeyEvent;
 
 
 public class Settings extends Lemmings_Screens {
-    public boolean drawOn=true,drawFullScreen=true;
+    public boolean drawOn=true,drawFullScreen=true,drawSpriteSkin = true;
 
     private final Lemmings game;
 
@@ -50,7 +51,10 @@ public class Settings extends Lemmings_Screens {
         g.drawString("Cancel", width-245 , height-65);
         g.drawString("Reset", width-145 , height-65);
         //g.fillRoundRect(width-325, height-80, 60, 30, 20, 20);
-    
+        g.drawString("Skin", width/2-250 , 215);
+        g.drawString("Sprite", width/2-120 , 215);
+        g.drawString("Cuadrado", width/2-40 , 215);
+        
 
         if(drawOn){
         activeButtons(g,width/2-120, 125,"On", width/2-125, 105, 40, 30, 10, 10);
@@ -62,13 +66,33 @@ public class Settings extends Lemmings_Screens {
             activeButtons(g, width/2-120 , 170,"On", width/2-125, 150, 40, 30, 10, 10);
         }else{
             activeButtons(g, width/2-40 , 170,"Off", width/2-45, 150, 40, 30, 10, 10);
-        }        
+        }         
+        if(drawSpriteSkin){
+            activeButtons(g, width/2-120, 215,"Sprite", width/2-125, 195, 60, 30, 10, 10);
+        } else {
+            activeButtons(g, width/2-40, 215,"Cuadrado", width/2-45, 195, 80, 30, 10, 10);
+        }
     }
 
     public void update(double delta) {
         if(isSaveClicked() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+            game.setSelectedSkin(drawSpriteSkin ? LemmingSkin.SPRITE : LemmingSkin.CUADRADO);
             game.setGameState(GameState.ON_MENU);
         }
+        if (isSpriteSkinClicked()) {
+            drawSpriteSkin = true;
+        }
+        
+        if (isCuadradoSkinClicked()) {
+            drawSpriteSkin = false;
+        }
+        if(isMusicOnClicked()){
+            drawOn = true;
+        }
+        if(isMusicOffClicked()){
+            drawOn = false;
+        }
+        
     }
 
 
@@ -89,7 +113,14 @@ public class Settings extends Lemmings_Screens {
             case "fullscreenOff" ->{drawFullScreen=false;}
         }
     }
-
+    public boolean isSpriteSkinClicked() {
+        return isMouseOverClickArea(width/2-125, 175, 60, 30);
+    }
+    
+    public boolean isCuadradoSkinClicked() {
+        return isMouseOverClickArea(width/2-45, 175, 80, 30);
+    }
+    
     public boolean isMusicOnClicked() {
         return isMouseOverClickArea(width/2-125, 85, 40, 30);
     }
