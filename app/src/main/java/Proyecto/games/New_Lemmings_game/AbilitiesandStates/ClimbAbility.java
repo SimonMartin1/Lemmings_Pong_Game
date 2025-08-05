@@ -1,5 +1,7 @@
-package Proyecto.games.New_Lemmings_game;
+package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
 
+import Proyecto.games.New_Lemmings_game.LemmingConstants;
+import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
 import Proyecto.games.New_Lemmings_game.utils.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
