@@ -48,7 +48,7 @@ public class ExplodingState implements LemmingState {
     
     @Override
     public void onEnter(Lemming_Entity lemmingEntity) {
-        //tickCounter = 0;
+        tickCounter = 0;
         lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.NUKE);
     }
 

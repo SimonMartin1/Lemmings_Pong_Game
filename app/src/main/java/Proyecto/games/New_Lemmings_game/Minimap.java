@@ -81,7 +81,7 @@ public class Minimap {
             g.drawImage(minimapImage, x + 4, y + 4, width - 8, height - 8, null);
             
             // Opcional: dibuja un rectángulo indicando la vista actual
-            drawViewportIndicator(g);
+            //drawViewportIndicator(g);
         } else {
             g.setColor(Color.RED);
             g.drawString("Minimapa no disponible", x + 10, y + height / 2);
@@ -89,19 +89,23 @@ public class Minimap {
     }
 
     private void drawViewportIndicator(Graphics2D g) {
-        // Calcula la posición y tamaño del viewport en el minimapa
-        float scaleX = width / (float)mapWidth;
-        float scaleY = height / (float)mapHeight;
+        // Escala entre mapa real y minimapa
+        float scaleX = width / (float) mapWidth;
+        float scaleY = height / (float) mapHeight;
         
-        int indicatorX = x + (int)(map.getCamX() * scaleX);
-        int indicatorY = y + (int)(map.getCamY() * scaleY);
-        int indicatorWidth = (int)(map.getViewportWidth() * scaleX);
-        int indicatorHeight = (int)(map.getViewportHeight() * scaleY);
+        // Posición del viewport
+        int indicatorX = x + Math.round(level.getCamX() * scaleX);
+        int indicatorY = y + Math.round(0 * scaleY);
         
-        // Dibuja el rectángulo del viewport
-        g.setColor(new Color(255, 255, 255, 150)); // Blanco semitransparente
+        // Tamaño del viewport en el minimapa
+        int indicatorWidth = Math.round(map.getViewportWidth() * scaleX);
+        int indicatorHeight = Math.round(map.getViewportHeight() * scaleY);
+        
+        // Dibujar
+        g.setColor(new Color(255, 255, 255, 150));
         g.drawRect(indicatorX, indicatorY, indicatorWidth, indicatorHeight);
     }
+    
 
     // Getters para la posición del minimapa
     public int getX() { return x; }
