@@ -36,6 +36,7 @@ public class FallingState implements LemmingState {
     
             if (fallDistance > 20 && !hasUmbrella) {
                 if (ticks == 0) {
+                    
                     // Primera vez que toca piso: mostrar animación de muerte y detenerlo
                     lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.EXPLANTING_FALL);
                 }

@@ -218,6 +218,7 @@ public class Cursor {
      */
     private void assignNukeLemmings() {
         for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
+            lemmingEntity.clearAbility(); // Limpio la habilidad actual (wall, dig, etc.)
             lemmingEntity.setState(new ExplodingState());
             //lemmingEntity.setAbility(new WallAbility());
             //lemmingEntity.setState(new WaitingState());
