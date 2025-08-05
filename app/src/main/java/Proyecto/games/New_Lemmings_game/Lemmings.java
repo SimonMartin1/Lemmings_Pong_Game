@@ -6,7 +6,9 @@ package Proyecto.games.New_Lemmings_game;
 import Proyecto.games.New_Lemmings_game.Levels.LoadFromFiles;
 import Proyecto.games.New_Lemmings_game.View.*;
 import Proyecto.games.New_Lemmings_game.View.Menu;
+import Proyecto.games.New_Lemmings_game.utils.ConfigLemmings;
 import Proyecto.games.utils.GameState;
+import Proyecto.games.utils.SoundManager;
 import Proyecto.games.utils.SoundPlayer;
 import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
@@ -36,7 +38,8 @@ public class Lemmings extends JGame {
     private int screenHeight = 600;
     private int pointsSum=0;
     private LemmingSkin selectedSkin;
-    private boolean music;
+    private ConfigLemmings configLemmings;
+    private SoundManager soundManager;
     public Lemmings(String title, int width, int height) {
         super(title, width, height);
     }
@@ -48,6 +51,11 @@ public class Lemmings extends JGame {
     
     @Override
     public void gameStartup() {
+        configLemmings = new ConfigLemmings();
+        soundManager=new SoundManager(configLemmings.isMusicOff());
+        if(!getConfig().isMusicOff()){
+            getSoundManager().playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
+        }
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 SoundPlayer.stopSound();
@@ -56,7 +64,7 @@ public class Lemmings extends JGame {
         });
 
         ScoreDatabase.createTable();
-        selectedSkin = LemmingSkin.SPRITE;
+        selectedSkin = configLemmings.getLemmingSkin();
         try {
             loadLevels();
             Stock stock = levels.get(currentLevel).getStock();
@@ -177,6 +185,8 @@ public class Lemmings extends JGame {
         }
     }
 
+    public ConfigLemmings getConfig(){return configLemmings;}
+
     public void setGameState(GameState gameState){
         this.gameState = gameState;
     }
@@ -190,8 +200,8 @@ public class Lemmings extends JGame {
         this.currentLevel = currentLevel;
     }
 
-    public int getLevelSize(){
-        return levels.size();
+    public List<Level> getLevel(){
+        return levels;
     }
 
     public int getScore(){return pointsSum;}
@@ -203,8 +213,8 @@ public class Lemmings extends JGame {
         }
     }
     
-    public LemmingSkin getSelectedSkin() {
-        return selectedSkin;
+    public SoundManager getSoundManager() {
+        return soundManager;
     }
 
     public void updateLevelScreen(){

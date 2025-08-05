@@ -36,6 +36,7 @@ public class Pause extends Lemmings_Screens {
         }
         if(game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setGameState(GameState.ON_MENU);
+            game.getLevel().get(game.getCurrentLevel()).reset();
         }
     }
     

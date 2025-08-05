@@ -77,6 +77,7 @@ public class Settings extends Lemmings_Screens {
     public void update(double delta) {
         if(isSaveClicked() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
             game.setSelectedSkin(drawSpriteSkin ? LemmingSkin.SPRITE : LemmingSkin.CUADRADO);
+
             game.setGameState(GameState.ON_MENU);
         }
         if (isSpriteSkinClicked()) {
@@ -88,9 +89,11 @@ public class Settings extends Lemmings_Screens {
         }
         if(isMusicOnClicked()){
             drawOn = true;
+            game.getConfig().setMusicOff(false);
         }
         if(isMusicOffClicked()){
             drawOn = false;
+            game.getConfig().setMusicOff(true);
         }
         
     }
@@ -109,8 +112,6 @@ public class Settings extends Lemmings_Screens {
             drawOn = true;
             drawFullScreen=false;
             }
-            case "fullscreen" ->{drawFullScreen=true;}
-            case "fullscreenOff" ->{drawFullScreen=false;}
         }
     }
     public boolean isSpriteSkinClicked() {
@@ -126,12 +127,6 @@ public class Settings extends Lemmings_Screens {
     }
     public boolean isMusicOffClicked() {
         return isMouseOverClickArea(width/2-45, 85, 40, 30);
-    }
-    public boolean isFullScreenClicked() {
-        return isMouseOverClickArea(width/2-125, 107, 40, 40);
-    }
-    public boolean isFullScreenOffClicked() {
-        return isMouseOverClickArea(width/2-45, 107, 40, 30);
     }
     public boolean isSaveClicked() {
         return isMouseOverClickArea(width-325, height-110, 30, 30);

@@ -6,6 +6,7 @@ import Proyecto.games.New_Pong_game.views.Over;
 import Proyecto.games.New_Pong_game.views.Pause;
 import Proyecto.games.New_Pong_game.views.Settings;
 import Proyecto.games.utils.GameState;
+import Proyecto.games.utils.SoundManager;
 import com.entropyinteractive.JGame;
 
 import javax.swing.*;

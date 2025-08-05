@@ -11,10 +11,8 @@ import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import Proyecto.games.utils.GameState;
 
 public class Score extends Lemmings_Screens {
-    private final Lemmings game;
     public Score(int width, int height, Lemmings game) {
         super(width,height,game);
-        this.game = game;
     }
     @Override
     public void draw(Graphics2D g){

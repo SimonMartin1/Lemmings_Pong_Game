@@ -58,7 +58,7 @@ public class Menu extends Lemmings_Screens{
         }
 
 
-        if(detectIncrease() && game.getCurrentLevel()!=game.getLevelSize()-1){
+        if(detectIncrease() && game.getCurrentLevel()!=game.getLevel().size()-1){
                 game.setCurrentLevel(game.getCurrentLevel()+1);
         }
 
@@ -79,7 +79,7 @@ public class Menu extends Lemmings_Screens{
 
     public int chooseLevel(){
         int res=0;
-        for(int i=0; i<game.getLevelSize(); i++){
+        for(int i=0; i<game.getLevel().size(); i++){
             if(i==game.getCurrentLevel()){
                 res=i+1;
             }
