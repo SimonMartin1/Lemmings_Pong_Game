@@ -81,6 +81,11 @@ public class Level {
 
         updateLemmingSpawn(delta, lemmingSpawnX, lemmingSpawnY);
 
+        buttonDig.setAbilitiesAmount(stock.getQuantityAbility(Ability.DIGGER));
+        buttonBuild.setAbilitiesAmount(stock.getQuantityAbility(Ability.STOP));
+        buttonStop.setAbilitiesAmount(stock.getQuantityAbility(Ability.UMBRELLA));
+        buttonFly.setAbilitiesAmount(stock.getQuantityAbility(Ability.CLIMB));
+
         // Contar 3s luego de que isNukeTime es true
         confirmNuke();
         handleNukeConfirmed();
