@@ -35,11 +35,11 @@ public class Menu extends Pong_Screens {
     }
     @Override
     public void update(double delta){
-        if((detecSettings(width - 250, height - 110, 150, 80)) || game.getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+        if((detecSettings(width - 250, height - 110, 150, 80)) || game.getKeyboard().isKeyPressed(KeyEvent.VK_F1)){
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if(detecPlay(width / 2 - 100, 300, 200, 60)|| game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+        if(detecPlay(width / 2, height/2+50, 200, 60)|| game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
             game.setGameState(GameState.PLAYING);
             game.startGame();
         }
