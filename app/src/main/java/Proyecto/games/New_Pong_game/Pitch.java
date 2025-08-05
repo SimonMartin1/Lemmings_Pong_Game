@@ -17,8 +17,8 @@ public class Pitch implements Drawable {
         this.height = height;
 
         switch (pitchSkin){
-            case DEFAULT -> this.pitchImage = new ImageIcon("app\\src\\main\\resources\\cancha1.png").getImage();
-            case BASKET -> this.pitchImage = new ImageIcon("app\\src\\main\\resources\\cancha2.png").getImage();
+            case DEFAULT -> this.pitchImage = new ImageIcon("app\\src\\main\\resources\\images\\cancha1.png").getImage();
+            case BASKET -> this.pitchImage = new ImageIcon("app\\src\\main\\resources\\images\\cancha2.png").getImage();
         }
 
     }
