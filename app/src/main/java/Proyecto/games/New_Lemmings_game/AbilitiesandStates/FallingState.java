@@ -34,7 +34,7 @@ public class FallingState implements LemmingState {
             int fallDistance = tileY - startFallTileY;
             boolean hasUmbrella = lemmingEntity.getAbilityClass() instanceof UmbrellaAbility;
     
-            if (fallDistance > 20 && !hasUmbrella) {
+            if (fallDistance > 40 && !hasUmbrella) {
                 if (ticks == 0) {
                     
                     // Primera vez que toca piso: mostrar animación de muerte y detenerlo
