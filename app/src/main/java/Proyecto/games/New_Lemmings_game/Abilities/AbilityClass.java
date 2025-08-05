@@ -1,7 +1,8 @@
-package Proyecto.games.New_Lemmings_game.utils;
+package Proyecto.games.New_Lemmings_game.Abilities;
 
 
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
+import Proyecto.games.New_Lemmings_game.utils.Ability;
 
 
 public abstract class AbilityClass{
@@ -13,5 +14,7 @@ public abstract class AbilityClass{
     }
 
     public abstract void apply(Lemming_Entity lemming, double delta);
+    public abstract boolean canUseAbility(Lemming_Entity lemming);
+
     public Ability getName(){ return name; }
 }

@@ -140,8 +140,6 @@ public class Lemmings extends JGame {
     private void nextLevel() {
         if (currentLevel < levels.size() - 1) {
             currentLevel++;
-
-            System.out.println("CURSOR NUEVO HA SIDO CREADO");
         }
         else{
             //Si termino el juego guardo el puntaje

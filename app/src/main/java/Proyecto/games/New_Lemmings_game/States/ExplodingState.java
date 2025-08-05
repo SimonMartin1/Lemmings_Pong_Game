@@ -1,4 +1,4 @@
-package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
+package Proyecto.games.New_Lemmings_game.States;
 
 import java.awt.Color;
 
