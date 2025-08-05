@@ -3,7 +3,6 @@ package Proyecto.games.New_Pong_game.views;
 import Proyecto.games.New_Pong_game.Pong;
 import Proyecto.games.New_Pong_game.utils.*;
 import Proyecto.games.utils.GameState;
-import Proyecto.view.Menu.Game_screen.Game;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
@@ -302,7 +301,7 @@ public class Settings extends Pong_Screens {
             }
         });
 
-        actions.put(this::isSaveClicked, () -> game.setGameState(GameState.PRE_MENU));
+        actions.put(this::isSaveClicked, () -> game.setGameState(GameState.ON_MENU));
 
         actions.put(this::isResetClicked, () -> game.resetConfig());
 
