@@ -1,4 +1,4 @@
-package Proyecto.games.New_Pong_game.utils;
+package Proyecto.games.utils;
 
 import javax.sound.sampled.*;
 import java.io.File;
