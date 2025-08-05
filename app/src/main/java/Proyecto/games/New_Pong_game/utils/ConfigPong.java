@@ -120,7 +120,12 @@ public class ConfigPong {
     }
 
     public int getMaxPoints() {
-        return maxPoints;
+        switch (maxPoints){
+            case 2: return 10;
+            case 3: return 15;
+
+            default: return 5;
+        }
     }
 
     public void setMaxPoints(int maxPoints) {

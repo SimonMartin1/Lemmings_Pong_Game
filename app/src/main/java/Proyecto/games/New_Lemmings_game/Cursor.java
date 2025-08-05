@@ -1,8 +1,12 @@
 package Proyecto.games.New_Lemmings_game;
 
-import Proyecto.games.New_Lemmings_game.AbilitiesandStates.*;
+import Proyecto.games.New_Lemmings_game.Abilities.ClimbAbility;
+import Proyecto.games.New_Lemmings_game.Abilities.DigAbility;
+import Proyecto.games.New_Lemmings_game.Abilities.UmbrellaAbility;
+import Proyecto.games.New_Lemmings_game.Abilities.WallAbility;
+import Proyecto.games.New_Lemmings_game.States.*;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
-import Proyecto.games.New_Lemmings_game.utils.AbilityClass;
+import Proyecto.games.New_Lemmings_game.Abilities.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 import com.entropyinteractive.Mouse;
 
@@ -218,6 +222,7 @@ public class Cursor {
      */
     private void assignNukeLemmings() {
         for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
+            lemmingEntity.clearAbility(); // Limpio la habilidad actual (wall, dig, etc.)
             lemmingEntity.setState(new ExplodingState());
             //lemmingEntity.setAbility(new WallAbility());
             //lemmingEntity.setState(new WaitingState());

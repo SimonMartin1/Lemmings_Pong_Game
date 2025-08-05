@@ -84,7 +84,7 @@ public class Ball implements Drawable {
     }
 
     private void reproduceBounceBall() {
-        //soundManager.playSoundEffect("app/src/main/java/Proyecto/games/Pong_game/resources/bounce.wav");
+        soundManager.playSoundEffect("app/src/main/java/Proyecto/games/New_Pong_game/resources/bounce.wav");
     }
 
     private void bounceOffPaddle(double paddleY, double paddleHeight) {

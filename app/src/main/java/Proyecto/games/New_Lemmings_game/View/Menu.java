@@ -52,7 +52,7 @@ public class Menu extends Lemmings_Screens{
             showPressText = !showPressText;
             blinkTime = 0;
         }
-
+        
         if(detectDecrease() && game.getCurrentLevel()!=0){
                 game.setCurrentLevel(game.getCurrentLevel()-1);
         }

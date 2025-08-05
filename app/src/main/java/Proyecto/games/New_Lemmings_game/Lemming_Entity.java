@@ -1,10 +1,11 @@
 package Proyecto.games.New_Lemmings_game;
 
-import Proyecto.games.New_Lemmings_game.AbilitiesandStates.FallingState;
-import Proyecto.games.New_Lemmings_game.AbilitiesandStates.SavedState;
+import Proyecto.games.New_Lemmings_game.Abilities.UmbrellaAbility;
+import Proyecto.games.New_Lemmings_game.States.*;
 import Proyecto.games.New_Lemmings_game.Constants.LemmingConstants;
-import Proyecto.games.New_Lemmings_game.utils.AbilityClass;
+import Proyecto.games.New_Lemmings_game.Abilities.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,6 +13,9 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static Proyecto.games.New_Lemmings_game.LemmingConstants.TILE_HEIGHT;
+import static Proyecto.games.New_Lemmings_game.LemmingConstants.TILE_WIDTH;
 
 public class Lemming_Entity {
     private int id;
@@ -21,22 +25,25 @@ public class Lemming_Entity {
     private int currentTileX;
     private int currentTileY;
     private int fallingStartTileY = -1; // -1 = no está cayendo
-    private LemmingAnimationState lastState;
     private int currentFrameIndex = 0;
     private long lastFrameChangeTime = 0;
     private boolean isWalkingToRight = true;
     private boolean saved = false;
     private boolean isOnExit = false;
     private boolean isActive;
-    private LemmingAnimationState currentStateAnimation;
-    private AbilityClass currentAbility;
     private final Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
     private final Map<LemmingAnimationState, Integer> frameLengths = new HashMap<>();
-    private LemmingState currentState;
     private Level level;
+    private LemmingSkin skinType; 
+
+    private LemmingState currentState; // Estado del lemming actual
+    private Proyecto.games.New_Lemmings_game.utils.LemmingState currentStateLemming;
+    private AbilityClass currentAbility; // hablidad del lemming actual
+    private LemmingAnimationState lastState; // Ultimo estado de animación
+    private LemmingAnimationState currentStateAnimation; // Estado actual de animación
 
     // Constructor
-    public Lemming_Entity(int id, int x, int y, int speed, Level level) {
+    public Lemming_Entity(int id, int x, int y, int speed, Level level, LemmingSkin skinType) {
         this.id = id;
         this.x = x;
         this.y = y;
@@ -45,24 +52,45 @@ public class Lemming_Entity {
         this.currentState = new FallingState();  // Estado inicial
         this.currentState.onEnter(this);
         this.currentStateAnimation = LemmingAnimationState.FALLING;
+        this.skinType = skinType; 
 
-
-        try {
-            loadAnimations();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (skinType == LemmingSkin.SPRITE) {
+            try {
+                loadAnimations();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+        
+
     }
 
     // Lógica principal (llamada cada frame)
     public void update(double delta) {
-        if (hasAbility()) {
+
+        //Mantemos actualizados los tiles actuales
+        currentTileX = x / LemmingConstants.TILE_WIDTH;
+        currentTileY = y / LemmingConstants.TILE_HEIGHT;
+
+        // Chequeamos si tiene habildad y si es que puede hacer uso de ella.
+        if (hasAbility() && canUseAbility()) {
+
+            System.out.println(currentStateAnimation);
+
             applyAbility(delta);
-        } else {
-            currentTileX = x / LemmingConstants.TILE_WIDTH;
-            currentTileY = y / LemmingConstants.TILE_HEIGHT;
+        }
+        else {
             currentState.update(this, delta);
         }
+
+
+
+    }
+
+    public boolean canUseAbility(){
+        if(currentAbility == null) return false;
+
+        return currentAbility.canUseAbility(this);
     }
 
     public boolean isClicked(double clickX, double clickY, int camX){
@@ -90,6 +118,15 @@ public class Lemming_Entity {
         int drawX = getX() - camX;
         int drawY = getY();
 
+        
+        if (skinType == LemmingSkin.CUADRADO) {
+            // Dibujar un cuadrado rojo fijo
+            g.setColor(Color.RED);
+            g.fillRect(drawX, drawY, 20, 30);
+            return;
+        }
+        
+        /*Si es sprite hace esto */
         updateAnimation();
 
         LemmingAnimationState state = getCurrentStateAnimation();
@@ -221,11 +258,6 @@ public class Lemming_Entity {
     public AbilityClass getAbilityClass(){
         return currentAbility; 
     }
-    /*
-    public boolean isActive() {
-        return !(currentState instanceof DeadState || currentState instanceof SavedState);
-    }*/
-
 
     public void startFalling() {
         fallingStartTileY = getTileY();
@@ -245,7 +277,7 @@ public class Lemming_Entity {
     }
 
     public boolean isGoingToDieFromFall() {
-        return getTilesFallen() > 20 && !hasUmbrella();
+        return getTilesFallen() > 25 && !hasUmbrella();
     }
 
     // Getters & setters
@@ -259,7 +291,7 @@ public class Lemming_Entity {
     public void setY(int y) { this.y = y; }
 
     public boolean hasUmbrella(){
-        return false;
+        return currentState instanceof UmbrellaAbility;
     }
 
     public boolean isWalkingToRight() { return isWalkingToRight; }
@@ -287,6 +319,7 @@ public class Lemming_Entity {
     public void setActivite(boolean isActive){this.isActive = isActive; }
     public int getSpeed() { return speed; }
     public void setSpeed(int s) { this.speed = s; }
+    public void setFallingStartTileY(int fallingStartTileY){ this.fallingStartTileY = fallingStartTileY; }
 
     public int getTileX() { return currentTileX; }
     public int getTileY() { return currentTileY; }

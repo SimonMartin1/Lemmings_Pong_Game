@@ -10,13 +10,17 @@ public class Buttons {
     private float relX, relY, relWidth, relHeight; // proporciones relativas
     private Color baseColor = new Color(101, 67, 33); // marrón tierra oscuro
 
-    public Buttons(String text,int hability,float relX, float relY, float relWidth, float relHeight) {
+    public Buttons(String text,int ability,float relX, float relY, float relWidth, float relHeight) {
         this.text = text;
-        this.hability = hability;
+        this.hability = ability;
         this.relX = relX;
         this.relY = relY;
         this.relWidth = relWidth;
         this.relHeight = relHeight;
+    }
+
+    public void setAbilitiesAmount(int ability){
+        this.hability = ability;
     }
 
     public void draw(Graphics2D g,int screenWidth, int screenHeight) {
