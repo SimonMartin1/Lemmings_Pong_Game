@@ -1,4 +1,4 @@
-package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
+package Proyecto.games.New_Lemmings_game.States;
 
 import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;

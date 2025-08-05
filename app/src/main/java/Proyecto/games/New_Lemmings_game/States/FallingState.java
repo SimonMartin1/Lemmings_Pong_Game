@@ -1,5 +1,6 @@
-package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
+package Proyecto.games.New_Lemmings_game.States;
 
+import Proyecto.games.New_Lemmings_game.Abilities.UmbrellaAbility;
 import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
@@ -30,13 +31,8 @@ public class FallingState implements LemmingState {
             // Sigue cayendo
             lemmingEntity.setY(lemmingEntity.getY() + lemmingEntity.getSpeed());
         } else {
-            // Hay piso
-            int fallDistance = tileY - startFallTileY;
-            boolean hasUmbrella = lemmingEntity.getAbilityClass() instanceof UmbrellaAbility;
-    
-            if (fallDistance > 25 && !hasUmbrella) {
+            if (lemmingEntity.isGoingToDieFromFall()) {
                 if (ticks == 0) {
-                    
                     // Primera vez que toca piso: mostrar animación de muerte y detenerlo
                     lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.EXPLANTING_FALL);
                 }

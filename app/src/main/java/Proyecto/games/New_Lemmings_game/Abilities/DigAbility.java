@@ -1,8 +1,8 @@
-package Proyecto.games.New_Lemmings_game.AbilitiesandStates;
+package Proyecto.games.New_Lemmings_game.Abilities;
 
+import Proyecto.games.New_Lemmings_game.States.DeadState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
-import Proyecto.games.New_Lemmings_game.utils.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 
 import java.awt.*;
@@ -18,15 +18,9 @@ public class DigAbility extends AbilityClass {
     public void apply(Lemming_Entity lemmingEntity, double delta) {
 
         lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.DIGGING);
-        //int tileX = (lemmingEntity.getX() / 8) + lemmingEntity.getLevel().getCamX();
+
         int tileX = ((lemmingEntity.getX()) / 8);
-
-        System.out.println((lemmingEntity.getLevel().getCamX() + lemmingEntity.getX()) /8) ;
         int tileY = (lemmingEntity.getY()) / 8;
-
-
-
-        System.out.println(lemmingEntity.getLevel().getMap().getMapTiles()[tileY][tileX]);
 
 
         try {
@@ -62,4 +56,8 @@ public class DigAbility extends AbilityClass {
         }
     }
 
+    @Override
+    public boolean canUseAbility(Lemming_Entity lemming) {
+        return true;
+    }
 }
