@@ -15,6 +15,8 @@ import java.lang.reflect.Field;
 public class Pong extends JGame{
 
     private int width, height;
+    private Track lastTrack;
+
     GameState gameState = GameState.ON_MENU;
     ConfigPong config,config_BackUp;
 
@@ -59,7 +61,9 @@ public class Pong extends JGame{
     @Override
     public void gameStartup() {
         config = new ConfigPong();
+
         soundManager = new SoundManager(config.isMusicOff());
+        lastTrack = config.getTrack();
 
         if(config.isFullscreen()) {
             setFullscreenMode();
@@ -67,6 +71,10 @@ public class Pong extends JGame{
 
             this.width = screenSize.width;
             this.height = screenSize.height;
+        }
+
+        if(!config.isMusicOff()){
+            soundManager.playMusic("app/src/main/java/Proyecto/games/New_Pong_game/resources/" + config.getTrack() + ".wav", true);
         }
 
         this.menu = new Menu(width,height,this);
@@ -79,6 +87,13 @@ public class Pong extends JGame{
         switch (gameState){
 
             case PRE_MENU -> {
+
+                soundManager.setMuted(config.isMusicOff());
+
+                if(config.getTrack() != lastTrack){
+                    soundManager.playMusic("app/src/main/java/Proyecto/games/New_Pong_game/resources/" + config.getTrack() + ".wav", true);
+                    lastTrack = config.getTrack();
+                }
 
                 if(config.isFullscreen() && width <= 800){
                     setFullscreenMode();
