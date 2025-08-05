@@ -189,8 +189,8 @@ public class Lemmings extends JGame {
         this.currentLevel = currentLevel;
     }
 
-    public int getLevelSize(){
-        return levels.size();
+    public List<Level> getLevel(){
+        return levels;
     }
 
     public int getScore(){return pointsSum;}
