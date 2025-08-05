@@ -18,11 +18,14 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
+    implementation 'org.xerial:sqlite-jdbc:3.45.2.0'
 
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     // This dependency is used by the application.
     implementation libs.guava
+
+    implementation fileTree(dir: 'src/lib', includes: ['*.*'])
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
@@ -34,7 +37,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = 'proyecto.App'
+    mainClass = 'Proyecto.App'
 }
 
 tasks.named('test') {

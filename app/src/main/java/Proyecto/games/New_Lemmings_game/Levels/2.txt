@@ -1,0 +1,13 @@
+name= Fly to Greece
+lemmings=4
+percentajeToWin=100
+spawnX=400
+spawnY=60
+spawnRate=300
+exitX=1150
+exitY=350
+exitWidth=300
+mapId=2
+mapWidth=700
+mapHeight=100
+stock=DIGGER:5,CLIMB:4,STOP:3,UMBRELLA:4
