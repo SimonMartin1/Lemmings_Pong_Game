@@ -10,8 +10,8 @@ import java.awt.event.KeyEvent;
 
 public class Pause extends Lemmings_Screens {
 
-    public Pause(int width, int height,  Lemmings game) {
-        super(width,height,game);
+    public Pause(Lemmings game) {
+        super(game);
     }
 
     @Override

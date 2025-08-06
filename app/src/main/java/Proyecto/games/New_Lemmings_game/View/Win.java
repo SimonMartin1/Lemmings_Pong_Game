@@ -13,8 +13,8 @@ public class Win extends Lemmings_Screens {
     // Botón "Volver al menú"
     
 
-    public Win(int width, int height, Lemmings game) {
-        super(width,height,game);
+    public Win(Lemmings game) {
+        super(game);
     }
     @Override
     public void draw(Graphics2D g) {

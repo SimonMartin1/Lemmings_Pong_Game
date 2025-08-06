@@ -13,8 +13,8 @@ public class Menu extends Lemmings_Screens{
     private double blinkTime;
     private boolean showPressText = true,prevKeyPressed=false;
 
-    public Menu(int width, int height, Lemmings game) {
-        super(width,height,game);
+    public Menu(Lemmings game) {
+        super(game);
     }
 
     public void draw(Graphics2D g) {

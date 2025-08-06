@@ -4,6 +4,7 @@ import Proyecto.games.New_Lemmings_game.Abilities.UmbrellaAbility;
 import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.utils.SoundPlayer;
 
 import java.awt.*;
 
@@ -34,6 +35,7 @@ public class FallingState implements LemmingState {
             if (lemmingEntity.isGoingToDieFromFall()) {
                 if (ticks == 0) {
                     // Primera vez que toca piso: mostrar animación de muerte y detenerlo
+                    SoundPlayer.playSound("app/src/main/resources/soundEffects/Lemmings_DeadSound.wav");
                     lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.EXPLANTING_FALL);
                 }
                 ticks++;

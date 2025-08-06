@@ -78,9 +78,9 @@ public class Pong extends JGame{
             soundManager.playMusic("app/src/main/java/Proyecto/games/New_Pong_game/resources/" + config.getTrack() + ".wav", true);
         }
 
-        this.menu = new Menu(width,height,this);
-        this.settings = new Settings(width,height,this);
-        this.over = new Over(width, height,this);
+        this.menu = new Menu(this);
+        this.settings = new Settings(this);
+        this.over = new Over(this);
     }
 
     @Override
@@ -104,18 +104,18 @@ public class Pong extends JGame{
                     this.width = screenSize.width;
                     this.height = screenSize.height;
 
-                    this.menu = new Menu(width,height,this);
-                    this.settings = new Settings(width,height,this);
-                    this.over = new Over(width, height,this);
+                    this.menu = new Menu(this);
+                    this.settings = new Settings(this);
+                    this.over = new Over(this);
                 }
                 else if(!config.isFullscreen() && width > 800){
                     exitFullscreenAndSetWindowedMode();
                     this.width = 800;
                     this.height = 600;
 
-                    this.menu = new Menu(width,height,this);
-                    this.settings = new Settings(width,height,this);
-                    this.over = new Over(width, height,this);
+                    this.menu = new Menu(this);
+                    this.settings = new Settings(this);
+                    this.over = new Over(this);
                 }
 
                 this.gameState = GameState.ON_MENU;
@@ -205,7 +205,7 @@ public class Pong extends JGame{
         this.pitch = new Pitch(width,height, config.getPitchSkin());
 
         this.scoreManager = new ScoreManager(width, config.getMaxPoints());
-        this.pause = new Pause(width,height,this);
+        this.pause = new Pause(this);
 
         this.paddleRight = new Paddle(width, height, height/2  - 75, (int)(width - width*0.03));
         this.paddleRightController = new PaddleController(paddleRight, getKeyboard(), config.getPlayerTwoUp(), config.getPlayerTwoDown());

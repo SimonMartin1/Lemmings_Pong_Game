@@ -11,8 +11,8 @@ import java.awt.event.KeyEvent;
 public class Pause extends Pong_Screens {
     private Boolean prevPausePressed = null;
 
-    public Pause(int width,int height,Pong game) {
-        super(width,height,game);
+    public Pause(Pong game) {
+        super(game);
     }
 
     @Override
