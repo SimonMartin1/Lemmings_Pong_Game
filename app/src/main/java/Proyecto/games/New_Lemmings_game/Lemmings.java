@@ -85,6 +85,8 @@ public class Lemmings extends JGame {
     @Override
     public void gameUpdate(double delta) {
 
+        System.out.println(gameState);
+
         switch (gameState){
 
             case PRE_MENU -> {
@@ -218,10 +220,10 @@ public class Lemmings extends JGame {
             }
 
             case LEVEL_END -> {
+
                 if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
                     if(levels.get(currentLevel).isLevelWon()){
                         nextLevel();
-                        gameState = GameState.PLAYING;
                     } else{
                         startGameLevel();
                     }
@@ -230,6 +232,7 @@ public class Lemmings extends JGame {
                     gameState = GameState.ON_MENU;
                     resetLevel(currentLevel);
                 }
+
             }
 
         }
