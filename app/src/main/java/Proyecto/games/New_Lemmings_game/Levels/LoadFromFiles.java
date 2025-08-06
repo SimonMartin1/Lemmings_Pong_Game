@@ -3,6 +3,7 @@ package Proyecto.games.New_Lemmings_game.Levels;
 
 import Proyecto.games.New_Lemmings_game.*;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
+import Proyecto.games.utils.SoundManager;
 
 import java.io.FileInputStream;
 import java.io.FileReader;
@@ -15,7 +16,7 @@ public class LoadFromFiles {
 
     // Assuming 'levels' and 'stock' are defined elsewhere in this class
 
-    public Level loadLevelFromFile(String path) throws IOException {
+    public Level loadLevelFromFile(String path, SoundManager soundManager) throws IOException {
         Properties props = new Properties();
         try (FileReader reader = new FileReader(path)) {
             props.load(reader);
@@ -53,7 +54,7 @@ public class LoadFromFiles {
         int lemmings = Integer.parseInt(props.getProperty("lemmings"));
         int percentajeToWin = Integer.parseInt(props.getProperty("percentajeToWin"));
 
-        return new Level(map, stock, lemmings, (double) percentajeToWin, 0, name, exit, spawnX, spawnY);
+        return new Level(map, stock, lemmings, (double) percentajeToWin, 0, name, exit, spawnX, spawnY, soundManager);
 
     }
 }

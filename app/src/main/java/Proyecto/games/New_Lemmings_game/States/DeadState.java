@@ -1,8 +1,8 @@
 package Proyecto.games.New_Lemmings_game.States;
 
-import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.utils.SoundManager;
 
 public class DeadState implements LemmingState {
 
@@ -14,7 +14,7 @@ public class DeadState implements LemmingState {
 
     @Override
     
-    public void onEnter(Lemming_Entity lemmingEntity) {
+    public void onEnter(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         lemmingEntity.setAnimationState(LemmingAnimationState.EXPLANTING_FALL);
         tickCounter = 0;
         currentFrame = 0;
@@ -22,7 +22,7 @@ public class DeadState implements LemmingState {
     }
 
     @Override
-    public void update(Lemming_Entity lemmingEntity, double delta) {
+    public void update(Lemming_Entity lemmingEntity, double delta, SoundManager soundManager) {
         if (finished) return;
 
         tickCounter++;
@@ -38,7 +38,7 @@ public class DeadState implements LemmingState {
     }
 
     @Override
-    public void onExit(Lemming_Entity lemmingEntity) {
+    public void onExit(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         // No hace falta nada por ahora
     }
 
