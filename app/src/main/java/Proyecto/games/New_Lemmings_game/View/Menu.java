@@ -74,7 +74,7 @@ public class Menu extends Lemmings_Screens{
             game.setGameState(GameState.ON_SCORE);
         }
 
-
+        game.getSoundManager().setMuted(game.getConfig().isMusicOff());
     }
 
     public int chooseLevel(){

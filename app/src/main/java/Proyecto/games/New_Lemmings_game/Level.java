@@ -263,10 +263,8 @@ public class Level {
 
         for (Lemming_Entity view : lemmingEntities) {
             this.camX = getCamX();
-            //System.out.println("camX en controller: " + camX );
 
             view.draw(g, camX);
-            //System.out.println("Dibuje el lemming");
         }
 
         g.setColor(Color.WHITE);

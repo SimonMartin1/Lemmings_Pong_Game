@@ -98,25 +98,26 @@ public class Lemmings extends JGame {
 
             case ON_SCORE -> score.update(delta);
 
+            case PRE_LEVEL -> startGameLevel();
+
             case PLAYING -> {
                 Level current = levels.get(currentLevel);
        
                 cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
                 cursor.setStock(levels.get(currentLevel).getStock());
 
-
                 cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
                 current.update(delta);
                 cursor.update(); // <-- actualizás el cursor con el mouse
                 levels.get(currentLevel).getMinimap().handleClick(getMouse().getX(),getMouse().getY());
 
-                updateLevelScreen();
+                updatelevelScreenHandler();
             }
 
             case ON_PAUSE -> pause.update(delta);
 
-            case PRE_LEVEL,LEVEL_END -> updateLevelScreen();
-            
+            case LEVEL_END -> updatelevelScreenHandler();
+
             case ENDGAME -> win.update(delta);
         }
 
@@ -220,14 +221,9 @@ public class Lemmings extends JGame {
         return soundManager;
     }
 
-    public void updateLevelScreen(){
+    public void updatelevelScreenHandler(){
 
         switch (gameState){
-
-            case PRE_LEVEL ->{
-                if(getMouse().isLeftButtonPressed()) gameState = GameState.PLAYING;
-                else if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) gameState = GameState.ON_MENU;
-            }
 
             case PLAYING -> {
                 if (levels.get(currentLevel).isLevelFinished()) gameState = GameState.LEVEL_END;
@@ -240,13 +236,12 @@ public class Lemmings extends JGame {
                         nextLevel();
                         gameState = GameState.PLAYING;
                     } else{
-                        gameState = GameState.PLAYING;
-                        levels.get(currentLevel).reset(); // ! - VER ESTO, TEMA RESET
+                        startGameLevel();
                     }
                 }
                 else if(!levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
                     gameState = GameState.ON_MENU;
-                    levels.get(currentLevel).reset(); // ! - VER ESTO, TEMA RESET
+                    resetLevel(currentLevel);
                 }
             }
 
@@ -257,9 +252,41 @@ public class Lemmings extends JGame {
     public void gameShutdown() {
     }
 
+    private void levelFinishHandler(){
+        if (levels.get(currentLevel).isLevelFinished()) gameState = GameState.LEVEL_END;
+        else if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) gameState = GameState.ON_PAUSE;
+    }
+
 
     public void startGameLevel(){
+        resetLevel(currentLevel);
+        gameState = GameState.PLAYING;
+    }
 
+    public void resetLevel(int index) {
+        if (index >= 0 && index < levels.size()) {
+            LoadFromFiles loadFromFiles = new LoadFromFiles();
+            File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
+            File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+
+            if (files != null && files.length > index) {
+
+                Level level;
+
+                try{
+                    level = loadFromFiles.loadLevelFromFile(files[index].getPath());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                System.out.println("La Skin seleccionada es: " + configLemmings.getLemmingSkin());
+
+                level.setLemmingSkin(configLemmings.getLemmingSkin());
+                levels.set(index, level); // Reemplaza el viejo level con uno nuevo
+            } else {
+                System.out.println("No se encontró el archivo del nivel para reiniciar.");
+            }
+        }
     }
 
 
