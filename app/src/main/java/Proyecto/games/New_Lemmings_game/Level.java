@@ -31,6 +31,7 @@ public class Level {
     private double spawnTimer = 0;
     private int spawnedLemmings = 0;
     private int camX = 300;
+    private boolean wasReproducedWinningSong = false;
 
 
     private long nukeStartTime = -1;
@@ -114,8 +115,20 @@ public class Level {
 
 
     public boolean isLevelWon() {
+        boolean win = false;
         double savedPercentage = (savedLemmings * 100.0) / lemmingsToGenerate;
-        return savedPercentage >= percentajeToWin && levelTime > 0;
+
+        if(savedPercentage >= percentajeToWin && levelTime > 0){
+
+            if(!wasReproducedWinningSong) {
+                soundManager.playSoundEffect("app/src/main/resources/soundEffects/win.wav");
+                wasReproducedWinningSong = true;
+            }
+
+            win = true;
+        }
+
+        return win;
     }
 
 
