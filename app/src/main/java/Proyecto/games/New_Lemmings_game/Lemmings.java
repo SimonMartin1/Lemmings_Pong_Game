@@ -99,18 +99,16 @@ public class Lemmings extends JGame {
             case PRE_LEVEL -> startGameLevel();
 
             case PLAYING -> {
-                Level current = levels.get(currentLevel);
-       
-                cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
-                cursor.setWereAllLemmingsGenerated(levels.get(currentLevel).getWereAllLemmingsGenerated());
-                cursor.setStock(levels.get(currentLevel).getStock());
+                updatelevelScreenHandler(); // Se verifica el estado del nivel
 
-                cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
-                current.update(delta);
+                Level current = levels.get(currentLevel);
+
+                cursor.syncWithLevel(current);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+
                 levels.get(currentLevel).getMinimap().handleClick(getMouse().getX(),getMouse().getY());
 
-                updatelevelScreenHandler();
+                current.update(delta);
             }
 
             case ON_PAUSE -> pause.update(delta);
@@ -217,6 +215,13 @@ public class Lemmings extends JGame {
 
     public void startGameLevel(){
         resetLevel(currentLevel);
+
+        Level current = levels.get(currentLevel);
+
+        // Se setea los stocks y los lemmings
+        cursor.setCurrentLemmings(current.getLemmings());
+        cursor.setStock(levels.get(currentLevel).getStock());
+
         gameState = GameState.PLAYING;
     }
 

@@ -264,4 +264,9 @@ public class Cursor {
     public void setWereAllLemmingsGenerated(boolean wereAllLemmingsGenerated){
         this.wereAllLemmingsGenerated = wereAllLemmingsGenerated;
     }
+
+    public void syncWithLevel(Level level){
+        this.wereAllLemmingsGenerated = level.getWereAllLemmingsGenerated();
+        this.camX = level.getCamX();
+    }
 }
