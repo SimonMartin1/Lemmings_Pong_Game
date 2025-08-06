@@ -151,61 +151,6 @@ public class Lemmings extends JGame {
         }
     }
 
-    private void nextLevel() {
-        if (currentLevel < levels.size() - 1) {
-            currentLevel++;
-            startGameLevel();
-        }
-        else{
-            //Si termino el juego guardo el puntaje
-            for (Level l : levels) pointsSum += l.getLevelScore();
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            ScoreDatabase.saveScore(timestamp, pointsSum);
-            setGameState(GameState.ENDGAME);
-        }
-    }
-
-    private void loadLevels() throws IOException {
-        LoadFromFiles loadFromFiles = new LoadFromFiles();
-        File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
-        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-
-        if (files != null) {
-            for (File file : files) {
-                Level level = loadFromFiles.loadLevelFromFile(file.getPath());
-                level.setLemmingSkin(configLemmings.getLemmingSkin());
-                levels.add(level);
-            }
-        } else {
-            System.out.println("No se encontraron archivos en la carpeta de niveles.");
-        }
-    }
-
-    public ConfigLemmings getConfig(){return configLemmings;}
-
-    public void setGameState(GameState gameState){
-        this.gameState = gameState;
-    }
-
-
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
-
-    public List<Level> getLevel(){
-        return levels;
-    }
-
-    public int getScore(){return pointsSum;}
-
-    public SoundManager getSoundManager() {
-        return soundManager;
-    }
-
     public void updatelevelScreenHandler(){
 
         switch (gameState){
@@ -239,6 +184,38 @@ public class Lemmings extends JGame {
         soundManager.stopMusic();
     }
 
+    // Lógica de niveles
+
+    private void nextLevel() {
+        if (currentLevel < levels.size() - 1) {
+            currentLevel++;
+            startGameLevel();
+        }
+        else{
+            //Si termino el juego guardo el puntaje
+            for (Level l : levels) pointsSum += l.getLevelScore();
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            ScoreDatabase.saveScore(timestamp, pointsSum);
+            setGameState(GameState.ENDGAME);
+        }
+    }
+
+    private void loadLevels() throws IOException {
+        LoadFromFiles loadFromFiles = new LoadFromFiles();
+        File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
+        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+
+        if (files != null) {
+            for (File file : files) {
+                Level level = loadFromFiles.loadLevelFromFile(file.getPath());
+                level.setLemmingSkin(configLemmings.getLemmingSkin());
+                levels.add(level);
+            }
+        } else {
+            System.out.println("No se encontraron archivos en la carpeta de niveles.");
+        }
+    }
+
     public void startGameLevel(){
         resetLevel(currentLevel);
         gameState = GameState.PLAYING;
@@ -266,6 +243,35 @@ public class Lemmings extends JGame {
                 System.out.println("No se encontró el archivo del nivel para reiniciar.");
             }
         }
+    }
+
+
+
+    // Getters & Setter
+
+    public ConfigLemmings getConfig(){return configLemmings;}
+
+    public void setGameState(GameState gameState){
+        this.gameState = gameState;
+    }
+
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public List<Level> getLevel(){
+        return levels;
+    }
+
+    public int getScore(){return pointsSum;}
+
+    public SoundManager getSoundManager() {
+        return soundManager;
     }
 
 
