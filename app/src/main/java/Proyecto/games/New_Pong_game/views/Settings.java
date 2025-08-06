@@ -71,7 +71,7 @@ public class Settings extends Pong_Screens {
 
         g.drawString("2 Players", width/2-265 , 215);
         g.drawString("On", width/2-120 , 215);
-        g.drawString("Off", width/2-40 , 215);
+        //g.drawString("Off", width/2-40 , 215);
 
         g.drawString("WinPoints", width/2-265 , 260);
         g.drawString("15", width/2-120 , 260);
@@ -85,12 +85,12 @@ public class Settings extends Pong_Screens {
         g.drawString(ballSkin(), width/2-125 , 350);
 
         g.drawString("Full Screen", width/2-265 , 395);
-        g.drawString("On", width/2-120 , 395);
-        g.drawString("Off", width/2-40 , 395);
+        //g.drawString("On", width/2-120 , 395);
+        g.drawString("Off", width/2-120 , 395);
 
         g.drawString("Keys", width/2-265 , 440);
         g.drawString("Player1 Up: "+ KeyEvent.getKeyText(game.getConfig().getPlayerOneUp()) +"  Down: "+ KeyEvent.getKeyText(game.getConfig().getPlayerOneDown()), width/2-200 , 440);
-        g.drawString("Change Keys", width/2+100 , 440);
+        //g.drawString("Change Keys", width/2+100 , 440);
 
         // OPTIONS
         g.drawString("Save", width-325 , (int) (height * .85) + 10);
@@ -132,9 +132,9 @@ public class Settings extends Pong_Screens {
     public void drawCurrentSettings(Graphics2D g){
 
         //width/2-80, 220, 40, 40
-        g.fillRect(width/2-80, 220, 40, 40);
-        g.fillRect(width/2-140, 220, 40, 40);
-        g.fillRect(width/2-20, 220, 40, 40);
+        //g.fillRect(width/2-80, 220, 40, 40);
+        //g.fillRect(width/2-140, 220, 40, 40);
+        //g.fillRect(width/2-20, 220, 40, 40);
 
         if(game.getConfig().isVersusIA()){
             switch(game.getConfig().getDifficult()){
