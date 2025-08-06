@@ -11,6 +11,7 @@ public class FallingState implements LemmingState {
 
     private int startFallTileY;
     private int ticks;
+    private boolean wasReproducedWinningSong = false;
     @Override
     public void onEnter(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         lemmingEntity.startFalling();
@@ -32,6 +33,12 @@ public class FallingState implements LemmingState {
             lemmingEntity.setY(lemmingEntity.getY() + lemmingEntity.getSpeed());
         } else {
             if (lemmingEntity.isGoingToDieFromFall()) {
+
+                if(!wasReproducedWinningSong){
+                    soundManager.playSoundEffect("app/src/main/resources/soundEffects/fall.wav");
+                    wasReproducedWinningSong = true;
+                }
+
                 if (ticks == 0) {
                     // Primera vez que toca piso: mostrar animación de muerte y detenerlo
                     soundManager.playSoundEffect("app/src/main/resources/soundEffects/Lemmings_DeadSound.wav");
