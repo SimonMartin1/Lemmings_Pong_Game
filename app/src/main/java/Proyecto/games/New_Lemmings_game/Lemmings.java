@@ -56,11 +56,9 @@ public class Lemmings extends JGame {
             soundManager.playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
         }
 
-        // ! - Chequear esto
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                SoundPlayer.stopSound();
-                gameShutdown();
+                Lemmings.super.shutdown();
             }
         });
 
@@ -238,6 +236,7 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameShutdown() {
+        soundManager.stopMusic();
     }
 
     private void levelFinishHandler(){
