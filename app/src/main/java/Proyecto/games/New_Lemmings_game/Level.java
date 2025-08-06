@@ -256,6 +256,11 @@ public class Level {
             }
         }
 
+        if(response && !isLevelWon() && !wasReproducedWinningSong && isLevelFinished()){
+            soundManager.playSoundEffect("app/src/main/resources/soundEffects/defeat.wav");
+            wasReproducedWinningSong = true;
+        }
+
         return response;
     }
 
