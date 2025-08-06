@@ -1,15 +1,16 @@
 package Proyecto.games.New_Lemmings_game.States;
 
 import Proyecto.games.New_Lemmings_game.utils.LemmingConstants;
-import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.utils.SoundManager;
+
 import java.awt.*;
 
 public class WalkingState implements LemmingState {
     
     @Override
-    public void update(Lemming_Entity l, double delta) {
+    public void update(Lemming_Entity l, double delta, SoundManager soundManager) {
         int tileX = l.getX() / LemmingConstants.TILE_WIDTH;
         int tileY = (l.getY() + LemmingConstants.TILE_HEIGHT - 1) / LemmingConstants.TILE_HEIGHT; // Posición de los pies
         
@@ -72,12 +73,12 @@ public class WalkingState implements LemmingState {
     }
     
     @Override 
-    public void onEnter(Lemming_Entity l) {
+    public void onEnter(Lemming_Entity l, SoundManager soundManager) {
         // Inicialización si es necesaria
     }
     
     @Override 
-    public void onExit(Lemming_Entity l) {
+    public void onExit(Lemming_Entity l, SoundManager soundManager) {
         // Limpieza si es necesaria
     }
 }

@@ -204,7 +204,7 @@ public class Lemmings extends JGame {
 
         if (files != null) {
             for (File file : files) {
-                Level level = loadFromFiles.loadLevelFromFile(file.getPath());
+                Level level = loadFromFiles.loadLevelFromFile(file.getPath(), soundManager);
                 level.setLemmingSkin(configLemmings.getLemmingSkin());
                 levels.add(level);
             }
@@ -236,7 +236,7 @@ public class Lemmings extends JGame {
                 Level level;
 
                 try{
-                    level = loadFromFiles.loadLevelFromFile(files[index].getPath());
+                    level = loadFromFiles.loadLevelFromFile(files[index].getPath(), soundManager);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

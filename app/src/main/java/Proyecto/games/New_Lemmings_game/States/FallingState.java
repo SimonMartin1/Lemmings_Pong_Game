@@ -1,9 +1,8 @@
 package Proyecto.games.New_Lemmings_game.States;
 
-import Proyecto.games.New_Lemmings_game.Abilities.UmbrellaAbility;
-import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.utils.SoundManager;
 import Proyecto.games.utils.SoundPlayer;
 
 import java.awt.*;
@@ -13,7 +12,7 @@ public class FallingState implements LemmingState {
     private int startFallTileY;
     private int ticks;
     @Override
-    public void onEnter(Lemming_Entity lemmingEntity) {
+    public void onEnter(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         lemmingEntity.startFalling();
         ticks = 0;
         startFallTileY = lemmingEntity.getTileY();  // guardás desde dónde empezó a caer
@@ -21,7 +20,7 @@ public class FallingState implements LemmingState {
     }
 
     @Override
-    public void update(Lemming_Entity lemmingEntity, double delta) {
+    public void update(Lemming_Entity lemmingEntity, double delta, SoundManager soundManager) {
         int tileX = lemmingEntity.getTileX();
         int tileY = lemmingEntity.getTileY();
     
@@ -35,7 +34,7 @@ public class FallingState implements LemmingState {
             if (lemmingEntity.isGoingToDieFromFall()) {
                 if (ticks == 0) {
                     // Primera vez que toca piso: mostrar animación de muerte y detenerlo
-                    SoundPlayer.playSound("app/src/main/resources/soundEffects/Lemmings_DeadSound.wav");
+                    soundManager.playSoundEffect("app/src/main/resources/soundEffects/Lemmings_DeadSound.wav");
                     lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.EXPLANTING_FALL);
                 }
                 ticks++;
@@ -51,7 +50,7 @@ public class FallingState implements LemmingState {
     }
     
     @Override
-    public void onExit(Lemming_Entity lemmingEntity) {
+    public void onExit(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         lemmingEntity.stopFalling();
     }
 }

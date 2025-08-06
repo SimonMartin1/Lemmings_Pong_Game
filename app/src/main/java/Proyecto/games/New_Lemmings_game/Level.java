@@ -10,6 +10,7 @@ import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 import Proyecto.games.New_Lemmings_game.utils.LemmingState;
 import Proyecto.games.New_Lemmings_game.View.Buttons;
+import Proyecto.games.utils.SoundManager;
 
 import java.awt.*;
 import java.io.IOException;
@@ -53,13 +54,15 @@ public class Level {
     private int LevelScore;
     private final Minimap minimap;
     private int savedLemmings;
+    private SoundManager soundManager;
 
-    public Level(Game_Map map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, Exit exit, int lemmingSpawnX, int lemmingSpawnY) {
+    public Level(Game_Map map, Stock stock, int lemmingsToGenerate, double percentajeToWin, int level, String lvlName, Exit exit, int lemmingSpawnX, int lemmingSpawnY, SoundManager soundManager) {
         this.map = map;
         this.stock = stock;
         this.levelName = lvlName;
         this.numLevel = level;
         this.exit = exit;
+        this.soundManager = soundManager;
         this.lemmingsToGenerate = lemmingsToGenerate;
         this.percentajeToWin = percentajeToWin;
         levelTime = calcLevelTime();
@@ -159,7 +162,7 @@ public class Level {
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
                 spawnedLemmings++;
-                Lemming_Entity nuevo = new Lemming_Entity(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, this,lemmingSkin);
+                Lemming_Entity nuevo = new Lemming_Entity(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, this,lemmingSkin, soundManager);
                 lemmingEntities.add(nuevo);
             }
         }

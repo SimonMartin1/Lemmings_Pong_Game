@@ -6,6 +6,7 @@ import Proyecto.games.New_Lemmings_game.Constants.LemmingConstants;
 import Proyecto.games.New_Lemmings_game.Abilities.AbilityClass;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
+import Proyecto.games.utils.SoundManager;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -31,7 +32,8 @@ public class Lemming_Entity {
     private final Map<LemmingAnimationState, BufferedImage[]> animations = new HashMap<>();
     private final Map<LemmingAnimationState, Integer> frameLengths = new HashMap<>();
     private Level level;
-    private LemmingSkin skinType; 
+    private LemmingSkin skinType;
+    private SoundManager soundManager;
 
     private LemmingState currentState; // Estado del lemming actual
     private Proyecto.games.New_Lemmings_game.utils.LemmingState currentStateLemming;
@@ -40,14 +42,15 @@ public class Lemming_Entity {
     private LemmingAnimationState currentStateAnimation; // Estado actual de animación
 
     // Constructor
-    public Lemming_Entity(int id, int x, int y, int speed, Level level, LemmingSkin skinType) {
+    public Lemming_Entity(int id, int x, int y, int speed, Level level, LemmingSkin skinType, SoundManager soundManager) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.speed = speed;
         this.level = level;
+        this.soundManager = soundManager;
         this.currentState = new FallingState();  // Estado inicial
-        this.currentState.onEnter(this);
+        this.currentState.onEnter(this, soundManager);
         this.currentStateAnimation = LemmingAnimationState.FALLING;
         this.skinType = skinType; 
 
@@ -79,7 +82,7 @@ public class Lemming_Entity {
             applyAbility(delta);
         }
         else {
-            currentState.update(this, delta);
+            currentState.update(this, delta, soundManager);
         }
     }
 
@@ -229,9 +232,9 @@ public class Lemming_Entity {
 
     // Setter para el nuevo estado
     public void setState(LemmingState newState) {
-        if (currentState != null) currentState.onExit(this);
+        if (currentState != null) currentState.onExit(this, soundManager);
         currentState = newState;
-        if (newState != null) newState.onEnter(this);
+        if (newState != null) newState.onEnter(this, soundManager);
     }
 
     // Habilidad aplicada (aún no delegada)

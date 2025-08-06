@@ -2,10 +2,10 @@ package Proyecto.games.New_Lemmings_game.States;
 
 import java.awt.Color;
 
-import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.Tile;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.utils.SoundManager;
 import Proyecto.games.utils.SoundPlayer;
 
 public class ExplodingState implements LemmingState {
@@ -15,7 +15,7 @@ public class ExplodingState implements LemmingState {
 
 
     @Override
-    public void update(Lemming_Entity lemmingEntity, double delta) {
+    public void update(Lemming_Entity lemmingEntity, double delta, SoundManager soundManager) {
         tickCounter++;
 
         int tileX = (lemmingEntity.getX()) / 8;
@@ -49,13 +49,13 @@ public class ExplodingState implements LemmingState {
     }
     
     @Override
-    public void onEnter(Lemming_Entity lemmingEntity) {
+    public void onEnter(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         tickCounter = 0;
         lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.NUKE);
     }
 
     @Override
-    public void onExit(Lemming_Entity lemmingEntity) {
+    public void onExit(Lemming_Entity lemmingEntity, SoundManager soundManager) {
         // Por lo general nada, porque lo borrás antes
     }
 }
