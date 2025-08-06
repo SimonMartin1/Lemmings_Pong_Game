@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Proyecto.games.New_Lemmings_game.LemmingConstants.TILE_HEIGHT;
-import static Proyecto.games.New_Lemmings_game.LemmingConstants.TILE_WIDTH;
-
 public class Lemming_Entity {
     private int id;
     private int x;
@@ -74,9 +71,6 @@ public class Lemming_Entity {
 
         // Chequeamos si tiene habildad y si es que puede hacer uso de ella.
         if (hasAbility() && canUseAbility()) {
-
-            System.out.println(currentStateAnimation);
-
             applyAbility(delta);
         }
         else {

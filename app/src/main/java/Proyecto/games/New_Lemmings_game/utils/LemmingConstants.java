@@ -1,4 +1,4 @@
-package Proyecto.games.New_Lemmings_game;
+package Proyecto.games.New_Lemmings_game.utils;
 
 public final class LemmingConstants {
 
