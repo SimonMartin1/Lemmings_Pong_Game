@@ -119,9 +119,11 @@ public class Lemming_Entity {
             g.fillRect(drawX, drawY, 20, 30);
             return;
         }
-        
-        /*Si es sprite hace esto */
-        updateAnimation();
+        else{
+            /*Si es sprite hace esto */
+            updateAnimation();
+        }
+
 
         LemmingAnimationState state = getCurrentStateAnimation();
         BufferedImage[] frames = animations.get(state);
