@@ -211,28 +211,44 @@ public class Lemmings extends JGame {
         return soundManager;
     }
 
-    public void updateLevelScreen(){
-        if (gameState.equals(GameState.PRE_LEVEL) && getMouse().isLeftButtonPressed()) {
-            setGameState(GameState.PLAYING);
-        } else if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
-            setGameState(GameState.ON_MENU);
-        } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
-                setGameState(GameState.LEVEL_END);
-        } else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
-            setGameState(GameState.ON_PAUSE);
-        } else if (gameState.equals(GameState.LEVEL_END)  && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-            if(levels.get(currentLevel).isLevelWon()){
-                nextLevel();
-                setGameState(GameState.PLAYING);
-            } else{
-                setGameState(GameState.PLAYING);
-                levels.get(currentLevel).reset();
+    public void updateLevelScreen() {
+        Level current = levels.get(currentLevel);
+
+        switch (gameState) {
+            case PRE_LEVEL -> {
+                if (getMouse().isLeftButtonPressed()) {
+                    setGameState(GameState.PLAYING);
+                } else if (getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
+                    setGameState(GameState.ON_MENU);
+                }
             }
-        } else if (gameState.equals(GameState.LEVEL_END)  && !levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
-            setGameState(GameState.ON_MENU);
-            levels.get(currentLevel).reset();
+
+            case PLAYING -> {
+                if (current.isLevelFinished()) {
+                    setGameState(GameState.LEVEL_END);
+                } else if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
+                    setGameState(GameState.ON_PAUSE);
+                }
+            }
+
+            case LEVEL_END -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
+                    if (current.isLevelWon()) {
+                        nextLevel();
+                        setGameState(GameState.PLAYING);
+                    } else {
+                        current.reset();
+                        setGameState(GameState.PLAYING);
+                    }
+                } else if (!current.isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
+                    current.reset();
+                    setGameState(GameState.ON_MENU);
+                }
+            }
+
         }
     }
+
 
     @Override
     public void gameShutdown() {
