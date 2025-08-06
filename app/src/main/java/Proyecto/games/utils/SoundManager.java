@@ -52,7 +52,7 @@ public class SoundManager {
     }
 
     public void playSoundEffect(String path) {
-        if (muted) return;
+        //if (muted) return;
 
         new Thread(() -> {
             try {

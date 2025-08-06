@@ -232,7 +232,7 @@ public class Level {
         g.drawString("Play Level", 350, 340);
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", Font.BOLD, 20));
-        g.drawString("Click to Start", 350, 400);
+        g.drawString("Press Enter to Start", 320, 400);
 
         // Podés agregar botón o esperar input para comenzar
     }

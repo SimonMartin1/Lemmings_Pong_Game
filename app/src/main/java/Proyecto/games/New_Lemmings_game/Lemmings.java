@@ -214,15 +214,18 @@ public class Lemmings extends JGame {
     }
 
     public void startGameLevel(){
-        resetLevel(currentLevel);
 
-        Level current = levels.get(currentLevel);
+        if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+            resetLevel(currentLevel);
 
-        // Se setea los stocks y los lemmings
-        cursor.setCurrentLemmings(current.getLemmings());
-        cursor.setStock(levels.get(currentLevel).getStock());
+            Level current = levels.get(currentLevel);
 
-        gameState = GameState.PLAYING;
+            // Se setea los stocks y los lemmings
+            cursor.setCurrentLemmings(current.getLemmings());
+            cursor.setStock(levels.get(currentLevel).getStock());
+
+            gameState = GameState.PLAYING;
+        }
     }
 
     public void resetLevel(int index) {

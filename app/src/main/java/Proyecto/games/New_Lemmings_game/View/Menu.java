@@ -42,7 +42,7 @@ public class Menu extends Lemmings_Screens{
 
         if (showPressText) {
             g.setFont(new Font("Arial", Font.BOLD, 24));
-            g.drawString("Click or Enter", width/2 - 71, 480);
+            g.drawString("Click or Space", width/2 - 71, 480);
         }
     }
 
@@ -66,7 +66,7 @@ public class Menu extends Lemmings_Screens{
             game.setGameState(GameState.ON_CONFIG);
         }
 
-        if(detecPlay() || game.getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+        if(detecPlay() || game.getKeyboard().isKeyPressed(KeyEvent.VK_SPACE)){
             game.setGameState(GameState.PRE_LEVEL);
         }
 
