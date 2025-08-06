@@ -1,5 +1,6 @@
 package Proyecto.games.New_Lemmings_game;
 
+import Proyecto.games.New_Lemmings_game.Abilities.WallAbility;
 import Proyecto.games.New_Lemmings_game.States.DeadState;
 import Proyecto.games.New_Lemmings_game.States.ExplodingState;
 import Proyecto.games.New_Lemmings_game.States.SavedState;
@@ -131,9 +132,14 @@ public class Level {
                 }
             }
         }
+
         if (levelTime <= 0) {
             result = true;
             timeOver=true;
+        }
+
+        if (!lemmingEntities.isEmpty() && lemmingEntities.stream().allMatch(l -> l.getAbilityClass() instanceof WallAbility)) {
+            result = true;
         }
 
         return result;
