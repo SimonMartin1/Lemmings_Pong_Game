@@ -2,6 +2,8 @@ package Proyecto.games.New_Lemmings_game.Abilities;
 
 import Proyecto.games.New_Lemmings_game.States.DeadState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
+import Proyecto.games.New_Lemmings_game.States.WaitingState;
+import Proyecto.games.New_Lemmings_game.States.WalkingState;
 import Proyecto.games.New_Lemmings_game.utils.Ability;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
 
@@ -58,6 +60,6 @@ public class DigAbility extends AbilityClass {
 
     @Override
     public boolean canUseAbility(Lemming_Entity lemming) {
-        return true;
+        return lemming.getState() instanceof WalkingState;
     }
 }

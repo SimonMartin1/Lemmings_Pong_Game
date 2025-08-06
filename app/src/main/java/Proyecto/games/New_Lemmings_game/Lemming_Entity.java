@@ -14,9 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static Proyecto.games.New_Lemmings_game.LemmingConstants.TILE_HEIGHT;
-import static Proyecto.games.New_Lemmings_game.LemmingConstants.TILE_WIDTH;
-
 public class Lemming_Entity {
     private int id;
     private int x;
@@ -72,25 +69,22 @@ public class Lemming_Entity {
         currentTileX = x / LemmingConstants.TILE_WIDTH;
         currentTileY = y / LemmingConstants.TILE_HEIGHT;
 
+        //Matamos a los lemmings que se vallan de los limites en Y
+        if(currentTileY >= LemmingConstants.LIMIT_TILE_Y){
+            currentState = new DeadState();
+        }
+
         // Chequeamos si tiene habildad y si es que puede hacer uso de ella.
         if (hasAbility() && canUseAbility()) {
-
-            System.out.println(currentStateAnimation);
-
             applyAbility(delta);
         }
         else {
             currentState.update(this, delta);
         }
-
-
-
     }
 
     public boolean canUseAbility(){
-        if(currentAbility == null) return false;
-
-        return currentAbility.canUseAbility(this);
+        return currentAbility != null && currentAbility.canUseAbility(this);
     }
 
     public boolean isClicked(double clickX, double clickY, int camX){
@@ -125,9 +119,11 @@ public class Lemming_Entity {
             g.fillRect(drawX, drawY, 20, 30);
             return;
         }
-        
-        /*Si es sprite hace esto */
-        updateAnimation();
+        else{
+            /*Si es sprite hace esto */
+            updateAnimation();
+        }
+
 
         LemmingAnimationState state = getCurrentStateAnimation();
         BufferedImage[] frames = animations.get(state);
