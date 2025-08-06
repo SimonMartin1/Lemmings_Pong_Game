@@ -16,10 +16,10 @@ public class Settings extends Lemmings_Screens {
     private final Lemmings game;
 
 
-    public Settings(int width, int height, Lemmings game) {
-        super(width, height,game);
+    public Settings(Lemmings game) {
+        super(game);
         this.game = game;
-        drawOn=game.getConfig().isMusicOff();
+        drawOn=!game.getConfig().isMusicOff();
         drawSpriteSkin=game.getConfig().getLemmingSkin().equals(LemmingSkin.SPRITE);
     }
 

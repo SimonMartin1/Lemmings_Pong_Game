@@ -33,8 +33,6 @@ public class Lemmings extends JGame {
     private int currentLevel = 0;
     private Cursor cursor;
     private GameState gameState= GameState.ON_MENU;
-    private int screenWidth = 800;
-    private int screenHeight = 600;
     private int pointsSum=0;
     private ConfigLemmings configLemmings;
     private SoundManager soundManager;
@@ -59,7 +57,6 @@ public class Lemmings extends JGame {
         // ! - Chequear esto
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                SoundPlayer.stopSound();
                 gameShutdown();
             }
         });
@@ -69,17 +66,17 @@ public class Lemmings extends JGame {
         try {
             loadLevels();
             Stock stock = levels.get(currentLevel).getStock();
-            cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, false);
+            cursor = new Cursor(stock, getMouse(), getWidth(), getHeight(), false);
 
         } catch (IOException e1) {
             e1.printStackTrace();
         }
 
-        this.menu = new Menu(screenWidth, screenHeight, this);
-        this.pause = new Pause(screenWidth, screenHeight,this);
-        this.settings = new Settings(screenWidth, screenHeight, this);
-        this.score = new Score(screenWidth, screenHeight, this);
-        this.win = new Win(screenWidth, screenHeight,this);
+        this.menu = new Menu(this);
+        this.pause = new Pause(this);
+        this.settings = new Settings(this);
+        this.score = new Score(this);
+        this.win = new Win(this);
     }
 
     @Override
@@ -165,6 +162,15 @@ public class Lemmings extends JGame {
             ScoreDatabase.saveScore(timestamp, pointsSum);
             setGameState(GameState.ENDGAME);
         }
+    }
+
+    private void setFullScreen() {
+        JFrame frame = getFrame();
+        frame.dispose();
+        frame.setUndecorated(true);
+        frame.setResizable(false);
+        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        gd.setFullScreenWindow(frame);
     }
 
     private void loadLevels() throws IOException {

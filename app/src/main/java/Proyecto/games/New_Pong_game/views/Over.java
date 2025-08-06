@@ -15,8 +15,8 @@ public class Over extends Pong_Screens {
     private Player winner;
     private boolean isTwoPlayers;
 
-    public Over(int width, int height, Pong game) {
-        super(width,height,game);
+    public Over(Pong game) {
+        super(game);
     }
 
     @Override

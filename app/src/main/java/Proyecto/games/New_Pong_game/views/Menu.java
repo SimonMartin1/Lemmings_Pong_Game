@@ -13,8 +13,8 @@ public class Menu extends Pong_Screens {
 
     private double blinkTime;
     private boolean showPressText = true;
-    public Menu(int width, int height, Pong game) {
-        super(width,height,game);
+    public Menu(Pong game) {
+        super(game);
     }
 
     @Override
