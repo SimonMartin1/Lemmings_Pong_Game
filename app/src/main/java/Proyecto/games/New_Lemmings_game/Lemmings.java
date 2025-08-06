@@ -167,15 +167,6 @@ public class Lemmings extends JGame {
         }
     }
 
-    private void setFullScreen() {
-        JFrame frame = getFrame();
-        frame.dispose();
-        frame.setUndecorated(true);
-        frame.setResizable(false);
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        gd.setFullScreenWindow(frame);
-    }
-
     private void loadLevels() throws IOException {
         LoadFromFiles loadFromFiles = new LoadFromFiles();
         File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
@@ -274,8 +265,6 @@ public class Lemmings extends JGame {
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
-
-                System.out.println("La Skin seleccionada es: " + configLemmings.getLemmingSkin());
 
                 level.setLemmingSkin(configLemmings.getLemmingSkin());
                 levels.set(index, level); // Reemplaza el viejo level con uno nuevo
