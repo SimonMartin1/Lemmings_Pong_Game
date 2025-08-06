@@ -44,18 +44,6 @@ public class Exit extends Gate {
         return getBounds().intersects(lemmingEntity.getX() - camX, lemmingEntity.getY(),16,16);
     }
 
-    public void sumLemming(Lemming_Entity lemmingEntity){
-        if (checkLemming(lemmingEntity) && !lemmingEntity.isSaved()) {
-
-            //TODO: SUMAR 10 PUNTOS AL JUGADOR POR LEMMING.
-
-            savedLemmings++;
-            lemmingEntity.setSaved(true);
-            //Aca tengo que modificar para que se actualice el estado del lemming actual
-            //lemming.setStateLemming(LemmingState.EXITED);
-            System.out.println("lemming salido: " + savedLemmings);
-        }
-    }
 
     public int getSavedLemmings() {
         return savedLemmings;

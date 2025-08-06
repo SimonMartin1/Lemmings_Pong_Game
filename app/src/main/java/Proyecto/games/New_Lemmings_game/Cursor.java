@@ -48,6 +48,7 @@ public class Cursor {
     private final int screenHeight;
     private int camX;
     private boolean wasPressedLastFrame = false;
+    private boolean wereAllLemmingsGenerated = false;
 
     private static final Map<Ability, Supplier<AbilityClass>> ABILITY_FACTORY = Map.of(
             Ability.DIGGER, DigAbility::new,
@@ -175,7 +176,6 @@ public class Cursor {
 
         for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
             if (lemmingEntity.isClicked(x, y, camX)) {
-                System.out.println("Me clikcearon");
                 System.out.println("Habilidad asignada al lemming!");
                 lemmingEntity.assignAbility(currentSelectedAbility);
 
@@ -207,29 +207,30 @@ public class Cursor {
      * Cambia la velocidad de todos los lemmings actuales.
      */
     private void changeLemmingsSpeed(int delta) {
-        for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
-            int currentSpeed = lemmingEntity.getSpeed();
-            int newSpeed = currentSpeed + delta;
-            if (newSpeed >= 0 && newSpeed <= 4) {
-                lemmingEntity.setSpeed(newSpeed);
+        if (wereAllLemmingsGenerated) {
+            for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
+                int currentSpeed = lemmingEntity.getSpeed();
+                int newSpeed = currentSpeed + delta;
+                if (newSpeed >= 0 && newSpeed <= 4) {
+                    lemmingEntity.setSpeed(newSpeed);
+                }
             }
+            System.out.println("Velocidad de lemmings cambiada.");
         }
-        System.out.println("Velocidad de lemmings cambiada.");
     }
 
     /**
      * asigna nuke a los lemmings
      */
     private void assignNukeLemmings() {
-        for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
-            lemmingEntity.clearAbility(); // Limpio la habilidad actual (wall, dig, etc.)
-            lemmingEntity.setState(new ExplodingState());
-            //lemmingEntity.setAbility(new WallAbility());
-            //lemmingEntity.setState(new WaitingState());
-
-            lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.NUKE);
+        if (wereAllLemmingsGenerated){
+            for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
+                lemmingEntity.clearAbility();
+                lemmingEntity.setState(new ExplodingState());
+                lemmingEntity.setCurrentStateAnimation(LemmingAnimationState.NUKE);
+            }
+            System.out.println("NUKEEE");
         }
-        System.out.println("NUKEEE");
     }
 
 
@@ -258,5 +259,14 @@ public class Cursor {
 
     public void setStock(Stock stock){
         this.stock = stock;
+    }
+
+    public void setWereAllLemmingsGenerated(boolean wereAllLemmingsGenerated){
+        this.wereAllLemmingsGenerated = wereAllLemmingsGenerated;
+    }
+
+    public void syncWithLevel(Level level){
+        this.wereAllLemmingsGenerated = level.getWereAllLemmingsGenerated();
+        this.camX = level.getCamX();
     }
 }

@@ -54,10 +54,9 @@ public class Lemmings extends JGame {
             soundManager.playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
         }
 
-        // ! - Chequear esto
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
-                gameShutdown();
+                Lemmings.super.shutdown();
             }
         });
 
@@ -100,17 +99,16 @@ public class Lemmings extends JGame {
             case PRE_LEVEL -> startGameLevel();
 
             case PLAYING -> {
-                Level current = levels.get(currentLevel);
-       
-                cursor.setCurrentLemmings(current.getLemmings()); // Esto es clave
-                cursor.setStock(levels.get(currentLevel).getStock());
+                updatelevelScreenHandler(); // Se verifica el estado del nivel
 
-                cursor.setCamX(current.getCamX()); // si tenés cámara que se mueve
-                current.update(delta);
+                Level current = levels.get(currentLevel);
+
+                cursor.syncWithLevel(current);
                 cursor.update(); // <-- actualizás el cursor con el mouse
+
                 levels.get(currentLevel).getMinimap().handleClick(getMouse().getX(),getMouse().getY());
 
-                updatelevelScreenHandler();
+                current.update(delta);
             }
 
             case ON_PAUSE -> pause.update(delta);
@@ -150,70 +148,6 @@ public class Lemmings extends JGame {
         }
     }
 
-    private void nextLevel() {
-        if (currentLevel < levels.size() - 1) {
-            currentLevel++;
-            startGameLevel();
-        }
-        else{
-            //Si termino el juego guardo el puntaje
-            for (Level l : levels) pointsSum += l.getLevelScore();
-            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-            ScoreDatabase.saveScore(timestamp, pointsSum);
-            setGameState(GameState.ENDGAME);
-        }
-    }
-
-    private void setFullScreen() {
-        JFrame frame = getFrame();
-        frame.dispose();
-        frame.setUndecorated(true);
-        frame.setResizable(false);
-        GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-        gd.setFullScreenWindow(frame);
-    }
-
-    private void loadLevels() throws IOException {
-        LoadFromFiles loadFromFiles = new LoadFromFiles();
-        File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
-        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-
-        if (files != null) {
-            for (File file : files) {
-                Level level = loadFromFiles.loadLevelFromFile(file.getPath());
-                level.setLemmingSkin(configLemmings.getLemmingSkin());
-                levels.add(level);
-            }
-        } else {
-            System.out.println("No se encontraron archivos en la carpeta de niveles.");
-        }
-    }
-
-    public ConfigLemmings getConfig(){return configLemmings;}
-
-    public void setGameState(GameState gameState){
-        this.gameState = gameState;
-    }
-
-
-    public int getCurrentLevel() {
-        return currentLevel;
-    }
-
-    public void setCurrentLevel(int currentLevel) {
-        this.currentLevel = currentLevel;
-    }
-
-    public List<Level> getLevel(){
-        return levels;
-    }
-
-    public int getScore(){return pointsSum;}
-
-    public SoundManager getSoundManager() {
-        return soundManager;
-    }
-
     public void updatelevelScreenHandler(){
 
         switch (gameState){
@@ -244,16 +178,50 @@ public class Lemmings extends JGame {
 
     @Override
     public void gameShutdown() {
+        soundManager.stopMusic();
     }
 
-    private void levelFinishHandler(){
-        if (levels.get(currentLevel).isLevelFinished()) gameState = GameState.LEVEL_END;
-        else if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) gameState = GameState.ON_PAUSE;
+    // Lógica de niveles
+
+    private void nextLevel() {
+        if (currentLevel < levels.size() - 1) {
+            currentLevel++;
+            startGameLevel();
+        }
+        else{
+            //Si termino el juego guardo el puntaje
+            for (Level l : levels) pointsSum += l.getLevelScore();
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            ScoreDatabase.saveScore(timestamp, pointsSum);
+            setGameState(GameState.ENDGAME);
+        }
     }
 
+    private void loadLevels() throws IOException {
+        LoadFromFiles loadFromFiles = new LoadFromFiles();
+        File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
+        File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
+
+        if (files != null) {
+            for (File file : files) {
+                Level level = loadFromFiles.loadLevelFromFile(file.getPath());
+                level.setLemmingSkin(configLemmings.getLemmingSkin());
+                levels.add(level);
+            }
+        } else {
+            System.out.println("No se encontraron archivos en la carpeta de niveles.");
+        }
+    }
 
     public void startGameLevel(){
         resetLevel(currentLevel);
+
+        Level current = levels.get(currentLevel);
+
+        // Se setea los stocks y los lemmings
+        cursor.setCurrentLemmings(current.getLemmings());
+        cursor.setStock(levels.get(currentLevel).getStock());
+
         gameState = GameState.PLAYING;
     }
 
@@ -281,5 +249,33 @@ public class Lemmings extends JGame {
         }
     }
 
+
+
+    // Getters & Setter
+
+    public ConfigLemmings getConfig(){return configLemmings;}
+
+    public void setGameState(GameState gameState){
+        this.gameState = gameState;
+    }
+
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
+
+    public List<Level> getLevel(){
+        return levels;
+    }
+
+    public int getScore(){return pointsSum;}
+
+    public SoundManager getSoundManager() {
+        return soundManager;
+    }
 
 }
