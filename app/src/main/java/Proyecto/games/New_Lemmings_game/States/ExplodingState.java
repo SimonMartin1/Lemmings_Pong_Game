@@ -6,6 +6,7 @@ import Proyecto.games.New_Lemmings_game.LemmingState;
 import Proyecto.games.New_Lemmings_game.Lemming_Entity;
 import Proyecto.games.New_Lemmings_game.Tile;
 import Proyecto.games.New_Lemmings_game.utils.LemmingAnimationState;
+import Proyecto.games.utils.SoundPlayer;
 
 public class ExplodingState implements LemmingState {
 
@@ -24,6 +25,7 @@ public class ExplodingState implements LemmingState {
         System.out.println("tickCounter");
         // Cuando termina la animación, lo sacás del juego
         if (tickCounter >= explosionDuration) {
+            SoundPlayer.playSound("app/src/main/resources/soundEffects/Lemmings_DeadSound.wav");
             createExplosion(lemmingEntity.getLevel().getMap().getMapTiles(), tileX, tileY, 7);
             lemmingEntity.setState(new DeadState());
         }
