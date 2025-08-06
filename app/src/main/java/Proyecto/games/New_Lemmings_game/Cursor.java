@@ -207,14 +207,16 @@ public class Cursor {
      * Cambia la velocidad de todos los lemmings actuales.
      */
     private void changeLemmingsSpeed(int delta) {
-        for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
-            int currentSpeed = lemmingEntity.getSpeed();
-            int newSpeed = currentSpeed + delta;
-            if (newSpeed >= 0 && newSpeed <= 4) {
-                lemmingEntity.setSpeed(newSpeed);
+        if (wereAllLemmingsGenerated) {
+            for (Lemming_Entity lemmingEntity : currentLemmingEntities) {
+                int currentSpeed = lemmingEntity.getSpeed();
+                int newSpeed = currentSpeed + delta;
+                if (newSpeed >= 0 && newSpeed <= 4) {
+                    lemmingEntity.setSpeed(newSpeed);
+                }
             }
+            System.out.println("Velocidad de lemmings cambiada.");
         }
-        System.out.println("Velocidad de lemmings cambiada.");
     }
 
     /**
