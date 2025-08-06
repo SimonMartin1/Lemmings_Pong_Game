@@ -69,6 +69,11 @@ public class Lemming_Entity {
         currentTileX = x / LemmingConstants.TILE_WIDTH;
         currentTileY = y / LemmingConstants.TILE_HEIGHT;
 
+        //Matamos a los lemmings que se vallan de los limites en Y
+        if(currentTileY >= LemmingConstants.LIMIT_TILE_Y){
+            currentState = new DeadState();
+        }
+
         // Chequeamos si tiene habildad y si es que puede hacer uso de ella.
         if (hasAbility() && canUseAbility()) {
             applyAbility(delta);
@@ -76,15 +81,10 @@ public class Lemming_Entity {
         else {
             currentState.update(this, delta);
         }
-
-
-
     }
 
     public boolean canUseAbility(){
-        if(currentAbility == null) return false;
-
-        return currentAbility.canUseAbility(this);
+        return currentAbility != null && currentAbility.canUseAbility(this);
     }
 
     public boolean isClicked(double clickX, double clickY, int camX){

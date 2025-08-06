@@ -10,5 +10,6 @@ public final class LemmingConstants {
     public static final int TILE_WIDTH = 8;
     public static final int TILE_HEIGHT = 8;
 
+    public static final int LIMIT_TILE_Y = 55;
 
 }

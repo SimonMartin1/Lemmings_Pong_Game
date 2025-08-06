@@ -85,8 +85,6 @@ public class Lemmings extends JGame {
     @Override
     public void gameUpdate(double delta) {
 
-        System.out.println(gameState);
-
         switch (gameState){
 
             case PRE_MENU -> {
