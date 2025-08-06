@@ -21,8 +21,8 @@ public class Settings extends Pong_Screens {
     private PlayersKeys KeyToChange;
 
 
-    public Settings(int width, int height, Pong game) {
-        super(width,height,game);
+    public Settings(Pong game) {
+        super(game);
         ListeningKey =false;
         WhantToChangeKeys =false;
 

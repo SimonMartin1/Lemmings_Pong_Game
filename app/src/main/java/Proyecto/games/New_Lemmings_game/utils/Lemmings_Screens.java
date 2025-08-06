@@ -5,8 +5,8 @@ import Proyecto.games.utils.Screen;
 
 public abstract class Lemmings_Screens extends Screen {
     protected Lemmings game;
-    public Lemmings_Screens(int width, int height, Lemmings game) {
-        super(width, height);
+    public Lemmings_Screens(Lemmings game) {
+        super(game.getWidth(), game.getHeight());
         this.game=game;
     }
 
