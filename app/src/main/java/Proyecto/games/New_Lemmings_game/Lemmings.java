@@ -10,7 +10,6 @@ import Proyecto.games.New_Lemmings_game.utils.ConfigLemmings;
 import Proyecto.games.utils.GameState;
 import Proyecto.games.utils.SoundManager;
 import Proyecto.games.utils.SoundPlayer;
-import Proyecto.games.New_Lemmings_game.utils.LemmingSkin;
 import Proyecto.games.New_Lemmings_game.utils.ScoreDatabase;
 import com.entropyinteractive.JGame;
 
@@ -37,7 +36,6 @@ public class Lemmings extends JGame {
     private int screenWidth = 800;
     private int screenHeight = 600;
     private int pointsSum=0;
-    private LemmingSkin selectedSkin;
     private ConfigLemmings configLemmings;
     private SoundManager soundManager;
     public Lemmings(String title, int width, int height) {
@@ -58,7 +56,6 @@ public class Lemmings extends JGame {
             soundManager.playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
         }
 
-
         // ! - Chequear esto
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
@@ -69,13 +66,10 @@ public class Lemmings extends JGame {
 
         ScoreDatabase.createTable();
 
-        selectedSkin = configLemmings.getLemmingSkin();
-
         try {
             loadLevels();
             Stock stock = levels.get(currentLevel).getStock();
-            boolean fullScreen = false;
-            cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
+            cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, false);
 
         } catch (IOException e1) {
             e1.printStackTrace();
@@ -92,6 +86,14 @@ public class Lemmings extends JGame {
     public void gameUpdate(double delta) {
 
         switch (gameState){
+
+            case PRE_MENU -> {
+                if(!soundManager.isMuted()){
+                    soundManager.playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
+                }
+                setGameState(GameState.ON_MENU);
+            }
+
             case ON_MENU -> menu.update(delta);
 
             case ON_CONFIG -> settings.update(delta);
@@ -128,7 +130,7 @@ public class Lemmings extends JGame {
     public void gameDraw(Graphics2D g) {
 
         switch (gameState){
-            case ON_MENU -> menu.draw(g);
+            case PRE_MENU,ON_MENU -> menu.draw(g);
 
             case ON_SCORE -> score.draw(g);
 
@@ -154,6 +156,7 @@ public class Lemmings extends JGame {
     private void nextLevel() {
         if (currentLevel < levels.size() - 1) {
             currentLevel++;
+            startGameLevel();
         }
         else{
             //Si termino el juego guardo el puntaje
@@ -181,7 +184,7 @@ public class Lemmings extends JGame {
         if (files != null) {
             for (File file : files) {
                 Level level = loadFromFiles.loadLevelFromFile(file.getPath());
-                level.setLemmingSkin(selectedSkin);
+                level.setLemmingSkin(configLemmings.getLemmingSkin());
                 levels.add(level);
             }
         } else {
@@ -209,14 +212,7 @@ public class Lemmings extends JGame {
     }
 
     public int getScore(){return pointsSum;}
-    
-    public void setSelectedSkin(LemmingSkin skin) {
-        this.selectedSkin = skin;
-        for (Level l : levels) {
-            l.setLemmingSkin(skin);
-        }
-    }
-    
+
     public SoundManager getSoundManager() {
         return soundManager;
     }
