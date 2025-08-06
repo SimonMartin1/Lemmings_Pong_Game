@@ -286,7 +286,7 @@ public class Level {
 
         if (isLevelWon()) {
             g.drawString("Level Completed!", 200, 200);
-            g.drawString("Level Score: " + LevelScore + "Points" , 200, 250);
+            g.drawString("Level Score: " + LevelScore + " Points" , 200, 250);
             g.setFont(new Font("Arial", Font.BOLD, 26));
             g.drawString("Enter to go next level", 200, 300);
         } else {
