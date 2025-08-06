@@ -34,7 +34,8 @@ public class Level {
 
     private long nukeStartTime = -1;
     private long cleanDeaths = -1;
-    private boolean timeOver=false,isNukeTime = false,nukeConfirmed = false,levelOutcomeEvaluated = false;;
+    private boolean timeOver=false,isNukeTime = false,nukeConfirmed = false,levelOutcomeEvaluated = false;
+    private boolean wereAllLemmingsGenerated = false;
     private final Exit exit;
 
     private final Buttons buttonDig;
@@ -92,7 +93,7 @@ public class Level {
         // Contar 3s luego de que isNukeTime es true
         confirmNuke();
         handleNukeConfirmed();
-        if(spawnedLemmings >= lemmingsToGenerate && !isLevelFinished()) {
+        if(wereAllLemmingsGenerated && !isLevelFinished()) {
             decreaseTime();
         }
         lemmingEntities.removeIf(l -> l.getState() instanceof DeadState);
@@ -151,8 +152,9 @@ public class Level {
 
 
     private void updateLemmingSpawn(double delta, int lemmingSpawnX, int lemmingSpawnY) {
-        double spawnInterval = 2;
         if (spawnedLemmings < lemmingsToGenerate) {
+            double spawnInterval = 2;
+
             spawnTimer += delta;
             if (spawnTimer >= spawnInterval) {
                 spawnTimer = 0;
@@ -160,6 +162,9 @@ public class Level {
                 Lemming_Entity nuevo = new Lemming_Entity(spawnedLemmings, lemmingSpawnX, lemmingSpawnY, 1, this,lemmingSkin);
                 lemmingEntities.add(nuevo);
             }
+        }
+        else {
+            wereAllLemmingsGenerated = true;
         }
     }
 
@@ -377,8 +382,7 @@ public class Level {
     public void setLemmingSkin(LemmingSkin lemmingSkin){
         this.lemmingSkin = lemmingSkin;
     }
-    /*
-    public Minimap getMinimap() {
-        return minimap;
-    }*/
+    public boolean getWereAllLemmingsGenerated(){
+        return this.wereAllLemmingsGenerated;
+    }
 }
