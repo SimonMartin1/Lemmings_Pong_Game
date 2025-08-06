@@ -33,10 +33,8 @@ public class Level {
     private int camX = 300;
     private boolean wasReproducedWinningSong = false;
 
-
-    private long nukeStartTime = -1;
     private long cleanDeaths = -1;
-    private boolean timeOver=false,isNukeTime = false,nukeConfirmed = false,levelOutcomeEvaluated = false;
+    private boolean timeOver=false ,levelOutcomeEvaluated = false;
     private boolean wereAllLemmingsGenerated = false;
     private final Exit exit;
 
@@ -94,16 +92,13 @@ public class Level {
         buttonStop.setAbilitiesAmount(stock.getQuantityAbility(Ability.UMBRELLA));
         buttonFly.setAbilitiesAmount(stock.getQuantityAbility(Ability.CLIMB));
 
-        // Contar 3s luego de que isNukeTime es true
-        confirmNuke();
-        handleNukeConfirmed();
         if(wereAllLemmingsGenerated && !isLevelFinished()) {
             decreaseTime();
         }
         lemmingEntities.removeIf(l -> l.getState() instanceof DeadState);
         lemmingEntities.removeIf(l -> l.getState() instanceof SavedState);
 
-        handleNukeTime();
+        noMoreActiveLemmings();
 
         for (Lemming_Entity l : lemmingEntities) {
             l.update(delta);
@@ -206,46 +201,7 @@ public class Level {
         return res;
     }
 
-    private void confirmNuke(){
-        if(isNukeTime){
-            if (nukeStartTime == -1) {
-                nukeStartTime = System.currentTimeMillis();
-            }
 
-            long elapsed = System.currentTimeMillis() - nukeStartTime;
-
-            if (elapsed >= 3000) {
-                nukeConfirmed = true;
-            }
-        }
-    }
-
-    private void handleNukeTime(){
-        if(noMoreActiveLemmings()){
-            if(lemmingEntities.isEmpty()) {
-                isNukeTime = false;
-
-            }else{
-                for (Lemming_Entity l : lemmingEntities) {
-                    if(!l.getState().equals(LemmingState.EXPLOTING)) {
-                        l.setCurrentStateAnimation(LemmingAnimationState.NUKE);
-                    }
-                }
-
-                isNukeTime = true;
-            }
-
-        }
-    }
-
-    private void handleNukeConfirmed(){
-        if (nukeConfirmed) {
-            for (Lemming_Entity l : lemmingEntities){
-                //arreglar
-                l.setState(new ExplodingState());
-            }
-        }
-    }
     public boolean noMoreActiveLemmings() {
         boolean response = true;
 
@@ -376,26 +332,6 @@ public class Level {
     public boolean getlevelOutcomed(){ return levelOutcomeEvaluated; }
 
     public void setLevelOutcomed(boolean option){ this.levelOutcomeEvaluated = option; }
-
-
-    public void reset(){
-        this.spawnedLemmings = 0;
-        this.camX = 0;
-
-        this.nukeConfirmed = false;
-        this.nukeStartTime = -1;
-        this.cleanDeaths = -1;
-
-        stock.reset();
-        levelTime=calcLevelTime();
-
-        try{
-            map.reset();
-        }catch (IOException e){
-            e.printStackTrace(System.err);
-        }
-
-    }
 
     public void setCamX(int camX) {
         this.camX = camX; 
