@@ -34,7 +34,7 @@ public class Lemmings extends JGame {
     private int currentLevel = 0;
     private Cursor cursor;
     private GameState gameState= GameState.ON_MENU;
-    private int screenWidth =800;
+    private int screenWidth = 800;
     private int screenHeight = 600;
     private int pointsSum=0;
     private LemmingSkin selectedSkin;
@@ -53,9 +53,13 @@ public class Lemmings extends JGame {
     public void gameStartup() {
         configLemmings = new ConfigLemmings();
         soundManager=new SoundManager(configLemmings.isMusicOff());
+
         if(!getConfig().isMusicOff()){
-            getSoundManager().playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
+            soundManager.playMusic("app/src/main/resources/soundEffects/cantinadelpela.wav", true);
         }
+
+
+        // ! - Chequear esto
         getFrame().addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent e) {
                 SoundPlayer.stopSound();
@@ -64,7 +68,9 @@ public class Lemmings extends JGame {
         });
 
         ScoreDatabase.createTable();
+
         selectedSkin = configLemmings.getLemmingSkin();
+
         try {
             loadLevels();
             Stock stock = levels.get(currentLevel).getStock();
@@ -72,11 +78,9 @@ public class Lemmings extends JGame {
             cursor = new Cursor(stock, getMouse(), screenWidth, screenHeight, fullScreen);
 
         } catch (IOException e1) {
-            // TODO Auto-generated catch block
             e1.printStackTrace();
         }
-        screenWidth = getWidth();
-        screenHeight = getHeight();
+
         this.menu = new Menu(screenWidth, screenHeight, this);
         this.pause = new Pause(screenWidth, screenHeight,this);
         this.settings = new Settings(screenWidth, screenHeight, this);
@@ -172,13 +176,12 @@ public class Lemmings extends JGame {
         LoadFromFiles loadFromFiles = new LoadFromFiles();
         File folder = new File("app/src/main/java/Proyecto/games/New_Lemmings_game/Levels");
         File[] files = folder.listFiles((dir, name) -> name.toLowerCase().endsWith(".txt"));
-        int currentLvl = 0;
+
         if (files != null) {
             for (File file : files) {
                 Level level = loadFromFiles.loadLevelFromFile(file.getPath());
                 level.setLemmingSkin(selectedSkin);
                 levels.add(level);
-                currentLvl ++ ; 
             }
         } else {
             System.out.println("No se encontraron archivos en la carpeta de niveles.");
@@ -218,25 +221,35 @@ public class Lemmings extends JGame {
     }
 
     public void updateLevelScreen(){
-        if (gameState.equals(GameState.PRE_LEVEL) && getMouse().isLeftButtonPressed()) {
-            setGameState(GameState.PLAYING);
-        } else if (gameState.equals(GameState.PRE_LEVEL) && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) {
-            setGameState(GameState.ON_MENU);
-        } else if (gameState.equals(GameState.PLAYING) && levels.get(currentLevel).isLevelFinished()) {
-                setGameState(GameState.LEVEL_END);
-        } else if (gameState.equals(GameState.PLAYING) && getKeyboard().isKeyPressed(KeyEvent.VK_P)) {
-            setGameState(GameState.ON_PAUSE);
-        } else if (gameState.equals(GameState.LEVEL_END)  && getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)) {
-            if(levels.get(currentLevel).isLevelWon()){
-                nextLevel();
-                setGameState(GameState.PLAYING);
-            } else{
-                setGameState(GameState.PLAYING);
-                levels.get(currentLevel).reset();
+
+        switch (gameState){
+
+            case PRE_LEVEL ->{
+                if(getMouse().isLeftButtonPressed()) gameState = GameState.PLAYING;
+                else if(getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)) gameState = GameState.ON_MENU;
             }
-        } else if (gameState.equals(GameState.LEVEL_END)  && !levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
-            setGameState(GameState.ON_MENU);
-            levels.get(currentLevel).reset();
+
+            case PLAYING -> {
+                if (levels.get(currentLevel).isLevelFinished()) gameState = GameState.LEVEL_END;
+                else if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) gameState = GameState.ON_PAUSE;
+            }
+
+            case LEVEL_END -> {
+                if (getKeyboard().isKeyPressed(KeyEvent.VK_ENTER)){
+                    if(levels.get(currentLevel).isLevelWon()){
+                        nextLevel();
+                        gameState = GameState.PLAYING;
+                    } else{
+                        gameState = GameState.PLAYING;
+                        levels.get(currentLevel).reset(); // ! - VER ESTO, TEMA RESET
+                    }
+                }
+                else if(!levels.get(currentLevel).isLevelWon() && getKeyboard().isKeyPressed(KeyEvent.VK_ESCAPE)){
+                    gameState = GameState.ON_MENU;
+                    levels.get(currentLevel).reset(); // ! - VER ESTO, TEMA RESET
+                }
+            }
+
         }
     }
 
@@ -244,6 +257,10 @@ public class Lemmings extends JGame {
     public void gameShutdown() {
     }
 
+
+    public void startGameLevel(){
+
+    }
 
 
 }
