@@ -239,12 +239,6 @@ public class Lemmings extends JGame {
         soundManager.stopMusic();
     }
 
-    private void levelFinishHandler(){
-        if (levels.get(currentLevel).isLevelFinished()) gameState = GameState.LEVEL_END;
-        else if (getKeyboard().isKeyPressed(KeyEvent.VK_P)) gameState = GameState.ON_PAUSE;
-    }
-
-
     public void startGameLevel(){
         resetLevel(currentLevel);
         gameState = GameState.PLAYING;
